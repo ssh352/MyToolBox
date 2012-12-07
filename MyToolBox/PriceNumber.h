@@ -23,6 +23,33 @@ namespace MY_TOOL_BOX
 		operator int32_t() const;
 		operator double() const;
 
+	public:
+		//total order
+		bool operator<(const PriceNumber& aright);
+		bool operator<(const double& aright);
+		bool operator>(const double& aright);
+		bool operator<(const int& aright);
+		bool operator>(const int& aright);
+		bool operator==(const PriceNumber& aright);
+		bool operator==(const float& aright);
+		bool operator==(const int& aright);
+
+		//
+		PriceNumber& operator+=(const PriceNumber& aright);
+		PriceNumber& operator-=(const PriceNumber& aright);
+		PriceNumber& operator*=(const PriceNumber& aright);
+		PriceNumber& operator/=(const PriceNumber& aright);
+
+		PriceNumber& operator+=(const double& aright);
+		PriceNumber& operator-=(const double& aright);
+		PriceNumber& operator*=(const double& aright);
+		PriceNumber& operator/=(const double& aright);
+
+		PriceNumber& operator+=(const int& aright);
+		PriceNumber& operator-=(const int& aright);
+		PriceNumber& operator*=(const int& aright);
+		PriceNumber& operator/=(const int& aright);
+
 	private:
 		int32_t m_PriceBase;
 		int8_t	m_PriceExp;

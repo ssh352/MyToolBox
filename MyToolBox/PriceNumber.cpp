@@ -2,6 +2,9 @@
 
 namespace MY_TOOL_BOX
 {
+const double MinValDetected = 0.000001;
+const double Double_Factor = 2 * MinValDetected;
+
 	PriceNumber::PriceNumber(void)
 		: m_PriceBase(0),
 		m_PriceExp(0),
@@ -31,7 +34,7 @@ namespace MY_TOOL_BOX
 		m_PriceExp = 0;
 		m_PricePower = 10;
 
-		const double MinValDetected = 0.000001;
+		
 		m_PriceBase = static_cast<int32_t>(aVal);
 		double lDoublePart = aVal - m_PriceBase;
 
@@ -64,6 +67,50 @@ namespace MY_TOOL_BOX
 	PriceNumber::~PriceNumber(void)
 	{
 
+	}
+
+
+
+	bool PriceNumber::operator<( const PriceNumber& aright )
+	{
+	
+		return *this<double(aright);
+	}
+
+	bool PriceNumber::operator<( const double& aright )
+	{
+		return (double(*this) - aright) < Double_Factor;
+	}
+
+	bool PriceNumber::operator>( const double& aright )
+	{
+		return (double(*this) - aright) > Double_Factor;
+	}
+
+	bool PriceNumber::operator>( const int& aright )
+	{
+		return (double(*this) - aright) >Double_Factor;
+	}
+
+	bool PriceNumber::operator<( const int& aright )
+	{
+		return (double(*this) - aright) < Double_Factor;
+	}
+
+	bool PriceNumber::operator==( const PriceNumber& aright )
+	{
+		if(this == &aright)
+			return true;
+		if(aright.m_PriceBase == m_PriceBase && aright.m_PriceExp == aright.m_PriceExp && m_PricePower == aright.m_PricePower)
+		{
+			return true;
+		}
+		return (*this == double(aright));
+	}
+
+	bool PriceNumber::operator==( const float& aright )
+	{
+		return abs(double(*this) - double(aright) ) < Double_Factor;
 	}
 
 }

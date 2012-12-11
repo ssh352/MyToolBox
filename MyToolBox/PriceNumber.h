@@ -1,4 +1,6 @@
 #pragma once
+#if 0
+
 
 #include<boost\cstdint.hpp>
 #include <boost\operators.hpp>
@@ -60,5 +62,5 @@ namespace MY_TOOL_BOX
 	};
 }
 
-
+#endif
 

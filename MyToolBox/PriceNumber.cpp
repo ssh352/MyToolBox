@@ -1,5 +1,5 @@
 ﻿#include "PriceNumber.h"
-
+#if 0
 namespace MY_TOOL_BOX
 {
 const double MinValDetected = 0.000001;
@@ -115,4 +115,4 @@ const double Double_Factor = 2 * MinValDetected;
 
 }
 
-
+#endif

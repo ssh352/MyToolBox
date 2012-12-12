@@ -15,6 +15,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
+#include <boost\lexical_cast.hpp>
+#include <boost\thread.hpp>
 
 using boost::asio::ip::tcp;
 
@@ -41,9 +43,12 @@ public:
 		return socket_;
 	}
 
-	void start()
+	void start(int lIndex )
 	{
+		boost::this_thread::sleep(boost::posix_time::millisec(500));
 		message_ = make_daytime_string();
+		message_ += boost::lexical_cast<std::string>(lIndex);
+		message_ += "\n";
 
 		boost::asio::async_write(socket_, boost::asio::buffer(message_),
 			boost::bind(&tcp_connection::handle_write, shared_from_this(),
@@ -53,17 +58,20 @@ public:
 
 private:
 	tcp_connection(boost::asio::io_service& io_service)
-		: socket_(io_service)
+		: socket_(io_service),count(0)
 	{
 	}
 
 	void handle_write(const boost::system::error_code& /*error*/,
 		size_t /*bytes_transferred*/)
 	{
+		count++;
+		start(count);
 	}
 
 	tcp::socket socket_;
 	std::string message_;
+	int count;
 };
 
 class tcp_server
@@ -91,7 +99,7 @@ private:
 	{
 		if (!error)
 		{
-			new_connection->start();
+			new_connection->start(0);
 		}
 
 		start_accept();

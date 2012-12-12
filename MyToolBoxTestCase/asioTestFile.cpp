@@ -5,11 +5,7 @@
 #include <boost/thread.hpp>
 #include <boost\bind.hpp>
 
-#include <iostream>
-#include <boost/asio.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+class printer;
 
 class xxxx  :public ::testing::Test
 {
@@ -22,6 +18,7 @@ public:
 		m_pThread2.swap(boost::thread(boost::bind(&boost::asio::io_service::run,&io) ));
 		m_pThread3.swap(boost::thread(boost::bind(&boost::asio::io_service::run,&io) ));
 		m_pThread4.swap(boost::thread(boost::bind(&boost::asio::io_service::run,&io) ));
+		m_pPrinter = NULL;
 	}
 
 	virtual void TearDown()
@@ -32,6 +29,11 @@ public:
 		m_pThread3.join();
 		m_pThread4.join();
 		delete m_pstrand;
+		if(m_pPrinter!= NULL)
+		{
+			delete m_pPrinter;
+			m_pPrinter = NULL;
+		}
 	}
 
 	 static void SetUpTestCase()
@@ -55,6 +57,9 @@ public:
 	 boost::thread m_pThread2;
 	 boost::thread m_pThread3;
 	 boost::thread m_pThread4;
+
+
+	 printer* m_pPrinter;
 
 	//test function
 public:
@@ -139,8 +144,8 @@ public:
 		timer2_(io, boost::posix_time::seconds(1)),
 		count_(0)
 	{
-		timer1_.async_wait(strand_.wrap(boost::bind(&printer::print1, this)));
-		timer2_.async_wait(strand_.wrap(boost::bind(&printer::print2, this)));
+		timer1_.async_wait(/*strand_.wrap*/(boost::bind(&printer::print1, this)));
+		timer2_.async_wait(/*strand_.wrap*/(boost::bind(&printer::print2, this)));
 	}
 
 	~printer()
@@ -150,25 +155,31 @@ public:
 
 	void print1()
 	{
+		boost::mutex::scoped_lock lock1(m_lock);
+		std::cout<<"print1 Call Thread "<<boost::this_thread::get_id();
 		if (count_ < 10)
 		{
 			std::cout << "Timer 1: " << count_ << "\n";
 			++count_;
 
 			timer1_.expires_at(timer1_.expires_at() + boost::posix_time::seconds(1));
-			timer1_.async_wait(strand_.wrap(boost::bind(&printer::print1, this)));
+			timer1_.async_wait(/*strand_.wrap*/(boost::bind(&printer::print1, this)));
 		}
 	}
 
 	void print2()
 	{
+		boost::mutex::scoped_lock lock1(m_lock);
+		
+
+		std::cout<<"print2 Call Thread "<<boost::this_thread::get_id();
 		if (count_ < 10)
 		{
 			std::cout << "Timer 2: " << count_ << "\n";
 			++count_;
 
 			timer2_.expires_at(timer2_.expires_at() + boost::posix_time::seconds(1));
-			timer2_.async_wait(strand_.wrap(boost::bind(&printer::print2, this)));
+			timer2_.async_wait(/*strand_.wrap*/(boost::bind(&printer::print2, this)));
 		}
 	}
 
@@ -177,14 +188,15 @@ private:
 	boost::asio::deadline_timer timer1_;
 	boost::asio::deadline_timer timer2_;
 	int count_;
+	boost::mutex m_lock;
 };
 
 TEST_F(xxxx,Printer)
 {
 	//boost::asio::io_service io;
-	{
-		printer p(io);
-	}
+	
+	
+	m_pPrinter = new printer(io);
 	
 	//boost::thread t(boost::bind(&boost::asio::io_service::run, &io));
 	//io.run();

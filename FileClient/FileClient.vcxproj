@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2097293D-B6EC-4333-A5CB-76B07C270B4D}</ProjectGuid>
-    <RootNamespace>asyncDayTimeServer</RootNamespace>
+    <ProjectGuid>{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}</ProjectGuid>
+    <RootNamespace>FileClient</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -60,7 +60,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="asyncDayTimeServer.cpp" />
+    <ClCompile Include="FileClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

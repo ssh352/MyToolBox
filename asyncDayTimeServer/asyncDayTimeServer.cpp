@@ -27,6 +27,8 @@ std::string make_daytime_string()
 	return ctime(&now);
 }
 
+const std::string cTransFileName = "TranslationFile.txt";
+
 class tcp_connection
 	: public boost::enable_shared_from_this<tcp_connection>
 {

@@ -13,6 +13,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyncDayTimeServer", "async
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyncDayTimeClient", "asyncDayTimeClient\asyncDayTimeClient.vcxproj", "{7F5CF831-0598-4BFE-A51D-E24018A68B8C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileTranscationSyncServer", "FileTranscationSyncServer\FileTranscationSyncServer.vcxproj", "{666EB9D2-0609-43BB-866E-9DBCB13FCBE1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileClient", "FileClient\FileClient.vcxproj", "{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +47,14 @@ Global
 		{7F5CF831-0598-4BFE-A51D-E24018A68B8C}.Debug|Win32.Build.0 = Debug|Win32
 		{7F5CF831-0598-4BFE-A51D-E24018A68B8C}.Release|Win32.ActiveCfg = Release|Win32
 		{7F5CF831-0598-4BFE-A51D-E24018A68B8C}.Release|Win32.Build.0 = Release|Win32
+		{666EB9D2-0609-43BB-866E-9DBCB13FCBE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{666EB9D2-0609-43BB-866E-9DBCB13FCBE1}.Debug|Win32.Build.0 = Debug|Win32
+		{666EB9D2-0609-43BB-866E-9DBCB13FCBE1}.Release|Win32.ActiveCfg = Release|Win32
+		{666EB9D2-0609-43BB-866E-9DBCB13FCBE1}.Release|Win32.Build.0 = Release|Win32
+		{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}.Debug|Win32.Build.0 = Debug|Win32
+		{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}.Release|Win32.ActiveCfg = Release|Win32
+		{70B47DAA-9FEC-4C39-B8EE-AA74C683DEAE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

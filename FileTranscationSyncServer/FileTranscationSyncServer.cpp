@@ -14,9 +14,10 @@
 #include <boost/asio.hpp>
 #include <fstream>
 #include <boost\array.hpp>
+#include <boost/filesystem.hpp>
 using boost::asio::ip::tcp;
 
-const std::string TargetFileName = "test.txt";
+const std::string TargetFileName = "data";
 
 std::string make_daytime_string()
 {
@@ -33,34 +34,51 @@ int main()
 
 		tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), 13));
 
-		//for (;;)
+		
+
+		for (;;)
 		{
-			//tcp::socket socket(io_service);
-			//acceptor.accept(socket);
-			//std::cout<<socket.remote_endpoint()<<std::endl;
+			tcp::socket socket(io_service);
+			acceptor.accept(socket);
+			boost::filesystem::path p(TargetFileName);
+			uint64_t lfilesize = boost::filesystem::file_size(p);
+			std::cout<<socket.remote_endpoint()<<std::endl;
 
 
-			std::ifstream fileStream(TargetFileName,std::fstream::out|std::fstream::binary);
+			std::ifstream fileStream(p.string(),std::fstream::in|std::fstream::binary);
+
 			const int buffsize = 1024;
 			char lBuf[buffsize] = {0};
-			while(fileStream.eof())
+			uint64_t ltransferSize = 0;
+			std::cout<<"Enter Trans with File root path="<< p.generic_string() <<std::endl;
+			std::cout<<"Enter Trans with File Size="<<lfilesize<<std::endl;
+			std::cout<<"Enter Trans with File Flag="<< fileStream.flags()<<std::endl;
+			while(lfilesize>0 && fileStream)
 			{
-				fileStream.get(lBuf,buffsize);
-				std::cout<< lBuf;
-				//boost::system::error_code ignored_error;
-				//boost::asio::write(socket, boost::asio::buffer(lBuf), ignored_error);
-			}
+				if(lfilesize>buffsize)
+				{
+					fileStream.read(lBuf,buffsize);
+					lfilesize -= buffsize;
+					ltransferSize += buffsize;
+					boost::system::error_code ignored_error;
+					boost::asio::write(socket, boost::asio::buffer(lBuf,buffsize), ignored_error);
 
-	
-			//while(fileStream)
-			//{
-			//	fileStream.get(lBuf,buffsize);
-			//	std::cout<< lBuf;
-			//	boost::system::error_code ignored_error;
-			//	boost::asio::write(socket, boost::asio::buffer(lBuf), ignored_error);
-			//}
-			//socket.close();
-			//fileStream.close();
+				}
+				else
+				{
+					fileStream.read(lBuf,lfilesize);
+					ltransferSize += lfilesize;
+					boost::system::error_code ignored_error;
+					boost::asio::write(socket, boost::asio::buffer(lBuf,lfilesize), ignored_error);
+					lfilesize = 0;			
+				}
+				
+
+			}
+			std::cout<<"Exit Trans with File Flag="<< fileStream.flags()<<std::endl;
+			socket.close();
+			fileStream.close();
+			std::cout<<"Send Files size="<<ltransferSize<<std::endl;
 		}
 		
 	}

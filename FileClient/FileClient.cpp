@@ -23,6 +23,8 @@ int main(int argc, char* argv[])
 		
 		std::fstream fileStream(TargetFileName,std::fstream::out|std::fstream::binary);
 		
+
+		uint64_t transfersize = 0;
 		boost::system::error_code error;
 		do
 		{
@@ -35,12 +37,12 @@ int main(int argc, char* argv[])
 				break; // Connection closed cleanly by peer.
 			else if (error)
 				throw boost::system::system_error(error); // Some other error.
-
-			fileStream<<buf.data();
-			//std::cout.write(buf.data(), len);
+			transfersize += len;
+			fileStream.write(buf.data(),len);
 		}
 		while(true);
 
+		std::cout<<"Receive Files size="<<transfersize<<std::endl;
 		fileStream.close();
 	}
 	catch (std::exception& e)

@@ -32,3 +32,5 @@ ipch
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/obj/test/test.lastbuildstate
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/obj/test/test_manifest.rc
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/test.exe
+/ctp-trader-demo/bin/obj
+/ctp-trader-demo/bin/*.exe

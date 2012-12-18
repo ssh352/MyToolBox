@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileClient", "FileClient\Fi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FStream_FileSystem", "FStream_FileSystem\FStream_FileSystem.vcxproj", "{B465937B-F469-4E34-94D6-F7B246E0581F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Learn_boost_format", "Learn_boost_format\Learn_boost_format.vcxproj", "{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -99,6 +101,12 @@ Global
 		{B465937B-F469-4E34-94D6-F7B246E0581F}.Release|Win32.Build.0 = Release|Win32
 		{B465937B-F469-4E34-94D6-F7B246E0581F}.Release|x64.ActiveCfg = Release|x64
 		{B465937B-F469-4E34-94D6-F7B246E0581F}.Release|x64.Build.0 = Release|x64
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Debug|Win32.Build.0 = Debug|Win32
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Debug|x64.ActiveCfg = Debug|Win32
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|Win32.ActiveCfg = Release|Win32
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|Win32.Build.0 = Release|Win32
+		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

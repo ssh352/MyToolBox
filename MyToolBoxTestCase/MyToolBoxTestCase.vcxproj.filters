@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -19,6 +15,12 @@
     <Filter Include="GMock\inclulde">
       <UniqueIdentifier>{e34dd445-d51a-4557-a002-5ca10441c442}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestCase">
+      <UniqueIdentifier>{b8349f00-69c6-4c9d-a346-f3b3e8f5c756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="msic">
+      <UniqueIdentifier>{3e719723-775f-4db3-bb7c-df868f85f702}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,13 +29,25 @@
     <ClCompile Include="googleMock\gmock-gtest-all.cc">
       <Filter>GMock</Filter>
     </ClCompile>
+    <ClCompile Include="asioTestFile.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>msic</Filter>
+    </ClCompile>
+    <ClCompile Include="learn_temp.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="googleMock\gtest\gtest.h">
+      <Filter>GMock\inclulde</Filter>
+    </ClInclude>
     <ClInclude Include="googleMock\gmock\gmock.h">
       <Filter>GMock\inclulde</Filter>
     </ClInclude>
-    <ClInclude Include="googleMock\gmock\gtest\gtest.h">
-      <Filter>GMock\inclulde</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>msic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

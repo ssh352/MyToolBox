@@ -2,11 +2,6 @@
 
 #include <boost\format.hpp>
 
-#include <boost\format.hpp>
-
-
-
-
 TEST(boost_format,simpale)
 {
 	int val = 1234;

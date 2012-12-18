@@ -7,7 +7,7 @@
 
 class printer;
 
-class xxxx  :public ::testing::Test
+class DISABLED_asioTestFix  :public ::testing::Test
 {
 public:
 	virtual void SetUp()
@@ -76,7 +76,7 @@ void print(const boost::system::error_code& /*e*/)
 
 
 
-TEST_F(xxxx,timer2)
+TEST_F(DISABLED_asioTestFix,timer2)
 {
 	boost::asio::deadline_timer t(io, boost::posix_time::seconds(5));
 	t.async_wait(&print);
@@ -105,7 +105,7 @@ void print(const boost::system::error_code& /*e*/,
 	}
 }
 
-TEST_F(xxxx,timer3)
+TEST_F(DISABLED_asioTestFix,timer3)
 {
 	int* lpcount = new int(0);
 	boost::asio::deadline_timer* lpTimer = new boost::asio::deadline_timer(io, boost::posix_time::seconds(1));
@@ -124,7 +124,7 @@ void wasterTime()
 }
 
 
-TEST_F(xxxx,conCAll)
+TEST_F(DISABLED_asioTestFix,conCAll)
 {
 
 	for(int i=0;i<2;++i)
@@ -191,7 +191,7 @@ private:
 	boost::mutex m_lock;
 };
 
-TEST_F(xxxx,Printer)
+TEST_F(DISABLED_asioTestFix,Printer)
 {
 	//boost::asio::io_service io;
 	

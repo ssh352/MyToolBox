@@ -35,6 +35,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>msic</Filter>
     </ClCompile>
+    <ClCompile Include="learn_temp.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="googleMock\gtest\gtest.h">

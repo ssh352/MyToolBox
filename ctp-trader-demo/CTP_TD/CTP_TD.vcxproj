@@ -68,12 +68,6 @@
       <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="OrderRefGenerator.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="OrderRefGenerator.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

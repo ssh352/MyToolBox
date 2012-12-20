@@ -9,6 +9,7 @@ namespace CTP
 	{
 	public:
 		StateReceiver(const std::string aConfigStr);
+		~StateReceiver();
 		void SetStateReceive(CTP_MD* parent);
 		void Start();
 

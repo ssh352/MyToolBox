@@ -38,8 +38,6 @@ public:
 class CTP_MD_Mock :public CTP::CTP_MD
 {
 public:
-
-public:
 	MOCK_METHOD1(NotifyExchange,void(const std::string& aExchange));
 	MOCK_METHOD1(NotifyProduct,void(const std::string& aProduct));
 	MOCK_METHOD1(NotifyInstrument,void(const std::string& aInstrument));
@@ -49,12 +47,12 @@ public:
 
 TEST_F(StateReceiverTestBed,login_test)
 {
+	using testing::_;
 	CTP::StateReceiver lTestInst("");
 	CTP_MD_Mock lMockInst;
 	lTestInst.SetStateReceive(&lMockInst);
 	lTestInst.Start();
-	//EXPECT_CALL(lMockInst,NotifySubModuleState)
-
-
-
+	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Connecting,_));
+	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Logining,_));
+	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Retrieving,_));
 }

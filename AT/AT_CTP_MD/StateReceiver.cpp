@@ -10,6 +10,17 @@ namespace CTP
 
 	}
 
+	StateReceiver::~StateReceiver()
+	{
+		if(m_pTraderAPI)
+		{
+			m_pTraderAPI->RegisterSpi(NULL);
+			m_pTraderAPI->Join();
+		}
+		m_pTraderAPI->Release();
+	}
+
+
 	void StateReceiver::SetStateReceive( CTP_MD* apParent)
 	{
 		m_pCTP_MD = apParent;
@@ -96,6 +107,7 @@ namespace CTP
 
 
 	}
+
 
 
 

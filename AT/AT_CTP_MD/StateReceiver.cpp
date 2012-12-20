@@ -130,7 +130,7 @@ namespace CTP
 			if( RETRIEVE_PRODUCT_STATE == m_RuningState )
 			{
 				boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
-				memcpy(lpInstrument.get(),pInstrument,sizeof(pInstrument));
+				memcpy(lpInstrument.get(),pInstrument,sizeof(CThostFtdcInstrumentField));
 				m_InstrumentVec.push_back(lpInstrument);
 
 				std::string lProductID(lpInstrument->ProductID,30); 

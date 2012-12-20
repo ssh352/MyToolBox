@@ -31,31 +31,31 @@ namespace CTP
 
 	void CTP_MD::NotifyExchange( const std::string& aExchange )
 	{
-		//std::cerr<<aExchange<<std::endl;
-		m_MarketSpi->NotifyExchange(aExchange);
+		std::cerr<<aExchange<<std::endl;
+		//m_MarketSpi->NotifyExchange(aExchange);
 	}
 
 	void CTP_MD::NotifyProduct( const std::string& aProduct )
 	{
-		//std::cerr<<aProduct<<std::endl;
-		m_MarketSpi->NotifyProduct(aProduct);
+		std::cerr<<aProduct<<std::endl;
+		//m_MarketSpi->NotifyProduct(aProduct);
 	}
 
 	void CTP_MD::NotifyInstrument( const std::string& aInstrument )
 	{
-		//std::cerr<<aInstrument<<std::endl;
-		m_MarketSpi->NotifyInstrument(aInstrument);
+		std::cerr<<aInstrument<<std::endl;
+		//m_MarketSpi->NotifyInstrument(aInstrument);
 	}
 
 	void CTP_MD::NotifyMarketDepth( const std::string& aMarketDepth )
 	{
-		//std::cerr<<aMarketDepth<<std::endl;
-		m_MarketSpi->NotifyMarketDepth(aMarketDepth);
+		std::cerr<<aMarketDepth<<std::endl;
+		//m_MarketSpi->NotifyMarketDepth(aMarketDepth);
 	}
 
 	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
 	{
-	//	std::cerr<<"Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
+		std::cerr<<"Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
 	}
 
 }

@@ -4,10 +4,10 @@
 namespace CTP
 {
 	StateReceiver::StateReceiver( const std::string aConfigStr )
-		: m_isAlreadyLogin(false)
-		, m_RequestID(0)
+		:  m_RequestID(0)
+		
 	{
-
+		 m_RuningState =  UNINITIALIZE_STATE;
 	}
 
 	StateReceiver::~StateReceiver()
@@ -35,6 +35,7 @@ namespace CTP
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);			 
 		m_pTraderAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26205");
 		m_pTraderAPI->Init();
+		m_RuningState = CONNECTING_STATE;
 		m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Connecting);
 	}
 
@@ -50,12 +51,17 @@ namespace CTP
 
 	void StateReceiver::OnFrontConnected()
 	{
-		if(!m_isAlreadyLogin)
+		if( CONNECTING_STATE == m_RuningState)
 		{
 			CThostFtdcReqUserLoginField lLoginReq;
 			m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-			m_isAlreadyLogin = true;
+			m_RuningState = LOGINING_STATE;
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Logining,std::string(lLoginReq.UserID,15));
+		}
+		else
+		{
+			//m_RuningState = ERROR_STOP_STATE;
+			std::cerr << "Disconnect ? auto reconnect?????\n";
 		}
 	}
 	void StateReceiver::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
@@ -66,11 +72,13 @@ namespace CTP
 
 		if(IsErrorRspInfo(pRspInfo))
 		{
+			m_RuningState = ERROR_STOP_STATE;
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Login_Failed,std::string(pRspInfo->ErrorMsg,80));
 			return;
 		}
 		else
 		{
+			m_RuningState = RETRIEVE_EXCHANGE_STATE;
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieving);
 			std::cerr<<"Start Retrieving Exchange"<<std::endl;
 			CThostFtdcQryExchangeField lQryExchange;
@@ -98,15 +106,42 @@ namespace CTP
 			m_pCTP_MD->NotifyExchange(std::string(pExchange->ExchangeID,8));
 			if(bIsLast)
 			{
+				m_RuningState = RETRIEVE_PRODUCT_STATE;
 				std::cerr<<"Start Retrieving Instrument the Product will not Retrieve separate"<<std::endl;
-				//CThostFtdcQryInstrumentField lQryInstrument;
-				//memset(&lQryInstrument,0,sizeof(lQryInstrument));
-				//m_pTraderAPI->ReqQryInstrument(&lQryProduct,++m_RequestID);
+				CThostFtdcQryInstrumentField lQryInstrument;
+				memset(&lQryInstrument,0,sizeof(lQryInstrument));
+				m_pTraderAPI->ReqQryInstrument(&lQryInstrument,++m_RequestID);
+			}
+		}
+	}
+
+	void StateReceiver::OnRspQryInstrument( CThostFtdcInstrumentField *pInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieve_Failed,std::string(pRspInfo->ErrorMsg,80));
+		}
+		else
+		{
+			if( RETRIEVE_PRODUCT_STATE == m_RuningState )
+			{
+				boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
+				memcpy(lpInstrument.get(),pInstrument,sizeof(pInstrument));
+				m_InstrumentVec.push_back(lpInstrument);
+			}
+			//todo build xml text for more info but now ,just the ID send out
+			//m_pCTP_MD->NotifyExchange(std::string(pInstrument->,8));
+			if(bIsLast)
+			{
+				std::cerr<<"Start Retrieving Instrument the Product will not Retrieve separate"<<std::endl;
+				CThostFtdcQryInstrumentField lQryInstrument;
+				memset(&lQryInstrument,0,sizeof(lQryInstrument));
+				m_pTraderAPI->ReqQryInstrument(&lQryInstrument,++m_RequestID);
 			}
 		}
 
-
 	}
+
 
 
 

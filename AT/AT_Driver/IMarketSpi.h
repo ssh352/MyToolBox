@@ -13,11 +13,13 @@ namespace AT
 		virtual ~IMarketSpi();
 
 	public:
-		virtual void OnRtnState(int aErrorCode,const std::string& aErrorMsg);
+		virtual void NotifyState(int aErrorCode,const std::string& aErrorMsg);
 	public:
-		virtual void OnRtnExchange(const std::string& aExchange);
-		virtual void OnRtnProduct(const std::string& aProduct);
-		virtual void OnRtnInstrument(const std::string& aInstrument);
-		virtual void OnRtnMarketDepth(const std::string& aMarketDepth);
+		virtual void NotifyExchange(const std::string& aExchange);
+		virtual void NotifyProduct(const std::string& aProduct);
+		virtual void NotifyInstrument(const std::string& aInstrument);
+		virtual void NotifyMarketDepth(const std::string& aMarketDepth);
+	//public:
+	//	virtual void NotifyAdvMarket(const std::string& aAdvanceMarketInfo);
 	};
 }

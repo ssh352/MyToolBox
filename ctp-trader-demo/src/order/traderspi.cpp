@@ -87,7 +87,7 @@ void CtpTraderSpi::ReqQryInstrument(TThostFtdcInstrumentIDType instId)
 {
 	CThostFtdcQryInstrumentField req;
 	memset(&req, 0, sizeof(req));
-  strcpy(req.InstrumentID, instId);//为空表示查询所有合约
+	strcpy(req.InstrumentID, instId);//为空表示查询所有合约
 	int ret = pUserApi->ReqQryInstrument(&req, ++requestId);
 	cerr<<" 请求 | 发送合约查询..."<<((ret == 0)?"成功":"失败")<<endl;
 }

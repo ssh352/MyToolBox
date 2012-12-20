@@ -10,17 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AT_Error_Code.h" />
-    <ClInclude Include="IDriver_MD.h" />
-    <ClInclude Include="IDriver_TD.h" />
-    <ClInclude Include="IMarketSpi.h" />
-    <ClInclude Include="ITradeSpi.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>
-    <RootNamespace>CTP_Driver</RootNamespace>
-    <ProjectName>AT_Driver</ProjectName>
+    <ProjectGuid>{B08F1CB1-15DC-46CD-B344-C118BBBEB218}</ProjectGuid>
+    <RootNamespace>AT_CTP_MD</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -49,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)CTPAPI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,7 +53,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)CTPAPI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,6 +61,27 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
+    <ClCompile Include="CTP_MD.cpp" />
+    <ClCompile Include="DepthReceiver.cpp" />
+    <ClCompile Include="StateReceiver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
+    <ClInclude Include="CTP_MD.h" />
+    <ClInclude Include="DepthReceiver.h" />
+    <ClInclude Include="StateReceiver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

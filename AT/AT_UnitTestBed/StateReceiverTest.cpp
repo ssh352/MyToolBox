@@ -55,4 +55,7 @@ TEST_F(StateReceiverTestBed,login_test)
 	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Connecting,_));
 	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Logining,_));
 	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Retrieving,_));
+
+
+	boost::this_thread::sleep(boost::posix_time::seconds(100));
 }

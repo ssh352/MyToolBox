@@ -54,6 +54,10 @@ namespace CTP
 		if( CONNECTING_STATE == m_RuningState)
 		{
 			CThostFtdcReqUserLoginField lLoginReq;
+			strcpy_s(lLoginReq.BrokerID,11,"2030");
+			strcpy_s(lLoginReq.UserID,15,"000000005510");
+			strcpy_s(lLoginReq.Password,41,"228636");
+
 			m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
 			m_RuningState = LOGINING_STATE;
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Logining,std::string(lLoginReq.UserID,15));

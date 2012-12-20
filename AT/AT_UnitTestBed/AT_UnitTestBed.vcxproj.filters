@@ -7,24 +7,33 @@
     <Filter Include="StateReceiver">
       <UniqueIdentifier>{6db5acd9-fdd3-4000-acaf-85138c84ddf1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{26288993-dcba-47b8-8c88-6c51e5609d45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="googleMock\gmock-gtest-all.cc">
       <Filter>googlemock</Filter>
     </ClCompile>
     <ClCompile Include="StateReceiverTest.cpp">
       <Filter>StateReceiver</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="googleMock\gmock\gmock.h">
       <Filter>googlemock</Filter>
     </ClInclude>
     <ClInclude Include="googleMock\gtest\gtest.h">
       <Filter>googlemock</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

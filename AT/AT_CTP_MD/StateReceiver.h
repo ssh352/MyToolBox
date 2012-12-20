@@ -3,6 +3,7 @@
 #include "CTP_MD.h"
 #include <string>
 #include <vector>
+#include <map>
 namespace CTP
 {
 	class StateReceiver :public CThostFtdcTraderSpi
@@ -45,7 +46,10 @@ namespace CTP
 		int		m_RequestID;
 		StateReceiver_State	m_RuningState;
 
-		std::vector< boost::shared_ptr<CThostFtdcInstrumentField> > m_InstrumentVec;
+		typedef std::vector< boost::shared_ptr<CThostFtdcInstrumentField> > InstrumentVec;
+
+		InstrumentVec m_InstrumentVec;
+		std::map<std::string,InstrumentVec > m_ProductMap;
 	};
 
 }

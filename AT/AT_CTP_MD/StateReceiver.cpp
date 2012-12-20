@@ -1,6 +1,6 @@
 #include "StateReceiver.h"
 #include <iostream>
-
+#include <boost/foreach.hpp>
 namespace CTP
 {
 	StateReceiver::StateReceiver( const std::string aConfigStr )
@@ -132,15 +132,34 @@ namespace CTP
 				boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
 				memcpy(lpInstrument.get(),pInstrument,sizeof(pInstrument));
 				m_InstrumentVec.push_back(lpInstrument);
+
+				std::string lProductID(lpInstrument->ProductID,30); 
+				std::map<std::string,InstrumentVec >::iterator iter = m_ProductMap.find(lProductID);
+				if(iter != m_ProductMap.end() )
+				{
+					iter->second.push_back(lpInstrument);
+				}
+				else
+				{
+					InstrumentVec lVec;
+					lVec.push_back(lpInstrument);
+					m_ProductMap.insert(make_pair(lProductID,lVec));
+					m_pCTP_MD->NotifyProduct(lProductID);
+				}
 			}
-			//todo build xml text for more info but now ,just the ID send out
-			//m_pCTP_MD->NotifyExchange(std::string(pInstrument->,8));
+
 			if(bIsLast)
 			{
-				std::cerr<<"Start Retrieving Instrument the Product will not Retrieve separate"<<std::endl;
-				CThostFtdcQryInstrumentField lQryInstrument;
-				memset(&lQryInstrument,0,sizeof(lQryInstrument));
-				m_pTraderAPI->ReqQryInstrument(&lQryInstrument,++m_RequestID);
+				std::cerr<<"Finish Retrieving Instrument the Product "<<std::endl;
+				m_RuningState = RETRIEVE_INSTRUMENT_STATE;
+				m_pCTP_MD->NotifySubModuleState(m_RuningState);
+				BOOST_FOREACH( boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument,m_InstrumentVec )
+				{
+					std::string lInstrumentID (lpInstrument->InstrumentID,30);
+					m_pCTP_MD->NotifyInstrument(lInstrumentID);
+				}
+				m_RuningState = RETRIEVE_DYNAMIC_STATE ;
+				m_pCTP_MD->NotifySubModuleState(m_RuningState);
 			}
 		}
 

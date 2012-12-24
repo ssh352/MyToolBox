@@ -12,6 +12,7 @@
     <ClCompile Include="CTP_MD.cpp" />
     <ClCompile Include="StateReceiver.cpp" />
     <ClCompile Include="DepthReceiver.cpp" />
+    <ClCompile Include="ExchangeTable_CTP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -32,5 +33,6 @@
     <ClInclude Include="CTP_MD.h" />
     <ClInclude Include="StateReceiver.h" />
     <ClInclude Include="DepthReceiver.h" />
+    <ClInclude Include="ExchangeTable_CTP.h" />
   </ItemGroup>
 </Project>

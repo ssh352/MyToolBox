@@ -55,7 +55,7 @@ namespace CTP
 
 	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
 	{
-		std::cerr<<"Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
+		std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
 	}
 
 }

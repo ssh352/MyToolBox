@@ -68,6 +68,7 @@
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
     <ClCompile Include="CTP_MD.cpp" />
+    <ClCompile Include="DataCacheCTP.cpp" />
     <ClCompile Include="DepthReceiver.cpp" />
     <ClCompile Include="ExchangeTable_CTP.cpp" />
     <ClCompile Include="InstrumentTable_CTP.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="CTP_MD.h" />
+    <ClInclude Include="DataCacheCTP.h" />
     <ClInclude Include="DepthReceiver.h" />
     <ClInclude Include="ExchangeTable_CTP.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />

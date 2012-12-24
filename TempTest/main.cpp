@@ -3,7 +3,8 @@
 #include <string>
 #include <iostream>
 using namespace std;
-
+#include <boost\foreach.hpp>
+#include <map>
 int main()
 {
 
@@ -17,5 +18,13 @@ int main()
 	const char * test_data_ptr2 = test2.data();
 	//const char * test_cptr = test.c_str();
 
+
+	std::map<string,int> testMap;
+	typedef std::map<string,int>::_Val_type mapVal;
+	BOOST_FOREACH(mapVal lval,testMap)
+	{
+		std::cout<< lval.second;
+	}
+	
 
 }

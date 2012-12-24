@@ -10,7 +10,7 @@ class ItemTable
 {
 public:
 	typedef boost::shared_ptr<ItemType> ItemPtr;
-	typedef typename std::map<std::string, ItemPtr>::iterator iterator;
+	
 
 	void AddItem(ItemPtr apItem)
 	{
@@ -41,7 +41,10 @@ public:
 		}
 	}
 
+	//now it has the same interface with STL contain and can work with boost_for_each direct
 public:
+	typedef typename std::map<std::string, ItemPtr>::iterator iterator;
+	typedef typename std::map<std::string, ItemPtr>::const_iterator const_iterator;
 	iterator begin(){return m_ItemMap.begin();};
 	iterator end(){return m_ItemMap.end();};
 

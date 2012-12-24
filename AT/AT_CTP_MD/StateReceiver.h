@@ -4,14 +4,17 @@
 #include <string>
 #include <vector>
 #include <map>
+
 namespace CTP
 {
+	class DataCacheCTP;
+
 	class StateReceiver :public CThostFtdcTraderSpi
 	{
 	public:
 		StateReceiver(const std::string aConfigStr);
 		~StateReceiver();
-		void SetStateReceive(CTP_MD* parent);
+		void SetStateReceive(CTP_MD* parent , boost::shared_ptr<DataCacheCTP> apDataCache);
 		void Start();
 
 		//from CTP api
@@ -50,6 +53,7 @@ namespace CTP
 
 		InstrumentVec m_InstrumentVec;
 		std::map<std::string,InstrumentVec > m_ProductMap;
+		boost::shared_ptr<DataCacheCTP> m_pDataCache;
 	};
 
 }

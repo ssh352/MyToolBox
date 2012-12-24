@@ -15,6 +15,7 @@
     <ClCompile Include="ExchangeTable_CTP.cpp" />
     <ClCompile Include="ProductTable_CTP.cpp" />
     <ClCompile Include="InstrumentTable_CTP.cpp" />
+    <ClCompile Include="DataCacheCTP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -39,5 +40,6 @@
     <ClInclude Include="ProductTable_CTP.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />
+    <ClInclude Include="DataCacheCTP.h" />
   </ItemGroup>
 </Project>

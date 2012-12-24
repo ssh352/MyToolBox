@@ -5,6 +5,7 @@
 #include <boost\thread.hpp>
 #include <boost\date_time.hpp>
 #include "../AT_CTP_MD/CTP_MD.h"
+#include "../AT_CTP_MD/DataCacheCTP.h"
 
 class StateReceiverTestBed  :public ::testing::Test
 {
@@ -50,7 +51,8 @@ TEST_F(StateReceiverTestBed,DISABLE_login_test)
 	using testing::_;
 	CTP::StateReceiver lTestInst("");
 	CTP_MD_Mock lMockInst;
-	lTestInst.SetStateReceive(&lMockInst);
+	boost::shared_ptr<CTP::DataCacheCTP> lDataCache(new CTP::DataCacheCTP());
+	lTestInst.SetStateReceive(&lMockInst,lDataCache);
 	lTestInst.Start();
 	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Connecting,_));
 	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Logining,_));

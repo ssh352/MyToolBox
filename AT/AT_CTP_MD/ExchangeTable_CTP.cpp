@@ -3,7 +3,6 @@
 
 namespace CTP
 {
-
 	void ExchangeTable_CTP::AddExchange( Exchange_Ptr apExchange )
 	{
 		AddItem(apExchange);
@@ -13,7 +12,6 @@ namespace CTP
 	{
 		return GetItem(aExchangeID);
 	}
-
 
 }
 

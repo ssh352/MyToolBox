@@ -165,6 +165,11 @@ namespace CTP
 
 	}
 
+	void StateReceiver::OnRtnInstrumentStatus( CThostFtdcInstrumentStatusField *pInstrumentStatus )
+	{
+		//todo when Trading phase
+	}
+
 
 
 

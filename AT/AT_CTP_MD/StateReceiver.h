@@ -21,7 +21,7 @@ namespace CTP
 			CThostFtdcRspInfoField *apRspInfo, int anRequestID, bool abIsLast);
 		virtual void OnRspQryExchange(CThostFtdcExchangeField *pExchange, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 		virtual void OnRspQryInstrument(CThostFtdcInstrumentField *pInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
-
+		virtual void OnRtnInstrumentStatus(CThostFtdcInstrumentStatusField *pInstrumentStatus);
 
 	private:
 		bool IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo);

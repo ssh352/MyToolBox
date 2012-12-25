@@ -5,6 +5,7 @@
 #include "InstrumentTable_CTP.h"
 #include <vector>
 #include <string>
+#include <set>
 namespace CTP
 {
 
@@ -46,6 +47,8 @@ namespace CTP
 		std::vector<std::string> GetInstrumentListByExchange(const std::string& ExchangID);
 		std::vector<std::string> GetInstrumentListByProduct(const std::string& ProductID);
 		std::vector<std::string> GetInstrumentListAll();
+		std::set<std::string>	 GetProductList();
+
 
 		template<typename FindPropertTrait>
 		std::vector<std::string> GetInstrumentListByPropert(const std::string& aPreportVal)

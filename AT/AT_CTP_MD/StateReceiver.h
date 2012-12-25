@@ -49,10 +49,10 @@ namespace CTP
 		int		m_RequestID;
 		StateReceiver_State	m_RuningState;
 
-		typedef std::vector< boost::shared_ptr<CThostFtdcInstrumentField> > InstrumentVec;
+		//typedef std::vector< boost::shared_ptr<CThostFtdcInstrumentField> > InstrumentVec;
 
-		InstrumentVec m_InstrumentVec;
-		std::map<std::string,InstrumentVec > m_ProductMap;
+		//InstrumentVec m_InstrumentVec;
+		//std::map<std::string,InstrumentVec > m_ProductMap;
 		boost::shared_ptr<DataCacheCTP> m_pDataCache;
 	};
 

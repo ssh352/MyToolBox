@@ -2,6 +2,7 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 #include "DataCacheCTP.h"
+#include <set>
 namespace CTP
 {
 	StateReceiver::StateReceiver( const std::string aConfigStr )
@@ -129,10 +130,6 @@ namespace CTP
 		if(IsErrorRspInfo(pRspInfo))
 		{
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieve_Failed,std::string(pRspInfo->ErrorMsg,80));
-
-			boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
-			memcpy(lpInstrument.get(),pInstrument,sizeof(CThostFtdcInstrumentField));
-			m_pDataCache->AddInstrument(lpInstrument);
 		}
 		else
 		{
@@ -140,32 +137,25 @@ namespace CTP
 			{
 				boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
 				memcpy(lpInstrument.get(),pInstrument,sizeof(CThostFtdcInstrumentField));
-				m_InstrumentVec.push_back(lpInstrument);
-
-				std::string lProductID(lpInstrument->ProductID,30); 
-				std::map<std::string,InstrumentVec >::iterator iter = m_ProductMap.find(lProductID);
-				if(iter != m_ProductMap.end() )
-				{
-					iter->second.push_back(lpInstrument);
-				}
-				else
-				{
-					InstrumentVec lVec;
-					lVec.push_back(lpInstrument);
-					m_ProductMap.insert(make_pair(lProductID,lVec));
-					m_pCTP_MD->NotifyProduct(lProductID);
-				}
+				m_pDataCache->AddInstrument(lpInstrument);
 			}
 
 			if(bIsLast)
 			{
+				std::set<std::string> lProductList = m_pDataCache->GetProductList();
+				BOOST_FOREACH(std::string lProductID,lProductList )
+				{
+					m_pCTP_MD->NotifyProduct(lProductID);
+				}
+				
 				std::cerr<<"Finish Retrieving Instrument the Product "<<std::endl;
 				m_RuningState = RETRIEVE_INSTRUMENT_STATE;
 				m_pCTP_MD->NotifySubModuleState(m_RuningState);
-				BOOST_FOREACH( boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument,m_InstrumentVec )
+
+				std::vector<std::string> lInstrumentList = m_pDataCache->GetInstrumentListAll();
+				BOOST_FOREACH( std::string InstrumentID,lInstrumentList )
 				{
-					std::string lInstrumentID (lpInstrument->InstrumentID,30);
-					m_pCTP_MD->NotifyInstrument(lInstrumentID);
+					m_pCTP_MD->NotifyInstrument(InstrumentID);
 				}
 				m_RuningState = RETRIEVE_DYNAMIC_STATE ;
 				m_pCTP_MD->NotifySubModuleState(m_RuningState);

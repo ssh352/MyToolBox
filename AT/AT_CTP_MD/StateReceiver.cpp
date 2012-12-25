@@ -1,6 +1,7 @@
 #include "StateReceiver.h"
 #include <iostream>
 #include <boost/foreach.hpp>
+#include "DataCacheCTP.h"
 namespace CTP
 {
 	StateReceiver::StateReceiver( const std::string aConfigStr )
@@ -21,9 +22,10 @@ namespace CTP
 	}
 
 
-	void StateReceiver::SetStateReceive( CTP_MD* apParent)
+	void StateReceiver::SetStateReceive(CTP_MD* apParent , boost::shared_ptr<DataCacheCTP> apDataCache)
 	{
 		m_pCTP_MD = apParent;
+		m_pDataCache = apDataCache;
 	}
 
 	void StateReceiver::Start()
@@ -103,6 +105,9 @@ namespace CTP
 		if(IsErrorRspInfo(pRspInfo))
 		{
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieve_Failed,std::string(pRspInfo->ErrorMsg,80));
+			boost::shared_ptr<CThostFtdcExchangeField> lpExchange(new CThostFtdcExchangeField);
+			memcpy(lpExchange.get(),pExchange,sizeof(CThostFtdcExchangeField));
+			m_pDataCache->AddExchange(lpExchange);
 		}
 		else
 		{
@@ -124,6 +129,10 @@ namespace CTP
 		if(IsErrorRspInfo(pRspInfo))
 		{
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieve_Failed,std::string(pRspInfo->ErrorMsg,80));
+
+			boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
+			memcpy(lpInstrument.get(),pInstrument,sizeof(CThostFtdcInstrumentField));
+			m_pDataCache->AddInstrument(lpInstrument);
 		}
 		else
 		{
@@ -163,6 +172,11 @@ namespace CTP
 			}
 		}
 
+	}
+
+	void StateReceiver::OnRtnInstrumentStatus( CThostFtdcInstrumentStatusField *pInstrumentStatus )
+	{
+		//todo when Trading phase
 	}
 
 

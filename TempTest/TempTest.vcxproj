@@ -11,17 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B08F1CB1-15DC-46CD-B344-C118BBBEB218}</ProjectGuid>
-    <RootNamespace>AT_CTP_MD</RootNamespace>
+    <ProjectGuid>{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}</ProjectGuid>
+    <RootNamespace>TempTest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -41,12 +41,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../CTP_Driver/CTP_API/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>thostmduserapi.lib;thosttraderapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -55,40 +52,15 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../CTP_Driver/CTP_API/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>thostmduserapi.lib;thosttraderapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
-    <ClCompile Include="CTP_MD.cpp" />
-    <ClCompile Include="DataCacheCTP.cpp" />
-    <ClCompile Include="DepthReceiver.cpp" />
-    <ClCompile Include="ExchangeTable_CTP.cpp" />
-    <ClCompile Include="InstrumentTable_CTP.cpp" />
-    <ClCompile Include="ProductTable_CTP.cpp" />
-    <ClCompile Include="StateReceiver.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
-    <ClInclude Include="CTP_MD.h" />
-    <ClInclude Include="DataCacheCTP.h" />
-    <ClInclude Include="DepthReceiver.h" />
-    <ClInclude Include="ExchangeTable_CTP.h" />
-    <ClInclude Include="InstrumentTable_CTP.h" />
-    <ClInclude Include="ItemTable.h" />
-    <ClInclude Include="ProductTable_CTP.h" />
-    <ClInclude Include="StateReceiver.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

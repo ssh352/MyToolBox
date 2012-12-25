@@ -4,14 +4,17 @@
 #include <string>
 #include <vector>
 #include <map>
+
 namespace CTP
 {
+	class DataCacheCTP;
+
 	class StateReceiver :public CThostFtdcTraderSpi
 	{
 	public:
 		StateReceiver(const std::string aConfigStr);
 		~StateReceiver();
-		void SetStateReceive(CTP_MD* parent);
+		void SetStateReceive(CTP_MD* parent , boost::shared_ptr<DataCacheCTP> apDataCache);
 		void Start();
 
 		//from CTP api
@@ -21,7 +24,7 @@ namespace CTP
 			CThostFtdcRspInfoField *apRspInfo, int anRequestID, bool abIsLast);
 		virtual void OnRspQryExchange(CThostFtdcExchangeField *pExchange, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 		virtual void OnRspQryInstrument(CThostFtdcInstrumentField *pInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
-
+		virtual void OnRtnInstrumentStatus(CThostFtdcInstrumentStatusField *pInstrumentStatus);
 
 	private:
 		bool IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo);
@@ -50,6 +53,7 @@ namespace CTP
 
 		InstrumentVec m_InstrumentVec;
 		std::map<std::string,InstrumentVec > m_ProductMap;
+		boost::shared_ptr<DataCacheCTP> m_pDataCache;
 	};
 
 }

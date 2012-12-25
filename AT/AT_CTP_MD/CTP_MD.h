@@ -7,7 +7,7 @@ namespace CTP
 {
 	class StateReceiver;
 	class DepthReceiver;
-
+	class DataCacheCTP;
 
 	enum CTP_MD_CODE
 	{
@@ -48,7 +48,7 @@ namespace CTP
 		AT::IMarketSpi*	m_MarketSpi;
 		boost::shared_ptr<StateReceiver>  m_pStateReceiver;
 		boost::shared_ptr<DepthReceiver>  m_pDepthReceiver;
-
+		boost::shared_ptr<DataCacheCTP> m_pDataCache;
 
 	};
 }

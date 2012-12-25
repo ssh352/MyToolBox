@@ -5,6 +5,7 @@
 #include "StateReceiver.h"
 #include "DepthReceiver.h"
 #include <iostream>
+#include "DataCacheCTP.h"
 namespace CTP
 {
 	CTP_MD::CTP_MD(void)
@@ -19,9 +20,10 @@ namespace CTP
 	void CTP_MD::Init( const std::string& aConfigStr,AT::IMarketSpi* apMarketSpi )
 	{
 
+		m_pDataCache.reset(new DataCacheCTP);
 		m_MarketSpi = apMarketSpi;
 		m_pStateReceiver.reset(new StateReceiver(aConfigStr));
-		m_pStateReceiver->SetStateReceive(this);
+		m_pStateReceiver->SetStateReceive(this,m_pDataCache);
 		m_pStateReceiver->Start();
 
 		//m_pDepthReceiver.reset(new DepthReceiver);
@@ -55,7 +57,7 @@ namespace CTP
 
 	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
 	{
-		std::cerr<<"Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
+		std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
 	}
 
 }

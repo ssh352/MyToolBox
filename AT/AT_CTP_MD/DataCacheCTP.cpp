@@ -22,6 +22,11 @@ namespace CTP
 		return GetInstrumentListByPropert<FindByProductID>(ProductID);
 	}
 
+	std::vector<std::string> DataCacheCTP::GetInstrumentListAll()
+	{
+		return GetInstrumentListByPropert<FindAllInstrument>(std::string());
+	}
+
 }
 
 

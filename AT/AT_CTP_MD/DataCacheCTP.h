@@ -26,6 +26,15 @@ namespace CTP
 		}
 	};
 
+	class FindAllInstrument
+	{
+	public:
+		static bool FindByPropert(const std::string& aPreportVal, Instrument_Ptr apInstrument)
+		{
+			return true;
+		}
+	};
+
 
 	class DataCacheCTP
 	{
@@ -36,6 +45,7 @@ namespace CTP
 
 		std::vector<std::string> GetInstrumentListByExchange(const std::string& ExchangID);
 		std::vector<std::string> GetInstrumentListByProduct(const std::string& ProductID);
+		std::vector<std::string> GetInstrumentListAll();
 
 		template<typename FindPropertTrait>
 		std::vector<std::string> GetInstrumentListByPropert(const std::string& aPreportVal)

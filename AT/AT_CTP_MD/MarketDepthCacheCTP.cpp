@@ -1,6 +1,7 @@
 #include "MarketDepthCacheCTP.h"
 #include <string>
 #include "CTP_API.h"
+#include <boost\lexical_cast.hpp>
 namespace CTP
 {
 	MarketDepthCacheCTP::MarketDepthCacheCTP(void)
@@ -14,13 +15,17 @@ namespace CTP
 
 	void MarketDepthCacheCTP::InsertMarketTick( MarketDataPtr aTickData )
 	{
-		std::string lInstrumentID (aTickData->InstrumentID,30);
-		if(!m_MarketDataMap.count(lInstrumentID))
-		{
-			MarketDataPtrVec lEmptyVec;
-			m_MarketDataMap[lInstrumentID] = lEmptyVec;
-		}
-		m_MarketDataMap[lInstrumentID].push_back(aTickData);
+		m_MarketDataMap[GenerateTickKey(aTickData)] = aTickData;
 	}
+
+	std::string MarketDepthCacheCTP::GenerateTickKey( MarketDataPtr aTickData )
+	{
+		std::string lInstrumentIDKey (aTickData->InstrumentID,30);
+		std::string	lTime(aTickData->UpdateTime);
+		//std::string	lTime(boost::lexical_cast<std::string>(aTickData->UpdateMillisec));
+		lInstrumentIDKey += lTime;
+		return lInstrumentIDKey ;
+	}
+
 }
 

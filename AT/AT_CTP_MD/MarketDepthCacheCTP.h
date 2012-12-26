@@ -18,7 +18,10 @@ namespace CTP
 		void InsertMarketTick( MarketDataPtr  aTickData);
 
 	private:
-		std::map<std::string,MarketDataPtrVec>		m_MarketDataMap;	
+		std::string GenerateTickKey( MarketDataPtr  aTickData);
+
+	private:
+		std::map<std::string,MarketDataPtr>		m_MarketDataMap;
 	};
 
 

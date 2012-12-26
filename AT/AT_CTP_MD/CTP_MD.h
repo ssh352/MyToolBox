@@ -21,6 +21,30 @@ namespace CTP
 	};
 
 
+	enum MD_SubMoudle_State
+	{
+		StateReceiver_UNINITIALIZE_STATE,
+		StateReceiver_CONNECTING_STATE,
+		StateReceiver_LOGINING_STATE,
+		StateReceiver_RETRIEVE_EXCHANGE_STATE,
+		StateReceiver_RETRIEVE_PRODUCT_STATE,
+		StateReceiver_RETRIEVE_INSTRUMENT_STATE,
+		StateReceiver_RETRIEVE_DYNAMIC_STATE,
+		StateReceiver_ERROR_DISCONNECT_STATE,
+		StateReceiver_ERROR_STOP_STATE,
+
+		DepthReceiver_UNINITIALIZE_STATE,
+		DepthReceiver_CONNECTING_STATE,
+		DepthReceiver_LOGINING_STATE,
+		DepthReceiver_RECEIVE_STATE,
+		DepthReceiver_ERROR_DISCONNECT_STATE,
+		DepthReceiver_ERROR_STOP_STATE,
+
+		DepthReceiver_ERROR_SUBSCRIBE_EVENT,
+		DepthReceiver_ERROR_UNSUBSCRIBE_EVENT
+
+	};
+
 	class CTP_MD :
 		public AT::IDriver_MD
 	{

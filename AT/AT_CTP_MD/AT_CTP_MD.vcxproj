@@ -72,6 +72,7 @@
     <ClCompile Include="DepthReceiver.cpp" />
     <ClCompile Include="ExchangeTable_CTP.cpp" />
     <ClCompile Include="InstrumentTable_CTP.cpp" />
+    <ClCompile Include="MarketDepthCacheCTP.cpp" />
     <ClCompile Include="ProductTable_CTP.cpp" />
     <ClCompile Include="StateReceiver.cpp" />
   </ItemGroup>
@@ -87,6 +88,7 @@
     <ClInclude Include="ExchangeTable_CTP.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />
     <ClInclude Include="ItemTable.h" />
+    <ClInclude Include="MarketDepthCacheCTP.h" />
     <ClInclude Include="ProductTable_CTP.h" />
     <ClInclude Include="StateReceiver.h" />
   </ItemGroup>

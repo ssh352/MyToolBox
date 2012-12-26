@@ -20,6 +20,7 @@ namespace CTP
 	std::string GenerateExchangeOrderID(OrderTypePtr aOrderPtr);
 	std::string GenerateClientOrderID(OrderTypePtr aOrderPtr);
 	std::string GenerateTradeID(TradeTypePtr aTradePtr);
+	bool IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo);
 }
 
 

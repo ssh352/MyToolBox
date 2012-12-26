@@ -16,7 +16,7 @@
     <ClCompile Include="ProductTable_CTP.cpp" />
     <ClCompile Include="InstrumentTable_CTP.cpp" />
     <ClCompile Include="DataCacheCTP.cpp" />
- 	<ClCompile Include="MarketDepthCacheCTP.cpp" />
+    <ClCompile Include="MarketDepthCacheCTP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -37,11 +37,11 @@
     <ClInclude Include="CTP_MD.h" />
     <ClInclude Include="StateReceiver.h" />
     <ClInclude Include="DepthReceiver.h" />
-	<ClInclude Include="ExchangeTable_CTP.h" />
-    <ClInclude Include="MarketDepthCacheCTP.h" />
+    <ClInclude Include="ExchangeTable_CTP.h" />
     <ClInclude Include="ProductTable_CTP.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />
     <ClInclude Include="DataCacheCTP.h" />
+    <ClInclude Include="MarketDepthCacheCTP.h" />
   </ItemGroup>
 </Project>

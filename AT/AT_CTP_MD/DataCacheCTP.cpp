@@ -37,6 +37,11 @@ namespace CTP
 		return lRet;
 	}
 
+	void DataCacheCTP::AddMarketTick( MarketDataPtr aTick )
+	{
+		m_MarketDepthCacheCTP.InsertMarketTick(aTick);
+	}
+
 }
 
 

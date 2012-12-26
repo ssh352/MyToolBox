@@ -6,11 +6,12 @@ struct CThostFtdcDepthMarketDataField;
 
 namespace CTP
 {
+	typedef 	boost::shared_ptr<CThostFtdcDepthMarketDataField> MarketDataPtr;
+	typedef		std::vector<MarketDataPtr>						MarketDataPtrVec;
 	class MarketDepthCacheCTP
 	{
 	public:
-		typedef 	boost::shared_ptr<CThostFtdcDepthMarketDataField> MarketDataPtr;
-		typedef		std::vector<MarketDataPtr>											MarketDataPtrVec;
+		
 		MarketDepthCacheCTP(void);
 		virtual ~MarketDepthCacheCTP(void);
 

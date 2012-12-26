@@ -9,7 +9,7 @@ namespace CTP
 		:  m_RequestID(0)
 		
 	{
-		 m_RuningState =  UNINITIALIZE_STATE;
+		 m_RuningState =  StateReceiver_UNINITIALIZE_STATE;
 	}
 
 	StateReceiver::~StateReceiver()
@@ -32,29 +32,20 @@ namespace CTP
 	void StateReceiver::Start()
 	{
 		char lConPath[128] = "./MD_StateReceiver/";
-		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi();
+		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(lConPath);
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);			 
 		m_pTraderAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26205");
 		m_pTraderAPI->Init();
-		m_RuningState = CONNECTING_STATE;
-		m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Connecting);
+		m_RuningState = StateReceiver_CONNECTING_STATE;
+		m_pCTP_MD->NotifySubModuleState(m_RuningState);
 	}
 
-	bool StateReceiver::IsErrorRspInfo( CThostFtdcRspInfoField *pRspInfo )
-	{
-		bool ret = ((pRspInfo) && (pRspInfo->ErrorID != 0));
-		if(ret)
-		{
-			//TODO log error
-		}
-		return ret;
-	}
 
 	void StateReceiver::OnFrontConnected()
 	{
-		if( CONNECTING_STATE == m_RuningState)
+		if( StateReceiver_CONNECTING_STATE == m_RuningState)
 		{
 			CThostFtdcReqUserLoginField lLoginReq;
 			strcpy_s(lLoginReq.BrokerID,11,"2030");
@@ -62,8 +53,8 @@ namespace CTP
 			strcpy_s(lLoginReq.Password,41,"228636");
 
 			m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-			m_RuningState = LOGINING_STATE;
-			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Logining,std::string(lLoginReq.UserID,15));
+			m_RuningState = StateReceiver_LOGINING_STATE;
+			m_pCTP_MD->NotifySubModuleState(m_RuningState,std::string(lLoginReq.UserID,15));
 		}
 		else
 		{
@@ -79,14 +70,14 @@ namespace CTP
 
 		if(IsErrorRspInfo(pRspInfo))
 		{
-			m_RuningState = ERROR_STOP_STATE;
-			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Login_Failed,std::string(pRspInfo->ErrorMsg,80));
+			m_RuningState = StateReceiver_ERROR_STOP_STATE;
+			m_pCTP_MD->NotifySubModuleState(m_RuningState,std::string(pRspInfo->ErrorMsg,80));
 			return;
 		}
 		else
 		{
-			m_RuningState = RETRIEVE_EXCHANGE_STATE;
-			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieving);
+			m_RuningState = StateReceiver_RETRIEVE_EXCHANGE_STATE;
+			m_pCTP_MD->NotifySubModuleState(m_RuningState);
 			std::cerr<<"Start Retrieving Exchange"<<std::endl;
 			CThostFtdcQryExchangeField lQryExchange;
 			memset(&lQryExchange,0,sizeof(lQryExchange));
@@ -106,17 +97,21 @@ namespace CTP
 		if(IsErrorRspInfo(pRspInfo))
 		{
 			m_pCTP_MD->NotifySubModuleState(CTP_MD_StateReceiver_Retrieve_Failed,std::string(pRspInfo->ErrorMsg,80));
-			boost::shared_ptr<CThostFtdcExchangeField> lpExchange(new CThostFtdcExchangeField);
-			memcpy(lpExchange.get(),pExchange,sizeof(CThostFtdcExchangeField));
-			m_pDataCache->AddExchange(lpExchange);
+
 		}
 		else
 		{
 			//todo build xml text for more info but now ,just the ID send out
+
+			boost::shared_ptr<CThostFtdcExchangeField> lpExchange(new CThostFtdcExchangeField);
+			memcpy(lpExchange.get(),pExchange,sizeof(CThostFtdcExchangeField));
+			m_pDataCache->AddExchange(lpExchange);
 			m_pCTP_MD->NotifyExchange(std::string(pExchange->ExchangeID,8));
 			if(bIsLast)
 			{
-				m_RuningState = RETRIEVE_PRODUCT_STATE;
+				m_RuningState = StateReceiver_RETRIEVE_PRODUCT_STATE;
+				m_pCTP_MD->NotifySubModuleState(m_RuningState);
+
 				std::cerr<<"Start Retrieving Instrument the Product will not Retrieve separate"<<std::endl;
 				CThostFtdcQryInstrumentField lQryInstrument;
 				memset(&lQryInstrument,0,sizeof(lQryInstrument));
@@ -133,7 +128,7 @@ namespace CTP
 		}
 		else
 		{
-			if( RETRIEVE_PRODUCT_STATE == m_RuningState )
+			if( StateReceiver_RETRIEVE_PRODUCT_STATE == m_RuningState )
 			{
 				boost::shared_ptr<CThostFtdcInstrumentField> lpInstrument(new CThostFtdcInstrumentField);
 				memcpy(lpInstrument.get(),pInstrument,sizeof(CThostFtdcInstrumentField));
@@ -149,7 +144,7 @@ namespace CTP
 				}
 				
 				std::cerr<<"Finish Retrieving Instrument the Product "<<std::endl;
-				m_RuningState = RETRIEVE_INSTRUMENT_STATE;
+				m_RuningState = StateReceiver_RETRIEVE_INSTRUMENT_STATE;
 				m_pCTP_MD->NotifySubModuleState(m_RuningState);
 
 				std::vector<std::string> lInstrumentList = m_pDataCache->GetInstrumentListAll();
@@ -157,7 +152,7 @@ namespace CTP
 				{
 					m_pCTP_MD->NotifyInstrument(InstrumentID);
 				}
-				m_RuningState = RETRIEVE_DYNAMIC_STATE ;
+				m_RuningState = StateReceiver_RETRIEVE_DYNAMIC_STATE ;
 				m_pCTP_MD->NotifySubModuleState(m_RuningState);
 			}
 		}

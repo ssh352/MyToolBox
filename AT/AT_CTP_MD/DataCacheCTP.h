@@ -3,6 +3,7 @@
 #include "ExchangeTable_CTP.h"
 #include "ProductTable_CTP.h"
 #include "InstrumentTable_CTP.h"
+#include "MarketDepthCacheCTP.h"
 #include <vector>
 #include <string>
 #include <set>
@@ -43,6 +44,7 @@ namespace CTP
 		void  AddExchange(Exchange_Ptr apExchange);
 		void  AddInstrument(Instrument_Ptr apInstrument);
 		//void  UpdataInstrument(Instrument_Ptr apInstrument);
+		void  AddMarketTick(MarketDataPtr aTick);
 
 		std::vector<std::string> GetInstrumentListByExchange(const std::string& ExchangID);
 		std::vector<std::string> GetInstrumentListByProduct(const std::string& ProductID);
@@ -85,6 +87,9 @@ namespace CTP
 		ExchangeTable_CTP m_ExchangeMap;
 		//ProductTable_CTP  m_ProductMap;
 		InstrumentTable_CTP m_InstrumentMap;
+
+		//tick store
+		MarketDepthCacheCTP m_MarketDepthCacheCTP;
 	};
 
 }

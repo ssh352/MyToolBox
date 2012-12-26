@@ -1,4 +1,6 @@
 #include "DataCacheCTP.h"
+#include "MarketDepthCacheCTP.h"
+
 namespace CTP
 {
 	void DataCacheCTP::AddExchange( Exchange_Ptr apExchange )
@@ -40,6 +42,11 @@ namespace CTP
 	void DataCacheCTP::AddMarketTick( MarketDataPtr aTick )
 	{
 		m_MarketDepthCacheCTP.InsertMarketTick(aTick);
+	}
+
+	DataCacheCTP::DataCacheCTP()
+	{
+		m_MarketDepthCacheCTP.InitWithDB("MarkeDepth");
 	}
 
 }

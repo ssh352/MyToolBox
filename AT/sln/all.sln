@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_UnitTestBed", "..\AT_Uni
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LevelDB", "..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj", "{27080080-864A-4CBB-B925-5BEF11E6108A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MD_PrintTest", "MD_PrintTest\MD_PrintTest.vcxproj", "{D7637088-8B03-4819-A0C1-CED3D76932F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{27080080-864A-4CBB-B925-5BEF11E6108A}.Debug|Win32.Build.0 = Debug|Win32
 		{27080080-864A-4CBB-B925-5BEF11E6108A}.Release|Win32.ActiveCfg = Release|Win32
 		{27080080-864A-4CBB-B925-5BEF11E6108A}.Release|Win32.Build.0 = Release|Win32
+		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Debug|Win32.Build.0 = Debug|Win32
+		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.ActiveCfg = Release|Win32
+		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

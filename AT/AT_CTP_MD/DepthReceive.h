@@ -15,7 +15,7 @@ namespace CTP
 	public:
 		DepthReceiver(const std::string aConfigStr);
 		~DepthReceiver();
-		void SetStateReceive(CTP_MD* parent,boost::shared_ptr<DataCacheCTP> apDataCacheCTP);
+		void SetDepthReceive(CTP_MD* parent,boost::shared_ptr<DataCacheCTP> apDataCacheCTP);
 		void Start();
 		void SubscribeInstrument(const std::string& aInstrumentID );
 		void UnSubscribeInstrument(const std::string& aInstrumentID);

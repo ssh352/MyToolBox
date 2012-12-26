@@ -59,7 +59,7 @@ namespace CTP
 
 	//this block is using for member class direct post out
 	private:
-		 void NotifyExchange(const std::string& aExchange);
+		 void NotifyExchange(const std::string& aExchange);  
 		 void NotifyProduct(const std::string& aProduct);
 		 void NotifyInstrument(const std::string& aInstrument);
 		 void NotifyMarketDepth(const std::string& aMarketDepth);
@@ -67,6 +67,8 @@ namespace CTP
 		//collect submodule info and notify state out
 	private:
 		void NotifySubModuleState(int aErrorCode,const std::string& aErrorMsg = "");
+		void SubSucribeAll();
+
 
 	private:
 		AT::IMarketSpi*	m_MarketSpi;

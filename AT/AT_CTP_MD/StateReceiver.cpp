@@ -31,8 +31,7 @@ namespace CTP
 
 	void StateReceiver::Start()
 	{
-		char lConPath[128] = "./MD_StateReceiver/";
-		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(lConPath);
+		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(".\\flow1\\");
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);			 
@@ -52,7 +51,8 @@ namespace CTP
 			strcpy_s(lLoginReq.UserID,15,"000000005510");
 			strcpy_s(lLoginReq.Password,41,"228636");
 
-			m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
+			int ret = m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
+			if(ret!=0) std::cerr<<"ReqUserLogin Send Failed"<<std::endl;
 			m_RuningState = StateReceiver_LOGINING_STATE;
 			m_pCTP_MD->NotifySubModuleState(m_RuningState,std::string(lLoginReq.UserID,15));
 		}
@@ -81,7 +81,8 @@ namespace CTP
 			std::cerr<<"Start Retrieving Exchange"<<std::endl;
 			CThostFtdcQryExchangeField lQryExchange;
 			memset(&lQryExchange,0,sizeof(lQryExchange));
-			m_pTraderAPI->ReqQryExchange(&lQryExchange,++m_RequestID);
+			int ret = m_pTraderAPI->ReqQryExchange(&lQryExchange,++m_RequestID);
+			if(ret!=0) std::cerr<<"ReqQryExchange Send Failed"<<std::endl;
 		}
 
 		////assume login rsp will only return once per login
@@ -115,7 +116,8 @@ namespace CTP
 				std::cerr<<"Start Retrieving Instrument the Product will not Retrieve separate"<<std::endl;
 				CThostFtdcQryInstrumentField lQryInstrument;
 				memset(&lQryInstrument,0,sizeof(lQryInstrument));
-				m_pTraderAPI->ReqQryInstrument(&lQryInstrument,++m_RequestID);
+				int ret =  m_pTraderAPI->ReqQryInstrument(&lQryInstrument,++m_RequestID);
+				if(ret!=0) std::cerr<<"ReqQryInstrument Send Failed"<<std::endl;
 			}
 		}
 	}

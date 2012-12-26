@@ -1,4 +1,4 @@
-﻿#include "DepthReceiver.h"
+﻿#include "DepthReceive.h"
 #include "CTP_API.h"
 #include <boost/foreach.hpp>
 #include "DataCacheCTP.h"
@@ -32,19 +32,20 @@ namespace CTP
 	}
 
 
-	char** DepthReceiver::GenerateInstrumentList( const const std::string& aInstrumentID )
+	char** DepthReceiver::GenerateInstrumentList( const std::string& aInstrumentID )
 	{
 		if(!m_allocateMemMap.count(aInstrumentID))
 		{
 			char* lTmepBuf = new char[aInstrumentID.size()];
 			char** ltemplist = new char* [1];
+			strcpy(lTmepBuf,aInstrumentID.c_str());
 			ltemplist[0] = lTmepBuf;
 			m_allocateMemMap[aInstrumentID] = ltemplist;
 		}
 		return m_allocateMemMap[aInstrumentID];
 	}
 
-	void DepthReceiver::SetStateReceive( CTP_MD* parent,boost::shared_ptr<DataCacheCTP> apDataCacheCTP )
+	void DepthReceiver::SetDepthReceive( CTP_MD* parent,boost::shared_ptr<DataCacheCTP> apDataCacheCTP )
 	{
 		m_pCTP_MD = parent;
 		m_pDataCache = apDataCacheCTP;
@@ -52,8 +53,7 @@ namespace CTP
 
 	void DepthReceiver::Start()
 	{
-		char lConPath[128] = "./MD_DepthReceiver/";
-		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(lConPath);
+		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(".\\flow2\\");
 		m_pMDAPI->RegisterSpi(this);		 
 		m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213");
 		m_pMDAPI->Init();
@@ -97,7 +97,8 @@ namespace CTP
 
 	void DepthReceiver::SubscribeInstrument( const std::string& aInstrumentID )
 	{	
-		m_pMDAPI->SubscribeMarketData(GenerateInstrumentList(aInstrumentID),1);
+		char** lList = GenerateInstrumentList(aInstrumentID);
+		m_pMDAPI->SubscribeMarketData(lList,1);
 	}
 	void DepthReceiver::UnSubscribeInstrument( const std::string& aInstrumentID )
 	{

@@ -41,6 +41,7 @@ namespace CTP
 	class DataCacheCTP
 	{
 	public:
+		DataCacheCTP();
 		void  AddExchange(Exchange_Ptr apExchange);
 		void  AddInstrument(Instrument_Ptr apInstrument);
 		//void  UpdataInstrument(Instrument_Ptr apInstrument);

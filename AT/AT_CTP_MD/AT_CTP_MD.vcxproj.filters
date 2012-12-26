@@ -11,12 +11,12 @@
     </ClCompile>
     <ClCompile Include="CTP_MD.cpp" />
     <ClCompile Include="StateReceiver.cpp" />
-    <ClCompile Include="DepthReceiver.cpp" />
     <ClCompile Include="ExchangeTable_CTP.cpp" />
     <ClCompile Include="ProductTable_CTP.cpp" />
     <ClCompile Include="InstrumentTable_CTP.cpp" />
     <ClCompile Include="DataCacheCTP.cpp" />
     <ClCompile Include="MarketDepthCacheCTP.cpp" />
+    <ClCompile Include="DepthReceive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -36,12 +36,12 @@
     </ClInclude>
     <ClInclude Include="CTP_MD.h" />
     <ClInclude Include="StateReceiver.h" />
-    <ClInclude Include="DepthReceiver.h" />
     <ClInclude Include="ExchangeTable_CTP.h" />
     <ClInclude Include="ProductTable_CTP.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />
     <ClInclude Include="DataCacheCTP.h" />
     <ClInclude Include="MarketDepthCacheCTP.h" />
+    <ClInclude Include="DepthReceive.h" />
   </ItemGroup>
 </Project>

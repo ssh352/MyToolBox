@@ -92,6 +92,11 @@
     <ClInclude Include="ProductTable_CTP.h" />
     <ClInclude Include="StateReceiver.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
+      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

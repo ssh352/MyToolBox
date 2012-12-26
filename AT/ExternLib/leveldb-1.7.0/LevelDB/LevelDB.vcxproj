@@ -115,6 +115,7 @@
     <ClInclude Include="..\util\random.h" />
     <ClInclude Include="..\util\testharness.h" />
     <ClInclude Include="..\util\testutil.h" />
+    <ClInclude Include="..\util\win_logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\db\builder.cc" />
@@ -227,6 +228,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\util\env_win32.cc" />
     <ClCompile Include="..\util\filter_policy.cc" />
     <ClCompile Include="..\util\hash.cc" />
     <ClCompile Include="..\util\histogram.cc" />
@@ -239,6 +241,7 @@
     <ClCompile Include="..\util\testutil.cc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\util\win_logger.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\port\README" />

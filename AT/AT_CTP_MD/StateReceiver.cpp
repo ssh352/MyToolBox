@@ -3,6 +3,7 @@
 #include <boost/foreach.hpp>
 #include "DataCacheCTP.h"
 #include <set>
+#include <boost\lexical_cast.hpp>
 namespace CTP
 {
 	StateReceiver::StateReceiver( const std::string aConfigStr )
@@ -164,6 +165,34 @@ namespace CTP
 	void StateReceiver::OnRtnInstrumentStatus( CThostFtdcInstrumentStatusField *pInstrumentStatus )
 	{
 		//todo when Trading phase
+	}
+
+	void StateReceiver::OnFrontDisconnected( int nReason )
+	{
+		std::string ErrMessage;
+		switch(nReason)
+		{
+			case 0x1001:
+				ErrMessage = "网络读失败";
+				break;
+			case 0x1002:
+				ErrMessage = "网络写失败";
+				break;
+			case 0x2001:
+				ErrMessage = "接收心跳超时";
+				break;
+			case 0x2002:
+				ErrMessage = "发送心跳失败";
+				break;
+			case 0x2003:
+				ErrMessage = "收到错误报文";
+				break;
+			default:
+				ErrMessage = "其他错误序号";
+				ErrMessage += boost::lexical_cast<std::string>(nReason);
+				break;
+		}
+		std::cerr<<"State======================= 断开连接 "<<ErrMessage<<std::endl;
 	}
 
 

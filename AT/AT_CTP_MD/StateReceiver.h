@@ -20,6 +20,7 @@ namespace CTP
 		//from CTP api
 	public:
 		virtual void OnFrontConnected();
+		virtual void OnFrontDisconnected(int nReason);
 		virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *apRspUserLogin,
 			CThostFtdcRspInfoField *apRspInfo, int anRequestID, bool abIsLast);
 		virtual void OnRspQryExchange(CThostFtdcExchangeField *pExchange, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);

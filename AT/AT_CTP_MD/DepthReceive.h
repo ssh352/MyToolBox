@@ -32,6 +32,7 @@ namespace CTP
 		virtual void OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 		virtual void OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 		virtual void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData);
+		virtual void OnFrontDisconnected(int nReason);
 	private:
 		CTP_MD*	m_pCTP_MD;
 		boost::shared_ptr<DataCacheCTP> m_pDataCache;

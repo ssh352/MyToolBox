@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MD_PrintTest", "MD_PrintTes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_TD", "..\AT_CTP_TD\AT_CTP_TD.vcxproj", "{59015722-93D8-4186-BECE-1A5CCD207A60}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TD_CommandLineTest", "..\TD_CommandLineTest\TD_CommandLineTest.vcxproj", "{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,10 @@ Global
 		{59015722-93D8-4186-BECE-1A5CCD207A60}.Debug|Win32.Build.0 = Debug|Win32
 		{59015722-93D8-4186-BECE-1A5CCD207A60}.Release|Win32.ActiveCfg = Release|Win32
 		{59015722-93D8-4186-BECE-1A5CCD207A60}.Release|Win32.Build.0 = Release|Win32
+		{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}.Debug|Win32.Build.0 = Debug|Win32
+		{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}.Release|Win32.ActiveCfg = Release|Win32
+		{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

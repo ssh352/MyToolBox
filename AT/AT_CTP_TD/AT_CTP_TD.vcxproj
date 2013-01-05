@@ -63,7 +63,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
-    <ClCompile Include="TP_TD.cpp" />
+    <ClCompile Include="CTP_TD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
@@ -71,7 +71,7 @@
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
-    <ClInclude Include="TP_TD.h" />
+    <ClInclude Include="CTP_TD.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

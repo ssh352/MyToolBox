@@ -2,8 +2,8 @@
 
 #include <boost\shared_ptr.hpp>
 #include <map>
-
-
+#include <string>
+#include "leveldb/db.h"
 
 template<typename ItemType,typename ItemTraits>
 class ItemTable
@@ -11,6 +11,36 @@ class ItemTable
 public:
 	typedef boost::shared_ptr<ItemType> ItemPtr;
 	
+	void InitWithDB(const std::string& aDbPath )
+	{
+		if(aDBPath.empty())
+		{
+			throw std::exception("Do not Set MarketDepthCacheCtp Db path");
+		}
+
+		leveldb::Options options;
+		options.create_if_missing = true;
+		leveldb::Status lstatus = leveldb::DB::Open(options, aDBPath.c_str(), &m_pDB);
+		if(lstatus.ok())
+		{
+			LoadFromDB();
+		}
+		else
+		{
+			throw std::exception("Open  Db Failed");
+		}
+	}
+	void LoadFromDB()
+	{
+		//leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
+		//for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
+		//{
+		//	MarketDataPtr lTickPtr(new CThostFtdcDepthMarketDataField);
+		//	memcpy(lTickPtr.get(),liter->value().data(),liter->value().size());
+		//	m_MarketDataMap[liter->key().ToString()] = lTickPtr;
+		//}
+		//delete liter;
+	}
 
 	void AddItem(ItemPtr apItem)
 	{
@@ -50,6 +80,7 @@ public:
 
 private:
 	std::map<std::string, ItemPtr> m_ItemMap;
+	leveldb::DB*							m_pDB;
 
 };
 

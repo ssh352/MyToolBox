@@ -18,6 +18,7 @@ namespace CTP
 	public:
 		static std::string GetItemID(ProductPtr apProduct){return std::string(apProduct->ProductID,30);};
 		static std::string GetItemTypeName(){return "CThostFtdcProductField";};
+		static const int IsDuplicateException = 1;
 	};
 
 	class ProductTable_CTP :public ItemTable<CThostFtdcProductField , CThostFtdcProductFieldTraits>

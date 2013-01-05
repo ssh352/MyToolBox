@@ -12,6 +12,7 @@ namespace CTP
 	public:
 		static std::string GetItemID(Exchange_Ptr apExchange){return std::string(apExchange->ExchangeID,30);};
 		static std::string GetItemTypeName(){return "CThostFtdcExchange";};
+		static const int IsDuplicateException = 1;
 	};
 
 

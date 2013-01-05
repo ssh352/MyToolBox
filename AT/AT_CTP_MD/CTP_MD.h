@@ -4,6 +4,7 @@
 #include <boost\shared_ptr.hpp>
 #include <map>
 #include <string>
+#include <set>
 namespace CTP
 {
 	class StateReceiver;
@@ -69,11 +70,14 @@ namespace CTP
 	private:
 		void NotifySubModuleState(int aErrorCode,const std::string& aErrorMsg = "");
 		void SubSucribeAll();
-
+		void InitConfig(const std::map<std::string, std::string>& aConfigMap);
 
 	private:
 		AT::IMarketSpi*	m_MarketSpi;
 		std::map<std::string, std::string> m_ConfigMap;
+		bool m_EnableSubscribeList;
+		bool m_EnableState;
+		std::set<std::string> m_SubscribeList;
 
 		boost::shared_ptr<StateReceiver>  m_pStateReceiver;
 		boost::shared_ptr<DepthReceiver>  m_pDepthReceiver;

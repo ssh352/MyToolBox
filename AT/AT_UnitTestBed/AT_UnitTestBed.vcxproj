@@ -88,6 +88,9 @@
     <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
       <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
+      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

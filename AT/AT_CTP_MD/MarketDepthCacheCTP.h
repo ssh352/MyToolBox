@@ -19,12 +19,13 @@ namespace CTP
 		static std::string GetItemID(MarketDataPtr aTickData)
 		{
 			std::string lInstrumentIDKey (aTickData->InstrumentID,30);
-			std::string	lTime(aTickData->UpdateTime);
+			std::string	lTime(aTickData->UpdateTime,8);
 			//std::string	lTime(boost::lexical_cast<std::string>(aTickData->UpdateMillisec));
 			lInstrumentIDKey += lTime;
 			return lInstrumentIDKey ;
 		};
 		static std::string GetItemTypeName(){return "CThostFtdcDepthMarketDataField";};
+		static const int IsDuplicateException = 0;
 	};
 
 	class MarketDepthCacheCTP :public ItemTable<CThostFtdcDepthMarketDataField,CThostFtdcDepthMarketDataFieldTraits>

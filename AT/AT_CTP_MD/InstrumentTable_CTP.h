@@ -12,6 +12,7 @@ namespace CTP
 	public:
 		static std::string GetItemID(Instrument_Ptr apInstrument){return std::string(apInstrument->InstrumentID,30);};
 		static std::string GetItemTypeName(){return "CThostFtdcInstrumentField";};
+		static const int IsDuplicateException = 1;
 	};
 
 

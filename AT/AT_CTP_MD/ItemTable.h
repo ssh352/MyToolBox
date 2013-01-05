@@ -53,11 +53,19 @@ public:
 		std::string lItemID =  ItemTraits::GetItemID(apItem);
 		if(m_ItemMap.count(lItemID))
 		{
-			std::string Exception_info_str = "Add  ";
-			Exception_info_str += ItemTraits::GetItemTypeName();
-			Exception_info_str += " Already Exist ItemID=";
-			Exception_info_str += lItemID;
-			throw std::exception(Exception_info_str.c_str());
+			if( ItemTraits::IsDuplicateException )
+			{
+				std::string Exception_info_str = "Add  ";
+				Exception_info_str += ItemTraits::GetItemTypeName();
+				Exception_info_str += " Already Exist ItemID=";
+				Exception_info_str += lItemID;
+				throw std::exception(Exception_info_str.c_str());
+			}
+			else //should decide by future
+			{
+				m_ItemMap[lItemID] = apItem;
+			}
+			
 		}
 		else
 		{

@@ -9,11 +9,16 @@ template<typename ItemType,typename ItemTraits>
 class ItemTable
 {
 public:
-	ItemTable(): m_pDB(NULL){};
+	ItemTable(): m_pDB(nullptr){};
+	~ItemTable()
+	{
+		delete m_pDB;
+	}
 	typedef boost::shared_ptr<ItemType> ItemPtr;
 	
 	void InitWithDB(const std::string& aDbPath )
 	{
+		if(m_pDB) 	throw std::logic_error("already with DB");
 		if(aDBPath.empty())
 		{
 			throw std::exception("Do not Set MarketDepthCacheCtp Db path");
@@ -59,6 +64,8 @@ public:
 			m_ItemMap.insert(make_pair(lItemID,apItem));
 			if(m_pDB)
 			{
+				//异步写需要注意如果还没写入对象就被析构导致写入错误/无效数据
+				//必要时可以考虑转换为同步写或者在析构时等待db先完成
 				leveldb::Status lstatus  =m_pDB->Put(leveldb::WriteOptions(), lItemID, leveldb::Slice(((char*)apItem.get()), sizeof(ItemType)));
 				if(!lstatus.ok())
 				{

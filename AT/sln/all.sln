@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LevelDB", "..\ExternLib\lev
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MD_PrintTest", "MD_PrintTest\MD_PrintTest.vcxproj", "{D7637088-8B03-4819-A0C1-CED3D76932F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_TD", "..\AT_CTP_TD\AT_CTP_TD.vcxproj", "{59015722-93D8-4186-BECE-1A5CCD207A60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,10 @@ Global
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Debug|Win32.Build.0 = Debug|Win32
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.ActiveCfg = Release|Win32
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.Build.0 = Release|Win32
+		{59015722-93D8-4186-BECE-1A5CCD207A60}.Debug|Win32.ActiveCfg = Debug|Win32
+		{59015722-93D8-4186-BECE-1A5CCD207A60}.Debug|Win32.Build.0 = Debug|Win32
+		{59015722-93D8-4186-BECE-1A5CCD207A60}.Release|Win32.ActiveCfg = Release|Win32
+		{59015722-93D8-4186-BECE-1A5CCD207A60}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,6 +15,7 @@
     <ClInclude Include="IDriver_MD.h" />
     <ClInclude Include="IDriver_TD.h" />
     <ClInclude Include="IMarketSpi.h" />
+    <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

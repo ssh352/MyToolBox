@@ -1,10 +1,14 @@
 #pragma once
 #include "IDriver_MD.h"
-#include "IMarketSpi.h"
 #include <boost\shared_ptr.hpp>
 #include <map>
 #include <string>
 #include <set>
+
+namespace AT
+{
+	class IMarketSpi;
+}
 namespace CTP
 {
 	class StateReceiver;

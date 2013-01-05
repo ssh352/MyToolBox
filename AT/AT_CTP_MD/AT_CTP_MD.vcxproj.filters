@@ -38,7 +38,6 @@
     <ClInclude Include="StateReceiver.h" />
     <ClInclude Include="ExchangeTable_CTP.h" />
     <ClInclude Include="ProductTable_CTP.h" />
-    <ClInclude Include="ItemTable.h" />
     <ClInclude Include="InstrumentTable_CTP.h" />
     <ClInclude Include="DataCacheCTP.h" />
     <ClInclude Include="MarketDepthCacheCTP.h" />

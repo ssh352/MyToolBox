@@ -4,7 +4,7 @@
 
 #include "StateReceiver.h"
 #include "DepthReceive.h"
-#include <iostream>
+//#include <iostream>
 #include "DataCacheCTP.h"
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
@@ -44,31 +44,32 @@ namespace CTP
 
 	void CTP_MD::NotifyExchange( const std::string& aExchange )
 	{
-		std::cerr<<aExchange<<std::endl;
-		//m_MarketSpi->NotifyExchange(aExchange);
+		//std::cerr<<aExchange<<std::endl;
+		m_MarketSpi->NotifyExchange(aExchange);
 	}
 
 	void CTP_MD::NotifyProduct( const std::string& aProduct )
 	{
-		std::cerr<<aProduct<<std::endl;
-		//m_MarketSpi->NotifyProduct(aProduct);
+		//std::cerr<<aProduct<<std::endl;
+		m_MarketSpi->NotifyProduct(aProduct);
 	}
 
 	void CTP_MD::NotifyInstrument( const std::string& aInstrument )
 	{
-		std::cerr<<aInstrument<<std::endl;
-		//m_MarketSpi->NotifyInstrument(aInstrument);
+		//std::cerr<<aInstrument<<std::endl;
+		m_MarketSpi->NotifyInstrument(aInstrument);
 	}
 
 	void CTP_MD::NotifyMarketDepth( const std::string& aMarketDepth )
 	{
-		std::cerr<<aMarketDepth<<std::endl;
-		//m_MarketSpi->NotifyMarketDepth(aMarketDepth);
+		//std::cerr<<aMarketDepth<<std::endl;
+		m_MarketSpi->NotifyMarketDepth(aMarketDepth);
 	}
 
 	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
 	{
-		std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
+		//std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
+		m_MarketSpi->NotifyState(aErrorCode,aErrorMsg);
 		switch(aErrorCode)
 		{
 		case StateReceiver_RETRIEVE_DYNAMIC_STATE:

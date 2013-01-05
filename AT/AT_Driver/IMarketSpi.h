@@ -9,16 +9,12 @@ namespace AT
 	class IMarketSpi
 	{
 	public:
-		IMarketSpi();
-		virtual ~IMarketSpi();
-
+		virtual void NotifyState(int aErrorCode,const std::string& aErrorMsg) = 0;
 	public:
-		virtual void NotifyState(int aErrorCode,const std::string& aErrorMsg);
-	public:
-		virtual void NotifyExchange(const std::string& aExchange);
-		virtual void NotifyProduct(const std::string& aProduct);
-		virtual void NotifyInstrument(const std::string& aInstrument);
-		virtual void NotifyMarketDepth(const std::string& aMarketDepth);
+		virtual void NotifyExchange(const std::string& aExchange) = 0;
+		virtual void NotifyProduct(const std::string& aProduct) = 0 ;
+		virtual void NotifyInstrument(const std::string& aInstrument)= 0;
+		virtual void NotifyMarketDepth(const std::string& aMarketDepth)= 0;
 	//public:
 	//	virtual void NotifyAdvMarket(const std::string& aAdvanceMarketInfo);
 	};

@@ -18,5 +18,13 @@
     <ClCompile Include="MD_Print.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PrintMDSpi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrintMDSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

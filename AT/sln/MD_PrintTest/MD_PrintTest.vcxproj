@@ -75,6 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MD_Print.cpp" />
+    <ClCompile Include="PrintMDSpi.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrintMDSpi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

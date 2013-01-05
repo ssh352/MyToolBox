@@ -1,6 +1,7 @@
 #include "DataCacheCTP.h"
 #include "MarketDepthCacheCTP.h"
-
+#include <boost\date_time.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 namespace CTP
 {
 	void DataCacheCTP::AddExchange( Exchange_Ptr apExchange )
@@ -46,9 +47,10 @@ namespace CTP
 
 	DataCacheCTP::DataCacheCTP()
 	{
-		m_InstrumentMap.InitWithDB("InstrumentMap");
-		m_ExchangeMap.InitWithDB("ExchangeMap");
-		m_MarketDepthCacheCTP.InitWithDB("MarkeDepth");
+		std::string lDateString= boost::gregorian::to_iso_string( boost::gregorian::day_clock::local_day());
+		m_InstrumentMap.InitWithDB("InstrumentMapDB");
+		m_ExchangeMap.InitWithDB("ExchangeMapDB");
+		m_MarketDepthCacheCTP.InitWithDB(lDateString+"MarkeDepthDB");
 	}
 
 }

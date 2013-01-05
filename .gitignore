@@ -34,6 +34,6 @@ ipch
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/test.exe
 /ctp-trader-demo/bin/obj
 /ctp-trader-demo/bin/*.exe
-/AT/sln/MD_PrintTest/MarkeDepth
-/AT/sln/MD_PrintTest/InstrumentMap
-/AT/sln/MD_PrintTest/ExchangeMap
+/AT/sln/MD_PrintTest/*MarkeDepthDB
+/AT/sln/MD_PrintTest/InstrumentMapDB
+/AT/sln/MD_PrintTest/ExchangeMapDB

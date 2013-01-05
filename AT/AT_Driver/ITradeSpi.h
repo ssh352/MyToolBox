@@ -8,14 +8,10 @@ namespace AT
 	class ITradeSpi
 	{
 	public:
-		ITradeSpi();
-		virtual ~ITradeSpi();
-
-	public:
-		virtual void OnRtnState(int aErrorCode,const std::string& aErrorMsg);
-		virtual void OnRtnOrder(const std::string& apOrder);
-		virtual void OnRtnTrade(const std::string& apTrade);
-		virtual void OnRtnPosition(const std::string& aPosition);
+		virtual void OnRtnState(int aErrorCode,const std::string& aErrorMsg) = 0;
+		virtual void OnRtnOrder(const std::string& apOrder) = 0;
+		virtual void OnRtnTrade(const std::string& apTrade)=0;
+		virtual void OnRtnPosition(const std::string& aPosition)=0;
 	};
 }
 

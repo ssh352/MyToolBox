@@ -41,11 +41,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../AT_Driver;../../CTP_Driver/CTP_API/include/;../../AT_CTP_TD/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include/;../AT_CTP_TD/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../CTP_Driver/CTP_API/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../CTP_Driver/CTP_API/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>thostmduserapi.lib;thosttraderapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -66,7 +66,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PrintTDSpi.cpp" />
     <ClCompile Include="TD_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
+      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
+      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrintTDSpi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

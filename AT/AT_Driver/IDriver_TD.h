@@ -2,12 +2,14 @@
 
 #include <string>
 #include <map>
-class ITradeSpi;
+
 
 namespace AT
 {
-	//accept xml string for question
+	class ITradeSpi;
 
+	//accept xml string for question
+	
 	//thread safe Driver promise it
 	class IDriver_TD
 	{

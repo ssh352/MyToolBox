@@ -2,7 +2,7 @@
 
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
-
+#include "PrintTDSpi.h"
 int main()
 {
 	CTP::CTP_TD linst;
@@ -11,8 +11,8 @@ int main()
 	lConfigMap["EnableSubscribeList"] = "1";
 	lConfigMap["SubscribeList"] = "IF1301 IF1302 IF1303";
 
-	PrintMDSpi lPrintMD;
-	linst.Init(lConfigMap,&lPrintMD);
+	PrintTDSpi lSpiInst;
+	linst.Init(lConfigMap,&lSpiInst);
 	while(true)
 	{
 		boost::this_thread::sleep(boost::posix_time::millisec(1000));

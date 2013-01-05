@@ -118,4 +118,29 @@ namespace CTP
 		}
 	}
 
+	std::string CTP_TD::CreateOrder( const std::string& aNewOrder )
+	{
+		return "123";
+	}
+
+	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
+	{
+
+	}
+
+	void CTP_TD::ModifyOrder( const std::string& aRequest )
+	{
+
+	}
+
+	void CTP_TD::QueryPosition( const std::string& aRequest )
+	{
+
+	}
+
+	void CTP_TD::OnFrontDisconnected( int nReason )
+	{
+
+	}
+
 }

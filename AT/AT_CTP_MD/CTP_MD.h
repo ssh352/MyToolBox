@@ -2,7 +2,8 @@
 #include "IDriver_MD.h"
 #include "IMarketSpi.h"
 #include <boost\shared_ptr.hpp>
-
+#include <map>
+#include <string>
 namespace CTP
 {
 	class StateReceiver;
@@ -54,7 +55,7 @@ namespace CTP
 		CTP_MD(void);
 		virtual ~CTP_MD(void);
 
-	virtual void Init(const std::string&  aConfigStr,AT::IMarketSpi* apMarketSpi);
+	virtual void Init(const std::map<std::string,std::string>&  aConfigMap,AT::IMarketSpi* apMarketSpi);
 
 
 	//this block is using for member class direct post out
@@ -72,6 +73,8 @@ namespace CTP
 
 	private:
 		AT::IMarketSpi*	m_MarketSpi;
+		std::map<std::string, std::string> m_ConfigMap;
+
 		boost::shared_ptr<StateReceiver>  m_pStateReceiver;
 		boost::shared_ptr<DepthReceiver>  m_pDepthReceiver;
 		boost::shared_ptr<DataCacheCTP> m_pDataCache;

@@ -18,16 +18,16 @@ namespace CTP
 	{
 	}
 
-	void CTP_MD::Init( const std::string& aConfigStr,AT::IMarketSpi* apMarketSpi )
+	void CTP_MD::Init(const std::map<std::string,std::string>&  aConfigMap,AT::IMarketSpi* apMarketSpi)
 	{
-
+		m_ConfigMap = aConfigMap;
 		m_pDataCache.reset(new DataCacheCTP);
 		m_MarketSpi = apMarketSpi;
-		m_pStateReceiver.reset(new StateReceiver(aConfigStr));
+		m_pStateReceiver.reset(new StateReceiver(aConfigMap));
 		m_pStateReceiver->SetStateReceive(this,m_pDataCache);
 		m_pStateReceiver->Start();
 
-		m_pDepthReceiver.reset(new DepthReceiver(aConfigStr));
+		m_pDepthReceiver.reset(new DepthReceiver(aConfigMap));
 		m_pDepthReceiver->SetDepthReceive(this,m_pDataCache);
 	
 	}

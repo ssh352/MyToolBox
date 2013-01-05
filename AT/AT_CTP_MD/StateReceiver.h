@@ -12,7 +12,7 @@ namespace CTP
 	class StateReceiver :public CThostFtdcTraderSpi
 	{
 	public:
-		StateReceiver(const std::string aConfigStr);
+		StateReceiver(const std::map<std::string,std::string>& aConfigMap);
 		~StateReceiver();
 		void SetStateReceive(CTP_MD* parent , boost::shared_ptr<DataCacheCTP> apDataCache);
 		void Start();
@@ -40,6 +40,7 @@ namespace CTP
 		//InstrumentVec m_InstrumentVec;
 		//std::map<std::string,InstrumentVec > m_ProductMap;
 		boost::shared_ptr<DataCacheCTP> m_pDataCache;
+		std::map<std::string,std::string> m_ConfigMap;
 	};
 
 }

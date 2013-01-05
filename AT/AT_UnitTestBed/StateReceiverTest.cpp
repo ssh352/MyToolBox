@@ -49,7 +49,8 @@ public:
 TEST_F(StateReceiverTestBed,DISABLE_login_test)
 {
 	using testing::_;
-	CTP::StateReceiver lTestInst("");
+	std::map<std::string,std::string> lConfigMap;
+	CTP::StateReceiver lTestInst(lConfigMap);
 	CTP_MD_Mock lMockInst;
 	boost::shared_ptr<CTP::DataCacheCTP> lDataCache(new CTP::DataCacheCTP());
 	lTestInst.SetStateReceive(&lMockInst,lDataCache);

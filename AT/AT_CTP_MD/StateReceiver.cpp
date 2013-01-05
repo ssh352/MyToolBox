@@ -6,9 +6,9 @@
 #include <boost\lexical_cast.hpp>
 namespace CTP
 {
-	StateReceiver::StateReceiver( const std::string aConfigStr )
+	StateReceiver::StateReceiver( const std::map<std::string,std::string>& aConfigStr )
 		:  m_RequestID(0)
-		
+		, m_ConfigMap(aConfigStr)
 	{
 		 m_RuningState =  StateReceiver_UNINITIALIZE_STATE;
 	}

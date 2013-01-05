@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <string>
-
+#include <map>
 
 
 namespace AT
@@ -16,7 +16,7 @@ namespace AT
 	{
 	public:
 		//config 中可以带一个订阅列表,或者是否全部订阅等等设置
-		virtual void Init(const std::string&  aConfigStr,AT::IMarketSpi* apTradeSpi) = 0;
+		virtual void Init(const std::map<std::string,std::string>& aConfigMap,AT::IMarketSpi* apTradeSpi) = 0;
 
 		//todo 基于节约带宽的考虑 还是应该提供这两个选项 目前全推
 		//virtual Subscibe(const std::string& aSubScribe);

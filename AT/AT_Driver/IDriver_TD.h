@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <string>
-
+#include <map>
 class ITradeSpi;
 
 namespace AT
@@ -13,7 +13,7 @@ namespace AT
 	{
 
 	public:
-		virtual Init(const std::string&  aConfigStr,ITradeSpi* apTradeSpi);
+		virtual Init(const std::map<std::string,std::string>& aConfigMap,ITradeSpi* apTradeSpi);
 	public:
 		virtual std::string CreateOrder(const std::string& aNewOrder);
 		virtual void DeleteOrder(const std::string& aClientOrderID);

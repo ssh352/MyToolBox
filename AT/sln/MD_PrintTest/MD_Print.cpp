@@ -5,7 +5,8 @@
 int main()
 {
 	CTP::CTP_MD linst;
-	linst.Init("",NULL);
+	std::map<std::string,std::string> lConfigMap;
+	linst.Init(lConfigMap,NULL);
 	while(true)
 	{
 		boost::this_thread::sleep(boost::posix_time::millisec(1000));

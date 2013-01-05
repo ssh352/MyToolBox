@@ -13,7 +13,7 @@ namespace CTP
 	class DepthReceiver :public CThostFtdcMdSpi
 	{
 	public:
-		DepthReceiver(const std::string aConfigStr);
+		DepthReceiver(const std::map<std::string,std::string>& aConfigStr);
 		~DepthReceiver();
 		void SetDepthReceive(CTP_MD* parent,boost::shared_ptr<DataCacheCTP> apDataCacheCTP);
 		void Start();
@@ -40,6 +40,7 @@ namespace CTP
 		MD_SubMoudle_State m_DepthState;
 		int m_RequestID;
 		std::map<std::string,char**>  m_allocateMemMap;
+		const std::map<std::string,std::string> m_ConfigMap;
 	};
 
 }

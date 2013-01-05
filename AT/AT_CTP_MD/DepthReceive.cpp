@@ -8,9 +8,10 @@
 namespace CTP
 {
 
-	DepthReceiver::DepthReceiver( const std::string aConfigStr )
+	DepthReceiver::DepthReceiver(const std::map<std::string,std::string>& aConfigStr )
+		: m_ConfigMap(aConfigStr)
+		, m_RequestID(0)
 	{
-		m_RequestID = 0;
 		m_DepthState =  DepthReceiver_UNINITIALIZE_STATE;
 	}
 

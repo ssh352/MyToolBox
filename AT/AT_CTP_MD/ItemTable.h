@@ -10,13 +10,13 @@ class ItemTable
 {
 public:
 	ItemTable(): m_pDB(nullptr){};
-	~ItemTable()
+	virtual ~ItemTable()
 	{
 		delete m_pDB;
 	}
 	typedef boost::shared_ptr<ItemType> ItemPtr;
 	
-	void InitWithDB(const std::string& aDbPath )
+	void InitWithDB(const std::string& aDBPath )
 	{
 		if(m_pDB) 	throw std::logic_error("already with DB");
 		if(aDBPath.empty())
@@ -41,9 +41,9 @@ public:
 		leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
 		for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
 		{
-			ItemType lStoreInstPtr(new ItemType);
+			boost::shared_ptr<ItemType> lStoreInstPtr(new ItemType);
 			memcpy(lStoreInstPtr.get(),liter->value().data(),liter->value().size());
-			m_ItemMap[liter->key().ToString()] = lTickPtr;
+			m_ItemMap[liter->key().ToString()] = lStoreInstPtr;
 		}
 		delete liter;
 	}

@@ -1,10 +1,9 @@
 #pragma once
-#include <vector>
-#include <map>
 #include <boost/shared_ptr.hpp>
+#include "ItemTable.h"
+#include "CTP_API.h"
+
 struct CThostFtdcDepthMarketDataField;
-
-
 namespace leveldb
 {
 	class DB;
@@ -13,28 +12,27 @@ namespace leveldb
 namespace CTP
 {
 	typedef 	boost::shared_ptr<CThostFtdcDepthMarketDataField> MarketDataPtr;
-	typedef		std::vector<MarketDataPtr>						MarketDataPtrVec;
-	class MarketDepthCacheCTP
+//	typedef		std::vector<MarketDataPtr>						MarketDataPtrVec;
+	class CThostFtdcDepthMarketDataFieldTraits
 	{
 	public:
-		
-		MarketDepthCacheCTP(void);
-		virtual ~MarketDepthCacheCTP(void);
-
-		void InsertMarketTick( MarketDataPtr  aTickData);
-		void InitWithDB(const std::string& aDBPath);
-
-	private:
-		std::string GenerateTickKey( MarketDataPtr  aTickData);
-		void LoadFromDB();
-
-	private:
-		std::map<std::string,MarketDataPtr>		m_MarketDataMap;
-		leveldb::DB*							m_pDB;
+		static std::string GetItemID(MarketDataPtr aTickData)
+		{
+			std::string lInstrumentIDKey (aTickData->InstrumentID,30);
+			std::string	lTime(aTickData->UpdateTime);
+			//std::string	lTime(boost::lexical_cast<std::string>(aTickData->UpdateMillisec));
+			lInstrumentIDKey += lTime;
+			return lInstrumentIDKey ;
+		};
+		static std::string GetItemTypeName(){return "CThostFtdcDepthMarketDataField";};
 	};
 
-
-
+	class MarketDepthCacheCTP :public ItemTable<CThostFtdcDepthMarketDataField,CThostFtdcDepthMarketDataFieldTraits>
+	{
+	public:
+		void InsertMarketTick( MarketDataPtr  aTickData);
+	};
 }
+
 
 

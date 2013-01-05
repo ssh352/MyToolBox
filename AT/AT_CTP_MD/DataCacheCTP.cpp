@@ -46,6 +46,8 @@ namespace CTP
 
 	DataCacheCTP::DataCacheCTP()
 	{
+		m_InstrumentMap.InitWithDB("InstrumentMap");
+		m_ExchangeMap.InitWithDB("ExchangeMap");
 		m_MarketDepthCacheCTP.InitWithDB("MarkeDepth");
 	}
 

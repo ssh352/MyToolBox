@@ -2,15 +2,46 @@
 
 #include <boost\shared_ptr.hpp>
 #include <map>
-
-
+#include <string>
+#include "leveldb/db.h"
 
 template<typename ItemType,typename ItemTraits>
 class ItemTable
 {
 public:
+	ItemTable(): m_pDB(NULL){};
 	typedef boost::shared_ptr<ItemType> ItemPtr;
 	
+	void InitWithDB(const std::string& aDbPath )
+	{
+		if(aDBPath.empty())
+		{
+			throw std::exception("Do not Set MarketDepthCacheCtp Db path");
+		}
+
+		leveldb::Options options;
+		options.create_if_missing = true;
+		leveldb::Status lstatus = leveldb::DB::Open(options, aDBPath.c_str(), &m_pDB);
+		if(lstatus.ok())
+		{
+			LoadFromDB();
+		}
+		else
+		{
+			throw std::exception("Open  Db Failed");
+		}
+	}
+	void LoadFromDB()
+	{
+		leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
+		for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
+		{
+			ItemType lStoreInstPtr(new ItemType);
+			memcpy(lStoreInstPtr.get(),liter->value().data(),liter->value().size());
+			m_ItemMap[liter->key().ToString()] = lTickPtr;
+		}
+		delete liter;
+	}
 
 	void AddItem(ItemPtr apItem)
 	{
@@ -26,6 +57,14 @@ public:
 		else
 		{
 			m_ItemMap.insert(make_pair(lItemID,apItem));
+			if(m_pDB)
+			{
+				leveldb::Status lstatus  =m_pDB->Put(leveldb::WriteOptions(), lItemID, leveldb::Slice(((char*)apItem.get()), sizeof(ItemType)));
+				if(!lstatus.ok())
+				{
+					std::cerr<<"Store "<<	ItemTraits::GetItemTypeName()<< " Failed" << std::endl;
+				}
+			}
 		}
 	}
 
@@ -50,6 +89,7 @@ public:
 
 private:
 	std::map<std::string, ItemPtr> m_ItemMap;
+	leveldb::DB*							m_pDB;
 
 };
 

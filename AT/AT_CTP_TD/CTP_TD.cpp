@@ -48,10 +48,6 @@ namespace CTP
 	void CTP_TD::OnFrontConnected()
 	{
 		CThostFtdcReqUserLoginField lLoginReq;
-		//strcpy_s(lLoginReq.BrokerID,11,"2030");
-		//strcpy_s(lLoginReq.UserID,15,"000000005510");
-		//strcpy_s(lLoginReq.Password,41,"228636");
-
 		strcpy_s(lLoginReq.BrokerID,11,m_BrokerID.c_str());
 		strcpy_s(lLoginReq.UserID,15,m_UserID.c_str());
 		strcpy_s(lLoginReq.Password,41,m_Password.c_str());
@@ -103,6 +99,8 @@ namespace CTP
 			{
 				CThostFtdcSettlementInfoConfirmField lQryFiled;
 				memset(&lQryFiled,0,sizeof(lQryFiled));
+				strcpy_s(lQryFiled.BrokerID,11,m_BrokerID.c_str());
+				strcpy_s(lQryFiled.InvestorID,13,m_UserID.c_str());
 				int ret = m_pTraderAPI->ReqSettlementInfoConfirm(&lQryFiled,++m_RequestID);
 				if(ret!=0) std::cerr<<"ReqQryExchange Send Failed"<<std::endl;
 			}

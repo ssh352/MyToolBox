@@ -54,6 +54,12 @@ namespace CTP
 		virtual void OnRspSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, 
 			CThostFtdcRspInfoField *apRspInfo, int nRequestID, bool bIsLast);
 
+		///报单通知
+		virtual void OnRtnOrder(CThostFtdcOrderField *pOrder);
+		///成交通知
+		virtual void OnRtnTrade(CThostFtdcTradeField *pTrade);
+
+
 
 
 	private:

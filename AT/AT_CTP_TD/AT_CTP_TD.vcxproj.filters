@@ -4,12 +4,24 @@
     <Filter Include="API">
       <UniqueIdentifier>{5b8398b5-a4b4-4ce0-8090-d956464cf94c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TD_DataCache">
+      <UniqueIdentifier>{bf392002-02b1-4f67-a156-6a9cd65c1ebb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
       <Filter>API</Filter>
     </ClCompile>
     <ClCompile Include="CTP_TD.cpp" />
+    <ClCompile Include="DataCache_CTP_TD.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="OrderTable_CTP.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeTable.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h">
@@ -28,5 +40,14 @@
       <Filter>API</Filter>
     </ClInclude>
     <ClInclude Include="CTP_TD.h" />
+    <ClInclude Include="OrderTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="DataCache_CTP_TD.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeTable.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

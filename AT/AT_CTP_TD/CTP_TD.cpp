@@ -214,4 +214,14 @@ namespace CTP
 		return lRetPtr;
 	}
 
+	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
+	{
+
+	}
+
+	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )
+	{
+
+	}
+
 }

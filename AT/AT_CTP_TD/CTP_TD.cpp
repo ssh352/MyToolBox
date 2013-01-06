@@ -130,8 +130,8 @@ namespace CTP
 		}
 		else
 		{
-			std::string lExchangeOrderID = GenerateExchangeOrderID(lExchangeOrder,m_FrontID,m_SessionID);
-			return lExchangeOrderID;
+			std::string lThostOrderID = GenerateThostOrderID(lExchangeOrder,m_FrontID,m_SessionID);
+			return lThostOrderID;
 		}
 	}
 

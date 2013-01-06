@@ -13,7 +13,7 @@ namespace CTP
 	public:
 		static std::string GetItemID(Order_Ptr apOrder)
 		{
-			return GenerateExchangeOrderID(apOrder);
+			return GenerateThostOrderID(apOrder);
 		}
 		static std::string GetItemTypeName(){return "CThostFtdcOrderField";};
 		static const int IsDuplicateException = 0;
@@ -24,7 +24,7 @@ namespace CTP
 	{
 	public:
 		void AddOrder(Order_Ptr apOrder );
-		Order_Ptr GetOrder(const std::string& aExchangeOrderID);
+		Order_Ptr GetOrder(const std::string& aThostOrderID);
 	};
 }
 

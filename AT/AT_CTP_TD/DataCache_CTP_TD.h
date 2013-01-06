@@ -1,8 +1,8 @@
 #pragma once
 #include <boost\shared_ptr.hpp>
 
-struct CThostFtdcOrderField;
-struct CThostFtdcTradeField;
+#include "OrderTable_CTP.h"
+#include "TradeTable.h"
 namespace CTP
 {
 	class DataCache_CTP_TD
@@ -15,6 +15,7 @@ namespace CTP
 		void UpdataTrade(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 
 	private:
+		std::map<std::string,std::string> m_ThostOrderID;
 
 	};
 }

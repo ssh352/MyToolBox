@@ -4,7 +4,7 @@
 namespace CTP
 {
 
-	std::string GenerateExchangeOrderID( OrderTypePtr aOrderPtr )
+	std::string GenerateThostOrderID( OrderTypePtr aOrderPtr )
 	{
 		std::string lRet;
 		lRet += boost::lexical_cast<std::string>(aOrderPtr->SessionID);
@@ -15,7 +15,7 @@ namespace CTP
 		return lRet;
 	}
 
-	std::string GenerateExchangeOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
+	std::string GenerateThostOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
 	{
 		std::string lRet;
 		lRet += boost::lexical_cast<std::string>(aSessionID);
@@ -46,7 +46,7 @@ namespace CTP
 		if(ret)
 		{
 			//TODO LOG
-			std::cerr<<"Error Code="<<pRspInfo->ErrorID << "Ërror Message = "<<pRspInfo->ErrorMsg <<std::endl;
+			std::cerr<<"Error Code="<<pRspInfo->ErrorID << "Error Message = "<<pRspInfo->ErrorMsg <<std::endl;
 		}
 		return ret;
 	}

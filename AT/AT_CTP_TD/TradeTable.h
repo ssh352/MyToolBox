@@ -13,7 +13,7 @@ namespace CTP
 	public:
 		static std::string GetItemID(Trade_Ptr apTrade)
 		{
-			//GenerateExchangeOrderID(apTrade)
+			//GenerateThostOrderID(apTrade)
 			std::string lTradeID(apTrade->TradeID,30);
 			return lTradeID;
 		}

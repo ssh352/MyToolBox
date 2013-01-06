@@ -3,6 +3,7 @@
 #include <string>
 #include "IDriver_TD.h"
 #include "CTP_API.h"
+#include "DataCache_CTP_TD.h"
 namespace AT
 {
 	class ITradeSpi;
@@ -65,6 +66,9 @@ namespace CTP
 	private:
 		void  NotifyState();
 		InputOrderTypePtr BuildExchangeOrder(const std::string& aNewOrder);
+		std::string BuildRtnTradeStr(boost::shared_ptr<CThostFtdcTradeField> apTrade);
+		std::string BuildRtnOrderStr(boost::shared_ptr<CThostFtdcOrderField> apOrder);
+
 
 	private:
 		CThostFtdcTraderApi*  m_pTraderAPI;
@@ -80,6 +84,8 @@ namespace CTP
 		int				m_FrontID;
 		int				m_SessionID;
 		unsigned int				m_MaxOrderRef;
+		DataCache_CTP_TD	m_DataCache;
+
 	};
 }
 

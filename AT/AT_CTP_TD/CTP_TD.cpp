@@ -216,12 +216,30 @@ namespace CTP
 
 	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
 	{
-
+		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
+		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
+		m_DataCache.UpdataOrder(lpOrder);
+		m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
 	}
 
 	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )
 	{
+		boost::shared_ptr<CThostFtdcTradeField> lpTrade (new CThostFtdcTradeField);
+		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
+		m_DataCache.UpdataTrade(lpTrade);
+		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
+	}
 
+	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
+	{
+		std::string lRet;
+		return lRet;
+	}
+
+	std::string CTP_TD::BuildRtnOrderStr( boost::shared_ptr<CThostFtdcOrderField> apOrder )
+	{
+		std::string lRet;
+		return lRet;
 	}
 
 }

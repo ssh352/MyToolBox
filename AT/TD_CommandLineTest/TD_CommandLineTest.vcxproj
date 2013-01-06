@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include/;../AT_CTP_TD/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include/;../AT_CTP_TD/;../ExternLib\leveldb-1.7.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -55,7 +55,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../AT_Driver;../../CTP_Driver/CTP_API/include/;../../AT_CTP_MD/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../AT_Driver;../CTP_Driver/CTP_API/include/;../AT_CTP_TD/;../ExternLib\leveldb-1.7.0\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

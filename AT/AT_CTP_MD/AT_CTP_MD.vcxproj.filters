@@ -4,6 +4,9 @@
     <Filter Include="API">
       <UniqueIdentifier>{06500a57-9baa-4c75-8ca5-ae0042365428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataCache">
+      <UniqueIdentifier>{e6124384-cbbd-4b63-a217-256439167c6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
@@ -11,12 +14,22 @@
     </ClCompile>
     <ClCompile Include="CTP_MD.cpp" />
     <ClCompile Include="StateReceiver.cpp" />
-    <ClCompile Include="ExchangeTable_CTP.cpp" />
-    <ClCompile Include="ProductTable_CTP.cpp" />
-    <ClCompile Include="InstrumentTable_CTP.cpp" />
-    <ClCompile Include="DataCacheCTP.cpp" />
-    <ClCompile Include="MarketDepthCacheCTP.cpp" />
     <ClCompile Include="DepthReceive.cpp" />
+    <ClCompile Include="DataCacheCTP.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="ExchangeTable_CTP.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="InstrumentTable_CTP.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="MarketDepthCacheCTP.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductTable_CTP.cpp">
+      <Filter>DataCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -36,11 +49,21 @@
     </ClInclude>
     <ClInclude Include="CTP_MD.h" />
     <ClInclude Include="StateReceiver.h" />
-    <ClInclude Include="ExchangeTable_CTP.h" />
-    <ClInclude Include="ProductTable_CTP.h" />
-    <ClInclude Include="InstrumentTable_CTP.h" />
-    <ClInclude Include="DataCacheCTP.h" />
-    <ClInclude Include="MarketDepthCacheCTP.h" />
     <ClInclude Include="DepthReceive.h" />
+    <ClInclude Include="DataCacheCTP.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ExchangeTable_CTP.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="InstrumentTable_CTP.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketDepthCacheCTP.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductTable_CTP.h">
+      <Filter>DataCache</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

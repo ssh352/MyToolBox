@@ -15,6 +15,17 @@ namespace CTP
 		return lRet;
 	}
 
+	std::string GenerateExchangeOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
+	{
+		std::string lRet;
+		lRet += boost::lexical_cast<std::string>(aSessionID);
+		lRet += '_';
+		lRet += boost::lexical_cast<std::string>(aFrontID);
+		lRet += '_';
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
+		return lRet;
+	}
+
 	std::string GenerateClientOrderID( OrderTypePtr aOrderPtr )
 	{
 		std::string lRet;

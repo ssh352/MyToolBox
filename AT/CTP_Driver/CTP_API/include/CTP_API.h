@@ -17,6 +17,8 @@ namespace CTP
 	typedef boost::shared_ptr<CThostFtdcInputOrderField> InputOrderTypePtr;
 	typedef boost::shared_ptr<CThostFtdcOrderField> OrderTypePtr;
 	typedef boost::shared_ptr<CThostFtdcTradeField> TradeTypePtr;
+
+	std::string GenerateExchangeOrderID(InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID);
 	std::string GenerateExchangeOrderID(OrderTypePtr aOrderPtr);
 	std::string GenerateClientOrderID(OrderTypePtr aOrderPtr);
 	std::string GenerateTradeID(TradeTypePtr aTradePtr);

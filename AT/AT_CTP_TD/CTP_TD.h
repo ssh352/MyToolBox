@@ -20,6 +20,16 @@ namespace CTP
 		Ready,
 	};
 
+
+	enum CTP_INPUT_ORDER_FILED
+	{
+		order_name = 0,
+		order_buysell,
+		order_openclose,
+		order_val,
+		order_price,
+	};
+
 	class CTP_TD :public AT::IDriver_TD
 		,public CThostFtdcTraderSpi
 	{
@@ -48,6 +58,7 @@ namespace CTP
 
 	private:
 		void  NotifyState();
+		InputOrderTypePtr BuildExchangeOrder(const std::string& aNewOrder);
 
 	private:
 		CThostFtdcTraderApi*  m_pTraderAPI;

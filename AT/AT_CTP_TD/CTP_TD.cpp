@@ -210,8 +210,7 @@ namespace CTP
 		//TThostFtdcPriceType	StopPrice;  //止损价
 		lRet.ForceCloseReason = THOST_FTDC_FCC_NotForceClose;	//强平原因:非强平	
 		lRet.IsAutoSuspend = 0;  //自动挂起标志:否	
-		lRet.UserForceClose = 0;   //用户强评标志:否
-
+		lRet.UserForceClose = 0;   //用户强评标志:
 		return lRetPtr;
 	}
 

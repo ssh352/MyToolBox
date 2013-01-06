@@ -5,6 +5,7 @@
 #include <vector>
 #include <boost\tokenizer.hpp>
 #include <boost\foreach.hpp>
+#include <sstream>
 namespace CTP
 {
 	CTP_TD::CTP_TD(void)
@@ -232,13 +233,42 @@ namespace CTP
 
 	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
 	{
-		std::string lRet;
+		std::string lExchangOrderID = GenerateExchangeOrderID(apTrade);
+		std::string lThostOrderID = m_DataCache.GetThostOrderIDByExchangeOrderID(lExchangOrderID);
+		std::stringstream lOutbuf;
+		lOutbuf << "RtnTrade" <<'\n'
+			<<"ThostOrderID = " <<lThostOrderID <<'\n'
+			<<"TradeID = "<<apTrade->TradeID <<'\n'
+			<<"InstrumentID = " << apTrade->InstrumentID << '\n'
+			<<"TradeVol = "<<apTrade->Volume<<'\n'
+			<<"Price = "<<apTrade->Price<<'\n'
+			<<"Time = "<<apTrade->TradeTime<<'\n';
+		std::string lRet(lOutbuf.str());
 		return lRet;
 	}
 
 	std::string CTP_TD::BuildRtnOrderStr( boost::shared_ptr<CThostFtdcOrderField> apOrder )
 	{
-		std::string lRet;
+		std::string lExchangOrderID = GenerateExchangeOrderID(apOrder);
+		std::string lThostOrderID = m_DataCache.GetThostOrderIDByExchangeOrderID(lExchangOrderID);
+		std::stringstream lOutbuf;
+		lOutbuf << "RtnOrder" <<'\n'
+			<<"ThostOrderID = " <<lThostOrderID <<'\n'
+			<<"ExchangOrderID = "<<lExchangOrderID <<'\n'
+			<<"InstrumentID = " << apOrder->InstrumentID << '\n'
+			<<"Vol_Orgi = "<<apOrder->VolumeTotalOriginal<<'\n'
+			<<"Vol_Left = "<<apOrder->VolumeTotal<<'\n'
+			<<"Vol_Today_Trade = "<<apOrder->VolumeTraded<<'\n'
+			<<"Price = "<<apOrder->LimitPrice<<'\n'
+			<<"BuySell = "<<apOrder->Direction<<'\n'
+			<<"OpenClose = "<<apOrder->CombOffsetFlag[0]<<'\n'
+			<<"OrderType = " <<apOrder->OrderType<<'\n'
+			<<"TimeCodition = "<<apOrder->TimeCondition<<'\n'
+			<<"OrderStatus = "<<apOrder->OrderStatus<<'\n'
+			<<"OrderSubmitStatus = "<<apOrder->OrderSubmitStatus<<'\n'
+			<<"Time = "<<apOrder->UpdateTime<<'\n'
+			<<"Msg = "<<apOrder->StatusMsg<<'\n';
+		std::string lRet(lOutbuf.str());
 		return lRet;
 	}
 

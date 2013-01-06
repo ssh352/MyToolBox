@@ -37,14 +37,32 @@ namespace CTP
 	{
 		std::string lExchangeOrderID = GenerateExchangeOrderID(apOrder);
 		std::string lThostOrderID  = GenerateThostOrderID(apOrder);
-
-		if(m_ThostOrderID_ExchangOrderID.count(lThostOrderID))
-		{
-			if(m_ThostOrderID_ExchangOrderID[lThostOrderID] != lExchangeOrderID)
-				throw std::logic_error("OrderID Map rechange");
-		}
 		m_ThostOrderID_ExchangOrderID[lThostOrderID] = lExchangeOrderID;
 		m_ExchangOrderID_ThostOrderID[lExchangeOrderID] = lThostOrderID;
+	}
+
+	std::string DataCache_CTP_TD::GetThostOrderIDByExchangeOrderID( const std::string& lExchangeOrderID )
+	{
+		if(m_ExchangOrderID_ThostOrderID.count(lExchangeOrderID))
+		{
+			return m_ExchangOrderID_ThostOrderID[lExchangeOrderID];
+		}
+		else
+		{
+			throw std::logic_error("Can not GetThostOrderIDByExchangeOrderID " + lExchangeOrderID);
+		}
+	}
+
+	std::string DataCache_CTP_TD::GetExchangeOrderIDByThostOrderID( const std::string& lThostOrderID )
+	{
+		if(m_ThostOrderID_ExchangOrderID.count(lThostOrderID))
+		{
+			return m_ThostOrderID_ExchangOrderID[lThostOrderID];
+		}
+		else
+		{
+			throw std::logic_error("Can not GetExchangeOrderIDByThostOrderID  "  + lThostOrderID );
+		}
 	}
 
 

@@ -14,6 +14,9 @@ namespace CTP
 		void UpdataOrder(boost::shared_ptr<CThostFtdcOrderField>  apOrder);
 		void UpdataTrade(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 
+		std::string GetThostOrderIDByExchangeOrderID(const std::string& lExchangeOrderID);
+		std::string GetExchangeOrderIDByThostOrderID(const std::string& lThostOrderID);
+
 	private:
 		void RebuildOrderIDMap();
 		void UpdataOrderIDMap(boost::shared_ptr<CThostFtdcOrderField>  apOrder);

@@ -61,6 +61,7 @@ namespace CTP
 	void CTP_TD::OnFrontConnected()
 	{
 		CThostFtdcReqUserLoginField lLoginReq;
+		memset(&lLoginReq,0,sizeof(CThostFtdcReqUserLoginField));
 		strcpy_s(lLoginReq.BrokerID,11,m_BrokerID.c_str());
 		strcpy_s(lLoginReq.UserID,15,m_UserID.c_str());
 		strcpy_s(lLoginReq.Password,41,m_Password.c_str());

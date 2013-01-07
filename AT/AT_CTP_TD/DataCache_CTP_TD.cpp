@@ -6,6 +6,7 @@ namespace CTP
 	{
 		m_OrderTable.InitWithDB("OrderMapDB");
 		m_TradeTable.InitWithDB("TradeMapDB");
+		m_InputOrderTable.InitWithDB("InputOrderMapDB");
 		RebuildOrderIDMap();
 	}
 
@@ -63,6 +64,16 @@ namespace CTP
 		{
 			throw std::logic_error("Can not GetExchangeOrderIDByThostOrderID  "  + lThostOrderID );
 		}
+	}
+
+	void DataCache_CTP_TD::UpdataInputOrder( InputOrderTypePtr apInputOrder )
+	{
+		m_InputOrderTable.AddOrder(apInputOrder);
+	}
+
+	InputOrderTypePtr DataCache_CTP_TD::FindInputOrderByThostID( const std::string& lThostOrderID )
+	{
+		return	m_InputOrderTable.GetOrder(lThostOrderID);
 	}
 
 

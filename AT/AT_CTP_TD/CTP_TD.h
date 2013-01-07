@@ -19,6 +19,7 @@ namespace CTP
 		LoginFail,
 		ConfirmingSettlement,
 		Ready,
+		Disconnect,
 	};
 
 

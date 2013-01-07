@@ -1,6 +1,7 @@
 #include "CTP_API.h"
 #include <boost\lexical_cast.hpp>
 #include <iostream>
+#include <sstream>
 namespace CTP
 {
 
@@ -49,6 +50,19 @@ namespace CTP
 			std::cerr<<"Error Code="<<pRspInfo->ErrorID << "Error Message = "<<pRspInfo->ErrorMsg <<std::endl;
 		}
 		return ret;
+	}
+
+	std::string ResolveThostOrderID( const std::string& lThostOrderID,int& ar_SessionID, int& ar_FrointID )
+	{
+		std::stringstream lbuf(lThostOrderID);
+		char lplaceholder;
+		lbuf>>ar_SessionID;
+		lbuf >>lplaceholder;
+		lbuf >> ar_FrointID;
+		lbuf >> lplaceholder;
+		std::string lOrderRef;
+		lbuf>> lOrderRef;
+		return lOrderRef;
 	}
 
 }

@@ -66,6 +66,7 @@
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
     <ClCompile Include="CTP_TD.cpp" />
     <ClCompile Include="DataCache_CTP_TD.cpp" />
+    <ClCompile Include="InputOrderTable.cpp" />
     <ClCompile Include="OrderTable_CTP.cpp" />
     <ClCompile Include="TradeTable_CTP.cpp" />
   </ItemGroup>
@@ -77,6 +78,7 @@
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="CTP_TD.h" />
     <ClInclude Include="DataCache_CTP_TD.h" />
+    <ClInclude Include="InputOrderTable.h" />
     <ClInclude Include="OrderTable_CTP.h" />
     <ClInclude Include="TradeTable_CTP.h" />
   </ItemGroup>

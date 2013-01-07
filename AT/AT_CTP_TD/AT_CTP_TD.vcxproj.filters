@@ -22,6 +22,9 @@
     <ClCompile Include="TradeTable_CTP.cpp">
       <Filter>TD_DataCache</Filter>
     </ClCompile>
+    <ClCompile Include="InputOrderTable.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h">
@@ -47,6 +50,9 @@
       <Filter>TD_DataCache</Filter>
     </ClInclude>
     <ClInclude Include="TradeTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="InputOrderTable.h">
       <Filter>TD_DataCache</Filter>
     </ClInclude>
   </ItemGroup>

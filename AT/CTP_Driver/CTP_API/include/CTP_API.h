@@ -31,6 +31,7 @@ namespace CTP
 	std::string GenerateClientOrderID(OrderTypePtr aOrderPtr);
 	std::string GenerateTradeID(TradeTypePtr aTradePtr);
 	bool IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo);
+	std::string ResolveThostOrderID(const std::string& lThostOrderID,int& ar_SessionID, int& ar_FrointID);
 }
 
 

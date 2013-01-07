@@ -134,6 +134,10 @@ namespace CTP
 	{
 		InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
 		int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
+
+		CThostFtdcInputOrderFieldTraits::SetFrontID(m_FrontID);
+		CThostFtdcInputOrderFieldTraits::SetSessionID(m_SessionID);
+		m_DataCache.UpdataInputOrder(lExchangeOrder);
 		if(ret!=0)
 		{
 			 std::cerr<<"CreateOrder Send Failed"<<std::endl;
@@ -148,7 +152,24 @@ namespace CTP
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
 	{
+		InputOrderTypePtr lExchangOrderPtr = m_DataCache. FindInputOrderByThostID(aClientOrderID);
 
+		int lFrontID ;
+		int lSessionID;
+		std::string lOrderRef = ResolveThostOrderID(aClientOrderID,lSessionID,lFrontID);
+
+		CThostFtdcInputOrderActionField  lOrderAction ;
+		memset(&lOrderAction,0,sizeof(lOrderAction));
+		lOrderAction.ActionFlag =THOST_FTDC_AF_Delete;
+		strcpy(lOrderAction.BrokerID, lExchangOrderPtr->BrokerID);
+		lOrderAction.FrontID =lFrontID;
+		lOrderAction.SessionID = lSessionID;
+		strcpy(lOrderAction.InstrumentID,lExchangOrderPtr->InstrumentID);
+		strcpy(lOrderAction.InvestorID ,lExchangOrderPtr->InvestorID);
+		lOrderAction.LimitPrice = lExchangOrderPtr->LimitPrice;
+		strcpy(lOrderAction.OrderRef,lExchangOrderPtr->OrderRef);
+		strcpy(lOrderAction.UserID,lExchangOrderPtr->UserID);
+		m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
 	}
 
 	void CTP_TD::ModifyOrder( const std::string& aRequest )
@@ -163,7 +184,8 @@ namespace CTP
 
 	void CTP_TD::OnFrontDisconnected( int nReason )
 	{
-
+		m_RuningState = Disconnect;
+		NotifyState();
 	}
 
 	InputOrderTypePtr CTP_TD::BuildExchangeOrder( const std::string& aNewOrder )

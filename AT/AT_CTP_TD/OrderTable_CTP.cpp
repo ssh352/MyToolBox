@@ -9,7 +9,7 @@ namespace CTP
 		AddItem(apOrder);
 	}
 
-	CTP::Order_Ptr OrderTable_CTP::GetOrder( const std::string& aThostOrderID )
+	Order_Ptr OrderTable_CTP::GetOrder( const std::string& aThostOrderID )
 	{
 		return GetItem(aThostOrderID);
 	}

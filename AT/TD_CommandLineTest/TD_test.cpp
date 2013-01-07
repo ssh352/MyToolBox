@@ -12,7 +12,7 @@ std::string  CreateNewOrder(CTP::CTP_TD& lTDInst)
 	std::cin.getline(lNewOrder,500,'\n');
 	
 	std::string lRet =  lTDInst.CreateOrder(lNewOrder);
-	std::cerr<<"建立新单 单号= "<<lRet <<std::endl;
+	std::cerr<<"New order ID= "<<lRet <<std::endl;
 	return lRet;
 }
 
@@ -22,14 +22,17 @@ int main()
 	std::map<std::string,std::string> lConfigMap;
 
 
-	 lConfigMap["BrokerID"] ="2030" ;
-	 lConfigMap["UserID"] = "000000005510";
-	 lConfigMap["Password"]= "228636";
+	//lConfigMap["BrokerID"] ="2030" ;
+	//lConfigMap["UserID"] = "000000005510";
+	//lConfigMap["Password"]= "228636";
+	//lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205"
+
+	lConfigMap["BrokerID"] ="7030" ;
+	lConfigMap["UserID"] = "000516";
+	lConfigMap["Password"]= "000516";
+	lConfigMap["Front"] = "tcp://221.232.155.116:41205";
 	PrintTDSpi lSpiInst;
 	linst.Init(lConfigMap,&lSpiInst);
-
-	//boost::this_thread::sleep(boost::posix_time::seconds(5));
-	//linst.CreateOrder("IF1301 buy open 1 2550");
 
 	const int  CreateNewOrder_CMD= 1;
 	const int 	DeleteOrder_CMD = 2;

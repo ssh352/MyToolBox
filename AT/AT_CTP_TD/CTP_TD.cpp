@@ -42,7 +42,7 @@ namespace CTP
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);
-		char lAddress[512] ;
+		char lAddress[512] = {0};
 		strcpy_s(lAddress,512,m_ConfigMap["Front"].c_str());
 		m_pTraderAPI->RegisterFront(lAddress);
 		m_pTraderAPI->Init();

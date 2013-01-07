@@ -30,6 +30,7 @@ int main()
 	std::string  lFront;
 	configFile>>lBorkerid>>lUserID>>lPassWord>>lFront;
 	configFile.close();
+	configFile.clear();
 	//lConfigMap["BrokerID"] ="2030" ;
 	//lConfigMap["UserID"] = "000000005510";
 	//lConfigMap["Password"]= "228636";

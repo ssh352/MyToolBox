@@ -169,7 +169,8 @@ namespace CTP
 		lOrderAction.LimitPrice = lExchangOrderPtr->LimitPrice;
 		strcpy(lOrderAction.OrderRef,lExchangOrderPtr->OrderRef);
 		strcpy(lOrderAction.UserID,lExchangOrderPtr->UserID);
-		m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
+		int ret = m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
+		if(ret != 0)  std::cerr<<"DeleteOrder Send Failed"<<std::endl;
 	}
 
 	void CTP_TD::ModifyOrder( const std::string& aRequest )

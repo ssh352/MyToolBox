@@ -6,6 +6,8 @@
 #include <boost\tokenizer.hpp>
 #include <boost\foreach.hpp>
 #include <sstream>
+
+char g_Address[512] ;
 namespace CTP
 {
 	CTP_TD::CTP_TD(void)
@@ -42,13 +44,18 @@ namespace CTP
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);
-		char lAddress[512] = {0};
-		strcpy_s(lAddress,512,m_ConfigMap["Front"].c_str());
-		m_pTraderAPI->RegisterFront(lAddress);
-		m_pTraderAPI->Init();
 
+		memset(g_Address,0,512);
+		strcpy_s(g_Address,512,m_ConfigMap["Front"].c_str());
+
+		std::cerr<<"BrokerID "<< m_BrokerID<<'\n'
+			<<"UserID "<< m_UserID<<'\n'
+			<<"Password "<< m_Password<<'\n'
+			<<"Front "<< g_Address<<'\n'<<std::endl;
+		m_pTraderAPI->RegisterFront(g_Address);
+		m_pTraderAPI->Init();
 		m_RuningState = Connecting;
-		 NotifyState();
+		NotifyState();
 	}
 
 	void CTP_TD::OnFrontConnected()

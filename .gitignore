@@ -38,3 +38,4 @@ ipch
 /AT/sln/MD_PrintTest/*MarkeDepthDB
 /AT/sln/MD_PrintTest/InstrumentMapDB
 /AT/sln/MD_PrintTest/ExchangeMapDB
+/AT/TD_CommandLineTest/config.ini

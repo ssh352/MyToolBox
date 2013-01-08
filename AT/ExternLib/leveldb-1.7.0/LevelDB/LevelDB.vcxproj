@@ -56,6 +56,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>LEVELDB_PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../include/;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,13 +124,11 @@
     <ClCompile Include="..\db\builder.cc" />
     <ClCompile Include="..\db\c.cc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\db\corruption_test.cc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\db\c_test.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\db\dbformat.cc" />
     <ClCompile Include="..\db\dbformat_test.cc">
@@ -140,18 +140,12 @@
     </ClCompile>
     <ClCompile Include="..\db\db_impl.cc" />
     <ClCompile Include="..\db\db_iter.cc" />
-    <ClCompile Include="..\db\db_test.cc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\db\filename.cc" />
     <ClCompile Include="..\db\filename_test.cc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\db\log_reader.cc" />
-    <ClCompile Include="..\db\log_test.cc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\db\log_writer.cc" />
     <ClCompile Include="..\db\memtable.cc" />
     <ClCompile Include="..\db\repair.cc" />
@@ -174,9 +168,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\port\port_posix.cc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\port\port_win32.cc" />
     <ClCompile Include="..\table\block.cc" />
     <ClCompile Include="..\table\block_builder.cc" />
@@ -190,9 +181,6 @@
     <ClCompile Include="..\table\merger.cc" />
     <ClCompile Include="..\table\table.cc" />
     <ClCompile Include="..\table\table_builder.cc" />
-    <ClCompile Include="..\table\table_test.cc">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\table\two_level_iterator.cc" />
     <ClCompile Include="..\util\arena.cc" />
     <ClCompile Include="..\util\arena_test.cc">

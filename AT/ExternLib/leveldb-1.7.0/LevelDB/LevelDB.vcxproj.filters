@@ -176,9 +176,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\port\port_posix.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\table\block.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -204,9 +201,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\table\table_builder.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\table\table_test.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\table\two_level_iterator.cc">
@@ -284,9 +278,6 @@
     <ClCompile Include="..\db\c.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\db\c_test.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\db\corruption_test.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -297,9 +288,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\db\db_iter.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\db\db_test.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\db\dbformat.cc">
@@ -315,9 +303,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\db\log_reader.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\db\log_test.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\db\log_writer.cc">

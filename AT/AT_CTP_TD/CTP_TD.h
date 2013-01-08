@@ -23,6 +23,9 @@ namespace CTP
 
 		Cancel_Failed,
 		CreateOrder_Failed,
+		QryPosition_Failed,
+		QryAccout_Failed,
+		QryAccout_Succeed,
 	};
 
 
@@ -61,8 +64,15 @@ namespace CTP
 
 		///报单通知
 		virtual void OnRtnOrder(CThostFtdcOrderField *pOrder);
+		
 		///成交通知
 		virtual void OnRtnTrade(CThostFtdcTradeField *pTrade);
+		
+		//资金更新
+		virtual void OnRspQryTradingAccount(CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+		
+		//仓位更新
+		virtual void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
 		//删单失败？
 		virtual void OnRspOrderAction(CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
@@ -77,6 +87,8 @@ namespace CTP
 		InputOrderTypePtr BuildExchangeOrder(const std::string& aNewOrder);
 		std::string BuildRtnTradeStr(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 		std::string BuildRtnOrderStr(boost::shared_ptr<CThostFtdcOrderField> apOrder);
+		std::string BuildRtnAccoutStr(boost::shared_ptr<CThostFtdcTradingAccountField> apAccout);
+		void UpdateAccout();
 
 
 	private:
@@ -94,6 +106,8 @@ namespace CTP
 		int				m_SessionID;
 		unsigned int				m_MaxOrderRef;
 		DataCache_CTP_TD	m_DataCache;
+
+		bool				m_IsInQryPosition;
 
 	};
 }

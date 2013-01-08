@@ -13,6 +13,7 @@ namespace CTP
 	CTP_TD::CTP_TD(void)
 		: m_RequestID(0)
 		, m_RuningState(UnInit)
+		, m_IsInQryPosition(false)
 	{
 	}
 
@@ -180,7 +181,16 @@ namespace CTP
 
 	void CTP_TD::QueryPosition( const std::string& aRequest )
 	{
-
+		//no need for anyinfo just queryposition
+		{
+			CThostFtdcQryInvestorPositionField req;
+			memset(&req, 0, sizeof(req));
+			strcpy(req.BrokerID, m_BrokerID.c_str());
+			strcpy(req.InvestorID, m_UserID.c_str());
+			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
+			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
+			m_IsInQryPosition = true;
+		}
 	}
 
 	void CTP_TD::OnFrontDisconnected( int nReason )
@@ -329,6 +339,81 @@ namespace CTP
 			lbuf<<"Create Order Failed ThostOrderID "<< lThostOrderID;
 			m_pTradeSpi->OnRtnState(CreateOrder_Failed,lbuf.str());
 		}
+	}
+
+	void CTP_TD::UpdateAccout()
+	{
+		CThostFtdcQryTradingAccountField req;
+		memset(&req, 0, sizeof(req));
+		strcpy(req.BrokerID, m_BrokerID.c_str());
+		strcpy(req.InvestorID, m_UserID.c_str());
+		int ret = m_pTraderAPI->ReqQryTradingAccount(&req, ++m_RequestID);
+		if(ret != 0)  std::cerr<<"QryTradingAccount Send Failed"<<std::endl;
+	}
+
+	void CTP_TD::OnRspQryInvestorPosition( CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
+			m_IsInQryPosition = false; 
+		}
+
+		boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
+		memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
+		m_DataCache.UpdatePosition(lpPos);
+
+		if(bIsLast)
+		{
+			m_IsInQryPosition = false; 
+			std::string lPosRspStr = m_DataCache.GeneratorPositionString();
+			m_pTradeSpi->OnRtnPosition(lPosRspStr);
+		}
+	}
+
+	void CTP_TD::OnRspQryTradingAccount( CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			m_pTradeSpi->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
+		}
+		boost::shared_ptr<CThostFtdcTradingAccountField> lpTradingAccout(new CThostFtdcTradingAccountField);
+		memcpy(lpTradingAccout.get(),pTradingAccount,sizeof(CThostFtdcTradingAccountField));
+		m_pTradeSpi->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
+	}
+
+	std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )
+	{
+		std::stringstream lbuf;
+
+		/////
+		//TThostFtdcAccountIDType	AccountID;
+		/////冻结的保证金
+		//TThostFtdcMoneyType	FrozenMargin;
+		/////冻结的资金
+		//TThostFtdcMoneyType	FrozenCash;
+		/////当前保证金总额
+		//TThostFtdcMoneyType	CurrMargin;
+
+		/////平仓盈亏
+		//TThostFtdcMoneyType	CloseProfit;
+		/////持仓盈亏
+		//TThostFtdcMoneyType	PositionProfit;
+		/////期货结算准备金
+		//TThostFtdcMoneyType	Balance;
+		/////可用资金
+		//TThostFtdcMoneyType	Available;
+
+		lbuf<< "AccountID = "<<apAccout->AccountID<<'\n'
+			<<"FrozenMargin = "<<apAccout->FrozenMargin<<'\n'
+			<<"FrozenCash = "<<apAccout->FrozenCash<<'\n'
+			<<"CurrMargin = "<<apAccout->CurrMargin<<'\n'
+			<<"CloseProfit = "<<apAccout->CloseProfit<<'\n'
+			<<"PositionProfit = "<<apAccout->PositionProfit<<'\n'
+			<<"Balance = "<<apAccout->Balance<<'\n'
+			<<"Available = "<<apAccout->Available<<'\n';
+		std::string lRet =lbuf.str();
+		return lRet;
 	}
 
 }

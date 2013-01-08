@@ -76,6 +76,16 @@ namespace CTP
 		return	m_InputOrderTable.GetOrder(lThostOrderID);
 	}
 
+	void DataCache_CTP_TD::UpdatePosition( boost::shared_ptr<CThostFtdcInvestorPositionField> apPosition )
+	{
+
+	}
+
+	std::string DataCache_CTP_TD::GeneratorPositionString()
+	{
+
+	}
+
 
 }
 

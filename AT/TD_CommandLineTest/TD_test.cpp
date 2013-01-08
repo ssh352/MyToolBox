@@ -6,15 +6,28 @@
 #include <iostream>
 #include <fstream>
 
+std::string GetCmd()
+{
+	char lCmd[512] ;
+	memset(lCmd,0,512);
+	std::cin.getline(lCmd,500,'\n');
+	std::string lRet(lCmd);
+	return lRet;
+}
+
 std::string  CreateNewOrder(CTP::CTP_TD& lTDInst)
 {
-	char lNewOrder[512] ;
-	memset(lNewOrder,0,512);
-	std::cin.getline(lNewOrder,500,'\n');
-	
+
+	std::string lNewOrder = GetCmd();
 	std::string lRet =  lTDInst.CreateOrder(lNewOrder);
 	std::cerr<<"New order ID= "<<lRet <<std::endl;
 	return lRet;
+}
+
+void DelOrder(CTP::CTP_TD& lTDInst)
+{
+	std::string lDelOrder = GetCmd();
+	lTDInst.DeleteOrder(lDelOrder);
 }
 
 int main()
@@ -60,6 +73,9 @@ int main()
 		{
 		case CreateNewOrder_CMD:
 		CreateNewOrder(linst);
+		break;
+		case DeleteOrder_CMD:
+		DelOrder(linst);
 		break;
 		}
 

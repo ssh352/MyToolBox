@@ -69,6 +69,7 @@
     <ClCompile Include="DataCache_CTP_TD.cpp" />
     <ClCompile Include="InputOrderTable.cpp" />
     <ClCompile Include="OrderTable_CTP.cpp" />
+    <ClCompile Include="PositionTable_CTP.cpp" />
     <ClCompile Include="TradeTable_CTP.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,7 @@
     <ClInclude Include="DataCache_CTP_TD.h" />
     <ClInclude Include="InputOrderTable.h" />
     <ClInclude Include="OrderTable_CTP.h" />
+    <ClInclude Include="PositionTable_CTP.h" />
     <ClInclude Include="TradeTable_CTP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

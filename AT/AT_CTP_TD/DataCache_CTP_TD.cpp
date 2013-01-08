@@ -83,7 +83,8 @@ namespace CTP
 
 	std::string DataCache_CTP_TD::GeneratorPositionString()
 	{
-
+		std::string lRet;
+		return lRet;
 	}
 
 

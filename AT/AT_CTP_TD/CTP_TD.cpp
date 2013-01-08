@@ -305,4 +305,30 @@ namespace CTP
 		return lRet;
 	}
 
+	void CTP_TD::OnRspOrderAction( CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			boost::shared_ptr<CThostFtdcInputOrderActionField> lpRet(new CThostFtdcInputOrderActionField );
+			memcpy(lpRet.get(),pInputOrderAction,sizeof(CThostFtdcInputOrderActionField));
+			std::string lThostOrderID = GenerateThostOrderID(lpRet);
+			std::stringstream lbuf;
+			lbuf<<"Cancel Order Failed ThostOrderID "<< lThostOrderID;
+			m_pTradeSpi->OnRtnState(Cancel_Failed,lbuf.str());
+		}
+	}
+
+	void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
+			memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
+			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
+			std::stringstream lbuf;
+			lbuf<<"Create Order Failed ThostOrderID "<< lThostOrderID;
+			m_pTradeSpi->OnRtnState(CreateOrder_Failed,lbuf.str());
+		}
+	}
+
 }

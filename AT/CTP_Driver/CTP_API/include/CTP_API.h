@@ -10,7 +10,7 @@
 
 #include <string>
 #include <boost\shared_ptr.hpp>
-
+#include <boost\lexical_cast.hpp>
 
 namespace CTP
 {
@@ -19,7 +19,19 @@ namespace CTP
 	typedef boost::shared_ptr<CThostFtdcTradeField> TradeTypePtr;
 
 	std::string GenerateThostOrderID(InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID);
-	std::string GenerateThostOrderID(OrderTypePtr aOrderPtr);
+
+	template<typename TorderPtr>
+	std::string GenerateThostOrderID( TorderPtr aOrderPtr )
+	{
+		std::string lRet;
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->SessionID);
+		lRet += '_';
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->FrontID);
+		lRet += '_';
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
+		return lRet;
+	}
+
 	template<typename Order_TradeTypePtr>
 	std::string GenerateExchangeOrderID(Order_TradeTypePtr aOrderPtr)
 	{

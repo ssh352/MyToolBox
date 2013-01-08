@@ -4,18 +4,6 @@
 #include <sstream>
 namespace CTP
 {
-
-	std::string GenerateThostOrderID( OrderTypePtr aOrderPtr )
-	{
-		std::string lRet;
-		lRet += boost::lexical_cast<std::string>(aOrderPtr->SessionID);
-		lRet += '_';
-		lRet += boost::lexical_cast<std::string>(aOrderPtr->FrontID);
-		lRet += '_';
-		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
-		return lRet;
-	}
-
 	std::string GenerateThostOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
 	{
 		std::string lRet;
@@ -26,6 +14,8 @@ namespace CTP
 		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
 		return lRet;
 	}
+
+
 
 	std::string GenerateClientOrderID( OrderTypePtr aOrderPtr )
 	{

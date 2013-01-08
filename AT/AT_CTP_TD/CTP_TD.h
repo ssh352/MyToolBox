@@ -20,6 +20,9 @@ namespace CTP
 		ConfirmingSettlement,
 		Ready,
 		Disconnect,
+
+		Cancel_Failed,
+		CreateOrder_Failed,
 	};
 
 
@@ -60,6 +63,11 @@ namespace CTP
 		virtual void OnRtnOrder(CThostFtdcOrderField *pOrder);
 		///成交通知
 		virtual void OnRtnTrade(CThostFtdcTradeField *pTrade);
+
+		//删单失败？
+		virtual void OnRspOrderAction(CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+		//下单失败
+		virtual void OnRspOrderInsert(CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
 
 

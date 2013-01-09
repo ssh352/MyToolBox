@@ -190,6 +190,7 @@ namespace CTP
 			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
 			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
 			m_IsInQryPosition = true;
+			m_DataCache.ClearPosition();
 		}
 	}
 

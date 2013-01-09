@@ -7,6 +7,7 @@ namespace CTP
 		m_OrderTable.InitWithDB("OrderMapDB");
 		m_TradeTable.InitWithDB("TradeMapDB");
 		m_InputOrderTable.InitWithDB("InputOrderMapDB");
+		m_PositionTable.InitWithDB("PositionMapDB");
 		RebuildOrderIDMap();
 	}
 
@@ -76,9 +77,14 @@ namespace CTP
 		return	m_InputOrderTable.GetOrder(lThostOrderID);
 	}
 
+	void DataCache_CTP_TD::ClearPosition()
+	{
+		m_PositionTable.ClearPosition();
+	}
+
 	void DataCache_CTP_TD::UpdatePosition( boost::shared_ptr<CThostFtdcInvestorPositionField> apPosition )
 	{
-
+		m_PositionTable.AddPostion(apPosition);
 	}
 
 	std::string DataCache_CTP_TD::GeneratorPositionString()
@@ -86,6 +92,8 @@ namespace CTP
 		std::string lRet;
 		return lRet;
 	}
+
+
 
 
 }

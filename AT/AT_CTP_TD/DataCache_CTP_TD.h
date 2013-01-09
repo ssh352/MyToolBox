@@ -4,6 +4,7 @@
 #include "OrderTable_CTP.h"
 #include "TradeTable_CTP.h"
 #include "InputOrderTable.h"
+#include "PositionTable_CTP.h"
 namespace CTP
 {
 	class DataCache_CTP_TD
@@ -16,6 +17,7 @@ namespace CTP
 		void UpdataTrade(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 		void UpdataInputOrder(InputOrderTypePtr apInputOrder);
 
+		void ClearPosition();
 		void UpdatePosition(boost::shared_ptr<CThostFtdcInvestorPositionField> apPosition);
 		std::string GeneratorPositionString();
 
@@ -31,6 +33,7 @@ namespace CTP
 		OrderTable_CTP		m_OrderTable;
 		TradeTable_CTP		m_TradeTable;
 		InputOrderTable_CTP	m_InputOrderTable;
+		PositionTable_CTP	m_PositionTable;
 	};
 }
 

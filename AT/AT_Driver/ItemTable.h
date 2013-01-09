@@ -48,6 +48,7 @@ public:
 		delete liter;
 	}
 
+protected:
 	void AddItem(ItemPtr apItem)
 	{
 		std::string lItemID =  ItemTraits::GetItemID(apItem);
@@ -91,8 +92,26 @@ public:
 		}
 		else
 		{
+			
 			return ItemPtr();
 		}
+	}
+
+	void DelItem(const std::string& aItemID )
+	{
+		if(m_ItemMap.count(aItemID))
+		{
+			m_ItemMap.erase(aItemID);
+		}
+		else
+		{
+			throw(std::logic_error("delete  Item error"));
+		}
+	}
+
+	void Clear()
+	{
+		m_ItemMap.clear();
 	}
 
 	//now it has the same interface with STL contain and can work with boost_for_each direct

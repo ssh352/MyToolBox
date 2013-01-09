@@ -11,9 +11,12 @@ namespace CTP
 	class CThostFtdcInvestorPositionFieldTraits
 	{
 	public:
-		static std::string GetItemID(Postion_Ptr apTrade)
+		static std::string GetItemID(Postion_Ptr apPosition)
 		{
 			std::string lRet;
+			lRet += apPosition->InstrumentID;
+			lRet += "_";
+			lRet += apPosition->PosiDirection;
 			return lRet;
 		}
 		static std::string GetItemTypeName(){return "CThostFtdcInvestorPositionField";};
@@ -24,8 +27,9 @@ namespace CTP
 	class PositionTable_CTP :public ItemTable<CThostFtdcInvestorPositionField,CThostFtdcInvestorPositionFieldTraits>
 	{
 	public:
-		//void AddTrade(Trade_Ptr apOrder );
-		//Trade_Ptr GetTrade(const std::string& aTradeID);
+		void AddPostion(Postion_Ptr apPosition );
+		Postion_Ptr GetPostion(const std::string& aPositionID);
+		void ClearPosition();
 	};
 }
 

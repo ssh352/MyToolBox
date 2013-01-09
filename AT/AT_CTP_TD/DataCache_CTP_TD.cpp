@@ -33,6 +33,7 @@ namespace CTP
 	void DataCache_CTP_TD::UpdataTrade( boost::shared_ptr<CThostFtdcTradeField> apTrade )
 	{
 		m_TradeTable.AddTrade(apTrade);
+		UpdatePositionWithTrade(apTrade);
 	}
 
 	void DataCache_CTP_TD::UpdataOrderIDMap( boost::shared_ptr<CThostFtdcOrderField> apOrder )
@@ -90,11 +91,77 @@ namespace CTP
 	std::string DataCache_CTP_TD::GeneratorPositionString()
 	{
 		std::string lRet;
+
 		return lRet;
 	}
 
+	std::string DataCache_CTP_TD::GetPositionID( boost::shared_ptr<CThostFtdcTradeField> apTrade )
+	{
+		char lPositionDir;
+		if(apTrade ->Direction == THOST_FTDC_D_Buy)
+		{
+			lPositionDir = THOST_FTDC_PD_Long;
+		}
+		else
+		{
+			lPositionDir = THOST_FTDC_PD_Short;
+		}
+		std::string lRet;
+		lRet += apTrade->InstrumentID;
+		lRet += "_";
+		lRet += lPositionDir;
+		return lRet;
+	}
+
+	void DataCache_CTP_TD::UpdatePositionWithTrade( boost::shared_ptr<CThostFtdcTradeField> apTrade )
+	{
+		std::string  lPositionID  = GetPositionID(apTrade);
+		int			 lPosChange = apTrade->Volume;
+		Postion_Ptr lAlreadyPostion = m_PositionTable.GetPostion(lPositionID);
+		if(!lAlreadyPostion)
+		{
+			lAlreadyPostion.reset(new CThostFtdcInvestorPositionField);
+			memset(lAlreadyPostion.get(),0,sizeof(CThostFtdcInvestorPositionField));
+			memcpy(lAlreadyPostion->InstrumentID,apTrade->InstrumentID,31);
+			char lPositionDir;
+			if(apTrade ->Direction == THOST_FTDC_D_Buy)
+			{
+				lPositionDir = THOST_FTDC_PD_Long;
+			}
+			else
+			{
+				lPositionDir = THOST_FTDC_PD_Short;
+			}
+			lAlreadyPostion->PosiDirection = lPositionDir;
+			m_PositionTable.AddPostion(lAlreadyPostion);
+		}
 
 
+
+		switch(apTrade->OffsetFlag)
+		{
+		case THOST_FTDC_OF_Open:
+			lAlreadyPostion->Position += lPosChange;
+			break;
+		case THOST_FTDC_OF_Close:
+		case THOST_FTDC_OF_ForceClose:
+		case THOST_FTDC_OF_ForceOff:
+		case THOST_FTDC_OF_LocalForceClose:
+			{
+				//todo clean when release
+				assert(false);
+				throw std::logic_error("Check Handle how to do");
+			}
+			break;
+		case THOST_FTDC_OF_CloseToday:
+			lAlreadyPostion->Position -= lPosChange;
+			break;
+		case THOST_FTDC_OF_CloseYesterday:
+			lAlreadyPostion->YdPosition -= lPosChange;
+			break;
+		}
+		
+	}
 
 }
 

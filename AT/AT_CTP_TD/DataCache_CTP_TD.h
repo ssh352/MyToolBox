@@ -26,6 +26,8 @@ namespace CTP
 
 		InputOrderTypePtr FindInputOrderByThostID(const std::string& lThostOrderID);
 	private:
+		std::string GetPositionID(boost::shared_ptr<CThostFtdcTradeField> apTrade);
+		void UpdatePositionWithTrade(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 		void RebuildOrderIDMap();
 		void UpdataOrderIDMap(boost::shared_ptr<CThostFtdcOrderField>  apOrder);
 		std::map<std::string,std::string> m_ThostOrderID_ExchangOrderID;

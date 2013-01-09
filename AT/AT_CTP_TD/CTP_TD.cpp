@@ -105,6 +105,7 @@ namespace CTP
 		}
 		else
 		{
+			QueryPosition("");
 			if(apSettlementInfoConfirm!= NULL)
 			{
 				m_RuningState = Ready;
@@ -360,16 +361,20 @@ namespace CTP
 			m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
 			m_IsInQryPosition = false; 
 		}
+		if(NULL!=pInvestorPosition)
+		{
+			boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
+			memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
+			m_DataCache.UpdatePosition(lpPos);
+		}
 
-		boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
-		memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
-		m_DataCache.UpdatePosition(lpPos);
 
 		if(bIsLast)
 		{
 			m_IsInQryPosition = false; 
 			std::string lPosRspStr = m_DataCache.GeneratorPositionString();
 			m_pTradeSpi->OnRtnPosition(lPosRspStr);
+			UpdateAccout();
 		}
 	}
 
@@ -387,25 +392,6 @@ namespace CTP
 	std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )
 	{
 		std::stringstream lbuf;
-
-		/////
-		//TThostFtdcAccountIDType	AccountID;
-		/////冻结的保证金
-		//TThostFtdcMoneyType	FrozenMargin;
-		/////冻结的资金
-		//TThostFtdcMoneyType	FrozenCash;
-		/////当前保证金总额
-		//TThostFtdcMoneyType	CurrMargin;
-
-		/////平仓盈亏
-		//TThostFtdcMoneyType	CloseProfit;
-		/////持仓盈亏
-		//TThostFtdcMoneyType	PositionProfit;
-		/////期货结算准备金
-		//TThostFtdcMoneyType	Balance;
-		/////可用资金
-		//TThostFtdcMoneyType	Available;
-
 		lbuf<< "AccountID = "<<apAccout->AccountID<<'\n'
 			<<"FrozenMargin = "<<apAccout->FrozenMargin<<'\n'
 			<<"FrozenCash = "<<apAccout->FrozenCash<<'\n'

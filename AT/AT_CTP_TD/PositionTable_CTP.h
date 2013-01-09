@@ -28,7 +28,9 @@ namespace CTP
 	{
 	public:
 		void AddPostion(Postion_Ptr apPosition );
-		Postion_Ptr GetPostion(const std::string& aPositionID);
+		Postion_Ptr GetPosition(const std::string& aPositionID);
+		void DelPosition(const std::string& aPositionID);
+		void DelPosition(Postion_Ptr apPosition);
 		void ClearPosition();
 	};
 }

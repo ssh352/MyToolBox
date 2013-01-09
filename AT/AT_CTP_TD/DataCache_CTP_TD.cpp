@@ -91,7 +91,10 @@ namespace CTP
 	std::string DataCache_CTP_TD::GeneratorPositionString()
 	{
 		std::string lRet;
-
+		BOOST_FOREACH(auto lPair,m_PositionTable)
+		{
+			//lPair.second
+		}
 		return lRet;
 	}
 
@@ -117,7 +120,7 @@ namespace CTP
 	{
 		std::string  lPositionID  = GetPositionID(apTrade);
 		int			 lPosChange = apTrade->Volume;
-		Postion_Ptr lAlreadyPostion = m_PositionTable.GetPostion(lPositionID);
+		Postion_Ptr lAlreadyPostion = m_PositionTable.GetPosition(lPositionID);
 		if(!lAlreadyPostion)
 		{
 			lAlreadyPostion.reset(new CThostFtdcInvestorPositionField);
@@ -160,8 +163,11 @@ namespace CTP
 			lAlreadyPostion->YdPosition -= lPosChange;
 			break;
 		}
+		if(lAlreadyPostion->YdPosition == 0 && lAlreadyPostion->Position == 0)
+		{
+			m_PositionTable.DelPosition(lAlreadyPostion);
+		}
 		
 	}
-
 }
 

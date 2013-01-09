@@ -273,6 +273,7 @@ namespace CTP
 		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
 		m_DataCache.UpdataTrade(lpTrade);
 		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
+		m_pTradeSpi->OnRtnState(Position_Change,m_DataCache.GeneratorPositionString());
 	}
 
 	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )

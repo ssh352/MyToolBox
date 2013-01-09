@@ -26,6 +26,7 @@ namespace CTP
 		QryPosition_Failed,
 		QryAccout_Failed,
 		QryAccout_Succeed,
+		Position_Change,
 	};
 
 

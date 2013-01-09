@@ -90,11 +90,14 @@ namespace CTP
 
 	std::string DataCache_CTP_TD::GeneratorPositionString()
 	{
-		std::string lRet;
+		std::stringstream lbuf;
+		lbuf<<"All Position Start"<<'\n';
 		BOOST_FOREACH(auto lPair,m_PositionTable)
 		{
-			//lPair.second
+			lbuf << "==================\n"<< GeneratorOnePositionString(lPair.second);
 		}
+		lbuf<<"All Position End"<<'\n';
+		std::string lRet(lbuf.str());
 		return lRet;
 	}
 
@@ -169,5 +172,19 @@ namespace CTP
 		}
 		
 	}
+
+	std::string DataCache_CTP_TD::GeneratorOnePositionString( boost::shared_ptr<CThostFtdcInvestorPositionField> apPosition )
+	{
+		std::stringstream lbuf;
+		lbuf<< "one Position Start"<<'\n';
+		lbuf<< "InstrumentID = "<<apPosition->InstrumentID<<'\n';
+		lbuf<< "PosiDirection = "<<apPosition->PosiDirection<<" 123 = net long short"<<'\n';
+		lbuf<< "YdPosition = "<<apPosition->YdPosition<<'\n';
+		lbuf<< "Position = "<<apPosition->Position<<'\n';
+		lbuf<< "one Position End"<<'\n';
+		std::string lRet(lbuf.str());
+		return lRet;
+	}
+
 }
 

@@ -5,10 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="GMock">
       <UniqueIdentifier>{c32c1670-a889-4bba-9705-094436e8f0cd}</UniqueIdentifier>
     </Filter>
@@ -23,9 +19,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="googleMock\gmock-gtest-all.cc">
       <Filter>GMock</Filter>
     </ClCompile>
@@ -37,6 +30,9 @@
     </ClCompile>
     <ClCompile Include="learn_temp.cpp">
       <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>msic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

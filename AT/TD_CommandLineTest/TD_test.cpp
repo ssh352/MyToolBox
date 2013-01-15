@@ -30,6 +30,8 @@ void DelOrder(CTP::CTP_TD& lTDInst)
 	lTDInst.DeleteOrder(lDelOrder);
 }
 
+
+
 int main()
 {
 	CTP::CTP_TD linst;
@@ -77,6 +79,11 @@ int main()
 		case DeleteOrder_CMD:
 		DelOrder(linst);
 		break;
+		case ModifyOrder_CMD:
+			break;
+		case QueryPos_CMD:
+			linst.QueryPosition("");
+			break;
 		}
 
 		boost::this_thread::sleep(boost::posix_time::millisec(1000));

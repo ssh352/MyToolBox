@@ -143,7 +143,7 @@ void print(const boost::system::error_code& , boost::shared_ptr< boost::asio::de
 
 
 
-TEST_F(asioTestFix,timer2)
+TEST_F(asioTestFix,DISABLED_timer2)
 {
 	m_ThreadCount = 1;
 	InitThreadPool();
@@ -156,7 +156,7 @@ void print(const boost::system::error_code& /*e*/,
 	boost::asio::deadline_timer* t, int* count)
 {
 	
-	if (*count < 2)
+	if (*count < 5)
 	{
 		//boost::mutex::scoped_lock lock(g_STDIOlock);
 		std::cout<<"Call Thread "<<boost::this_thread::get_id();
@@ -174,9 +174,9 @@ void print(const boost::system::error_code& /*e*/,
 	}
 }
 
-TEST_F(asioTestFix,timer3)
+TEST_F(asioTestFix,DISABLED_timer3)
 {
-	m_ThreadCount = 1;
+	m_ThreadCount = 5;
 	InitThreadPool();
 
 	int* lpcount = new int(0);
@@ -187,24 +187,62 @@ TEST_F(asioTestFix,timer3)
 
 void wasterTime()
 {
-	boost::this_thread::sleep(boost::posix_time::seconds(0));
+	boost::this_thread::sleep(boost::posix_time::seconds(1));
 	{
-		std::cout<<"wasterTime Call Thread "<<boost::this_thread::get_id()<<std::endl;
+		boost::mutex::scoped_lock lock(g_STDIOlock);
+		std::cout<<"wasterTime Call Thread "<<boost::this_thread::get_id()<<'\n'<<std::endl;
 	}
-
-
 }
 
 
-TEST_F(asioTestFix,conCAll)
+TEST_F(asioTestFix,DISABLED_strand_using)
 {
+	m_ThreadCount = 5;
+	InitThreadPool();
 
-	for(int i=0;i<2;++i)
+	for(int i=0;i<10;++i)
 	{
 		io.post(m_pstrand->wrap(boost::bind(wasterTime)));
 		//io.wrap((boost::bind(wasterTime)));
 	}
 }
+TEST_F(asioTestFix,DISABLED_multiThread_con_call)
+{
+	m_ThreadCount = 5;
+	InitThreadPool();
+
+	for(int i=0;i<10;++i)
+	{
+		io.post((boost::bind(wasterTime)));
+		//io.wrap((boost::bind(wasterTime)));
+	}
+}
+
+
+
+int wasterTime_for_warp(int aTimeSecond)
+{
+	boost::this_thread::sleep(boost::posix_time::seconds(aTimeSecond));
+	{
+		boost::mutex::scoped_lock lock(g_STDIOlock);
+		std::cout<<"wasterTime Call Thread "<<boost::this_thread::get_id()<<'\n'<<std::endl;
+	}
+	return aTimeSecond;
+}
+
+TEST_F(asioTestFix,multiThread_con_call_using_warp)
+{
+	m_ThreadCount = 5;
+	InitThreadPool();
+
+	for(int i=0;i<10;++i)
+	{
+		
+		//io.post((boost::bind(wasterTime)));
+		io.post(boost::bind(wasterTime_for_warp,1));
+	}
+}
+
 
 
 TEST_F(asioTestFix,Printer)

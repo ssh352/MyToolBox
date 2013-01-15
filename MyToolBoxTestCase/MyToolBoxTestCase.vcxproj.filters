@@ -28,11 +28,14 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>msic</Filter>
     </ClCompile>
-    <ClCompile Include="learn_temp.cpp">
-      <Filter>TestCase</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>msic</Filter>
+    </ClCompile>
+    <ClCompile Include="boost_format.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="template_class_with_template_method.cpp">
+      <Filter>TestCase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

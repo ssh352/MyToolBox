@@ -2,7 +2,7 @@
 
 #include <boost\format.hpp>
 
-TEST(boost_format,simpale)
+TEST(boost_format,DISABLED_simpale)
 {
 	int val = 1234;
 	boost::format fmt("%1%");

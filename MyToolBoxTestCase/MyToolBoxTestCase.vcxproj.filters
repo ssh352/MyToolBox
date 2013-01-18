@@ -37,6 +37,12 @@
     <ClCompile Include="template_class_with_template_method.cpp">
       <Filter>TestCase</Filter>
     </ClCompile>
+    <ClCompile Include="atomic.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="Cpp0x.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="googleMock\gtest\gtest.h">

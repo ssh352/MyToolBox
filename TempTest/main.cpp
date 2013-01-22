@@ -32,7 +32,7 @@ class TestB :public TestA
 int main()
 {
 
-	TestB inst;
+	//TestB inst;
 	//string test ("xxxxxx" );
 	//const char * test_data_ptr = test.data();
 
@@ -49,7 +49,7 @@ int main()
 	//{
 	//	std::cout<< lval.second;
 	//}
-	return 0;
+	return 2;
 
 
 

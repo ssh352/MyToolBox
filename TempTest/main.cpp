@@ -49,6 +49,9 @@ int main()
 	//{
 	//	std::cout<< lval.second;
 	//}
+
+	//std::cout<<"中文"<<std::endl;
+	//std::cout<<u8"中文"<<std::endl;
 	return 2;
 
 

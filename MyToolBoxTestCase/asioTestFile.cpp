@@ -7,6 +7,8 @@
 #include <boost\shared_ptr.hpp>
 #include <boost\foreach.hpp>
 
+#include <functional>
+
 
 class printer
 {
@@ -230,7 +232,7 @@ int wasterTime_for_warp(int aTimeSecond)
 	return aTimeSecond;
 }
 
-TEST_F(asioTestFix,multiThread_con_call_using_warp)
+TEST_F(asioTestFix,DISABLED_multiThread_con_call_using_warp)
 {
 	m_ThreadCount = 5;
 	InitThreadPool();
@@ -245,7 +247,7 @@ TEST_F(asioTestFix,multiThread_con_call_using_warp)
 
 
 
-TEST_F(asioTestFix,Printer)
+TEST_F(asioTestFix,DISABLED_Printer)
 {
 	//boost::asio::io_service io;
 	
@@ -255,5 +257,28 @@ TEST_F(asioTestFix,Printer)
 	//boost::thread t(boost::bind(&boost::asio::io_service::run, &io));
 	//io.run();
 	//t.join();
+}
+
+TEST_F(asioTestFix,whyonepost_multi_call)
+{
+	m_ThreadCount = 1;
+	InitThreadPool();
+
+	int count = 0;
+	auto lLocalFUn = [&count](int x){std::cout<<x<<std::endl;count++;} ;
+	std::function<void(int x)> lLocalFunt2 = [&count](int x){std::cout<<x<<std::endl;count++;} ;
+
+	io.post(boost::bind<void>(lLocalFUn,1));
+	io.post(boost::bind<void>(lLocalFUn,2));
+	io.post(boost::bind<void>(lLocalFUn,3));
+	io.post(boost::bind<void>(lLocalFUn,4));
+	io.post(std::bind(lLocalFunt2,5));
+
+	boost::this_thread::sleep(boost::posix_time::millisec(10));
+	EXPECT_EQ(5,count);
+
+
+
+
 }
 

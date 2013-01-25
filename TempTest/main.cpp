@@ -5,7 +5,7 @@
 using namespace std;
 #include <boost\foreach.hpp>
 #include <map>
-
+#include <boost\thread.hpp>
 
 class TestA
 {
@@ -52,6 +52,12 @@ int main()
 
 	//std::cout<<"中文"<<std::endl;
 	//std::cout<<u8"中文"<<std::endl;
+
+
+	//std::tuple<int,const char*,double> lstdtuple;
+	//int lent = sizeof(lstdtuple);
+
+
 	return 2;
 
 

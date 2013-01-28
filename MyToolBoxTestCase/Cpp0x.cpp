@@ -2,7 +2,7 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 #include <algorithm>
-TEST(test_cpp0x,lambda_auto_test)
+TEST(test_cpp0x,DISABLED_lambda_auto_test)
 {
 	auto   fn = [](int a,int b){return a+b;};
 	int c= fn(2,3);
@@ -10,7 +10,7 @@ TEST(test_cpp0x,lambda_auto_test)
 	auto d =c;
 }
 
-TEST(test_cpp0x,lambda_test2)
+TEST(test_cpp0x,DISABLED_lambda_test2)
 {
 	int count = 0;
 	auto   fn = [&count](int a,int b)->bool {count++;return a+b;} ;
@@ -52,7 +52,7 @@ TEST(test_cpp0x,std_for_each)
 //
 //}
 
-TEST(test_cpp0x,lambda_test3)
+TEST(test_cpp0x,DISABLED_lambda_test3)
 {
 	char lcharArray[] = {"1234567890"};
 	std::for_each(lcharArray+1,lcharArray +5,[](char aChar){std::cout<<aChar<<'\n';});

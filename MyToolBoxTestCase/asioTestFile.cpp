@@ -259,7 +259,7 @@ TEST_F(asioTestFix,DISABLED_Printer)
 	//t.join();
 }
 
-TEST_F(asioTestFix,whyonepost_multi_call)
+TEST_F(asioTestFix,DISABLED_whyonepost_multi_call)
 {
 	m_ThreadCount = 1;
 	InitThreadPool();

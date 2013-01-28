@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="1009_file.cpp" />
+    <ClCompile Include="1009_test.cpp" />
     <ClCompile Include="Cpp0x.cpp" />
     <ClCompile Include="asioTestFile.cpp" />
     <ClCompile Include="atomic.cpp" />

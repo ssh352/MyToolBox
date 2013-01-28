@@ -21,8 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FStream_FileSystem", "FStre
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Learn_boost_format", "Learn_boost_format\Learn_boost_format.vcxproj", "{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TempTest", "TempTest\TempTest.vcxproj", "{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -109,12 +107,6 @@ Global
 		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|Win32.ActiveCfg = Release|Win32
 		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|Win32.Build.0 = Release|Win32
 		{CAFD3A5A-8F7C-44D9-A688-039E4885C4B4}.Release|x64.ActiveCfg = Release|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Debug|Win32.Build.0 = Debug|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Debug|x64.ActiveCfg = Debug|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Release|Win32.ActiveCfg = Release|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Release|Win32.Build.0 = Release|Win32
-		{5B6DC5B8-EB69-4F4C-B680-EF8856FF02A7}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

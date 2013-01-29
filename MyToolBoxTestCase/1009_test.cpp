@@ -1,10 +1,57 @@
+
+#ifndef ONLINE_JUDGE
 #include "stdafx.h"
+#endif
+
 
 #include <iostream>
 #include <vector>
 #include <streambuf>
 #include <algorithm>
 typedef std::pair<int,int> PixelPair;
+
+
+void  GeneratePairFromEdge(int aWidth,int* apEdgeBuff,std::vector<PixelPair>& lRet)
+{
+	for(int i=0;i!= aWidth;)
+	{
+		PixelPair lPair;
+		lPair.first = apEdgeBuff[i];
+		lPair.second = 0;
+		while(lPair.first == apEdgeBuff[i] && i!=aWidth)
+		{
+			i++;
+			lPair.second ++;
+		}
+		lRet.push_back(lPair);
+	}
+}
+
+void TrimResultPairVec(std::vector<PixelPair>& lRet)
+{
+	if(lRet.size() == 1)
+	{
+		return;
+	}
+
+	std::vector<PixelPair>::iterator iter = lRet.begin();
+	std::vector<PixelPair>::iterator lPreIter=iter;
+	for(iter++;iter!= lRet.end();)
+	{
+		while( iter!= lRet.end()  && lPreIter->first == iter->first )
+		{
+			lPreIter->second += iter->second;
+			iter = lRet.erase(iter);	
+		}
+
+		if(iter!= lRet.end())
+		{
+			lPreIter = iter;
+			iter++;
+		}
+
+	}
+}
 
 
 struct LineBuffer
@@ -32,9 +79,27 @@ struct LineBuffer
 		std::swap(m_LineWidth , lother.m_LineWidth);
 	}
 
-	std::vector<PixelPair> ComputerWithNextLine(const LineBuffer& lother)
+
+
+
+	void ComputerWithNextLine(const LineBuffer& lother, std::vector<PixelPair>& lRet)
 	{
 		
+		if(m_SameLineCounter>1)
+		{
+			GeneratePairFromEdge(m_LineWidth,m_EdgeBuff,lRet);
+			memset(m_EdgeBuff,0,sizeof(int)*m_LineWidth);
+
+		}
+		if(m_SameLineCounter>2)
+		{
+			lRet.push_back( std::make_pair(m_line[0],m_LineWidth * (m_SameLineCounter -2)));
+		}
+
+	
+		
+	
+
 		//todo Check linewidth >= 3
 		//do clac unless first and last
 		for(int i=1;i<m_LineWidth-1;++i)
@@ -105,7 +170,6 @@ struct LineBuffer
 				lother.m_EdgeBuff[i] = v_s;
 			}
 
-
 			int v_n =  abs(m_line[i] - lother.m_line[i+1]);
 			if(v_n>m_EdgeBuff[i])
 			{
@@ -116,27 +180,16 @@ struct LineBuffer
 				lother.m_EdgeBuff[i+1] = v_n;
 			}
 		}
-
-		std::vector<PixelPair> lRet;
-		for(int i=0;i!= m_LineWidth;)
-		{
-			PixelPair lPair;
-			lPair.first = m_EdgeBuff[i];
-			lPair.second = 0;
-			while(lPair.first == m_EdgeBuff[i] && i!=m_LineWidth)
-			{
-				i++;
-				lPair.second ++;
-			}
-			lRet.push_back(lPair);
-		}
-		return lRet;
+		GeneratePairFromEdge(m_LineWidth,m_EdgeBuff,lRet);
+		TrimResultPairVec(lRet);
+		return;
 	}
 
-	std::vector<PixelPair> ComputerWithNullLine()
+	void ComputerWithNullLine(std::vector<PixelPair>& lRet)
 	{
-		std::vector<PixelPair> lRet;
-		return lRet;
+		GeneratePairFromEdge(m_LineWidth,m_EdgeBuff,lRet);
+		TrimResultPairVec(lRet);
+		return;
 	}
 
 	int* m_line;
@@ -220,8 +273,6 @@ ImageVec InputParse(std::istream& aInput)
 
 bool Image::FeedLines( LineBuffer& aBuff )
 {
-	//aBuff.m_SameLineCounter = 0;
-
 	if(m_ImageContent.size() == m_NextFeedIndex)
 	{
 		return false;
@@ -274,13 +325,81 @@ bool Image::FeedLines( LineBuffer& aBuff )
 		}
 	}
 	aBuff.UpdateinLineEdgeBuff();
+	return true;
 }
 
 
-Image HandleOneImage(const Image& lInputImage)
+Image HandleOneImage(Image& lInputImage)
 {
 	Image lRet;
+	lRet.m_Width = lInputImage.m_Width;
+	std::vector<PixelPair>& lContent = lRet.m_ImageContent;
+
+
+	LineBuffer lbuff1(lInputImage.m_Width);
+	LineBuffer lbuff2(lInputImage.m_Width);
+	lInputImage.FeedLines(lbuff1);
+
+	while(lInputImage.FeedLines(lbuff2))
+	{
+		lbuff1.ComputerWithNextLine(lbuff2,lContent);
+		lbuff1.swap(lbuff2);
+	}
+	lbuff1.ComputerWithNullLine(lContent);
 	return lRet;
+}
+
+
+//================================ TEST FIELD=====================================
+
+#ifndef ONLINE_JUDGE
+
+
+TEST(test_1009, imgae_process_test)
+{
+	std::stringstream lInputStream;
+	lInputStream
+		<<7<<' '<<'\n'
+		<<15<<' '<<4<<'\n'
+		<<100<<' '<<15<<'\n'
+		<<25 <<' '<<2<<'\n'
+		<<175 <<' '<<2<<'\n'
+		<<25<<' '<< 5<<'\n'
+		<<175<<' '<< 2<<'\n'
+		<<25<<' '<< 5<<'\n'
+		<<0 <<' '<<0<<'\n'
+		<<0<<'\n';
+
+	Image lOutPutImage;
+
+	bool lret = GetOneImage(lInputStream,lOutPutImage);
+
+	Image EdgeImage = HandleOneImage(lOutPutImage);
+	EXPECT_EQ(lOutPutImage.m_Width,EdgeImage.m_Width);
+	EXPECT_EQ(9,EdgeImage.m_ImageContent.size());
+	EXPECT_EQ( std::make_pair(85,5),EdgeImage.m_ImageContent[0]);
+	EXPECT_EQ( std::make_pair(0,2),EdgeImage.m_ImageContent[1]);
+	EXPECT_EQ( std::make_pair(85,5),EdgeImage.m_ImageContent[2]);
+	EXPECT_EQ( std::make_pair(75,10),EdgeImage.m_ImageContent[3]);
+	EXPECT_EQ( std::make_pair(150,2),EdgeImage.m_ImageContent[4]);
+	EXPECT_EQ( std::make_pair(75,3),EdgeImage.m_ImageContent[5]);
+	EXPECT_EQ( std::make_pair(0,2),EdgeImage.m_ImageContent[6]);
+	EXPECT_EQ( std::make_pair(150,2),EdgeImage.m_ImageContent[7]);
+	EXPECT_EQ( std::make_pair(0,4),EdgeImage.m_ImageContent[8]);
+
+
+
+}
+
+
+void CheckResultSize(const std::vector<PixelPair>& lRet,int Expect_size)
+{
+	int OutPutSize = 0;
+	for(std::size_t i =0;i<lRet.size();i++)
+	{
+		OutPutSize += lRet[i].second;
+	}
+	EXPECT_EQ(Expect_size,OutPutSize);
 }
 
 TEST(test_1009,lineBuffCompterNextLine)
@@ -298,16 +417,83 @@ TEST(test_1009,lineBuffCompterNextLine)
 		lbuff2.m_line[i] = i+1;
 		lbuff2.UpdateinLineEdgeBuff();
 		lbuff2.m_SameLineCounter = 0;
+
 	}
 
 
-	std::vector<PixelPair> lRet = lbuff1.ComputerWithNextLine(lbuff2);
-	EXPECT_EQ(2,lRet.size());
-	EXPECT_EQ(2,lRet[0].first);
-	EXPECT_EQ(9,lRet[0].second);
-	EXPECT_EQ(1,lRet[1].first);
-	EXPECT_EQ(1,lRet[1].second);
+	std::vector<PixelPair> lRet ;
+	lbuff1.ComputerWithNextLine(lbuff2,lRet);
+	lbuff2.ComputerWithNullLine(lRet);
+	EXPECT_EQ(3,lRet.size());
+
+	EXPECT_EQ(std::make_pair(2,9),lRet[0]);
+	EXPECT_EQ(std::make_pair(1,2),lRet[1]);
+	EXPECT_EQ(std::make_pair(2,9),lRet[2]);
+
+	CheckResultSize(lRet,20);
 }
+
+TEST(test_1009,twoline_CompterNextLine)
+{
+
+	LineBuffer lbuff1(10);
+	LineBuffer lbuff2(10);
+
+	for(int i = 0;i<10;++i)
+	{
+		lbuff1.m_line[i] = i;
+		lbuff1.UpdateinLineEdgeBuff();
+		lbuff1.m_SameLineCounter = 2;
+
+		lbuff2.m_line[i] = i+1;
+		lbuff2.UpdateinLineEdgeBuff();
+		lbuff2.m_SameLineCounter = 0;
+	}
+
+
+	std::vector<PixelPair> lRet ;
+	lbuff1.ComputerWithNextLine(lbuff2,lRet);
+	lbuff2.ComputerWithNullLine(lRet);
+	EXPECT_EQ(4,lRet.size());
+
+	EXPECT_EQ(std::make_pair(0,10),lRet[0]);
+	EXPECT_EQ(std::make_pair(2,9),lRet[1]);
+	EXPECT_EQ(std::make_pair(1,2),lRet[2]);
+	EXPECT_EQ(std::make_pair(2,9),lRet[3]);
+
+	CheckResultSize(lRet,30);
+}
+
+TEST(test_1009,multiline_CompterNextLine)
+{
+
+	LineBuffer lbuff1(10);
+	LineBuffer lbuff2(10);
+
+	for(int i = 0;i<10;++i)
+	{
+		lbuff1.m_line[i] = i;
+		lbuff1.UpdateinLineEdgeBuff();
+		lbuff1.m_SameLineCounter = 10;
+
+		lbuff2.m_line[i] = i+1;
+		lbuff2.UpdateinLineEdgeBuff();
+		lbuff2.m_SameLineCounter = 0;
+	}
+
+
+	std::vector<PixelPair> lRet;
+	lbuff1.ComputerWithNextLine(lbuff2,lRet);
+	EXPECT_EQ(3,lRet.size());
+
+	EXPECT_EQ(std::make_pair(0,90),lRet[0]);
+	EXPECT_EQ(std::make_pair(2,9),lRet[1]);
+	EXPECT_EQ(std::make_pair(1,1),lRet[2]);
+
+
+	CheckResultSize(lRet,100);
+}
+
 
 
 
@@ -452,3 +638,17 @@ TEST(test_1009,input_parse)
 	EXPECT_EQ(3,lRet[2].m_Width);
 	EXPECT_EQ(7,lRet[2].m_ImageContent.size());
 }
+
+#else  //ON_Line_main
+
+int mian(int argc,char** argv)
+{
+
+
+
+
+}
+
+
+
+#endif

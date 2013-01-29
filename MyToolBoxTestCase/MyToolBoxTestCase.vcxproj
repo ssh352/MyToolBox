@@ -128,7 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="1009_file.cpp" />
-    <ClCompile Include="1009_test.cpp" />
+    <ClCompile Include="1009_test.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Cpp0x.cpp" />
     <ClCompile Include="asioTestFile.cpp" />
     <ClCompile Include="atomic.cpp" />

@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1359434823 source:c:\documents and settings\yang.xiong\desktop\workspace\tempproject\mytoolboxset\codeblock\test\main.cpp
+	"stdafx.h"
+	<iostream>
+	<vector>
+	<streambuf>
+	<algorithm>
+	<cstring>
+

@@ -1,4 +1,6 @@
 
+#define ONLINE_JUDGE
+
 #ifndef ONLINE_JUDGE
 #include "stdafx.h"
 #endif
@@ -8,6 +10,7 @@
 #include <vector>
 #include <streambuf>
 #include <algorithm>
+#include <cstring>
 typedef std::pair<int,int> PixelPair;
 
 
@@ -41,7 +44,7 @@ void TrimResultPairVec(std::vector<PixelPair>& lRet)
 		while( iter!= lRet.end()  && lPreIter->first == iter->first )
 		{
 			lPreIter->second += iter->second;
-			iter = lRet.erase(iter);	
+			iter = lRet.erase(iter);
 		}
 
 		if(iter!= lRet.end())
@@ -84,7 +87,7 @@ struct LineBuffer
 
 	void ComputerWithNextLine(const LineBuffer& lother, std::vector<PixelPair>& lRet)
 	{
-		
+
 		if(m_SameLineCounter>1)
 		{
 			GeneratePairFromEdge(m_LineWidth,m_EdgeBuff,lRet);
@@ -96,9 +99,9 @@ struct LineBuffer
 			lRet.push_back( std::make_pair(0,m_LineWidth * (m_SameLineCounter -2)));
 		}
 
-	
-		
-	
+
+
+
 
 		//todo Check linewidth >= 3
 		//do clac unless first and last
@@ -289,7 +292,7 @@ bool GetOneImage(std::istream& aInput,Image& lOutPutImage)
 ImageVec InputParse(std::istream& aInput)
 {
 	ImageVec lRet;
-	
+
 	Image lCurrentImage;
 	while( GetOneImage(aInput,lCurrentImage))
 	{
@@ -338,8 +341,8 @@ bool Image::FeedLines( LineBuffer& aBuff )
 				feedCharCount += lpCurrentPair->second;
 				//just for debug
 				lpCurrentPair->second = 0;
-				++m_NextFeedIndex; 
-				
+				++m_NextFeedIndex;
+
 			}
 			else
 			{
@@ -464,7 +467,7 @@ TEST(test_1009,lineBuffCompterNextLine)
 
 	LineBuffer lbuff1(10);
 	LineBuffer lbuff2(10);
-	
+
 	for(int i = 0;i<10;++i)
 	{
 		lbuff1.m_line[i] = i;
@@ -570,7 +573,7 @@ TEST(test_1009,FeedLines_test)
 		<<0<<'\n';
 
 	Image lOutPutImage;
-	
+
 		bool lret = GetOneImage(lInputStream,lOutPutImage);
 		LineBuffer lbuff(lOutPutImage.m_Width);
 		{

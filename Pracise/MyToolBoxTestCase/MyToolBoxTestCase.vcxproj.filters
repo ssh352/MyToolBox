@@ -17,6 +17,9 @@
     <Filter Include="msic">
       <UniqueIdentifier>{3e719723-775f-4db3-bb7c-df868f85f702}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1009">
+      <UniqueIdentifier>{7d07efcd-1e70-4db3-aee2-5969ba4e8c75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="googleMock\gmock-gtest-all.cc">
@@ -36,6 +39,18 @@
     </ClCompile>
     <ClCompile Include="template_class_with_template_method.cpp">
       <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="atomic.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="Cpp0x.cpp">
+      <Filter>TestCase</Filter>
+    </ClCompile>
+    <ClCompile Include="1009_file.cpp">
+      <Filter>1009</Filter>
+    </ClCompile>
+    <ClCompile Include="1009_test.cpp">
+      <Filter>1009</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

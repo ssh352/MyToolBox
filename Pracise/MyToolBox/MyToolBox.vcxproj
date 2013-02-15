@@ -112,6 +112,7 @@
     <ClCompile Include="dump.cpp" />
     <ClCompile Include="HexMemory.cpp" />
     <ClCompile Include="PriceNumber.cpp" />
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dump.h" />

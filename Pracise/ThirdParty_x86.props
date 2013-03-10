@@ -4,8 +4,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>ThirdPartyLib_x86</_PropertySheetDisplayName>
-    <IncludePath>..\..\..\ThirdParty\boost_1_53_0;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\ThirdParty\boost_1_53_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\boost_1_53_0;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\boost_1_53_0\stage\lib_x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />

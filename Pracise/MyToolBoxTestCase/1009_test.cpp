@@ -1,6 +1,10 @@
 
-#ifndef ONLINE_JUDGE
+
 #include "stdafx.h"
+#ifndef ONLINE_JUDGE
+
+#else
+
 #endif
 
 

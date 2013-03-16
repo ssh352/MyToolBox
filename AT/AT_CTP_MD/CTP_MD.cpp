@@ -112,7 +112,7 @@ namespace CTP
 		{
 			std::string& lListString=m_ConfigMap["SubscribeList"];
 			boost::tokenizer<> tok(lListString);
-			BOOST_FOREACH(std::string lVar,tok)
+			for(std::string lVar:tok)
 			{
 				m_SubscribeList.insert(lVar);
 			}

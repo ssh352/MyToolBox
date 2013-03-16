@@ -17,14 +17,6 @@ namespace CTP
 
 	DepthReceiver::~DepthReceiver()
 	{
-		typedef std::map<std::string,char**>::value_type  pairType;
-		BOOST_FOREACH(pairType lPair,m_allocateMemMap)
-		{
-			char* lstrbuf = *(lPair.second);
-			delete[] lstrbuf;
-			delete[] lPair.second;
-		}
-
 
 		if(m_pMDAPI)
 		{
@@ -32,6 +24,13 @@ namespace CTP
 			m_pMDAPI->Join();
 		}
 		m_pMDAPI->Release();
+
+		for(auto lPair:m_allocateMemMap)
+		{
+			char* lstrbuf = *(lPair.second);
+			delete[] lstrbuf;
+			delete[] lPair.second;
+		}
 	}
 
 
@@ -57,8 +56,12 @@ namespace CTP
 	void DepthReceiver::Start()
 	{
 		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi("flow2");
-		m_pMDAPI->RegisterSpi(this);		 
-		m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213");
+		m_pMDAPI->RegisterSpi(this);
+		
+		//119.4.167.60:62213 华西联通MD
+		
+		//m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
+		m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
 		m_pMDAPI->Init();
 		m_DepthState = DepthReceiver_CONNECTING_STATE;
 		m_pCTP_MD->NotifySubModuleState(m_DepthState);	
@@ -139,15 +142,15 @@ namespace CTP
 	std::string DepthReceiver::BuildMarketDepthString( boost::shared_ptr<CThostFtdcDepthMarketDataField> aMarketPtr )
 	{
 		std::stringstream lStringStream;
-		
+			
 			lStringStream<<"名称: "<<aMarketPtr->InstrumentID 
 				<<" 时间："<<aMarketPtr->UpdateTime
-				<<" 最新价:"<<aMarketPtr->LastPrice
-				<<" 最高价:" << aMarketPtr->HighestPrice
-				<<" 最低价:" << aMarketPtr->LowestPrice
-				<<" 卖一价:" << aMarketPtr->AskPrice1 
+				<<" 最新价:"<<GetDispalyPrice(aMarketPtr->LastPrice)
+				<<" 最高价:" << GetDispalyPrice(aMarketPtr->HighestPrice)
+				<<" 最低价:" <<GetDispalyPrice (aMarketPtr->LowestPrice)
+				<<" 卖一价:" <<GetDispalyPrice( aMarketPtr->AskPrice1)
 				<<" 卖一量:" << aMarketPtr->AskVolume1 
-				<<" 买一价:" << aMarketPtr->BidPrice1
+				<<" 买一价:" << GetDispalyPrice(aMarketPtr->BidPrice1)
 				<<"	买一量:" << aMarketPtr->BidVolume1
 				<<" 市场持仓:"<< aMarketPtr->OpenInterest<<std::endl;
 		std::string lRet(lStringStream.str());
@@ -180,6 +183,16 @@ namespace CTP
 			break;
 		}
 		std::cerr<<"Depth===================== 断开连接 "<<ErrMessage<<std::endl;
+	}
+
+	bool DepthReceiver::IsValidPrice( double aPrice )
+	{
+		return aPrice != 1.79769e+308;
+	}
+
+	double DepthReceiver::GetDispalyPrice( double aPrice )
+	{
+		return IsValidPrice(aPrice)? aPrice: -1;
 	}
 
 

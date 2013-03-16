@@ -1,12 +1,22 @@
-
-#include <fstream>
-#include <string>
-#include "CTP_MD.h"
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
-#include "PrintMDSpi.h"
+#include "FileWriterMDSpi.h"
+#include "CTP_MD.h"
+#include <csignal>
+
+#include <boost/atomic/atomic.hpp>
+
+boost::atomic<bool> g_runing ;
+
+void singaleHandle(int parame)
+{
+	std::cerr<<"singaleHandle  "<<parame;
+	g_runing = false;
+}
 int main()
 {
+	g_runing = true;
+	signal(SIGINT,singaleHandle);
 	CTP::CTP_MD linst;
 	std::map<std::string,std::string> lConfigMap;
 
@@ -27,10 +37,11 @@ int main()
 	//lConfigMap["SubscribeList"] = lSubListStr;
 
 
-	PrintMDSpi lPrintMD;
+	FileWriterMDSpi lPrintMD("test.log");
 	linst.Init(lConfigMap,&lPrintMD);
-	while(true)
+	while(g_runing)
 	{
 		boost::this_thread::sleep(boost::posix_time::millisec(1000));
 	}
+	return 0;
 }

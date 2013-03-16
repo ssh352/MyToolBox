@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>../AT_Driver;../CTP_Driver/CTP_API/include;../ExternLib\leveldb-1.7.0\include\;C:\boost_1_53_0;../AT_CTP_TD;../AT_CTP_MD;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>

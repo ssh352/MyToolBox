@@ -3,8 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LibraryPath>..\CTP_Driver\CTP_API\lib;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>..\CTP_Driver\CTP_API\bin;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>..\CTP_Driver\CTP_API\lib;..\CTP_Driver\CTP_API\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

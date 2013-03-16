@@ -41,7 +41,7 @@ namespace CTP
 		m_BrokerID = m_ConfigMap["BrokerID"];
 		m_UserID = m_ConfigMap["UserID"];
 		m_Password = m_ConfigMap["Password"];
-		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(".\\TDflow1\\");
+		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi();
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);

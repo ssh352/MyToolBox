@@ -46,20 +46,30 @@ int main()
 	configFile>>lBorkerid>>lUserID>>lPassWord>>lFront;
 	configFile.close();
 	configFile.clear();
-	//lConfigMap["BrokerID"] ="2030" ;
-	//lConfigMap["UserID"] = "000000005510";
-	//lConfigMap["Password"]= "228636";
-	//lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205"
+
+	//lConfigMap["BrokerID"] =lBorkerid ;
+	//lConfigMap["UserID"] = lUserID;
+	//lConfigMap["Password"]=lPassWord;
+	//lConfigMap["Front"] = lFront;
+
+	lConfigMap["BrokerID"] ="2030" ;
+	lConfigMap["UserID"] = "000000005510";
+	lConfigMap["Password"]= "228636";
+	lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
 
 	//lConfigMap["BrokerID"] ="7030" ;
 	//lConfigMap["UserID"] = "000516";
 	//lConfigMap["Password"]= "000516";
 	//lConfigMap["Front"] = "tcp://221.232.155.116:41205";
 
-	lConfigMap["BrokerID"] =lBorkerid ;
-	lConfigMap["UserID"] = lUserID;
-	lConfigMap["Password"]=lPassWord;
-	lConfigMap["Front"] = lFront;
+
+	//lConfigMap["BrokerID"] ="1111" ;
+	//lConfigMap["UserID"] = "Kingnew062";
+	//lConfigMap["Password"]= "888888";
+	//lConfigMap["Front"] = "tcp://211.136.142.218:9116";
+
+
+
 
 	PrintTDSpi lSpiInst;
 	linst.Init(lConfigMap,&lSpiInst);

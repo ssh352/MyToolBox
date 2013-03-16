@@ -143,12 +143,12 @@ namespace CTP
 	{
 		std::stringstream lStringStream;
 			
-			lStringStream<<"名称: "<<aMarketPtr->InstrumentID 
+			lStringStream<<aMarketPtr->InstrumentID 
 				<<" 时间："<<aMarketPtr->UpdateTime
-				<<" 最新价:"<<GetDispalyPrice(aMarketPtr->LastPrice)
+				<<" 最新价:"<< GetDispalyPrice(aMarketPtr->LastPrice)
 				<<" 最高价:" << GetDispalyPrice(aMarketPtr->HighestPrice)
-				<<" 最低价:" <<GetDispalyPrice (aMarketPtr->LowestPrice)
-				<<" 卖一价:" <<GetDispalyPrice( aMarketPtr->AskPrice1)
+				<<" 最低价:" << GetDispalyPrice (aMarketPtr->LowestPrice)
+				<<" 卖一价:" << GetDispalyPrice( aMarketPtr->AskPrice1)
 				<<" 卖一量:" << aMarketPtr->AskVolume1 
 				<<" 买一价:" << GetDispalyPrice(aMarketPtr->BidPrice1)
 				<<"	买一量:" << aMarketPtr->BidVolume1

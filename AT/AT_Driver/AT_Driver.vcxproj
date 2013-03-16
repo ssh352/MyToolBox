@@ -18,6 +18,9 @@
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="for_lib.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>
     <RootNamespace>CTP_Driver</RootNamespace>

@@ -23,7 +23,8 @@ void FileWriterMDSpi::NotifyInstrument( const std::string& aInstrument )
 
 void FileWriterMDSpi::NotifyMarketDepth( const std::string& aMarketDepth )
 {
-	m_SnapShot[aMarketDepth] = aMarketDepth;
+	size_t lpos = aMarketDepth.find_first_of(' ',0);
+	m_SnapShot[aMarketDepth.substr(0,lpos)] = aMarketDepth;
 	std::cout<<aMarketDepth;
 	WriteSnapShot();
 }
@@ -44,7 +45,7 @@ FileWriterMDSpi::~FileWriterMDSpi()
 
 void FileWriterMDSpi::WriteSnapShot()
 {
-	m_output_file.clear();
+	m_output_file.seekg(0,std::ios_base::beg);
 	for(auto lPari :m_SnapShot)
 	{
 		m_output_file<<lPari.second<<"\n";

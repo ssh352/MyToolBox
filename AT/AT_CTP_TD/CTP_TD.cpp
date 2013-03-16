@@ -7,6 +7,12 @@
 #include <boost\foreach.hpp>
 #include <sstream>
 
+
+extern "C"  AT::IDriver_TD* CreateDriverInsance()
+{
+	return new CTP::CTP_TD();
+}
+
 char g_Address[512] ;
 namespace CTP
 {

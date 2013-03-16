@@ -10,7 +10,6 @@ namespace AT
 }
 namespace CTP
 {
-	class CTP_TD_Imp;
 	enum CTP_TD_CODE
 	{
 		UnInit,

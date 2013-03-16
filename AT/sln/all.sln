@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MD_FileWriter", "..\MD_File
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MD_PrintTest", "..\MD_PrintTest\MD_PrintTest.vcxproj", "{D7637088-8B03-4819-A0C1-CED3D76932F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllLoader", "..\DllLoader\DllLoader.vcxproj", "{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -55,6 +57,10 @@ Global
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Debug|Win32.Build.0 = Debug|Win32
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.ActiveCfg = Release|Win32
 		{D7637088-8B03-4819-A0C1-CED3D76932F7}.Release|Win32.Build.0 = Release|Win32
+		{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}.Debug|Win32.Build.0 = Debug|Win32
+		{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}.Release|Win32.ActiveCfg = Release|Win32
+		{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

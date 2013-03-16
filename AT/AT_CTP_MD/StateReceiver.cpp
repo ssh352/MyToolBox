@@ -32,7 +32,7 @@ namespace CTP
 
 	void StateReceiver::Start()
 	{
-		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(".\\flow1\\");
+		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi("flow1");
 		m_pTraderAPI->RegisterSpi(this);		
 		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
 		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);			 

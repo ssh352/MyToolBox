@@ -17,7 +17,7 @@ namespace CTP
 
 	DepthReceiver::~DepthReceiver()
 	{
-		typedef std::map<std::string,char**>::_Val_type  pairType;
+		typedef std::map<std::string,char**>::value_type  pairType;
 		BOOST_FOREACH(pairType lPair,m_allocateMemMap)
 		{
 			char* lstrbuf = *(lPair.second);
@@ -56,7 +56,7 @@ namespace CTP
 
 	void DepthReceiver::Start()
 	{
-		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(".\\flow2\\");
+		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi("flow2");
 		m_pMDAPI->RegisterSpi(this);		 
 		m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213");
 		m_pMDAPI->Init();
@@ -140,7 +140,8 @@ namespace CTP
 	{
 		std::stringstream lStringStream;
 		
-			lStringStream<<"名称: "<<aMarketPtr->InstrumentID
+			lStringStream<<"名称: "<<aMarketPtr->InstrumentID 
+				<<" 时间："<<aMarketPtr->UpdateTime
 				<<" 最新价:"<<aMarketPtr->LastPrice
 				<<" 最高价:" << aMarketPtr->HighestPrice
 				<<" 最低价:" << aMarketPtr->LowestPrice
@@ -148,7 +149,7 @@ namespace CTP
 				<<" 卖一量:" << aMarketPtr->AskVolume1 
 				<<" 买一价:" << aMarketPtr->BidPrice1
 				<<"	买一量:" << aMarketPtr->BidVolume1
-				<<" 市场持仓:"<< aMarketPtr->OpenInterest <<std::endl;
+				<<" 市场持仓:"<< aMarketPtr->OpenInterest<<std::endl;
 		std::string lRet(lStringStream.str());
 		return lRet;
 	}

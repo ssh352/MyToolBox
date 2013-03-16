@@ -21,7 +21,7 @@ namespace CTP
 		void UnSubscribeInstrument(const std::string& aInstrumentID);
 
 	private:
-		char** GenerateInstrumentList(const const std::string& aInstrumentID);
+		char** GenerateInstrumentList(const std::string& aInstrumentID);
 		std::string BuildMarketDepthString(boost::shared_ptr<CThostFtdcDepthMarketDataField> aMarketPtr);
 
 	public: //from CTP API

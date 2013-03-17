@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <vector>
 #include <string>
 #include "IDriver_TD.h"
 #include "CTP_API.h"
@@ -44,7 +45,9 @@ namespace CTP
 	public:
 		CTP_TD();
 		virtual ~CTP_TD();
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap,AT::ITradeSpi* apTradeSpi) ;
+		virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) ;
+		virtual void AddSpi(AT::ITradeSpi* apTradeSpi);
+		virtual void RemoveSpi(AT::ITradeSpi* apTradeSpi);
 	public:
 		virtual std::string CreateOrder(const std::string& aNewOrder) ;
 		virtual void DeleteOrder(const std::string& aClientOrderID) ;
@@ -94,7 +97,7 @@ namespace CTP
 	private:
 		CThostFtdcTraderApi*  m_pTraderAPI;
 		int m_RequestID;
-		AT::ITradeSpi* m_pTradeSpi;
+		std::map<AT::ITradeSpi*,AT::ITradeSpi*> m_TradeSpiPointMap;
 		std::map<std::string,std::string> m_ConfigMap;
 		CTP_TD_CODE			m_RuningState;
 	private:
@@ -105,7 +108,7 @@ namespace CTP
 		int				m_FrontID;
 		int				m_SessionID;
 		unsigned int				m_MaxOrderRef;
-		DataCache_CTP_TD	m_DataCache;
+		std::auto_ptr<DataCache_CTP_TD>	m_pDataCache;
 
 		bool				m_IsInQryPosition;
 

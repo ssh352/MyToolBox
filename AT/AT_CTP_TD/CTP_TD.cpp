@@ -160,7 +160,7 @@ namespace CTP
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
 	{
-		InputOrderTypePtr lExchangOrderPtr = m_DataCache. FindInputOrderByThostID(aClientOrderID);
+		InputOrderTypePtr lExchangOrderPtr = m_DataCache.FindInputOrderByThostID(aClientOrderID);
 
 		int lFrontID ;
 		int lSessionID;
@@ -211,7 +211,7 @@ namespace CTP
 	{
 		std::vector<std::string> lVarVec ;
 		boost::tokenizer<> tok(aNewOrder);
-		BOOST_FOREACH(std::string lVar,tok)
+		for(std::string lVar:tok)
 		{
 			lVarVec.push_back(lVar);
 		}

@@ -20,6 +20,7 @@ namespace AT
 		virtual void DeleteOrder(const std::string& aClientOrderID) =0;
 		virtual	void ModifyOrder(const std::string& aRequest) =0;
 		virtual void QueryPosition(const std::string& aRequest) =0;
+	
 	};
 }
 #ifdef IDRIVER_LIB

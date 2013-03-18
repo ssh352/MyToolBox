@@ -1,6 +1,6 @@
 #include "StateReceiver.h"
 #include <iostream>
-#include <boost/foreach.hpp>
+#include  "MyForeach.h"
 #include "DataCacheCTP.h"
 #include <set>
 #include <boost\lexical_cast.hpp>

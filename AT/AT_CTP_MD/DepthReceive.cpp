@@ -1,6 +1,6 @@
 ﻿#include "DepthReceive.h"
 #include "CTP_API.h"
-#include <boost/foreach.hpp>
+#include  "MyForeach.h"
 #include "DataCacheCTP.h"
 #include <sstream>
 #include <iostream>
@@ -25,7 +25,7 @@ namespace CTP
 		}
 		m_pMDAPI->Release();
 
-		for(auto lPair:m_allocateMemMap)
+		MYFOREACH(lPair , m_allocateMemMap)
 		{
 			char* lstrbuf = *(lPair.second);
 			delete[] lstrbuf;

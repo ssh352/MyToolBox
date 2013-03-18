@@ -1,4 +1,5 @@
 #include "FileWriterMDSpi.h"
+#include "myForeach.h"
 #include <iostream>
 
 void FileWriterMDSpi::NotifyState( int aErrorCode,const std::string& aErrorMsg )
@@ -47,7 +48,7 @@ FileWriterMDSpi::~FileWriterMDSpi()
 void FileWriterMDSpi::WriteSnapShot()
 {
 	m_output_file.seekg(0,std::ios_base::beg);
-	for(auto lPari :m_SnapShot)
+	MYFOREACH(lPari ,m_SnapShot)
 	{
 		m_output_file<<lPari.second<<"\n";
 	}

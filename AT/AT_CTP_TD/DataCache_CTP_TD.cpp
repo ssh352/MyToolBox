@@ -1,4 +1,5 @@
 #include "DataCache_CTP_TD.h"
+#include "myForeach.h"
 namespace CTP
 {
 	DataCache_CTP_TD::DataCache_CTP_TD( const std::string& aDir )
@@ -12,7 +13,7 @@ namespace CTP
 
 	void DataCache_CTP_TD::RebuildOrderIDMap()
 	{
-		for( auto lPair: m_OrderTable)
+		MYFOREACH( lPair, m_OrderTable)
 		{
 			UpdataOrderIDMap(lPair.second);
 		}
@@ -90,7 +91,7 @@ namespace CTP
 	{
 		std::stringstream lbuf;
 		lbuf<<"All Position Start"<<'\n';
-		for(auto lPair:m_PositionTable)
+		MYFOREACH( lPair, m_PositionTable)
 		{
 			lbuf << "==================\n"<< GeneratorOnePositionString(lPair.second);
 		}

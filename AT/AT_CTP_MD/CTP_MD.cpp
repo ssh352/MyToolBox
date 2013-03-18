@@ -6,8 +6,10 @@
 #include "DepthReceive.h"
 //#include <iostream>
 #include "DataCacheCTP.h"
-#include <boost/foreach.hpp>
+#include  "MyForeach.h"
 #include <boost/tokenizer.hpp>
+
+
 namespace CTP
 {
 	CTP_MD::CTP_MD(void)
@@ -87,7 +89,7 @@ namespace CTP
 	{
 		if(m_EnableSubscribeList)
 		{
-			BOOST_FOREACH(std::string lInstrumentName,m_SubscribeList)
+			MYFOREACH(lInstrumentName,m_SubscribeList)
 			{
 				m_pDepthReceiver->SubscribeInstrument(lInstrumentName);
 			}
@@ -95,7 +97,7 @@ namespace CTP
 		else
 		{
 			std::vector<std::string> lList = m_pDataCache->GetInstrumentListAll();
-			BOOST_FOREACH(std::string lInstrumentName,lList)
+			MYFOREACH(lInstrumentName,lList)
 			{
 				m_pDepthReceiver->SubscribeInstrument(lInstrumentName);
 			}
@@ -112,7 +114,7 @@ namespace CTP
 		{
 			std::string& lListString=m_ConfigMap["SubscribeList"];
 			boost::tokenizer<> tok(lListString);
-			for(std::string lVar:tok)
+			MYFOREACH(lVar ,tok)
 			{
 				m_SubscribeList.insert(lVar);
 			}

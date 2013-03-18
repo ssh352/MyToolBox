@@ -21,7 +21,7 @@ namespace CTP
 		void UnSubscribeInstrument(const std::string& aInstrumentID);
 
 	private:
-		char** GenerateInstrumentList(const const std::string& aInstrumentID);
+		char** GenerateInstrumentList(const std::string& aInstrumentID);
 		std::string BuildMarketDepthString(boost::shared_ptr<CThostFtdcDepthMarketDataField> aMarketPtr);
 
 	public: //from CTP API
@@ -41,6 +41,8 @@ namespace CTP
 		int m_RequestID;
 		std::map<std::string,char**>  m_allocateMemMap;
 		const std::map<std::string,std::string> m_ConfigMap;
+		bool IsValidPrice(double aPrice);
+		double  GetDispalyPrice(double aPrice);
 	};
 
 }

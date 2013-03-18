@@ -1,20 +1,18 @@
 #include "DataCache_CTP_TD.h"
-#include <boost/foreach.hpp>
 namespace CTP
 {
-	DataCache_CTP_TD::DataCache_CTP_TD(void)
+	DataCache_CTP_TD::DataCache_CTP_TD( const std::string& aDir )
 	{
-		m_OrderTable.InitWithDB("OrderMapDB");
-		m_TradeTable.InitWithDB("TradeMapDB");
-		m_InputOrderTable.InitWithDB("InputOrderMapDB");
-		m_PositionTable.InitWithDB("PositionMapDB");
+		m_OrderTable.InitWithDB(aDir+"OrderMapDB");
+		m_TradeTable.InitWithDB(aDir+"TradeMapDB");
+		m_InputOrderTable.InitWithDB(aDir+"InputOrderMapDB");
+		m_PositionTable.InitWithDB(aDir+"PositionMapDB");
 		RebuildOrderIDMap();
 	}
 
 	void DataCache_CTP_TD::RebuildOrderIDMap()
 	{
-		//highLight 生活如此美好 你能想象如果没有foreach 和 auto 我需要写多少代码来完成这个简单逻辑么？
-		BOOST_FOREACH(  auto lPair, m_OrderTable)
+		for( auto lPair: m_OrderTable)
 		{
 			UpdataOrderIDMap(lPair.second);
 		}
@@ -92,7 +90,7 @@ namespace CTP
 	{
 		std::stringstream lbuf;
 		lbuf<<"All Position Start"<<'\n';
-		BOOST_FOREACH(auto lPair,m_PositionTable)
+		for(auto lPair:m_PositionTable)
 		{
 			lbuf << "==================\n"<< GeneratorOnePositionString(lPair.second);
 		}

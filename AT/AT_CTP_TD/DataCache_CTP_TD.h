@@ -10,7 +10,7 @@ namespace CTP
 	class DataCache_CTP_TD
 	{
 	public:
-		DataCache_CTP_TD(void);
+		DataCache_CTP_TD(const std::string& aDir);
 		~DataCache_CTP_TD(void);
 	public:
 		void UpdataOrder(boost::shared_ptr<CThostFtdcOrderField>  apOrder);

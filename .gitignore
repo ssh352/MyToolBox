@@ -35,7 +35,9 @@ ipch
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/test.exe
 /ctp-trader-demo/bin/obj
 /ctp-trader-demo/bin/*.exe
-/AT/sln/MD_PrintTest/*MarkeDepthDB
-/AT/sln/MD_PrintTest/InstrumentMapDB
-/AT/sln/MD_PrintTest/ExchangeMapDB
+*MarkeDepthDB
+*InstrumentMapDB
+*ExchangeMapDB
 /AT/TD_CommandLineTest/config.ini
+/boost_1_53_0
+/temp

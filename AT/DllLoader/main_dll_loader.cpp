@@ -13,7 +13,7 @@ std::string GetCmd()
 	std::cin.getline(lCmd,500,'\n');
 	std::string lRet(lCmd);
 	size_t lpos =lRet.find_first_not_of(" ");
-	lRet.substr(lpos);
+	lRet = lRet.substr(lpos);
 	return lRet;
 }
 

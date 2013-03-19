@@ -189,6 +189,11 @@ namespace CTP
 	{
 		boost::shared_ptr<CThostFtdcOrderField> lExchangOrderPtr = m_pDataCache->FindOrderByThostID(aClientOrderID);
 
+		if(!lExchangOrderPtr)
+		{
+			//LogError
+			return;
+		}
 		int lFrontID ;
 		int lSessionID;
 		std::string lOrderRef = ResolveThostOrderID(aClientOrderID,lSessionID,lFrontID);

@@ -47,15 +47,16 @@ int main()
 	configFile.close();
 	configFile.clear();
 
-	//lConfigMap["BrokerID"] =lBorkerid ;
-	//lConfigMap["UserID"] = lUserID;
-	//lConfigMap["Password"]=lPassWord;
-	//lConfigMap["Front"] = lFront;
+	lConfigMap["BrokerID"] =lBorkerid ;
+	lConfigMap["UserID"] = lUserID;
+	lConfigMap["Password"]=lPassWord;
+	lConfigMap["Front"] = lFront;
 
-	lConfigMap["BrokerID"] ="2030" ;
-	lConfigMap["UserID"] = "000000005510";
-	lConfigMap["Password"]= "228636";
-	lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
+	lConfigMap["Index"] ="TD_Command" ;
+	//lConfigMap["BrokerID"] ="2030" ;
+	//lConfigMap["UserID"] = "000000005510";
+	//lConfigMap["Password"]= "228636";
+	//lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
 
 	//lConfigMap["BrokerID"] ="7030" ;
 	//lConfigMap["UserID"] = "000516";

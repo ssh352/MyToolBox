@@ -184,5 +184,10 @@ namespace CTP
 		return lRet;
 	}
 
+	boost::shared_ptr<CThostFtdcOrderField> DataCache_CTP_TD::FindOrderByThostID( const std::string& lThostOrderID )
+	{
+		return m_OrderTable.GetOrder(lThostOrderID);
+	}
+
 }
 

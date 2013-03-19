@@ -187,7 +187,7 @@ namespace CTP
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
 	{
-		InputOrderTypePtr lExchangOrderPtr = m_pDataCache->FindInputOrderByThostID(aClientOrderID);
+		boost::shared_ptr<CThostFtdcOrderField> lExchangOrderPtr = m_pDataCache->FindOrderByThostID(aClientOrderID);
 
 		int lFrontID ;
 		int lSessionID;
@@ -382,7 +382,7 @@ namespace CTP
 			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
 			std::stringstream lbuf;
 			lbuf<<"Create Order Failed ThostOrderID "<< lThostOrderID;
-			for(std::pair<AT::ITradeSpi*,AT::ITradeSpi*> apSpi:m_TradeSpiPointMap)
+			for(auto apSpi : m_TradeSpiPointMap)
 			{
 				apSpi.first->OnRtnState(CreateOrder_Failed,lbuf.str());
 			}

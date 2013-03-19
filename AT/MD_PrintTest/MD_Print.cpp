@@ -23,7 +23,7 @@ int main()
 
 	lConfigMap["EnableStateReceiver"] = "0";
 	lConfigMap["EnableSubscribeList"] = "1";
-	lConfigMap["SubscribeList"] = "IF1304 IF1305 IF1306 IF1307";
+	lConfigMap["SubscribeList"] = "IF1303 IF1304 IF1305 IF1306 IF1307";
 	//lConfigMap["SubscribeList"] = lSubListStr;
 
 

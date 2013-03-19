@@ -72,6 +72,11 @@
   <ItemGroup>
     <ClInclude Include="..\TD_CommandLineTest\PrintTDSpi.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
+      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

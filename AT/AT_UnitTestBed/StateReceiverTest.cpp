@@ -45,7 +45,7 @@ public:
 	MOCK_METHOD2(NotifySubModuleState,void(int aErrorCode,const std::string& aErrorMsg));
 };
 
-TEST_F(StateReceiverTestBed,DISABLE_login_test)
+TEST_F(StateReceiverTestBed,DISABLED_login_test)
 {
 	using testing::_;
 	std::map<std::string,std::string> lConfigMap;

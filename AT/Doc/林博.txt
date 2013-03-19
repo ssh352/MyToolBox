@@ -1,0 +1,7 @@
+交易：ctpmn1-front1.citicsf.com:51205
+ctpmn1-front2.citicsf.com:51205
+行情：ctpmn1-front1.citicsf.com:51213
+ctpmn1-front2.citicsf.com:51213
+broker  1017
+00000001-00000099
+密码123456

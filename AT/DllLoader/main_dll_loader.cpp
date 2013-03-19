@@ -12,6 +12,8 @@ std::string GetCmd()
 	memset(lCmd,0,512);
 	std::cin.getline(lCmd,500,'\n');
 	std::string lRet(lCmd);
+	size_t lpos =lRet.find_first_not_of(" ");
+	lRet.substr(lpos);
 	return lRet;
 }
 
@@ -47,29 +49,30 @@ int main()
 	configFile.close();
 	configFile.clear();
 
-	//std::map<std::string,std::string> lConfigMap;
-	//lConfigMap["BrokerID"] =lBorkerid ;
-	//lConfigMap["UserID"] = lUserID;
-	//lConfigMap["Password"]=lPassWord;
-	//lConfigMap["Front"] = lFront;
-
 	std::map<std::string,std::string> lConfigMap;
-	lConfigMap["Index"] = "1";
-	lConfigMap["BrokerID"] ="2030" ;
-	lConfigMap["UserID"] = "000000005510";
-	lConfigMap["Password"]= "228636";
-	lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
+	lConfigMap["Index"] = "3";
+	lConfigMap["BrokerID"] =lBorkerid ;
+	lConfigMap["UserID"] = lUserID;
+	lConfigMap["Password"]=lPassWord;
+	lConfigMap["Front"] = lFront;
 
-	std::map<std::string,std::string> lConfigMap2;
-	lConfigMap2["Index"] = "2";
-	lConfigMap2["BrokerID"] ="2030" ;
-	lConfigMap2["UserID"] = "000000005509";
-	lConfigMap2["Password"]= "221949";
-	lConfigMap2["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
+	//std::map<std::string,std::string> lConfigMap;
+	//lConfigMap["Index"] = "1";
+	//lConfigMap["BrokerID"] ="2030" ;
+	//lConfigMap["UserID"] = "000000005510";
+	//lConfigMap["Password"]= "228636";
+	//lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
+
+	//std::map<std::string,std::string> lConfigMap2;
+	//lConfigMap2["Index"] = "2";
+	//lConfigMap2["BrokerID"] ="2030" ;
+	//lConfigMap2["UserID"] = "000000005509";
+	//lConfigMap2["Password"]= "221949";
+	//lConfigMap2["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
 
 	PrintTDSpi lSpiInst;
 	AT::IDriver_TD* lpDriver = lpCallInst(lConfigMap,&lSpiInst);
-	AT::IDriver_TD* lpDriver2 = lpCallInst(lConfigMap2,&lSpiInst);
+	//AT::IDriver_TD* lpDriver2 = lpCallInst(lConfigMap2,&lSpiInst);
 
 
 

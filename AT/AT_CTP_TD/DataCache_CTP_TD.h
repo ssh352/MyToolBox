@@ -24,6 +24,7 @@ namespace CTP
 		std::string GetThostOrderIDByExchangeOrderID(const std::string& lExchangeOrderID);
 		std::string GetExchangeOrderIDByThostOrderID(const std::string& lThostOrderID);
 
+		boost::shared_ptr<CThostFtdcOrderField> FindOrderByThostID(const std::string& lThostOrderID);
 		InputOrderTypePtr FindInputOrderByThostID(const std::string& lThostOrderID);
 	private:
 		std::string GeneratorOnePositionString(boost::shared_ptr<CThostFtdcInvestorPositionField>);

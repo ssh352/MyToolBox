@@ -95,7 +95,7 @@ namespace CTP
 	private:
 		CThostFtdcTraderApi*  m_pTraderAPI;
 		int m_RequestID;
-		std::map<AT::ITradeSpi*,AT::ITradeSpi*> m_TradeSpiPointMap;
+		AT::ITradeSpi*		m_pTradeSpi;
 		std::map<std::string,std::string> m_ConfigMap;
 		CTP_TD_CODE			m_RuningState;
 	private:

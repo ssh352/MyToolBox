@@ -6,9 +6,9 @@ namespace AT
 	class IDriverManger
 	{
 	public:
-		IDriver_TD* CreateDriverInsance()
+		IDriver_TD* CreateDriverInsance();
 		
 
 
-	}
+	};
 }

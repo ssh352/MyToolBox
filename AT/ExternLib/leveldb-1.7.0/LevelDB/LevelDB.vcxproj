@@ -47,8 +47,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>LEVELDB_PLATFORM_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../include/;../;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>
-      </RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

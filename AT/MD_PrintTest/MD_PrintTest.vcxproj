@@ -52,8 +52,6 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <RuntimeLibrary>
-      </RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

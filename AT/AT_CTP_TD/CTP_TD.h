@@ -46,8 +46,6 @@ namespace CTP
 		CTP_TD();
 		virtual ~CTP_TD();
 		virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) ;
-		virtual void AddSpi(AT::ITradeSpi* apTradeSpi);
-		virtual void RemoveSpi(AT::ITradeSpi* apTradeSpi);
 	public:
 		virtual std::string CreateOrder(const std::string& aNewOrder) ;
 		virtual void DeleteOrder(const std::string& aClientOrderID) ;

@@ -12,6 +12,8 @@ std::string GetCmd()
 	memset(lCmd,0,512);
 	std::cin.getline(lCmd,500,'\n');
 	std::string lRet(lCmd);
+	size_t lpos =lRet.find_first_not_of(" ");
+	lRet = lRet.substr(lpos);
 	return lRet;
 }
 

@@ -244,8 +244,7 @@ class PosixEnv : public Env {
  public:
   PosixEnv();
   virtual ~PosixEnv() {
-    fprintf(stderr, "Destroying Env::Default()\n");
-    exit(1);
+
   }
 
   virtual Status NewSequentialFile(const std::string& fname,

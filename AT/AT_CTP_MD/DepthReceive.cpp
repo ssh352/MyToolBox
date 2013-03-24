@@ -96,6 +96,7 @@ namespace CTP
 		}
 		else
 		{
+			ReplayAllMarketData();
 			m_DepthState = DepthReceiver_RECEIVE_STATE;
 			m_pCTP_MD->NotifySubModuleState(m_DepthState);
 		}
@@ -187,12 +188,20 @@ namespace CTP
 
 	bool DepthReceiver::IsValidPrice( double aPrice )
 	{
-		return aPrice != 1.79769e+308;
+		return aPrice < 1.79768e+308;
 	}
 
 	double DepthReceiver::GetDispalyPrice( double aPrice )
 	{
 		return IsValidPrice(aPrice)? aPrice: -1;
+	}
+
+	void DepthReceiver::ReplayAllMarketData()
+	{
+		for ( auto lDepthIter = m_pDataCache->GetMarketDepthCache()->begin(); lDepthIter!=m_pDataCache->GetMarketDepthCache()->end();lDepthIter++)
+		{
+			m_pCTP_MD->NotifyMarketDepth(BuildMarketDepthString(lDepthIter->second)); 
+		}
 	}
 
 

@@ -23,6 +23,7 @@ namespace CTP
 	private:
 		char** GenerateInstrumentList(const std::string& aInstrumentID);
 		std::string BuildMarketDepthString(boost::shared_ptr<CThostFtdcDepthMarketDataField> aMarketPtr);
+		void ReplayAllMarketData();
 
 	public: //from CTP API
 		virtual void OnFrontConnected();

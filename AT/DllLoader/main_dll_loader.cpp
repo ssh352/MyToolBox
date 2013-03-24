@@ -50,7 +50,7 @@ int main()
 	configFile.clear();
 
 	std::map<std::string,std::string> lConfigMap;
-	lConfigMap["Index"] = "3";
+	//lConfigMap["Index"] = "3";
 	lConfigMap["BrokerID"] =lBorkerid ;
 	lConfigMap["UserID"] = lUserID;
 	lConfigMap["Password"]=lPassWord;

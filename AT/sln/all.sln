@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllLoader", "..\DllLoader\D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_DriverManger", "..\AT_DriverManger\AT_DriverManger.vcxproj", "{0EEA2D5E-72CF-4E8E-BA95-E8E95CA6C95A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StrategyRuner", "..\StrategyRuner\StrategyRuner.vcxproj", "{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -67,6 +69,10 @@ Global
 		{0EEA2D5E-72CF-4E8E-BA95-E8E95CA6C95A}.Debug|Win32.Build.0 = Debug|Win32
 		{0EEA2D5E-72CF-4E8E-BA95-E8E95CA6C95A}.Release|Win32.ActiveCfg = Release|Win32
 		{0EEA2D5E-72CF-4E8E-BA95-E8E95CA6C95A}.Release|Win32.Build.0 = Release|Win32
+		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Debug|Win32.Build.0 = Debug|Win32
+		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Release|Win32.ActiveCfg = Release|Win32
+		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

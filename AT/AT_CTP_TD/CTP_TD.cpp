@@ -6,7 +6,9 @@
 #include <boost\tokenizer.hpp>
 #include <boost\foreach.hpp>
 #include <sstream>
-
+#include <boost\thread.hpp>
+#include <boost\date_time.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 
 extern "C"  __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig,  AT::ITradeSpi* apTradeSpi)
@@ -203,6 +205,7 @@ namespace CTP
 			memset(&req, 0, sizeof(req));
 			strcpy(req.BrokerID, m_BrokerID.c_str());
 			strcpy(req.InvestorID, m_UserID.c_str());
+			boost::this_thread::sleep(boost::posix_time::seconds(1));
 			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
 			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
 			m_IsInQryPosition = true;

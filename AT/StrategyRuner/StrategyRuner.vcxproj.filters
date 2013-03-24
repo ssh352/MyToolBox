@@ -18,5 +18,28 @@
     <ClInclude Include="IStrategy.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="StrDemo1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StrPoster.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenStrategy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="StrDemo1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StrPoster.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenStrategy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

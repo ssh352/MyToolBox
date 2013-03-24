@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -67,6 +67,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="IStrategy.h" />
+    <ClInclude Include="OpenStrategy.h" />
+    <ClInclude Include="StrDemo1.h" />
+    <ClInclude Include="StrPoster.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenStrategy.cpp" />
+    <ClCompile Include="StrDemo1.cpp" />
+    <ClCompile Include="StrPoster.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
+      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
+      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
+      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

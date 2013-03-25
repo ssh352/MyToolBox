@@ -5,6 +5,10 @@
   <PropertyGroup>
     <IncludePath>../AT_Driver;../CTP_Driver/CTP_API/include;../ExternLib\leveldb-1.7.0\include\;C:\boost_1_53_0;../AT_CTP_TD;../AT_CTP_MD;$(IncludePath)</IncludePath>
   </PropertyGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

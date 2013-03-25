@@ -1,6 +1,7 @@
 #include "OpenStrategy.h"
 
 #include <boost\tokenizer.hpp>
+#include <myForeach.h>
 
 using boost::posix_time::time_duration ;
 
@@ -49,7 +50,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 
 	double low =100000;
 	time_duration lowtime;
-	for(auto each : m_MarketCache)
+	MYFOREACH(each , m_MarketCache)
 	{
 		if(each.second < low ) 
 		{

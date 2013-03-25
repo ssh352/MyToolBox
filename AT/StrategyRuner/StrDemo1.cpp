@@ -39,3 +39,8 @@ StrDemo1::StrDemo1()
 {
 	m_Handler = &m_openSate;
 }
+
+void StrDemo1::OnRtnPos( const std::string& aPos )
+{
+
+}

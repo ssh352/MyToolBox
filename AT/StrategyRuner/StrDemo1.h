@@ -13,6 +13,7 @@ public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);
 	virtual void OnRtnTrade(const std::string& apTrade);
+	virtual void OnRtnPos(const std::string& aPos);
 
 private:
 	IStrategy* m_Handler;

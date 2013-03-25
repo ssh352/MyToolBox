@@ -60,8 +60,9 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 
 		if(each.second -low > 5)
 		{
-			std::cout<< "At time"<< each.first << "Price "<< low << "and Time "<<lthisTicktime << "Price "<< lLastPrice;
+			std::cout<< "At time"<< each.first << "Price "<< low << "and Time "<<lthisTicktime << "Price "<< lLastPrice;	
 			m_MarketCache.clear();
+			m_Handler(lLastPrice);
 			break;
 		}
 

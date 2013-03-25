@@ -34,6 +34,7 @@ namespace AT
 		virtual void OnMarketDepth(const std::string& aMarketDepth)= 0;
 		virtual void OnRtnOrder(const std::string& apOrder) = 0;
 		virtual void OnRtnTrade(const std::string& apTrade)=0;
+		virtual void OnRtnPos(const std::string& aPos) = 0;
 	};
 }
 

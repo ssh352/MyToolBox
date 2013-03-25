@@ -45,19 +45,17 @@ public:
 	MOCK_METHOD2(NotifySubModuleState,void(int aErrorCode,const std::string& aErrorMsg));
 };
 
-TEST_F(StateReceiverTestBed,DISABLE_login_test)
+TEST_F(StateReceiverTestBed,DISABLED_login_test)
 {
-	using testing::_;
-	std::map<std::string,std::string> lConfigMap;
-	CTP::StateReceiver lTestInst(lConfigMap);
-	CTP_MD_Mock lMockInst;
-	boost::shared_ptr<CTP::DataCacheCTP> lDataCache(new CTP::DataCacheCTP());
-	lTestInst.SetStateReceive(&lMockInst,lDataCache);
-	lTestInst.Start();
-	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Connecting,_));
-	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Logining,_));
-	EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Retrieving,_));
-
-
-	boost::this_thread::sleep(boost::posix_time::seconds(100));
+	//using testing::_;
+	//std::map<std::string,std::string> lConfigMap;
+	//CTP::StateReceiver lTestInst(lConfigMap);
+	//CTP_MD_Mock lMockInst;
+	//boost::shared_ptr<CTP::DataCacheCTP> lDataCache(new CTP::DataCacheCTP());
+	//lTestInst.SetStateReceive(&lMockInst,lDataCache);
+	//lTestInst.Start();
+	//EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Connecting,_));
+	//EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Logining,_));
+	//EXPECT_CALL(lMockInst,NotifySubModuleState(CTP::CTP_MD_StateReceiver_Retrieving,_));
+	//boost::this_thread::sleep(boost::posix_time::seconds(100));
 }

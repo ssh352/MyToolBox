@@ -316,7 +316,7 @@ namespace CTP
 		std::string lExchangOrderID = GenerateExchangeOrderID(apOrder);
 		std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
 		std::stringstream lOutbuf;
-		lOutbuf << "RtnOrder" <<'\n'
+	/*	lOutbuf << "RtnOrder" <<'\n'
 			<<"ThostOrderID = " <<lThostOrderID <<'\n'
 			<<"ExchangOrderID = "<<lExchangOrderID <<'\n'
 			<<"InstrumentID = " << apOrder->InstrumentID << '\n'
@@ -331,7 +331,9 @@ namespace CTP
 			<<"OrderStatus = "<<apOrder->OrderStatus<<'\n'
 			<<"OrderSubmitStatus = "<<apOrder->OrderSubmitStatus<<'\n'
 			<<"Time = "<<apOrder->UpdateTime<<'\n'
-			<<"Msg = "<<apOrder->StatusMsg<<'\n';
+			<<"Msg = "<<apOrder->StatusMsg<<'\n';*/
+
+		lOutbuf <<lThostOrderID<< " "<<apOrder->OrderStatus;
 		std::string lRet(lOutbuf.str());
 		return lRet;
 	}

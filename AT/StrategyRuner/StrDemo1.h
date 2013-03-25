@@ -15,8 +15,14 @@ public:
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPos(const std::string& aPos);
 
+	void SetChildTD()
+	{
+		m_openSate.SetTDPoint(m_pTD);
+	}
+	
+
 private:
-	IStrategy* m_Handler;
+	IStrategy* m_Handler; //zhuang  tai mo shi
 	OpenStrategy m_openSate;
 };
 

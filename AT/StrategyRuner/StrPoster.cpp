@@ -26,3 +26,29 @@ void StrPoster::NotifyMarketDepth( const std::string& aMarketDepth )
 {
 	m_Inst.OnMarketDepth(aMarketDepth);
 }
+
+void StrPoster::OnRtnState( int aErrorCode,const std::string& aErrorMsg )
+{
+	std::cerr<<aErrorMsg<<std::endl;
+}
+
+void StrPoster::OnRtnOrder( const std::string& apOrder )
+{
+	std::cerr<<apOrder<<std::endl;
+}
+
+
+ void StrPoster::OnRtnTrade(const std::string& apTrade)
+ {
+	 std::cerr<<apTrade<<std::endl;
+ }
+
+void StrPoster::OnRtnPosition( const std::string& aPosition )
+{
+	std::cerr<<aPosition<<std::endl;
+}
+
+StrPoster::StrPoster()
+{
+	m_Inst.set
+}

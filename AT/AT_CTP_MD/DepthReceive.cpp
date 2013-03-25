@@ -72,11 +72,11 @@ namespace CTP
 		
 		//119.4.167.60:62213 华西联通MD
 		
-		m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
+		//m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
 		//m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
 		char buf_front[256];
 		strcpy(buf_front,m_ConfigMap["Front"].c_str());
-		//m_pMDAPI->RegisterFront(buf_front);
+		m_pMDAPI->RegisterFront(buf_front);
 		m_pMDAPI->Init();
 		m_DepthState = DepthReceiver_CONNECTING_STATE;
 		m_pCTP_MD->NotifySubModuleState(m_DepthState);	

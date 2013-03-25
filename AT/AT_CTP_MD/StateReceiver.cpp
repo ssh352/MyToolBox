@@ -141,7 +141,7 @@ namespace CTP
 			if(bIsLast)
 			{
 				std::set<std::string> lProductList = m_pDataCache->GetProductList();
-				BOOST_FOREACH(std::string lProductID,lProductList )
+				MYFOREACH( lProductID,lProductList )
 				{
 					m_pCTP_MD->NotifyProduct(lProductID);
 				}
@@ -151,7 +151,7 @@ namespace CTP
 				m_pCTP_MD->NotifySubModuleState(m_RuningState);
 
 				std::vector<std::string> lInstrumentList = m_pDataCache->GetInstrumentListAll();
-				BOOST_FOREACH( std::string InstrumentID,lInstrumentList )
+				MYFOREACH(  InstrumentID,lInstrumentList )
 				{
 					m_pCTP_MD->NotifyInstrument(InstrumentID);
 				}

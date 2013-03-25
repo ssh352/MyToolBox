@@ -24,8 +24,8 @@ int main()
 	lConfigMap["EnableStateReceiver"] = "0";
 	lConfigMap["EnableSubscribeList"] = "1";
 	lConfigMap["SubscribeList"] = "IF1303 IF1304 IF1305 IF1306 IF1307";
-	//lConfigMap["SubscribeList"] = lSubListStr;
-
+	lConfigMap["IsReplay"] = "0";
+	lConfigMap["Front"]  = "tcp://asp-sim2-front1.financial-trading-platform.com:26213";
 
 	PrintMDSpi lPrintMD;
 	linst.Init(lConfigMap,&lPrintMD);

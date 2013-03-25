@@ -18,20 +18,14 @@ public:
 	virtual void SetStrategyPram(AT::StrategyPram* apStrParam){};
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
-	virtual void OnRtnOrder(const std::string& apOrder){};
-	virtual void OnRtnTrade(const std::string& apTrade){};
+	virtual void OnRtnOrder(const std::string& apOrder);
+	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPos(const std::string& aPos){};
-
-public:
-	void SetSingleHandle(std::function<void(double)> aHandle)
-	{
-		m_Handler = aHandle;
-	}
 
 private:
 
 	std::map<boost::posix_time::time_duration,double> m_MarketCache;
-	std::function<void(double)>	m_Handler;
+	std::string m_ActiveOrder;
 
 };
 

@@ -17,11 +17,13 @@ void StrDemo1::OnMarketDepth( const std::string& aMarketDepth )
 
 void StrDemo1::OnRtnOrder( const std::string& apOrder )
 {
+		m_Handler->OnMarketDepth(apOrder);
 		std::cout<<"StrDemo1 Receive "<<apOrder;
 }
 
 void StrDemo1::OnRtnTrade( const std::string& apTrade )
 {
+		m_Handler->OnMarketDepth(apTrade);
 		std::cout<<"StrDemo1 Receive "<<apTrade;
 }
 
@@ -38,6 +40,7 @@ void StrDemo1::SetStrategyPram( AT::StrategyPram* apStrParam )
 StrDemo1::StrDemo1()
 {
 	m_Handler = &m_openSate;
+	SetChildTD();
 }
 
 void StrDemo1::OnRtnPos( const std::string& aPos )

@@ -96,6 +96,7 @@ namespace CTP
 		}
 		else
 		{
+			ReplayAllMarketData();
 			m_DepthState = DepthReceiver_RECEIVE_STATE;
 			m_pCTP_MD->NotifySubModuleState(m_DepthState);
 		}
@@ -143,16 +144,30 @@ namespace CTP
 	{
 		std::stringstream lStringStream;
 			
-			lStringStream<<aMarketPtr->InstrumentID 
-				<<" 时间："<<aMarketPtr->UpdateTime
-				<<" 最新价:"<< GetDispalyPrice(aMarketPtr->LastPrice)
-				<<" 最高价:" << GetDispalyPrice(aMarketPtr->HighestPrice)
-				<<" 最低价:" << GetDispalyPrice (aMarketPtr->LowestPrice)
-				<<" 卖一价:" << GetDispalyPrice( aMarketPtr->AskPrice1)
-				<<" 卖一量:" << aMarketPtr->AskVolume1 
-				<<" 买一价:" << GetDispalyPrice(aMarketPtr->BidPrice1)
-				<<"	买一量:" << aMarketPtr->BidVolume1
-				<<" 市场持仓:"<< aMarketPtr->OpenInterest<<std::endl;
+			//lStringStream<<'@'<<aMarketPtr->InstrumentID 
+			//	<<" 时间："<'@'<<<aMarketPtr->UpdateTime<<'.'<<aMarketPtr->UpdateMillisec 
+			//	<<" 最新价:"<<'@'<< GetDispalyPrice(aMarketPtr->LastPrice) 
+			//	<<" 最高价:" <<'@'<< GetDispalyPrice(aMarketPtr->HighestPrice) 
+			//	<<" 最低价:" <<'@'<< GetDispalyPrice (aMarketPtr->LowestPrice) 
+			//	<<" 卖一价:" <<'@'<< GetDispalyPrice( aMarketPtr->AskPrice1) 
+			//	<<" 卖一量:" << '@'<<aMarketPtr->AskVolume1  
+			//	<<" 买一价:" <<'@'<< GetDispalyPrice(aMarketPtr->BidPrice1) 
+			//	<<"	买一量:" <<'@'<< aMarketPtr->BidVolume1 
+			//	<<" 市场持仓:"<<'@'<< aMarketPtr->OpenInterest <<std::endl;
+
+			lStringStream<<aMarketPtr->InstrumentID <<' '
+				<<aMarketPtr->UpdateTime<<' '
+				<<aMarketPtr->UpdateMillisec  <<' '
+				<< GetDispalyPrice(aMarketPtr->LastPrice)  <<' '
+				 << GetDispalyPrice(aMarketPtr->HighestPrice)  <<' '
+				 << GetDispalyPrice (aMarketPtr->LowestPrice)  <<' '
+				 << GetDispalyPrice( aMarketPtr->AskPrice1)  <<' '
+				 <<aMarketPtr->AskVolume1   <<' '
+				 << GetDispalyPrice(aMarketPtr->BidPrice1)  <<' '
+				<< aMarketPtr->BidVolume1  <<' '
+				 << aMarketPtr->OpenInterest  <<' '<<std::endl;
+
+
 		std::string lRet(lStringStream.str());
 		return lRet;
 	}
@@ -187,12 +202,21 @@ namespace CTP
 
 	bool DepthReceiver::IsValidPrice( double aPrice )
 	{
-		return aPrice != 1.79769e+308;
+		return aPrice < 1.79768e+308;
 	}
 
 	double DepthReceiver::GetDispalyPrice( double aPrice )
 	{
 		return IsValidPrice(aPrice)? aPrice: -1;
+	}
+
+	void DepthReceiver::ReplayAllMarketData()
+	{
+		for ( auto lDepthIter = m_pDataCache->GetMarketDepthCache()->begin(); lDepthIter!=m_pDataCache->GetMarketDepthCache()->end();lDepthIter++)
+		{
+			m_pCTP_MD->NotifyMarketDepth(BuildMarketDepthString(lDepthIter->second)); 
+		}
+		std::cout<<"Finished_________SYNC";
 	}
 
 

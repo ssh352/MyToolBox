@@ -51,7 +51,7 @@ namespace CTP
 		std::vector<std::string> GetInstrumentListByProduct(const std::string& ProductID);
 		std::vector<std::string> GetInstrumentListAll();
 		std::set<std::string>	 GetProductList();
-
+		MarketDepthCacheCTP*	 GetMarketDepthCache();
 
 		template<typename FindPropertTrait>
 		std::vector<std::string> GetInstrumentListByPropert(const std::string& aPreportVal)

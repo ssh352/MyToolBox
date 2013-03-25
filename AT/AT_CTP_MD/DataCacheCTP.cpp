@@ -53,6 +53,11 @@ namespace CTP
 		m_MarketDepthCacheCTP.InitWithDB(lDateString+"MarkeDepthDB");
 	}
 
+	MarketDepthCacheCTP* DataCacheCTP::GetMarketDepthCache()
+	{
+		return &m_MarketDepthCacheCTP;
+	}
+
 }
 
 

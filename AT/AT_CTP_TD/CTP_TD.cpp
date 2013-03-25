@@ -6,24 +6,16 @@
 #include <boost\tokenizer.hpp>
 #include  "MyForeach.h"
 #include <sstream>
-
+#include <boost\thread.hpp>
+#include <boost\date_time.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 
 extern "C"  __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig,  AT::ITradeSpi* apTradeSpi)
 {
-	std::string lIndex = aConfig.at("Index");
-	static std::map<std::string,AT::IDriver_TD*> s_InstanceMap;
-	if(s_InstanceMap.find(lIndex) != s_InstanceMap.end())
-	{
-		 AT::IDriver_TD* lpRet =  s_InstanceMap[lIndex];
-		 lpRet->AddSpi(apTradeSpi);
-		 return lpRet;
-	}
-
 	 AT::IDriver_TD* lpDriverInstance = new CTP::CTP_TD();
 	 lpDriverInstance->Init(aConfig, apTradeSpi);
-	 s_InstanceMap[lIndex] = lpDriverInstance;
-	return lpDriverInstance;
+	 return lpDriverInstance;
 }
 
 char g_Address[512] ;
@@ -49,17 +41,14 @@ namespace CTP
 
 	void CTP_TD::NotifyState()
 	{
-		BOOST_FOREACH(auto apSpi,m_TradeSpiPointMap)
-		{
-			apSpi.first->OnRtnState(m_RuningState,"");
-		}
+		m_pTradeSpi->OnRtnState(m_RuningState,"");
 	}
 
 	void CTP_TD::Init( const std::map<std::string,std::string>& aConfigMap,AT::ITradeSpi* apTradeSpi )
 	{
 		m_ConfigMap = aConfigMap;
-		m_pDataCache.reset(new DataCache_CTP_TD(aConfigMap.at("Index")));
-		m_TradeSpiPointMap.insert(std::make_pair(apTradeSpi,apTradeSpi));
+		m_pDataCache.reset(new DataCache_CTP_TD(aConfigMap.at("StoreDir")));
+		m_pTradeSpi = apTradeSpi;
 
 		m_BrokerID = m_ConfigMap["BrokerID"];
 		m_UserID = m_ConfigMap["UserID"];
@@ -80,16 +69,6 @@ namespace CTP
 		m_pTraderAPI->Init();
 		m_RuningState = Connecting;
 		NotifyState();
-	}
-
-	void CTP_TD::AddSpi( AT::ITradeSpi* apTradeSpi )
-	{
-		m_TradeSpiPointMap.insert(std::make_pair(apTradeSpi,apTradeSpi));
-	}
-
-	void CTP_TD::RemoveSpi( AT::ITradeSpi* apTradeSpi )
-	{
-		m_TradeSpiPointMap.erase(apTradeSpi);
 	}
 
 	void CTP_TD::OnFrontConnected()
@@ -187,8 +166,13 @@ namespace CTP
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
 	{
-		InputOrderTypePtr lExchangOrderPtr = m_pDataCache->FindInputOrderByThostID(aClientOrderID);
+		boost::shared_ptr<CThostFtdcOrderField> lExchangOrderPtr = m_pDataCache->FindOrderByThostID(aClientOrderID);
 
+		if(!lExchangOrderPtr)
+		{
+			//LogError
+			return;
+		}
 		int lFrontID ;
 		int lSessionID;
 		std::string lOrderRef = ResolveThostOrderID(aClientOrderID,lSessionID,lFrontID);
@@ -221,6 +205,7 @@ namespace CTP
 			memset(&req, 0, sizeof(req));
 			strcpy(req.BrokerID, m_BrokerID.c_str());
 			strcpy(req.InvestorID, m_UserID.c_str());
+			boost::this_thread::sleep(boost::posix_time::seconds(1));
 			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
 			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
 			m_IsInQryPosition = true;
@@ -298,10 +283,7 @@ namespace CTP
 		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
 		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
 		m_pDataCache->UpdataOrder(lpOrder);
-		MYFOREACH(apSpi,m_TradeSpiPointMap)
-		{
-			apSpi.first->OnRtnOrder(BuildRtnOrderStr(lpOrder));
-		}
+		m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
 	}
 
 	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )
@@ -309,11 +291,8 @@ namespace CTP
 		boost::shared_ptr<CThostFtdcTradeField> lpTrade (new CThostFtdcTradeField);
 		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
 		m_pDataCache->UpdataTrade(lpTrade);
-		MYFOREACH(apSpi,m_TradeSpiPointMap)
-		{
-			apSpi.first->OnRtnTrade(BuildRtnTradeStr(lpTrade));
-			apSpi.first->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
-		}
+		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
+		m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
 	}
 
 	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
@@ -366,10 +345,7 @@ namespace CTP
 			std::string lThostOrderID = GenerateThostOrderID(lpRet);
 			std::stringstream lbuf;
 			lbuf<<"Cancel Order Failed ThostOrderID "<< lThostOrderID;
-			MYFOREACH(apSpi,m_TradeSpiPointMap)
-			{
-				apSpi.first->OnRtnState(Cancel_Failed,lbuf.str());
-			}
+			m_pTradeSpi->OnRtnState(Cancel_Failed,lbuf.str());
 		}
 	}
 
@@ -382,10 +358,7 @@ namespace CTP
 			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
 			std::stringstream lbuf;
 			lbuf<<"Create Order Failed ThostOrderID "<< lThostOrderID;
-			MYFOREACH( apSpi,m_TradeSpiPointMap)
-			{
-				apSpi.first->OnRtnState(CreateOrder_Failed,lbuf.str());
-			}
+			m_pTradeSpi->OnRtnState(CreateOrder_Failed,lbuf.str());
 		}
 	}
 
@@ -403,10 +376,7 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
-			MYFOREACH( apSpi,m_TradeSpiPointMap)
-			{
-				apSpi.first->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
-			}
+			m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
 			m_IsInQryPosition = false; 
 		}
 		if(NULL!=pInvestorPosition)
@@ -421,10 +391,7 @@ namespace CTP
 		{
 			m_IsInQryPosition = false; 
 			std::string lPosRspStr = m_pDataCache->GeneratorPositionString();
-			MYFOREACH( apSpi,m_TradeSpiPointMap)
-			{
-				apSpi.first->OnRtnPosition(lPosRspStr);
-			}
+			m_pTradeSpi->OnRtnPosition(lPosRspStr);
 			UpdateAccout();
 		}
 	}
@@ -433,17 +400,11 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
-			MYFOREACH( apSpi,m_TradeSpiPointMap)
-			{
-				apSpi.first->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
-			}
+			m_pTradeSpi->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
 		}
 		boost::shared_ptr<CThostFtdcTradingAccountField> lpTradingAccout(new CThostFtdcTradingAccountField);
 		memcpy(lpTradingAccout.get(),pTradingAccount,sizeof(CThostFtdcTradingAccountField));
-		MYFOREACH( apSpi,m_TradeSpiPointMap)
-		{
-			apSpi.first->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
-		}
+		m_pTradeSpi->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
 	}
 
 	std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )

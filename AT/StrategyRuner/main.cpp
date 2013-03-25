@@ -1,10 +1,9 @@
-
 #include <fstream>
 #include <string>
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
 #include "CTP_MD.h"
-#include "PrintMDSpi.h"
+#include "StrPoster.h"
 int main()
 {
 	CTP::CTP_MD linst;
@@ -27,7 +26,7 @@ int main()
 	//lConfigMap["SubscribeList"] = lSubListStr;
 
 
-	PrintMDSpi lPrintMD;
+	StrPoster lPrintMD;
 	linst.Init(lConfigMap,&lPrintMD);
 	while(true)
 	{

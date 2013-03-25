@@ -24,7 +24,8 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>misc</Filter>
     </ClCompile>
-    <ClCompile Include="ItemtableTest.cpp" />
+  <ClCompile Include="ItemtableTest.cpp" />
+    <ClCompile Include="TestMsgLen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="googleMock\gmock\gmock.h">

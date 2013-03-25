@@ -18,9 +18,10 @@ namespace CTP
 	public:
 		static std::string GetItemID(MarketDataPtr aTickData)
 		{
-			std::string lInstrumentIDKey (aTickData->InstrumentID,30);
+			std::string lInstrumentIDKey (aTickData->InstrumentID,strlen(aTickData->InstrumentID)>30 ?strlen(aTickData->InstrumentID) :30 );
 			std::string	lTime(aTickData->UpdateTime,8);
 			//std::string	lTime(boost::lexical_cast<std::string>(aTickData->UpdateMillisec));
+			lInstrumentIDKey += " ";
 			lInstrumentIDKey += lTime;
 			return lInstrumentIDKey ;
 		};
@@ -32,6 +33,7 @@ namespace CTP
 	{
 	public:
 		void InsertMarketTick( MarketDataPtr  aTickData);
+
 	};
 }
 

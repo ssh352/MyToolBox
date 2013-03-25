@@ -8,11 +8,11 @@
 #include "IStrategy.h"
 
 
-class OpenStrategy :public AT::IStrategy
+class CloseStrategy :public AT::IStrategy
 {
 public:
-	OpenStrategy();
-	virtual ~OpenStrategy();
+	CloseStrategy();
+	virtual ~CloseStrategy();
 
 	virtual void NotifyState(int aErrorCode);
 	virtual void SetStrategyPram(AT::StrategyPram* apStrParam){};
@@ -25,18 +25,22 @@ public:
 	void Reload();
 
 public:
-	void SendExitHandle(std::function<void(double)> aExitHandle)
+	void SendExitHandle(std::function<void()> aExitHandle)
 	{
 		m_ExitHandle = aExitHandle;
+	}
+	void SetStartPrice(double aStartPrice)
+	{
+		m_StartPrice = aStartPrice;
 	}
 
 private:
 
 	std::map<boost::posix_time::time_duration,double> m_MarketCache;
 	std::string m_ActiveOrder;
-	std::function<void(double)> m_ExitHandle;
+	std::function<void()> m_ExitHandle;
 	bool m_isPlaceOrder ;
-	double m_placePrice;
+	double m_StartPrice;
 
 };
 

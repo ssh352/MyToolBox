@@ -9,7 +9,7 @@
 #include <boost\thread.hpp>
 #include <boost\date_time.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-
+#include <rapidxml.hpp>
 
 extern "C"  __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig,  AT::ITradeSpi* apTradeSpi)
 {

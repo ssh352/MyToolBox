@@ -1,4 +1,4 @@
-#include "OpenStrategy.h"
+#include "CloseStrategy.h"
 #include <sstream>
 #include <boost\tokenizer.hpp>
 #include <myForeach.h>
@@ -7,38 +7,31 @@ using boost::posix_time::time_duration ;
 
 
 static std::string  g_Instument = "IF1304";
-static int    g_timeDiv = 5;
+static double          WinLevel1 = 5;
+static double         QuitLevel1 = 2;
+static double          WinLevel2 = 10;
+static double         QuitLevel2 = 3;
+static double          WinLevel3 = 15;
+static double         QuitLevel3 = 4;
 
 
-time_duration  Parser( const std::string& aMarket , double& aRefPrice )
-{
-	boost::char_separator<char> sep(" ");
-	boost::tokenizer<boost::char_separator<char>> lTok(aMarket,sep);
-	std::vector<std::string> lStrList(lTok.begin(),lTok.end());
-
-	aRefPrice  = std::stod( lStrList[3]);
-	time_duration  lSecond = boost::posix_time::duration_from_string (lStrList[1]);
-	lSecond += boost::posix_time::millisec(std::stoi(lStrList[2]));
-	return lSecond;
-}
+extern time_duration  Parser( const std::string& aMarket , double& aRefPrice );
 
 
 
-OpenStrategy::OpenStrategy(void)
+CloseStrategy::CloseStrategy(void)
 {
 }
 
 
-OpenStrategy::~OpenStrategy(void)
+CloseStrategy::~CloseStrategy(void)
 {
 }
 
-void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
+void CloseStrategy::OnMarketDepth( const std::string& aMarketDepth )
 {
-
-
-	if(aMarketDepth.find(g_Instument.c_str())  == aMarketDepth.size())
-		return;
+	//todo fliter others
+	aMarketDepth;
 
 	double lLastPrice ;
 	
@@ -81,7 +74,6 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 			lOrderStr += "open ";
 			lOrderStr += "1 ";
 			lOrderStr += std::to_string(lLastPrice);
-			m_placePrice = lLastPrice;
 			m_ActiveOrder = m_pTD->CreateOrder(lOrderStr);
 			std::cout<<"place order ";
 			break;
@@ -90,7 +82,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 	}
 }
 
-void OpenStrategy::OnRtnOrder( const std::string& apOrder )
+void CloseStrategy::OnRtnOrder( const std::string& apOrder )
 {
 	//std::stringstream lbuf(apOrder);
 	//std::string lorderID ;
@@ -99,15 +91,15 @@ void OpenStrategy::OnRtnOrder( const std::string& apOrder )
 
 }
 
-void OpenStrategy::OnRtnTrade( const std::string& apTrade )
+void CloseStrategy::OnRtnTrade( const std::string& apTrade )
 {
 	//todo check the Traded Order ID
-	m_ExitHandle(m_placePrice);
+	m_ExitHandle();
 	//todo held ok
 
 }
 
-void OpenStrategy::Reload()
+void CloseStrategy::Reload()
 {
 	m_isPlaceOrder = false;
 	m_MarketCache.clear();

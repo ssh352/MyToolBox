@@ -41,7 +41,7 @@ namespace CTP
 		MD_SubMoudle_State m_DepthState;
 		int m_RequestID;
 		std::map<std::string,char**>  m_allocateMemMap;
-		const std::map<std::string,std::string> m_ConfigMap;
+		std::map<std::string,std::string> m_ConfigMap;
 		bool IsValidPrice(double aPrice);
 		double  GetDispalyPrice(double aPrice);
 	};

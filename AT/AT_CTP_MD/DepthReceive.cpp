@@ -55,13 +55,28 @@ namespace CTP
 
 	void DepthReceiver::Start()
 	{
+		if(m_ConfigMap["IsReplay"] == "1")
+		{
+			ReplayAllMarketData();
+			return ;
+		}
+
 		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi("flow2");
 		m_pMDAPI->RegisterSpi(this);
+
+
+		//lMDConfigMap["BrokerID"] =lBorkerid ;
+		//lMDConfigMap["UserID"] = lUserID;
+		//lMDConfigMap["Password"]=lPassWord;
+		//lMDConfigMap["Front"] = lFront;
 		
 		//119.4.167.60:62213 华西联通MD
 		
-		//m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
-		m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
+		m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
+		//m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
+		char buf_front[256];
+		strcpy(buf_front,m_ConfigMap["Front"].c_str());
+		//m_pMDAPI->RegisterFront(buf_front);
 		m_pMDAPI->Init();
 		m_DepthState = DepthReceiver_CONNECTING_STATE;
 		m_pCTP_MD->NotifySubModuleState(m_DepthState);	
@@ -69,18 +84,12 @@ namespace CTP
 
 	void DepthReceiver::OnFrontConnected()
 	{
-		if( DepthReceiver_CONNECTING_STATE == m_DepthState)
-		{
-			CThostFtdcReqUserLoginField lLoginReq;
-			memset(&lLoginReq,0,sizeof(CThostFtdcReqUserLoginField));
-			m_pMDAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-			m_DepthState = DepthReceiver_LOGINING_STATE;
-			m_pCTP_MD->NotifySubModuleState(m_DepthState,std::string(lLoginReq.UserID,15));
-		}
-		else
-		{
-			std::cerr << "Disconnect ? auto reconnect?????\n";
-		}
+		CThostFtdcReqUserLoginField lLoginReq;
+		memset(&lLoginReq,0,sizeof(CThostFtdcReqUserLoginField));
+		m_pMDAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
+		m_DepthState = DepthReceiver_LOGINING_STATE;
+		m_pCTP_MD->NotifySubModuleState(m_DepthState,std::string(lLoginReq.UserID,15));
+
 	}
 	void DepthReceiver::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 		CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
@@ -202,6 +211,7 @@ namespace CTP
 
 	bool DepthReceiver::IsValidPrice( double aPrice )
 	{
+		//note 1.79769e+308; is the max val .
 		return aPrice < 1.79768e+308;
 	}
 

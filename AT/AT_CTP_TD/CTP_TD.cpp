@@ -297,51 +297,63 @@ namespace CTP
 
 	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
 	{
+	
+	
 		std::string lExchangOrderID = GenerateExchangeOrderID(apTrade);
 		std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
-		std::stringstream lOutbuf;
-		lOutbuf << "RtnTrade" <<'\n'
-			<<"ThostOrderID = " <<lThostOrderID <<'\n'
-			<<"TradeID = "<<apTrade->TradeID <<'\n'
-			<<"InstrumentID = " << apTrade->InstrumentID << '\n'
-			<<"TradeVol = "<<apTrade->Volume<<'\n'
-			<<"Price = "<<apTrade->Price<<'\n'
-			<<"Time = "<<apTrade->TradeTime<<'\n';
-		std::string lRet(lOutbuf.str());
-		return lRet;
+
+		using boost::property_tree::ptree;
+		ptree pt;
+		pt.put("head.type","TradeUpdate");
+		pt.put("head.version",0.1f);
+		pt.put("Trade.ThostOrderID" , lThostOrderID );
+		pt.put("Trade.TradeID" , apTrade->TradeID  );
+		pt.put("Trade.InstrumentID" ,apTrade->InstrumentID  );
+		pt.put("Trade.TradeVol" , apTrade->Volume );
+		pt.put("Trade.Price" , apTrade->Price );
+		pt.put("Trade.Time" , apTrade->TradeTime);
+
+		
+		std::stringstream lStringStream;
+		write_xml(lStringStream,pt);
+		return lStringStream.str();
 	}
 
 	std::string CTP_TD::BuildRtnOrderStr( boost::shared_ptr<CThostFtdcOrderField> apOrder )
 	{
 		std::string lExchangOrderID = GenerateExchangeOrderID(apOrder);
 		std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
-		std::stringstream lOutbuf;
-	/*	lOutbuf << "RtnOrder" <<'\n'
-			<<"ThostOrderID = " <<lThostOrderID <<'\n'
-			<<"ExchangOrderID = "<<lExchangOrderID <<'\n'
-			<<"InstrumentID = " << apOrder->InstrumentID << '\n'
-			<<"Vol_Orgi = "<<apOrder->VolumeTotalOriginal<<'\n'
-			<<"Vol_Left = "<<apOrder->VolumeTotal<<'\n'
-			<<"Vol_Today_Trade = "<<apOrder->VolumeTraded<<'\n'
-			<<"Price = "<<apOrder->LimitPrice<<'\n'
-			<<"BuySell = "<<apOrder->Direction<<'\n'
-			<<"OpenClose = "<<apOrder->CombOffsetFlag[0]<<'\n'
-			<<"OrderType = " <<apOrder->OrderType<<'\n'
-			<<"TimeCodition = "<<apOrder->TimeCondition<<'\n'
-			<<"OrderStatus = "<<apOrder->OrderStatus<<'\n'
-			<<"OrderSubmitStatus = "<<apOrder->OrderSubmitStatus<<'\n'
-			<<"Time = "<<apOrder->UpdateTime<<'\n'
-			<<"Msg = "<<apOrder->StatusMsg<<'\n';*/
-
-		lOutbuf <<lThostOrderID<< " "<<apOrder->OrderStatus;
-		std::string lRet(lOutbuf.str());
-		return lRet;
+		
+		using boost::property_tree::ptree;
+		ptree pt;
+		pt.put("head.type","OrderUpdate");
+		pt.put("head.version",0.1f);
+		pt.put("Order.ThostOrderID" , lThostOrderID );
+		pt.put("Order.ExchangOrderID" , lExchangOrderID  );
+		pt.put("Order.InstrumentID" ,apOrder->InstrumentID );
+		pt.put("Order.TotalVol" ,apOrder->VolumeTotalOriginal);
+		pt.put("Order.TradeVol" , apOrder->VolumeTraded);
+		pt.put("Order.Price" ,apOrder->LimitPrice );
+		pt.put("Order.UpdateTime" ,apOrder->UpdateTime);
+		pt.put("BuySell = ",apOrder->Direction);
+		pt.put("Order.OpenClose" ,apOrder->CombOffsetFlag[0] );
+		pt.put("Order.OrderType" ,apOrder->OrderType);
+		pt.put("Order.TimeCodition" , apOrder->TimeCondition);
+		pt.put("Order.OrderStatus" ,apOrder->OrderStatus );
+		pt.put("Order.OrderSubmitStatus" ,apOrder->OrderSubmitStatus);
+		pt.put("StatusMsg",apOrder->StatusMsg);	
+		
+		std::stringstream lStringStream;
+		write_xml(lStringStream,pt);
+		return lStringStream.str();
+		
 	}
 
 	void CTP_TD::OnRspOrderAction( CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
+			//todo cancel reject
 			boost::shared_ptr<CThostFtdcInputOrderActionField> lpRet(new CThostFtdcInputOrderActionField );
 			memcpy(lpRet.get(),pInputOrderAction,sizeof(CThostFtdcInputOrderActionField));
 			std::string lThostOrderID = GenerateThostOrderID(lpRet);
@@ -355,12 +367,24 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
+			//todo check this message is in current session
+			//how to handle it is a problem 
+			//because it not carray frontID and SessionID
 			boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
 			memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
 			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
-			std::stringstream lbuf;
-			lbuf<<"Create Order Failed ThostOrderID "<< lThostOrderID;
-			m_pTradeSpi->OnRtnState(CreateOrder_Failed,lbuf.str());
+			
+			using boost::property_tree::ptree;
+			ptree pt;
+			pt.put("head.type","OrderUpdate");
+			pt.put("head.version",0.1f);
+			pt.put("Order.ThostOrderID" , lThostOrderID );
+			pt.put("Order.OrderStatus" ,pInputOrder->OrderStatus );
+			pt.put("Order.OrderSubmitStatus" ,pInputOrder->OrderSubmitStatus);
+			std::stringstream lStringStream;
+			write_xml(lStringStream,pt);
+			//return lStringStream.str();
+			//ToDO
 		}
 	}
 

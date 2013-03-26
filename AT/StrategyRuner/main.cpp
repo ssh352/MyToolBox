@@ -2,50 +2,43 @@
 #include <string>
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 #include "CTP_MD.h"
 #include "StrPoster.h"
 #include "../MD_PrintTest/PrintMDSpi.h"
+#include "myForeach.h"
+
 int main()
 {
 	CTP::CTP_MD linst;
 
-	//std::fstream lConfigFile("config.ini");
-	//std::string lSubListStr;
-	//std::string lbufl;
-	//lConfigFile>>lbufl;
-	//lSubListStr.append( lbufl);
-	//while(lConfigFile>>lbufl)
-	//{
-	//	lSubListStr.append( lbufl);
-	//}
 	std::map<std::string,std::string> lMDConfigMap;
 
-	std::fstream configFile("MDconfig.ini");
+	boost::property_tree::ptree lpt;
+	read_xml("MDConfig.xml",lpt);
 
-	std::string lBorkerid ;
-	std::string lUserID;
-	std::string lPassWord;
-	std::string  lFront;
-	configFile>>lBorkerid>>lUserID>>lPassWord>>lFront;
-	configFile.close();
-	configFile.clear();
+	lMDConfigMap["EnableStateReceiver"] =   lpt.get("MDConfig.EnableStateReceiver", "0");
+	lMDConfigMap["EnableSubscribeList"] =  lpt.get("MDConfig.EnableSubscribeList", "1");
 
-	//lMDConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26213";
-	//lMDConfigMap["EnableStateReceiver"] = "0";
-	//lMDConfigMap["EnableSubscribeList"] = "1";
-	//lMDConfigMap["SubscribeList"] = "IF1303 IF1304 IF1305 IF1306 IF1307";
-	//lMDConfigMap["IsReplay"] = "0";
+	lMDConfigMap["IsReplay"] =  lpt.get("MDConfig.IsReplay", "0");
+	lMDConfigMap["Front"]  = lpt.get("MDConfig.Front",  "tcp://asp-sim2-front1.financial-trading-platform.com:26213");
 
-	//lConfigMap["SubscribeList"] = lSubListStr;
+	std::string  lSubList;
+	MYFOREACH(v, lpt.get_child("MDConfig.SubList"))
+	{
+		lSubList += (v.second.data());
+		lSubList += " ";
 
+	}
+	lMDConfigMap["SubscribeList"] = lSubList;
 
-	lMDConfigMap["EnableStateReceiver"] = "0";
-	lMDConfigMap["EnableSubscribeList"] = "1";
-	lMDConfigMap["SubscribeList"] = "IF1304";
-	lMDConfigMap["IsReplay"] = "0";
-	lMDConfigMap["Front"]  = "tcp://asp-sim2-front1.financial-trading-platform.com:26213";
+	//lpt.add("MDConfig.SubList.item","IF1304");
+	//lpt.add("MDConfig.SubList.item","IF1305");
+	//lpt.add("MDConfig.SubList.item","IF1306");
 
-
+	//write_xml("MDConfig.xml",lpt);
 
 	//PrintMDSpi lPrintMD;
 	StrPoster lPrintMD;

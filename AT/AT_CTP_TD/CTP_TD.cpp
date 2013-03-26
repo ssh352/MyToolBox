@@ -221,22 +221,30 @@ namespace CTP
 
 	InputOrderTypePtr CTP_TD::BuildExchangeOrder( const std::string& aNewOrder )
 	{
-		std::vector<std::string> lVarVec ;
-		boost::tokenizer<> tok(aNewOrder);
-		MYFOREACH(lVar,tok)
-		{
-			lVarVec.push_back(lVar);
-		}
+		std::stringstream lbuf(aMarketDepth);
+		using boost::property_tree::ptree;
+		ptree pt;
+		read_xml(lbuf,pt);
+		
+		//todo check head version
+
+		
+		std::string lInstrument =pt.get<std::string>("Order.ID");
+		double lPrice = pt.get<double> ("Order.Price");
+		std::string lBuySellCode = pt.get<std::string> ("Order.BuyCode" );
+		std::string lOpenCloseCode = pt.get<std::string>("Order.OpenCode");
+		int lVol = pt.get<int>("Order.Vol");
+		
 
 		InputOrderTypePtr lRetPtr(new CThostFtdcInputOrderField);
 		CThostFtdcInputOrderField& lRet = *lRetPtr;
 		memset(&lRet,0,sizeof(CThostFtdcInputOrderField));
 		strcpy_s(lRet.BrokerID,11,m_BrokerID.c_str());
 		strcpy_s(lRet.InvestorID, 13,m_UserID.c_str()); //投资者代码	
-		strcpy_s(lRet.InstrumentID, 31,lVarVec[order_name].c_str()); //合约代码	
+		strcpy_s(lRet.InstrumentID, 31,lInstrument.c_str()); //合约代码	
 		std::string lnextOrderRef = boost::lexical_cast<std::string>(++m_MaxOrderRef);
 		strcpy(lRet.OrderRef,lnextOrderRef.c_str() );  //报单引用
-		lRet.LimitPrice = boost::lexical_cast<double>(lVarVec[order_price]);	//价格
+		lRet.LimitPrice = lPrice;	//价格
 		if(abs(lRet.LimitPrice)<0.01)
 		{
 			lRet.OrderPriceType = THOST_FTDC_OPT_AnyPrice;//价格类型=市价
@@ -247,27 +255,27 @@ namespace CTP
 			lRet.OrderPriceType = THOST_FTDC_OPT_LimitPrice;//价格类型=限价	
 			lRet.TimeCondition = THOST_FTDC_TC_GFD;  //有效期类型:当日有效
 		}
-		lRet.Direction =  (lVarVec[order_buysell] == "buy")? THOST_FTDC_D_Buy:THOST_FTDC_D_Sell;  //买卖方向	
+		lRet.Direction =  (lBuySellCode== "Buy")? THOST_FTDC_D_Buy:THOST_FTDC_D_Sell;  //买卖方向	
 		char lopencloseFlag;
-		if(lVarVec[order_openclose] == "open")
+		if(lOpenCloseCode== "Open")
 		{
 			lopencloseFlag = THOST_FTDC_OF_Open;
 		}
-		else if(lVarVec[order_openclose] == "close")
+		else if(lOpenCloseCode == "close")
 		{
 			lopencloseFlag = THOST_FTDC_OF_Close;
 		}
-		else if(lVarVec[order_openclose] == "closeT")
+		else if(lOpenCloseCode == "closeT")
 		{
 			lopencloseFlag = THOST_FTDC_OF_CloseToday;
 		}
-		else if(lVarVec[order_openclose] == "closeY")
+		else if(lOpenCloseCode == "closeY")
 		{
 			lopencloseFlag = THOST_FTDC_OF_CloseYesterday;
 		}
 		lRet.CombOffsetFlag[0] =  lopencloseFlag; //组合开平标志:开仓
 		lRet.CombHedgeFlag[0] = THOST_FTDC_HF_Speculation;	  //组合投机套保标志	
-		lRet.VolumeTotalOriginal = boost::lexical_cast<int>(lVarVec[order_val]);	///数量		
+		lRet.VolumeTotalOriginal = lVol;	///数量		
 		lRet.VolumeCondition = THOST_FTDC_VC_AV; //成交量类型:任何数量
 		lRet.MinVolume = 1;	//最小成交量:1	
 		lRet.ContingentCondition = THOST_FTDC_CC_Immediately;  //触发条件:立即

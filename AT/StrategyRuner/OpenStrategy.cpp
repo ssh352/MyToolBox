@@ -2,25 +2,13 @@
 #include <sstream>
 #include <boost\tokenizer.hpp>
 #include <myForeach.h>
-
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 using boost::posix_time::time_duration ;
 
 
 static std::string  g_Instument = "IF1304";
 static int    g_timeDiv = 5;
-
-
-time_duration  Parser( const std::string& aMarket , double& aRefPrice )
-{
-	boost::char_separator<char> sep(" ");
-	boost::tokenizer<boost::char_separator<char>> lTok(aMarket,sep);
-	std::vector<std::string> lStrList(lTok.begin(),lTok.end());
-
-	aRefPrice  = std::stod( lStrList[3]);
-	time_duration  lSecond = boost::posix_time::duration_from_string (lStrList[1]);
-	lSecond += boost::posix_time::millisec(std::stoi(lStrList[2]));
-	return lSecond;
-}
 
 
 
@@ -35,14 +23,21 @@ OpenStrategy::~OpenStrategy(void)
 
 void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 {
+	std::stringstream lbuf(aMarketDepth);
+	using boost::property_tree::ptree;
+	ptree pt;
+	read_xml(lbuf,pt);
+	
+	std::string lInstrumentID = pt.get<std::string>("market.ID");
 
-
-	if(aMarketDepth.find(g_Instument.c_str())  == aMarketDepth.size())
+	if(g_Instument !=lInstrumentID ) 
 		return;
 
-	double lLastPrice ;
+	double lLastPrice  = pt.get<double>("market.LastPx");
+
+	time_duration  lthisTicktime = boost::posix_time::duration_from_string ( pt.get<std::string>("market.Second",""));
+	lthisTicktime += boost::posix_time::millisec( pt.get<int>("market.Millsecond",""));
 	
-	time_duration lthisTicktime = Parser(aMarketDepth,  lLastPrice);
 	for(auto each = m_MarketCache.begin();each!= m_MarketCache.end();)
 	{
 		if((lthisTicktime - each->first ) > boost::posix_time::minutes(5))
@@ -75,15 +70,22 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		if(each.second -low > 5)
 		{
 			std::cout<< "At time"<< each.first << "Price "<< low << "and Time "<<lthisTicktime << "Price "<< lLastPrice;	
-			
-			std::string lOrderStr ("IF1304 ");
-			lOrderStr += "buy ";
-			lOrderStr += "open ";
-			lOrderStr += "1 ";
-			lOrderStr += std::to_string(lLastPrice);
-			m_placePrice = lLastPrice;
-			m_ActiveOrder = m_pTD->CreateOrder(lOrderStr);
-			std::cout<<"place order ";
+
+		using boost::property_tree::ptree;
+		ptree pt;
+		pt.put("head.type","PlaceOrder");
+		pt.put("head.version",0.1f);
+		pt.put("Order.ID" , g_Instument);
+		pt.put("Order.BuyCode" , "Buy");
+		pt.put("Order.OpenCode" , "Open");
+		pt.put("Order.Price" , lLastPrice );
+		pt.put("Order.Vol" , 1 );
+		
+		std::stringstream lStringStream;
+		write_xml(lStringStream,pt);
+		m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
+
+		
 			break;
 		}
 

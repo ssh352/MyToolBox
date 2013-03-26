@@ -34,12 +34,6 @@ int main()
 	}
 	lMDConfigMap["SubscribeList"] = lSubList;
 
-	//lpt.add("MDConfig.SubList.item","IF1304");
-	//lpt.add("MDConfig.SubList.item","IF1305");
-	//lpt.add("MDConfig.SubList.item","IF1306");
-
-	//write_xml("MDConfig.xml",lpt);
-
 	//PrintMDSpi lPrintMD;
 	StrPoster lPrintMD;
 	linst.Init(lMDConfigMap,&lPrintMD);

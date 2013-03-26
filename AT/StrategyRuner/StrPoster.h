@@ -12,7 +12,7 @@ namespace AT
 class StrPoster :public AT::IMarketSpi , public AT::ITradeSpi
 {
 public:
-	StrPoster();
+	StrPoster(AT::IDriver_TD* apTD);
 	virtual void NotifyState(int aErrorCode,const std::string& aErrorMsg) ;
 	virtual void NotifyExchange(const std::string& aExchange) ;
 	virtual void NotifyProduct(const std::string& aProduct) ;
@@ -24,15 +24,12 @@ public:
 	virtual void OnRtnOrder(const std::string& apOrder);
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPosition(const std::string& aPosition);
-//
-//public:
-//	void SetTDHandle(AT::IDriver_TD* apTD)
-//	{
-//		m_pTD = apTD;
-//	}
-//
-//private:
-//	AT::IDriver_TD* m_pTD;
+
+
+private:
+	
 	StrDemo1 m_Inst;
+	bool m_TDReady;
+	bool m_MDReady;
 };
 

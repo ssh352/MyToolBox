@@ -54,7 +54,7 @@ int main()
 	lConfigMap["Password"]=lPassWord;
 	lConfigMap["Front"] = lFront;
 
-	lConfigMap["Index"] ="TD_Command" ;
+	//lConfigMap["Index"] ="TD_Command" ;
 	//lConfigMap["BrokerID"] ="2030" ;
 	//lConfigMap["UserID"] = "000000005510";
 	//lConfigMap["Password"]= "228636";

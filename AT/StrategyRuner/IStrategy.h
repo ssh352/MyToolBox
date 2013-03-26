@@ -30,6 +30,9 @@ namespace AT
 		virtual void OnRtnTrade(const std::string& apTrade)=0;
 		virtual void OnRtnPos(const std::string& aPos) = 0;
 
+		virtual void Start() = 0;
+		virtual void Stop() = 0;
+
 		void SetTDPoint(IDriver_TD* apTD)
 		{
 			m_pTD = apTD;

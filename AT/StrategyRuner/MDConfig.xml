@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MDConfig>
+	<SubList>
+		<item>IF1304</item>
+		<item>IF1305</item>
+		<item>IF1306</item>
+	</SubList>
+	<EnableStateReceiver>0</EnableStateReceiver>
+	<EnableSubscribeList>1</EnableSubscribeList>
+	<IsReplay>1</IsReplay>
+	<Front>tcp://asp-sim2-front1.financial-trading-platform.com:26213</Front>
+</MDConfig>

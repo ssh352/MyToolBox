@@ -40,8 +40,11 @@ public:
 		m_clostState.Reload();
 		m_clostState.SetStartPrice(aPrice);
 	}
+	virtual void Start() {m_isRuning = true;};
+	virtual void Stop() {m_isRuning = false;};
 
 private:
+	bool		m_isRuning;
 	IStrategy* m_CurrentState;
 	OpenStrategy m_openState;
 	CloseStrategy m_clostState;

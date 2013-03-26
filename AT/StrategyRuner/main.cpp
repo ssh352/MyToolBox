@@ -6,27 +6,24 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include "CTP_MD.h"
+#include "CTP_TD.h"
 #include "StrPoster.h"
 #include "../MD_PrintTest/PrintMDSpi.h"
 #include "myForeach.h"
 
 int main()
 {
-	CTP::CTP_MD linst;
+	
 
 	std::map<std::string,std::string> lMDConfigMap;
-
-	boost::property_tree::ptree lpt;
-	read_xml("MDConfig.xml",lpt);
-
-	lMDConfigMap["EnableStateReceiver"] =   lpt.get("MDConfig.EnableStateReceiver", "0");
-	lMDConfigMap["EnableSubscribeList"] =  lpt.get("MDConfig.EnableSubscribeList", "1");
-
-	lMDConfigMap["IsReplay"] =  lpt.get("MDConfig.IsReplay", "0");
-	lMDConfigMap["Front"]  = lpt.get("MDConfig.Front",  "tcp://asp-sim2-front1.financial-trading-platform.com:26213");
-
+	boost::property_tree::ptree lMDpt;
+	read_xml("MDConfig.xml",lMDpt);
+	lMDConfigMap["EnableStateReceiver"] =   lMDpt.get<std::string>("MDConfig.EnableStateReceiver");
+	lMDConfigMap["EnableSubscribeList"] =  lMDpt.get<std::string>("MDConfig.EnableSubscribeList");
+	lMDConfigMap["IsReplay"] =  lMDpt.get<std::string>("MDConfig.IsReplay");
+	lMDConfigMap["Front"]  = lMDpt.get<std::string>("MDConfig.Front");
 	std::string  lSubList;
-	MYFOREACH(v, lpt.get_child("MDConfig.SubList"))
+	MYFOREACH(v, lMDpt.get_child("MDConfig.SubList"))
 	{
 		lSubList += (v.second.data());
 		lSubList += " ";
@@ -34,9 +31,28 @@ int main()
 	}
 	lMDConfigMap["SubscribeList"] = lSubList;
 
-	//PrintMDSpi lPrintMD;
-	StrPoster lPrintMD;
-	linst.Init(lMDConfigMap,&lPrintMD);
+
+	CTP::CTP_TD lTdInst;
+	CTP::CTP_MD lMDinst;
+
+	StrPoster lStrRunner(&lTdInst);
+	
+	lMDinst.Init(lMDConfigMap,&lStrRunner);
+
+
+
+
+	std::map<std::string,std::string> lTDConfigMap;
+	boost::property_tree::ptree lTDpt;
+	read_xml("TDConfig.xml",lTDpt);
+	lTDConfigMap["BrokerID"] = lTDpt.get<std::string>("TDConfig.BrokerID");
+	lTDConfigMap["UserID"] =  lTDpt.get<std::string>("TDConfig.UserID");
+	lTDConfigMap["Password"]= lTDpt.get<std::string>("TDConfig.Password");
+	lTDConfigMap["Front"] = lTDpt.get<std::string>("TDConfig.Front");
+	lTDConfigMap["StoreDir"] = lTDpt.get<std::string>("TDConfig.StoreDir");
+	
+	lTdInst.Init(lTDConfigMap,&lStrRunner);
+
 	while(true)
 	{
 		boost::this_thread::sleep(boost::posix_time::millisec(1000));

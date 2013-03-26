@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TDConfig>
+   <StoreDir>TD_STroe</StoreDir>
+	<BrokerID>1017</BrokerID>
+	<UserID>00000078</UserID>
+	<Password>123456</Password>
+	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
+</TDConfig>

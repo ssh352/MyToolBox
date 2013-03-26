@@ -24,15 +24,15 @@ public:
 	virtual void OnRtnOrder(const std::string& apOrder);
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPosition(const std::string& aPosition);
-
-public:
-	void SetTDHandle(AT::IDriver_TD* apTD)
-	{
-		m_pTD = apTD;
-	}
-
-private:
-	AT::IDriver_TD* m_pTD;
+//
+//public:
+//	void SetTDHandle(AT::IDriver_TD* apTD)
+//	{
+//		m_pTD = apTD;
+//	}
+//
+//private:
+//	AT::IDriver_TD* m_pTD;
 	StrDemo1 m_Inst;
 };
 

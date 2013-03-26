@@ -1,7 +1,10 @@
 #include "StrPoster.h"
 #include <iostream>
 
-
+StrPoster::StrPoster()
+{
+	//m_Inst.SetupChild();
+}
 void StrPoster::NotifyState( int aErrorCode,const std::string& aErrorMsg )
 {
 	std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
@@ -24,31 +27,31 @@ void StrPoster::NotifyInstrument( const std::string& aInstrument )
 
 void StrPoster::NotifyMarketDepth( const std::string& aMarketDepth )
 {
+	std::cerr<<aMarketDepth<<std::endl;
 	m_Inst.OnMarketDepth(aMarketDepth);
 }
 
 void StrPoster::OnRtnState( int aErrorCode,const std::string& aErrorMsg )
 {
-	std::cerr<<aErrorMsg<<std::endl;
+	std::cout<<aErrorMsg<<std::endl;
 }
 
 void StrPoster::OnRtnOrder( const std::string& apOrder )
 {
-	std::cerr<<apOrder<<std::endl;
+	m_Inst.OnRtnOrder(apOrder);
+	std::cout<<apOrder<<std::endl;
 }
 
 
- void StrPoster::OnRtnTrade(const std::string& apTrade)
- {
-	 std::cerr<<apTrade<<std::endl;
- }
+void StrPoster::OnRtnTrade(const std::string& apTrade)
+{
+	m_Inst.OnRtnTrade(apTrade);
+	std::cout<<apTrade<<std::endl;
+}
 
 void StrPoster::OnRtnPosition( const std::string& aPosition )
 {
-	std::cerr<<aPosition<<std::endl;
+	std::cout<<aPosition<<std::endl;
 }
 
-StrPoster::StrPoster()
-{
-	m_Inst.set
-}
+

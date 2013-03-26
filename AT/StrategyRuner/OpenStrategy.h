@@ -14,8 +14,8 @@ public:
 	OpenStrategy();
 	virtual ~OpenStrategy();
 
-	virtual void NotifyState(int aErrorCode);
-	virtual void SetStrategyPram(AT::StrategyPram* apStrParam){};
+	virtual void NotifyState(const std::string& aErrorCode){};
+	virtual void SetStrategyPram(const std::string& apStrParam){};
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);

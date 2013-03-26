@@ -4,6 +4,7 @@
 #include <boost/date_time.hpp>
 #include "CTP_MD.h"
 #include "StrPoster.h"
+#include "../MD_PrintTest/PrintMDSpi.h"
 int main()
 {
 	CTP::CTP_MD linst;
@@ -29,14 +30,24 @@ int main()
 	configFile.close();
 	configFile.clear();
 
-	lMDConfigMap["Front"] = lFront;
-	lMDConfigMap["EnableStateReceiver"] = "0";
-	lMDConfigMap["EnableSubscribeList"] = "1";
-	lMDConfigMap["SubscribeList"] = "IF1303 IF1304 IF1305 IF1306 IF1307";
-	lMDConfigMap["IsReplay"] = "1";
+	//lMDConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26213";
+	//lMDConfigMap["EnableStateReceiver"] = "0";
+	//lMDConfigMap["EnableSubscribeList"] = "1";
+	//lMDConfigMap["SubscribeList"] = "IF1303 IF1304 IF1305 IF1306 IF1307";
+	//lMDConfigMap["IsReplay"] = "0";
+
 	//lConfigMap["SubscribeList"] = lSubListStr;
 
 
+	lMDConfigMap["EnableStateReceiver"] = "0";
+	lMDConfigMap["EnableSubscribeList"] = "1";
+	lMDConfigMap["SubscribeList"] = "IF1304";
+	lMDConfigMap["IsReplay"] = "0";
+	lMDConfigMap["Front"]  = "tcp://asp-sim2-front1.financial-trading-platform.com:26213";
+
+
+
+	//PrintMDSpi lPrintMD;
 	StrPoster lPrintMD;
 	linst.Init(lMDConfigMap,&lPrintMD);
 	while(true)

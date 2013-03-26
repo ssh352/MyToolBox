@@ -30,6 +30,9 @@
     <ClInclude Include="CloseStrategy.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\MD_PrintTest\PrintMDSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StrDemo1.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CloseStrategy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MD_PrintTest\PrintMDSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

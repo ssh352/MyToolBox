@@ -108,7 +108,7 @@ namespace CTP
 		}
 		else
 		{
-			ReplayAllMarketData();
+			//ReplayAllMarketData();
 			m_DepthState = DepthReceiver_RECEIVE_STATE;
 			m_pCTP_MD->NotifySubModuleState(m_DepthState);
 		}
@@ -172,7 +172,8 @@ namespace CTP
 		
 		std::stringstream lStringStream;
 		write_xml(lStringStream,pt);
-		return lStringStream.str();
+		std::string  lRet = lStringStream.str();
+		return lRet;
 	}
 
 	void DepthReceiver::OnFrontDisconnected( int nReason )

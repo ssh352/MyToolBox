@@ -5,12 +5,6 @@
 
 namespace AT
 {
-	struct StrategyPram
-	{
-		int MessageType;
-		int MessageLenth;
-		char* m_Buffer;
-	};
 
 	enum  StrategyState
 	{
@@ -28,8 +22,8 @@ namespace AT
 
 		
 	public:
-		virtual void NotifyState(int aErrorCode) = 0;
-		virtual void SetStrategyPram(StrategyPram* apStrParam) = 0;
+		virtual void NotifyState(const std::string& aErrorCode) = 0;
+		virtual void SetStrategyPram(const std::string& apStrParam) = 0;
 	public:
 		virtual void OnMarketDepth(const std::string& aMarketDepth)= 0;
 		virtual void OnRtnOrder(const std::string& apOrder) = 0;

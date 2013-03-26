@@ -27,7 +27,7 @@ void StrDemo1::OnRtnTrade( const std::string& apTrade )
 		std::cout<<"StrDemo1 Receive "<<apTrade;
 }
 
-void StrDemo1::NotifyState( int aErrorCode )
+void StrDemo1::NotifyState( const std::string& aErrorCode )
 {
 
 }
@@ -39,6 +39,7 @@ void StrDemo1::SetStrategyPram(const std::string& aConfig )
 
 StrDemo1::StrDemo1()
 {
+	ChangeToOpenState();
 	SetupChild();
 }
 

@@ -4,6 +4,7 @@
 #include <myForeach.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+
 using boost::posix_time::time_duration ;
 
 
@@ -36,7 +37,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 	double lLastPrice  = pt.get<double>("market.LastPx");
 
 	time_duration  lthisTicktime = boost::posix_time::duration_from_string ( pt.get<std::string>("market.Second",""));
-	lthisTicktime += boost::posix_time::millisec( pt.get<int>("market.Millsecond",""));
+	lthisTicktime += boost::posix_time::millisec( pt.get<int>("market.Millsecond",0));
 	
 	for(auto each = m_MarketCache.begin();each!= m_MarketCache.end();)
 	{

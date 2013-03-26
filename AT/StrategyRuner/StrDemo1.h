@@ -9,7 +9,7 @@ public:
 	StrDemo1();
 	virtual ~StrDemo1();
 
-	virtual void NotifyState(int aErrorCode);
+	virtual void NotifyState(const std::string& aErrorCode);
 	virtual void SetStrategyPram(const std::string& apStrParam);
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);

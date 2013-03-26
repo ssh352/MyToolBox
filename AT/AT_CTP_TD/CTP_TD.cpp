@@ -11,6 +11,9 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <rapidxml.hpp>
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
 extern "C"  __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig,  AT::ITradeSpi* apTradeSpi)
 {
 	 AT::IDriver_TD* lpDriverInstance = new CTP::CTP_TD();
@@ -221,7 +224,7 @@ namespace CTP
 
 	InputOrderTypePtr CTP_TD::BuildExchangeOrder( const std::string& aNewOrder )
 	{
-		std::stringstream lbuf(aMarketDepth);
+		std::stringstream lbuf(aNewOrder);
 		using boost::property_tree::ptree;
 		ptree pt;
 		read_xml(lbuf,pt);
@@ -261,15 +264,15 @@ namespace CTP
 		{
 			lopencloseFlag = THOST_FTDC_OF_Open;
 		}
-		else if(lOpenCloseCode == "close")
+		else if(lOpenCloseCode == "Close")
 		{
 			lopencloseFlag = THOST_FTDC_OF_Close;
 		}
-		else if(lOpenCloseCode == "closeT")
+		else if(lOpenCloseCode == "CloseT")
 		{
 			lopencloseFlag = THOST_FTDC_OF_CloseToday;
 		}
-		else if(lOpenCloseCode == "closeY")
+		else if(lOpenCloseCode == "CloseY")
 		{
 			lopencloseFlag = THOST_FTDC_OF_CloseYesterday;
 		}
@@ -387,12 +390,10 @@ namespace CTP
 			pt.put("head.type","OrderUpdate");
 			pt.put("head.version",0.1f);
 			pt.put("Order.ThostOrderID" , lThostOrderID );
-			pt.put("Order.OrderStatus" ,pInputOrder->OrderStatus );
-			pt.put("Order.OrderSubmitStatus" ,pInputOrder->OrderSubmitStatus);
+			pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
 			std::stringstream lStringStream;
 			write_xml(lStringStream,pt);
-			//return lStringStream.str();
-			//ToDO
+			m_pTradeSpi->OnRtnOrder(lStringStream.str());
 		}
 	}
 

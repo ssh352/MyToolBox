@@ -68,12 +68,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CloseStrategy.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="OpenStrategy.h" />
     <ClInclude Include="StrDemo1.h" />
     <ClInclude Include="StrPoster.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CloseStrategy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenStrategy.cpp" />
     <ClCompile Include="StrDemo1.cpp" />

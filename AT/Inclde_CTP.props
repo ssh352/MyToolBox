@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>../AT_Driver;../CTP_Driver/CTP_API/include;../ExternLib\rapidxml-1.13;../ExternLib\leveldb-1.7.0\include\;C:\boost_1_53_0;../AT_CTP_TD;../AT_CTP_MD;$(IncludePath)</IncludePath>
+    <IncludePath>../AT_Driver;../CTP_Driver/CTP_API/include/;../ExternLib\rapidxml-1.13\;../ExternLib\leveldb-1.7.0\include\;C:\boost_1_53_0;../AT_CTP_TD;../AT_CTP_MD;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />

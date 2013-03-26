@@ -39,7 +39,7 @@ void StrDemo1::SetStrategyPram(const std::string& aConfig )
 
 StrDemo1::StrDemo1()
 {
-	SetChildTD();
+	SetupChild();
 }
 
 void StrDemo1::OnRtnPos( const std::string& aPos )

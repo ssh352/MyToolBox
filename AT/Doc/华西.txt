@@ -1,0 +1,1 @@
+<Servers><Server><Name>仿真-电信</Name><Trading><item>182.131.17.110:62205</item></Trading><MarketData><item>182.131.17.110:62213</item></MarketData></Server><Server><Name>仿真-联通</Name><Trading><item>119.4.167.60:62205</item></Trading><MarketData><item>119.4.167.60:62213</item></MarketData></Server></Servers>BrokerID="16377" BrokerName="华西期货"账户：70108093密码：123456

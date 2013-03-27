@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{4f7ff9e5-ef12-45dd-b1e4-77102336ac97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IStrategy.h">
@@ -53,5 +56,16 @@
     <ClCompile Include="..\MD_PrintTest\PrintMDSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MDConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="TDConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="IStrParam.xml">
+      <Filter>config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

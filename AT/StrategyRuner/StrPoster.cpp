@@ -36,12 +36,18 @@ void StrPoster::NotifyInstrument( const std::string& aInstrument )
 }
 
 void StrPoster::NotifyMarketDepth( const std::string& aMarketDepth )
+try
 {
 	//std::cerr<<aMarketDepth<<std::endl;
 	m_Inst.OnMarketDepth(aMarketDepth);
 }
+catch (std::exception& ex)
+{
+	std::cerr<<ex.what();
+};
 
 void StrPoster::OnRtnState( int aErrorCode,const std::string& aErrorMsg )
+try
 {
 	m_TDReady = (CTP::Ready == aErrorCode);
 	std::cout<<aErrorMsg<<std::endl;
@@ -50,20 +56,33 @@ void StrPoster::OnRtnState( int aErrorCode,const std::string& aErrorMsg )
 		m_Inst.Start();
 	}
 }
+catch (std::exception& ex)
+{
+	std::cerr<<ex.what();
+};
 
 void StrPoster::OnRtnOrder( const std::string& apOrder )
+try
 {
 	m_Inst.OnRtnOrder(apOrder);
 	std::cout<<apOrder<<std::endl;
 }
+catch (std::exception& ex)
+{
+	std::cerr<<ex.what();
+};
 
 
 void StrPoster::OnRtnTrade(const std::string& apTrade)
+	try
 {
 	m_Inst.OnRtnTrade(apTrade);
 	std::cout<<apTrade<<std::endl;
 }
-
+catch (std::exception& ex)
+{
+	std::cerr<<ex.what();
+};
 void StrPoster::OnRtnPosition( const std::string& aPosition )
 {
 	std::cout<<aPosition<<std::endl;

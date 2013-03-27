@@ -290,11 +290,16 @@ namespace CTP
 	}
 
 	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
+		try
 	{
 		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
 		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
 		m_pDataCache->UpdataOrder(lpOrder);
 		m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
+	}
+	catch(std::exception& ex)
+	{
+		std::cerr<<ex.what();
 	}
 
 	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )

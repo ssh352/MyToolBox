@@ -25,14 +25,14 @@ void StrDemo1::OnMarketDepth( const std::string& aMarketDepth )
 void StrDemo1::OnRtnOrder( const std::string& apOrder )
 {
 	if(m_isRuning)
-		m_CurrentState->OnMarketDepth(apOrder);
+		m_CurrentState->OnRtnOrder(apOrder);
 		std::cout<<"StrDemo1 Receive "<<apOrder;
 }
 
 void StrDemo1::OnRtnTrade( const std::string& apTrade )
 {
 	if(m_isRuning)
-		m_CurrentState->OnMarketDepth(apTrade);
+		m_CurrentState->OnRtnTrade(apTrade);
 		std::cout<<"StrDemo1 Receive "<<apTrade;
 }
 

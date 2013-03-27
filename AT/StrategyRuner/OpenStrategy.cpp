@@ -8,8 +8,6 @@
 using boost::posix_time::time_duration ;
 
 
-static std::string  g_Instument = "IF1304";
-static int    g_timeDiv = 5;
 
 
 
@@ -29,9 +27,10 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 	ptree pt;
 	read_xml(lbuf,pt);
 	
+
 	std::string lInstrumentID = pt.get<std::string>("market.ID");
 
-	if(g_Instument !=lInstrumentID ) 
+	if(m_Instument !=lInstrumentID ) 
 		return;
 
 	double lLastPrice  = pt.get<double>("market.LastPx");
@@ -41,7 +40,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 	
 	for(auto each = m_MarketCache.begin();each!= m_MarketCache.end();)
 	{
-		if((lthisTicktime - each->first ) > boost::posix_time::minutes(5))
+		if((lthisTicktime - each->first ) > boost::posix_time::seconds(m_TriggerTimeSeconds))
 		{
 			each = m_MarketCache.erase (each);
 		}	
@@ -60,6 +59,10 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 
 	double low =100000;
 	time_duration lowtime;
+
+	double high  =0;
+	time_duration hightime;
+
 	MYFOREACH(each , m_MarketCache)
 	{
 		if(each.second < low ) 
@@ -68,15 +71,21 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 			lowtime =each.first;
 		}
 
-		if(each.second -low > 5)
+		if(each.second > high ) 
 		{
-			std::cout<< "At time"<< each.first << "Price "<< low << "and Time "<<lthisTicktime << "Price "<< lLastPrice;	
+			high =each.second;
+			hightime =each.first;
+		}
+
+		if(each.second -low > m_TriigerPrice)
+		{
+			std::cout<< "Buy"<< lLastPrice ;	
 
 		using boost::property_tree::ptree;
 		ptree pt;
 		pt.put("head.type","PlaceOrder");
 		pt.put("head.version",0.1f);
-		pt.put("Order.ID" , g_Instument);
+		pt.put("Order.ID" , m_Instument);
 		pt.put("Order.BuyCode" , "Buy");
 		pt.put("Order.OpenCode" , "Open");
 		pt.put("Order.Price" , lLastPrice );
@@ -85,8 +94,30 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		std::stringstream lStringStream;
 		write_xml(lStringStream,pt);
 		m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
+		m_isPlaceOrder = true;
+		m_IsSell = false;
+			break;
+		}
 
-		
+		if(each.second -low < -1*m_TriigerPrice)
+		{
+			std::cout<< "Sell "<< lLastPrice;	
+
+			using boost::property_tree::ptree;
+			ptree pt;
+			pt.put("head.type","PlaceOrder");
+			pt.put("head.version",0.1f);
+			pt.put("Order.ID" , m_Instument);
+			pt.put("Order.BuyCode" , "Sell");
+			pt.put("Order.OpenCode" , "Open");
+			pt.put("Order.Price" , lLastPrice );
+			pt.put("Order.Vol" , 1 );
+
+			std::stringstream lStringStream;
+			write_xml(lStringStream,pt);
+			m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
+			m_isPlaceOrder = true;
+			m_IsSell = true;
 			break;
 		}
 
@@ -105,7 +136,7 @@ void OpenStrategy::OnRtnOrder( const std::string& apOrder )
 void OpenStrategy::OnRtnTrade( const std::string& apTrade )
 {
 	//todo check the Traded Order ID
-	m_ExitHandle(m_placePrice);
+	m_ExitHandle(m_placePrice,m_IsSell);
 	//todo held ok
 
 }
@@ -114,4 +145,21 @@ void OpenStrategy::Reload()
 {
 	m_isPlaceOrder = false;
 	m_MarketCache.clear();
+}
+
+void OpenStrategy::SetStrategyPram( const std::string& apStrParam )
+{
+	std::stringstream lbuf(apStrParam);
+	using boost::property_tree::ptree;
+	ptree pt;
+	read_xml(lbuf,pt);
+
+
+
+	static std::string  g_Instument = "IF1304";
+
+	m_Instument = pt.get<std::string>("open.Instrument");
+	m_TriggerTimeSeconds = pt.get<int>("open.TimeTrigger");
+	 m_TriigerPrice = pt.get<double>("open.TriggerPrice");
+
 }

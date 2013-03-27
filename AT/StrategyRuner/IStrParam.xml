@@ -5,25 +5,26 @@
   <open>
     <Instrument>IF1304</Instrument>
     <TimeTrigger>300</TimeTrigger>
-    <DifferTrigger>5</DifferTrigger>
+    <TriggerPrice>5</TriggerPrice>
   </open>
 
   <close>
+     <Instrument>IF1304</Instrument>
     <Level0>
       <EnterPrice> -1 </EnterPrice>
-      <quitPrice> -2 </quitPrice>
+      <QuitPrice> -2 </QuitPrice>
     </Level0>
     <Level1>
       <EnterPrice> 5 </EnterPrice>
-      <quitPrice> 3 </quitPrice>
+      <QuitPrice> 3 </QuitPrice>
     </Level1>
     <Level2>
       <EnterPrice> 10 </EnterPrice>
-      <quitPrice>6 </quitPrice>
+      <QuitPrice>6 </QuitPrice>
     </Level2>
     <Level3>
       <EnterPrice> 15 </EnterPrice>
-      <quitPrice>9 </quitPrice>
+      <QuitPrice>9 </QuitPrice>
     </Level3>  
   </close>
 

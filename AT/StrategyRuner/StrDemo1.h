@@ -20,7 +20,7 @@ public:
 	void SetupChild()
 	{
 		m_openState.SetTDPoint(m_pTD);
-		m_openState.SendExitHandle(std::bind(&StrDemo1::ChangeToClostState,this,std::placeholders::_1));
+		m_openState.SendExitHandle(std::bind(&StrDemo1::ChangeToClostState,this,std::placeholders::_1,std::placeholders::_2));
 		m_clostState.Reload();
 
 		m_clostState.SetTDPoint(m_pTD);
@@ -34,11 +34,11 @@ public:
 		m_openState.Reload();
 	}
 
-	void ChangeToClostState(double aPrice)
+	void ChangeToClostState(double aPrice,bool isSell)
 	{
 		m_CurrentState = &m_clostState;
 		m_clostState.Reload();
-		m_clostState.SetStartPrice(aPrice);
+		m_clostState.SetStartPrice(aPrice,isSell);
 	}
 	virtual void Start() {m_isRuning = true;};
 	virtual void Stop() {m_isRuning = false;};

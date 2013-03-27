@@ -9,8 +9,6 @@
 #include <boost\thread.hpp>
 #include <boost\date_time.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <rapidxml.hpp>
-
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
@@ -290,7 +288,7 @@ namespace CTP
 	}
 
 	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
-		try
+	try
 	{
 		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
 		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
@@ -303,13 +301,18 @@ namespace CTP
 	}
 
 	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )
+	try
 	{
 		boost::shared_ptr<CThostFtdcTradeField> lpTrade (new CThostFtdcTradeField);
 		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
-		m_pDataCache->UpdataTrade(lpTrade);
+	//	m_pDataCache->UpdataTrade(lpTrade);
 		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
 		m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
 	}
+	catch (std::exception& ex)
+	{
+		std::cerr<<ex.what();
+	};
 
 	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
 	{

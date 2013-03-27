@@ -15,7 +15,7 @@ public:
 	virtual ~OpenStrategy();
 
 	virtual void NotifyState(const std::string& aErrorCode){};
-	virtual void SetStrategyPram(const std::string& apStrParam){};
+	virtual void SetStrategyPram(const std::string& apStrParam);
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);
@@ -27,7 +27,7 @@ public:
 	void Reload();
 
 public:
-	void SendExitHandle(std::function<void(double)> aExitHandle)
+	void SendExitHandle(std::function<void(double,bool buy)> aExitHandle)
 	{
 		m_ExitHandle = aExitHandle;
 	}
@@ -36,9 +36,14 @@ private:
 
 	std::map<boost::posix_time::time_duration,double> m_MarketCache;
 	std::string m_ActiveOrder;
-	std::function<void(double)> m_ExitHandle;
+	std::function<void(double,bool)> m_ExitHandle;
 	bool m_isPlaceOrder ;
 	double m_placePrice;
+	bool m_IsSell;
+
+	 std::string m_Instument ;
+	 int   m_TriggerTimeSeconds ;
+	 double m_TriigerPrice ;
 
 };
 

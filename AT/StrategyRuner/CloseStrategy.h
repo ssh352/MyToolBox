@@ -16,7 +16,7 @@ public:
 
 public:
 	virtual void NotifyState(const std::string& aErrorCode){};
-	virtual void SetStrategyPram(const std::string& apStrParam){};
+	virtual void SetStrategyPram(const std::string& apStrParam);
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);
@@ -33,9 +33,10 @@ public:
 	{
 		m_ExitHandle = aExitHandle;
 	}
-	void SetStartPrice(double aStartPrice)
+	void SetStartPrice(double aStartPrice,bool isSell)
 	{
 		m_StartPrice = aStartPrice;
+		m_IsSell = isSell;
 	}
 
 private:
@@ -53,11 +54,26 @@ private:
 	bool CheckLevel2(double aPrice);
 	bool CheckLevel3(double aPrice);
 
-	double m_Level1EnterPrice;
-	double m_Level2EnterPrice;
-	double m_Level3EnterPrice;
+
 
 	bool CheckTrigger(double aTrigger);
+
+	bool m_IsSell;
+
+
+	 std::string m_Instument ;
+
+	  double m_Level0EnterPrice;
+	 double m_Level1EnterPrice;
+	 double m_Level2EnterPrice;
+	 double m_Level3EnterPrice;
+
+	   double m_Level0QuitPrice;
+	 double m_Level1QuitPrice;
+	 double m_Level2QuitPrice;
+	 double m_Level3QuitPrice;
+	
+
 
 };
 

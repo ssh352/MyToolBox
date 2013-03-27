@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<TDConfig>
+<TDConfig>
    <StoreDir>TD_STroe</StoreDir>
 	<BrokerID>1017</BrokerID>
-	<UserID>00000078</UserID>
+	<UserID>00000070</UserID>
 	<Password>123456</Password>
 	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
-</TDConfig>-->
+</TDConfig>
 
 
 
-<TDConfig>
+<!--<TDConfig>
    <StoreDir>TD_STroe</StoreDir>
 	<BrokerID>7030</BrokerID>
 	<UserID>000516</UserID>
 	<Password>000516</Password>
 	<Front>tcp://221.232.155.116:41205</Front>
-</TDConfig>
+</TDConfig>-->
 
 
 

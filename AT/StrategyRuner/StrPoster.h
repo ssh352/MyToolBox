@@ -25,7 +25,7 @@ public:
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPosition(const std::string& aPosition);
 
-
+	void ReSetParam(const std::string& aConfig);
 private:
 	
 	StrDemo1 m_Inst;

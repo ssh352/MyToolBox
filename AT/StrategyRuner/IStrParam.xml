@@ -5,7 +5,7 @@
   <open>
     <Instrument>IF1304</Instrument>
     <TimeTrigger>300</TimeTrigger>
-    <TriggerPrice>5</TriggerPrice>
+    <TriggerPrice>3</TriggerPrice>
   </open>
 
   <close>

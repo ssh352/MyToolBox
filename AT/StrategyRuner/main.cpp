@@ -54,8 +54,14 @@ int main()
 
 		lTdInst.Init(lTDConfigMap,&lStrRunner);
 
-		while(true)
+		char lbuf;
+		while(std::cin>>lbuf)
 		{
+			boost::property_tree::ptree lConfigPT;
+			read_xml("IStrParam.xml",lConfigPT);
+			std::stringstream lbuf;
+			write_xml(lbuf,lConfigPT);
+			lStrRunner .ReSetParam(lbuf.str());
 			boost::this_thread::sleep(boost::posix_time::millisec(1000));
 		}
 	}

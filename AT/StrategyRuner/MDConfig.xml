@@ -23,6 +23,19 @@
 </MDConfig>-->
 
 <MDConfig>
+  <linbo></linbo>
+  <SubList>
+    <item>IF1304</item>
+  </SubList>
+  <EnableStateReceiver>0</EnableStateReceiver>
+  <EnableSubscribeList>1</EnableSubscribeList>
+  <IsReplay>0</IsReplay>
+  <Front>tcp://ctpmn1-front2.citicsf.com:51213</Front>
+</MDConfig>
+
+
+<!--<MDConfig>
+  <MEY></MEY>
   <SubList>
     <item>IF1304</item>
   </SubList>
@@ -30,4 +43,4 @@
   <EnableSubscribeList>1</EnableSubscribeList>
   <IsReplay>0</IsReplay>
   <Front>tcp://221.232.155.116:41213</Front>
-</MDConfig>
+</MDConfig>-->

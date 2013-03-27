@@ -158,8 +158,13 @@ void OpenStrategy::SetStrategyPram( const std::string& apStrParam )
 
 	static std::string  g_Instument = "IF1304";
 
-	m_Instument = pt.get<std::string>("open.Instrument");
-	m_TriggerTimeSeconds = pt.get<int>("open.TimeTrigger");
-	 m_TriigerPrice = pt.get<double>("open.TriggerPrice");
+	m_Instument = pt.get<std::string>("StrConfig.open.Instrument");
+	m_TriggerTimeSeconds = pt.get<int>("StrConfig.open.TimeTrigger");
+	 m_TriigerPrice = pt.get<double>("StrConfig.open.TriggerPrice");
+
+	 std::cerr<<" OpenStrategy SetStrategyPram"<<
+		m_Instument << "\n"<<
+			m_TriggerTimeSeconds << "\n"<<
+				m_TriigerPrice << "\n";
 
 }

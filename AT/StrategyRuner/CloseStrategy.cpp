@@ -236,22 +236,22 @@ void CloseStrategy::SetStrategyPram( const std::string& apStrParam )
 	ptree pt;
 	read_xml(lbuf,pt);
 
-	m_Instument = pt.get<std::string>("close.Instrument");
+	m_Instument = pt.get<std::string>("StrConfig.close.Instrument");
 
-	 m_Level0EnterPrice =  pt.get<double>("close.Level0.EnterPrice");
-	 m_Level1EnterPrice = pt.get<double>("close.Level1.EnterPrice");
-	 m_Level2EnterPrice =  pt.get<double>("close.Level2.EnterPrice");
-	 m_Level3EnterPrice =  pt.get<double>("close.Level3.EnterPrice");
+	 m_Level0EnterPrice =  pt.get<double>("StrConfig.close.Level0.EnterPrice");
+	 m_Level1EnterPrice = pt.get<double>("StrConfig.close.Level1.EnterPrice");
+	 m_Level2EnterPrice =  pt.get<double>("StrConfig.close.Level2.EnterPrice");
+	 m_Level3EnterPrice =  pt.get<double>("StrConfig.close.Level3.EnterPrice");
 
-	 m_Level0QuitPrice =  pt.get<double>("close.Level0.QuitPrice");
-	 m_Level1QuitPrice =  pt.get<double>("close.Level1.QuitPrice");
-	 m_Level2QuitPrice =  pt.get<double>("close.Level2.QuitPrice");
-	 m_Level3QuitPrice =  pt.get<double>("close.Level3.QuitPrice");
+	 m_Level0QuitPrice =  pt.get<double>("StrConfig.close.Level0.QuitPrice");
+	 m_Level1QuitPrice =  pt.get<double>("StrConfig.close.Level1.QuitPrice");
+	 m_Level2QuitPrice =  pt.get<double>("StrConfig.close.Level2.QuitPrice");
+	 m_Level3QuitPrice =  pt.get<double>("StrConfig.close.Level3.QuitPrice");
 
 	 std::cerr<<"SetStrategyPram  CloseStrategy  ======================\n"
-				<< m_Level0EnterPrice<<"  "<<m_Level0QuitPrice
-				<< m_Level1EnterPrice<<"  "<<m_Level1QuitPrice
-				<< m_Level2EnterPrice<<"  "<<m_Level2QuitPrice
-				<< m_Level3EnterPrice<<"  "<<m_Level3QuitPrice;
+				<< m_Level0EnterPrice<<"  "<<m_Level0QuitPrice<<"\n"
+				<< m_Level1EnterPrice<<"  "<<m_Level1QuitPrice<<"\n"
+				<< m_Level2EnterPrice<<"  "<<m_Level2QuitPrice<<"\n"
+				<< m_Level3EnterPrice<<"  "<<m_Level3QuitPrice<<"\n";
 			
 }

@@ -17,17 +17,8 @@ public:
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPos(const std::string& aPos);
 
-	void SetupChild()
-	{
-		m_openState.SetTDPoint(m_pTD);
-		m_openState.SendExitHandle(std::bind(&StrDemo1::ChangeToClostState,this,std::placeholders::_1,std::placeholders::_2));
-		m_clostState.Reload();
+	void SetupChild();
 
-		m_clostState.SetTDPoint(m_pTD);
-		m_clostState.SendExitHandle(std::bind(&StrDemo1::ChangeToOpenState,this));
-		m_clostState.Reload();
-	}
-	
 	void ChangeToOpenState()
 	{
 		m_CurrentState = &m_openState;

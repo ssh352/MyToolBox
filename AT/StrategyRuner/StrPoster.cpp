@@ -88,4 +88,9 @@ void StrPoster::OnRtnPosition( const std::string& aPosition )
 	std::cout<<aPosition<<std::endl;
 }
 
+void StrPoster::ReSetParam( const std::string& aConfig )
+{
+	m_Inst.SetStrategyPram(aConfig);
+}
+
 

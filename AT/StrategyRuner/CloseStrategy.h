@@ -33,11 +33,7 @@ public:
 	{
 		m_ExitHandle = aExitHandle;
 	}
-	void SetStartPrice(double aStartPrice,bool isSell)
-	{
-		m_StartPrice = aStartPrice;
-		m_IsSell = isSell;
-	}
+	void SetStartPrice(double aStartPrice,bool isSell);
 
 private:
 

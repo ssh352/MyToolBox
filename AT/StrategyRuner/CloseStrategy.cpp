@@ -14,6 +14,7 @@ using boost::posix_time::time_duration ;
 
 CloseStrategy::CloseStrategy(void)
 {
+	m_CheckLevel = 0;
 }
 
 
@@ -35,9 +36,6 @@ void CloseStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		return;
 
 	double lLastPrice  = pt.get<double>("market.LastPx");
-
-	time_duration  lthisTicktime = boost::posix_time::duration_from_string ( pt.get<std::string>("market.Second",""));
-	lthisTicktime += boost::posix_time::millisec( pt.get<int>("market.Millsecond",0));
 
 
 	if(m_isPlaceOrder)
@@ -63,6 +61,7 @@ void CloseStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		std::stringstream lStringStream;
 		write_xml(lStringStream,pt);
 		m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
+		m_isPlaceOrder = true;
 	}
 
 
@@ -80,8 +79,13 @@ void CloseStrategy::OnRtnOrder( const std::string& apOrder )
 
 void CloseStrategy::OnRtnTrade( const std::string& apTrade )
 {
-	//todo check the Traded Order ID
-	m_ExitHandle();
+	std::stringstream lbuf(apTrade);
+	using boost::property_tree::ptree;
+	ptree pt;
+	read_xml(lbuf,pt);
+	std::string lOrderID= pt.get<std::string>("Trade.ThostOrderID");
+	if(lOrderID == m_ActiveOrder)
+		m_ExitHandle();
 	//todo held ok
 
 }
@@ -254,4 +258,11 @@ void CloseStrategy::SetStrategyPram( const std::string& apStrParam )
 				<< m_Level2EnterPrice<<"  "<<m_Level2QuitPrice<<"\n"
 				<< m_Level3EnterPrice<<"  "<<m_Level3QuitPrice<<"\n";
 			
+}
+
+void CloseStrategy::SetStartPrice( double aStartPrice,bool isSell )
+{
+	m_StartPrice = aStartPrice;
+	m_IsSell = isSell;
+	std::cerr<<"\n\n\nStart Close iSSell "<<m_IsSell<<" StartPrice = "<<m_StartPrice<<"\n\n\n";
 }

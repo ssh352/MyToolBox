@@ -90,7 +90,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		pt.put("Order.OpenCode" , "Open");
 		pt.put("Order.Price" , lLastPrice );
 		pt.put("Order.Vol" , 1 );
-		
+		m_placePrice = lLastPrice;
 		std::stringstream lStringStream;
 		write_xml(lStringStream,pt);
 		m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
@@ -99,7 +99,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 			break;
 		}
 
-		if(each.second -low < -1*m_TriigerPrice)
+		if(each.second -high < -1*m_TriigerPrice)
 		{
 			std::cout<< "Sell "<< lLastPrice;	
 
@@ -112,11 +112,12 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 			pt.put("Order.OpenCode" , "Open");
 			pt.put("Order.Price" , lLastPrice );
 			pt.put("Order.Vol" , 1 );
-
+			m_placePrice = lLastPrice;
 			std::stringstream lStringStream;
 			write_xml(lStringStream,pt);
 			m_ActiveOrder = m_pTD->CreateOrder(lStringStream.str());
 			m_isPlaceOrder = true;
+			
 			m_IsSell = true;
 			break;
 		}
@@ -136,8 +137,17 @@ void OpenStrategy::OnRtnOrder( const std::string& apOrder )
 void OpenStrategy::OnRtnTrade( const std::string& apTrade )
 {
 	//todo check the Traded Order ID
-	m_ExitHandle(m_placePrice,m_IsSell);
-	//todo held ok
+	
+	std::stringstream lbuf(apTrade);
+	using boost::property_tree::ptree;
+	ptree pt;
+	read_xml(lbuf,pt);
+	std::string lOrderID= pt.get<std::string>("Trade.ThostOrderID");
+	if(lOrderID == m_ActiveOrder)
+	{
+		std::cerr<<"\n\n\n quit open state with price "<<m_placePrice << "\n"<< m_IsSell<<"\n\n\n";
+		m_ExitHandle(m_placePrice,m_IsSell);
+	}
 
 }
 
@@ -154,17 +164,13 @@ void OpenStrategy::SetStrategyPram( const std::string& apStrParam )
 	ptree pt;
 	read_xml(lbuf,pt);
 
-
-
-	static std::string  g_Instument = "IF1304";
-
 	m_Instument = pt.get<std::string>("StrConfig.open.Instrument");
 	m_TriggerTimeSeconds = pt.get<int>("StrConfig.open.TimeTrigger");
 	 m_TriigerPrice = pt.get<double>("StrConfig.open.TriggerPrice");
 
-	 std::cerr<<" OpenStrategy SetStrategyPram"<<
+	 std::cerr<<" \n\n\nOpenStrategy SetStrategyPram"<<
 		m_Instument << "\n"<<
 			m_TriggerTimeSeconds << "\n"<<
-				m_TriigerPrice << "\n";
+				m_TriigerPrice << "\n\n\n";
 
 }

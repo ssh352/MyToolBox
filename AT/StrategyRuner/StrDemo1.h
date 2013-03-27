@@ -21,15 +21,16 @@ public:
 
 	void ChangeToOpenState()
 	{
-		m_CurrentState = &m_openState;
+		
 		m_openState.Reload();
+		m_CurrentState = &m_openState;
 	}
 
 	void ChangeToClostState(double aPrice,bool isSell)
 	{
-		m_CurrentState = &m_clostState;
 		m_clostState.Reload();
 		m_clostState.SetStartPrice(aPrice,isSell);
+		m_CurrentState = &m_clostState;
 	}
 	virtual void Start() {m_isRuning = true;};
 	virtual void Stop() {m_isRuning = false;};

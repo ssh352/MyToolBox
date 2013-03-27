@@ -29,15 +29,16 @@ Debug
 Release
 ipch
 
+*MarkeDepthDB*
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/obj/test/test.exe.embed.manifest.res
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/obj/test/test.lastbuildstate
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/obj/test/test_manifest.rc
 /trunk/temp/ctp-trader-demo/ctp-trader-demo/bin/test.exe
 /ctp-trader-demo/bin/obj
 /ctp-trader-demo/bin/*.exe
-*MarkeDepthDB
-*InstrumentMapDB
-*ExchangeMapDB
+
+*InstrumentMapDB*
+*ExchangeMapDB*
 /AT/TD_CommandLineTest/config.ini
 /boost_1_53_0
 /temp

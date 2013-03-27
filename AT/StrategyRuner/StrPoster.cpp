@@ -14,10 +14,8 @@ void StrPoster::NotifyState( int aErrorCode,const std::string& aErrorMsg )
 	std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
 
 	m_MDReady = (CTP::DepthReceiver_RECEIVE_STATE == aErrorCode);
-	if(m_TDReady && m_MDReady)
-	{
-		m_Inst.Start();
-	}
+	TryStartInst();
+
 }
 
 void StrPoster::NotifyExchange( const std::string& aExchange )
@@ -50,11 +48,7 @@ void StrPoster::OnRtnState( int aErrorCode,const std::string& aErrorMsg )
 try
 {
 	m_TDReady = (CTP::Ready == aErrorCode);
-	std::cout<<aErrorMsg<<std::endl;
-	if(m_TDReady && m_MDReady)
-	{
-		m_Inst.Start();
-	}
+	TryStartInst();
 }
 catch (std::exception& ex)
 {
@@ -74,7 +68,7 @@ catch (std::exception& ex)
 
 
 void StrPoster::OnRtnTrade(const std::string& apTrade)
-	try
+try
 {
 	m_Inst.OnRtnTrade(apTrade);
 	std::cout<<apTrade<<std::endl;
@@ -91,6 +85,15 @@ void StrPoster::OnRtnPosition( const std::string& aPosition )
 void StrPoster::ReSetParam( const std::string& aConfig )
 {
 	m_Inst.SetStrategyPram(aConfig);
+}
+
+void StrPoster::TryStartInst()
+{
+	if(m_TDReady && m_MDReady)
+	{
+		std::cerr<<"\n================================Æô¶¯³É¹¦=================================\m";
+		m_Inst.Start();
+	}
 }
 
 

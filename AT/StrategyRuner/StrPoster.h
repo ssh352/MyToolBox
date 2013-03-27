@@ -14,6 +14,10 @@ class StrPoster :public AT::IMarketSpi , public AT::ITradeSpi
 public:
 	StrPoster(AT::IDriver_TD* apTD);
 	virtual void NotifyState(int aErrorCode,const std::string& aErrorMsg) ;
+
+	void TryStartInst();
+
+
 	virtual void NotifyExchange(const std::string& aExchange) ;
 	virtual void NotifyProduct(const std::string& aProduct) ;
 	virtual void NotifyInstrument(const std::string& aInstrument);

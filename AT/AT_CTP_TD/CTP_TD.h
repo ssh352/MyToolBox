@@ -30,15 +30,6 @@ namespace CTP
 	};
 
 
-	enum CTP_INPUT_ORDER_FILED
-	{
-		order_name = 0,
-		order_buysell,
-		order_openclose,
-		order_val,
-		order_price,
-	};
-
 	class CTP_TD :public AT::IDriver_TD
 		,public CThostFtdcTraderSpi
 	{

@@ -20,7 +20,6 @@ namespace AT
 	public:
 		virtual ~IStrategy(void) {};
 
-		
 	public:
 		virtual void NotifyState(const std::string& aErrorCode) = 0;
 		virtual void SetStrategyPram(const std::string& apStrParam) = 0;

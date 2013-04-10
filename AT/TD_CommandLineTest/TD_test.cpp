@@ -1,104 +1,58 @@
 #include "CTP_TD.h"
-
+#include "CTP_MULTI_TD.h"
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
 #include "PrintTDSpi.h"
 #include <iostream>
 #include <fstream>
-
-std::string GetCmd()
-{
-	char lCmd[512] ;
-	memset(lCmd,0,512);
-	std::cin.getline(lCmd,500,'\n');
-	std::string lRet(lCmd);
-	size_t lpos =lRet.find_first_not_of(" ");
-	lRet = lRet.substr(lpos);
-	return lRet;
-}
-
-std::string  CreateNewOrder(CTP::CTP_TD& lTDInst)
-{
-
-	std::string lNewOrder = GetCmd();
-	std::string lRet =  lTDInst.CreateOrder(lNewOrder);
-	std::cerr<<"New order ID= "<<lRet <<std::endl;
-	return lRet;
-}
-
-void DelOrder(CTP::CTP_TD& lTDInst)
-{
-	std::string lDelOrder = GetCmd();
-	lTDInst.DeleteOrder(lDelOrder);
-}
-
-
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 int main()
 {
-	CTP::CTP_TD linst;
-	std::map<std::string,std::string> lConfigMap;
+	PrintTDSpi lSpi;
 
-	std::fstream configFile("config.ini");
+	CTP::CTP_MULTI_TD lInst;
+	std::map<std::string,std::string> lConfig;
+	lConfig["ConfigFile"] = "C:\\GitTrunk\\MyToolBox\\AT\\AT_CTP_Multi_TD\\Multi_TD.xml";
+	lInst.Init(lConfig,&lSpi);
 
-	std::string lBorkerid ;
-	std::string lUserID;
-	std::string lPassWord;
-	std::string  lFront;
-	configFile>>lBorkerid>>lUserID>>lPassWord>>lFront;
-	configFile.close();
-	configFile.clear();
-
-	lConfigMap["BrokerID"] =lBorkerid ;
-	lConfigMap["UserID"] = lUserID;
-	lConfigMap["Password"]=lPassWord;
-	lConfigMap["Front"] = lFront;
-
-	//lConfigMap["Index"] ="TD_Command" ;
-	//lConfigMap["BrokerID"] ="2030" ;
-	//lConfigMap["UserID"] = "000000005510";
-	//lConfigMap["Password"]= "228636";
-	//lConfigMap["Front"] = "tcp://asp-sim2-front1.financial-trading-platform.com:26205";
-
-	//lConfigMap["BrokerID"] ="7030" ;
-	//lConfigMap["UserID"] = "000516";
-	//lConfigMap["Password"]= "000516";
-	//lConfigMap["Front"] = "tcp://221.232.155.116:41205";
-
-
-	//lConfigMap["BrokerID"] ="1111" ;
-	//lConfigMap["UserID"] = "Kingnew062";
-	//lConfigMap["Password"]= "888888";
-	//lConfigMap["Front"] = "tcp://211.136.142.218:9116";
-
-
-
-
-	PrintTDSpi lSpiInst;
-	linst.Init(lConfigMap,&lSpiInst);
-
-	const int  CreateNewOrder_CMD= 1;
-	const int 	DeleteOrder_CMD = 2;
-	const int  ModifyOrder_CMD = 3;
-	const int QueryPos_CMD = 4;
-	int lCmdMode;
-	while(std::cin>>lCmdMode)
+	char buf;
+	while(std::cin>>buf)
 	{
-		switch(lCmdMode)
+		if(buf == '1')
 		{
-		case CreateNewOrder_CMD:
-		CreateNewOrder(linst);
-		break;
-		case DeleteOrder_CMD:
-		DelOrder(linst);
-		break;
-		case ModifyOrder_CMD:
-			break;
-		case QueryPos_CMD:
-			linst.QueryPosition("");
-			break;
+			using boost::property_tree::ptree;
+			ptree pt;
+			pt.put("head.type","PlaceOrder");
+			pt.put("head.version",0.1f);
+			pt.put("Order.User","TDConfig1");
+			pt.put("Order.ID" , "IF1304");
+			pt.put("Order.BuyCode" , "Sell");
+			pt.put("Order.OpenCode" , "Open");
+			pt.put("Order.Price" , "2600" );
+			pt.put("Order.Vol" , 1 );
+			std::stringstream lStringStream;
+			write_xml(lStringStream,pt);
+			lInst.CreateOrder(lStringStream.str());
 		}
 
-		boost::this_thread::sleep(boost::posix_time::millisec(1000));
+		if(buf == '2')
+		{
+			using boost::property_tree::ptree;
+			ptree pt;
+			pt.put("head.type","PlaceOrder");
+			pt.put("head.version",0.1f);
+			pt.put("Order.User","TDConfig2");
+			pt.put("Order.ID" , "IF1304");
+			pt.put("Order.BuyCode" , "Sell");
+			pt.put("Order.OpenCode" , "Open");
+			pt.put("Order.Price" , "2600" );
+			pt.put("Order.Vol" , 1 );
+			std::stringstream lStringStream;
+			write_xml(lStringStream,pt);
+			lInst.CreateOrder(lStringStream.str());
+		}
 	}
+
 }

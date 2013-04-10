@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_DriverManger", "..\AT_Dr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StrategyRuner", "..\StrategyRuner\StrategyRuner.vcxproj", "{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_Multi_TD", "..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj", "{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -73,6 +75,10 @@ Global
 		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Debug|Win32.Build.0 = Debug|Win32
 		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Release|Win32.ActiveCfg = Release|Win32
 		{F3A88A1C-75F7-452D-8D7E-E5DA076991C5}.Release|Win32.Build.0 = Release|Win32
+		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Debug|Win32.ActiveCfg = Debug|Win32
+		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Debug|Win32.Build.0 = Debug|Win32
+		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Release|Win32.ActiveCfg = Release|Win32
+		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

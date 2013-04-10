@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Multi_Config>
+  
+<Itemlist>
+<Item>TDConfig1</Item>
+<Item>TDConfig2</Item>   
+</Itemlist>
+
+<TDConfig1>
+  <StoreDir>TD_STroe1</StoreDir>
+	<BrokerID>1017</BrokerID>
+	<UserID>00000072</UserID>
+	<Password>123456</Password>
+	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
+</TDConfig1>
+  
+ <TDConfig2>
+  <StoreDir>TD_STroe2</StoreDir>
+	<BrokerID>1017</BrokerID>
+	<UserID>00000074</UserID>
+	<Password>123456</Password>
+	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
+</TDConfig2> 
+
+
+</Multi_Config>
+  
+  
+
+
+
+
+<!--<TDConfig>
+   <StoreDir>TD_STroe</StoreDir>
+	<BrokerID>7030</BrokerID>
+	<UserID>000516</UserID>
+	<Password>000516</Password>
+	<Front>tcp://221.232.155.116:41205</Front>
+</TDConfig>-->
+
+
+
+<!--<TDConfig>  
+  <StoreDir>TD_STroe</StoreDir>
+	<BrokerID>16377</BrokerID>
+	<UserID>70108093</UserID>
+	<Password>123456</Password>
+	<Front>tcp://182.131.17.110:62205</Front>
+</TDConfig>-->
+

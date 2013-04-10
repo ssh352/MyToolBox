@@ -42,7 +42,7 @@ namespace CTP
 
 	void CTP_TD::NotifyState()
 	{
-		m_pTradeSpi->OnRtnState(m_RuningState,"");
+		m_pTradeSpi->OnRtnState(m_RuningState,m_UserID);
 	}
 
 	void CTP_TD::Init( const std::map<std::string,std::string>& aConfigMap,AT::ITradeSpi* apTradeSpi )
@@ -50,6 +50,7 @@ namespace CTP
 		m_ConfigMap = aConfigMap;
 		m_pDataCache.reset(new DataCache_CTP_TD(aConfigMap.at("StoreDir")));
 		m_pTradeSpi = apTradeSpi;
+
 
 		m_BrokerID = m_ConfigMap["BrokerID"];
 		m_UserID = m_ConfigMap["UserID"];
@@ -206,7 +207,7 @@ namespace CTP
 			memset(&req, 0, sizeof(req));
 			strcpy(req.BrokerID, m_BrokerID.c_str());
 			strcpy(req.InvestorID, m_UserID.c_str());
-			boost::this_thread::sleep(boost::posix_time::seconds(1));
+			boost::this_thread::sleep(boost::posix_time::seconds(2));
 			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
 			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
 			m_IsInQryPosition = true;
@@ -307,7 +308,7 @@ namespace CTP
 		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
 	//	m_pDataCache->UpdataTrade(lpTrade);
 		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
-		m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
+		//m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
 	}
 	catch (std::exception& ex)
 	{
@@ -325,6 +326,7 @@ namespace CTP
 		ptree pt;
 		pt.put("head.type","TradeUpdate");
 		pt.put("head.version",0.1f);
+		pt.put("Order.AccountID",apTrade->UserID);
 		pt.put("Trade.ThostOrderID" , lThostOrderID );
 		pt.put("Trade.TradeID" , apTrade->TradeID  );
 		pt.put("Trade.InstrumentID" ,apTrade->InstrumentID  );
@@ -347,6 +349,7 @@ namespace CTP
 		ptree pt;
 		pt.put("head.type","OrderUpdate");
 		pt.put("head.version",0.1f);
+		pt.put("Order.AccountID",apOrder->UserID);
 		pt.put("Order.ThostOrderID" , lThostOrderID );
 		pt.put("Order.ExchangOrderID" , lExchangOrderID  );
 		pt.put("Order.InstrumentID" ,apOrder->InstrumentID );
@@ -377,7 +380,7 @@ namespace CTP
 			memcpy(lpRet.get(),pInputOrderAction,sizeof(CThostFtdcInputOrderActionField));
 			std::string lThostOrderID = GenerateThostOrderID(lpRet);
 			std::stringstream lbuf;
-			lbuf<<"Cancel Order Failed ThostOrderID "<< lThostOrderID;
+			lbuf<<"Cancel Order Failed ThostOrderID =  "<< lThostOrderID << "UserID "<<m_UserID;
 			m_pTradeSpi->OnRtnState(Cancel_Failed,lbuf.str());
 		}
 	}
@@ -397,6 +400,7 @@ namespace CTP
 			ptree pt;
 			pt.put("head.type","OrderUpdate");
 			pt.put("head.version",0.1f);
+			pt.put("Order.AccountID",m_UserID);
 			pt.put("Order.ThostOrderID" , lThostOrderID );
 			pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
 			std::stringstream lStringStream;
@@ -419,6 +423,7 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
+			//todo add User Tag
 			m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
 			m_IsInQryPosition = false; 
 		}

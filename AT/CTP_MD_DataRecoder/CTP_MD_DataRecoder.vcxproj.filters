@@ -2,5 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MarketDBWriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MarketDBWriter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Config">
+      <UniqueIdentifier>{af9b5011-ea22-4579-83c9-e11937875b6b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MDDataRecoder.xml">
+      <Filter>Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace CTP
 	void DepthReceiverV2::Start()
 	{
 		//TODO check the Dir if not exist ,create it
-		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(m_WorkFlowDir.c_str());
+		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(/*m_WorkFlowDir.c_str()*/);
 		m_pMDAPI->RegisterSpi(this);
 		char buf_front[256];
 		strcpy(buf_front,m_Front.c_str());
@@ -157,6 +157,11 @@ namespace CTP
 	double DepthReceiverV2::GetDispalyPrice( double aPrice )
 	{
 		return IsValidPrice(aPrice)? aPrice: -1;
+	}
+
+	DepthReceiverV2::~DepthReceiverV2()
+	{
+
 	}
 
 

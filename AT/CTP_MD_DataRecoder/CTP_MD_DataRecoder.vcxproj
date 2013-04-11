@@ -80,6 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MarketDBWriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MarketDBWriter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MDDataRecoder.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

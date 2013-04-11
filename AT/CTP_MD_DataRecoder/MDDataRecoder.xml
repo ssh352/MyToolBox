@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<DataRecorderConfig>
+
+  <RecordList>
+    <item>IF1304</item>
+    <item>IF1305</item>
+    <item>IF1306</item>
+  </RecordList>
+  <Front>tcp://ctpmn1-front2.citicsf.com:51213</Front>
+  <StoreDBPath>MarketDB</StoreDBPath>
+  
+</DataRecorderConfig>

@@ -10,10 +10,6 @@
     <item>IF1308</item>
   </InstrumentList>
   <WorkFlowDir>MD_TEST</WorkFlowDir>
-  <StroeMarketDir>MD_DB</StroeMarketDir>
-  <IsStore>1</IsStore>
-  <IsNotify>0</IsNotify>
-
   <!--这是注释段
     //这是一些其他的模拟行情 官方行情来源可以从各个期货公司的快期中提取
       //119.4.167.60:62213 华西联通MD

@@ -55,7 +55,7 @@ int main()
 		lTdInst.Init(lTDConfigMap,&lStrRunner);
 
 		char lbuf;
-		while(std::cin>> )
+		while(std::cin>> lbuf)
 		{
 			boost::property_tree::ptree lConfigPT;
 			read_xml("IStrParam.xml",lConfigPT);

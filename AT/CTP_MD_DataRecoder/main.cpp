@@ -3,6 +3,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/thread.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include "DepthReceiveV2.h"
 #include "MarketDBWriter.h"
 int main()
@@ -18,6 +19,9 @@ int main()
 		lVec.push_back(lVale.second.data());
 	}
 	std::string lDBpath = pt.get<std::string>("DataRecorderConfig.StoreDBPath");
+	
+
+	lDBpath += to_iso_string(boost::gregorian::day_clock::local_day());
 	MarketDBWriter writeInst(lVec,lDBpath);
 
 

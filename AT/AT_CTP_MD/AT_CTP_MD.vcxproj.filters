@@ -7,6 +7,9 @@
     <Filter Include="DataCache">
       <UniqueIdentifier>{e6124384-cbbd-4b63-a217-256439167c6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{5a28e0af-51a4-4e21-973f-0e9d37a2e578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
@@ -30,6 +33,7 @@
     <ClCompile Include="ProductTable_CTP.cpp">
       <Filter>DataCache</Filter>
     </ClCompile>
+    <ClCompile Include="DepthReceiveV2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -65,5 +69,11 @@
     <ClInclude Include="ProductTable_CTP.h">
       <Filter>DataCache</Filter>
     </ClInclude>
+    <ClInclude Include="DepthReceiveV2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MDConfig.xml">
+      <Filter>Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

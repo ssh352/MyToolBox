@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StrategyRuner", "..\Strateg
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_Multi_TD", "..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj", "{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CTP_MD_DataRecoder", "..\CTP_MD_DataRecoder\CTP_MD_DataRecoder.vcxproj", "{D2AF9D75-5B5E-40F4-B262-528A59A74087}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -79,6 +81,10 @@ Global
 		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Debug|Win32.Build.0 = Debug|Win32
 		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Release|Win32.ActiveCfg = Release|Win32
 		{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}.Release|Win32.Build.0 = Release|Win32
+		{D2AF9D75-5B5E-40F4-B262-528A59A74087}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D2AF9D75-5B5E-40F4-B262-528A59A74087}.Debug|Win32.Build.0 = Debug|Win32
+		{D2AF9D75-5B5E-40F4-B262-528A59A74087}.Release|Win32.ActiveCfg = Release|Win32
+		{D2AF9D75-5B5E-40F4-B262-528A59A74087}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<MDConfig>
+  <Front>>tcp://ctpmn1-front2.citicsf.com:51213</Front>
+  <InstrumentList>
+    <item>IF1304</item>
+    <item>IF1305</item>
+    <item>IF1306</item>
+    <item>IF1307</item>
+    <item>IF1308</item>
+  </InstrumentList>
+  <WorkFlowDir>MD_TEST</WorkFlowDir>
+  <StroeMarketDir>MD_DB</StroeMarketDir>
+  <IsStore>1</IsStore>
+  <IsNotify>0</IsNotify>
+
+  <!--这是注释段
+    //这是一些其他的模拟行情 官方行情来源可以从各个期货公司的快期中提取
+      //119.4.167.60:62213 华西联通MD
+		//m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
+		//m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
+    -->
+</MDConfig>

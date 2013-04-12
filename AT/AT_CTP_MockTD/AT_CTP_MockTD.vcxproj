@@ -11,22 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E8F728F4-BFD6-46E3-B90A-6B4D3E020762}</ProjectGuid>
-    <RootNamespace>TD_CommandLineTest</RootNamespace>
+    <ProjectGuid>{0E426003-D860-45CD-8E48-2405D014D354}</ProjectGuid>
+    <RootNamespace>AT_CTP_MockTD</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -34,13 +34,11 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\CTP_lib.props" />
     <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\CTP_lib.props" />
     <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -49,12 +47,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,42 +59,19 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\AT_CTP_MockTD\CTP_TD_Mock.cpp" />
-    <ClCompile Include="PrintTDSpi.cpp" />
-    <ClCompile Include="TD_test.cpp" />
+    <ClInclude Include="CTP_TD_Mock.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
-      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
-      <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
-      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
-      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
-      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\AT_CTP_MockTD\CTP_TD_Mock.h" />
-    <ClInclude Include="PrintTDSpi.h" />
+    <ClCompile Include="CTP_TD_Mock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

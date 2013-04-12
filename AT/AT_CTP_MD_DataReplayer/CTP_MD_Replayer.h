@@ -15,9 +15,13 @@ namespace CTP
 
 		virtual void Init(const std::map<std::string,std::string>& aConfigMap,AT::IMarketSpi* apTradeSpi);
 
+		void Start();
+
+
 	private:
 		 std::map<std::string,leveldb::DB* > m_MarketDBMap;
 		 std::map<std::string,std::string> m_MarketTickMapStored;
+		 AT::IMarketSpi* m_pTradeSpi
 
 	};
 }

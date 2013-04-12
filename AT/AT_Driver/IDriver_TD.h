@@ -11,7 +11,7 @@ namespace AT
 	{
 
 	public:
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap, ITradeSpi* apTradeSpi) =0;
+		virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) =0;
 	public:
 		virtual std::string CreateOrder(const std::string& aNewOrder) =0;
 		virtual void DeleteOrder(const std::string& aClientOrderID) =0;

@@ -7,14 +7,16 @@
 #include <fstream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include "CTP_TD_Mock.h"
 
 int main()
 {
 	PrintTDSpi lSpi;
 
-	CTP::CTP_MULTI_TD lInst;
+	//CTP::CTP_MULTI_TD lInst;
+	CTP::CTP_TD_Mock  lInst;
 	std::map<std::string,std::string> lConfig;
-	lConfig["ConfigFile"] = "C:\\GitTrunk\\MyToolBox\\AT\\AT_CTP_Multi_TD\\Multi_TD.xml";
+	//lConfig["ConfigFile"] = "C:\\GitTrunk\\MyToolBox\\AT\\AT_CTP_Multi_TD\\Multi_TD.xml";
 	lInst.Init(lConfig,&lSpi);
 
 	char buf;

@@ -21,9 +21,15 @@
     <ClCompile Include="PrintTDSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\AT_CTP_MockTD\CTP_TD_Mock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrintTDSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_MockTD\CTP_TD_Mock.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

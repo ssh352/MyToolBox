@@ -14,6 +14,7 @@ namespace CTP
 
 	void CTP_MD_Replayer::Init( const std::map<std::string,std::string>& aConfigMap,AT::IMarketSpi* apMarketSpi )
 	{
+		m_pTradeSpi =apMarketSpi;
 		//TODO 
 		//直接一下发完;
 		//map的key就是订阅列表 值为相应数据库的路径
@@ -45,17 +46,23 @@ namespace CTP
 			delete liter;
 		}
 
-		for(auto lPair:m_MarketTickMapStored)
-		{
-			apMarketSpi->NotifyMarketDepth(lPair.second);
-		}
+	
 
 
 	}
 
 	CTP_MD_Replayer::CTP_MD_Replayer(  )
 	{
-
 	}
+
+	void CTP_MD_Replayer::Start()
+	{
+		for(auto lPair:m_MarketTickMapStored)
+		{
+			m_pTradeSpi->NotifyMarketDepth(lPair.second);
+		}
+	}
+
+
 
 }

@@ -21,7 +21,7 @@ namespace CTP
 	private:
 		 std::map<std::string,leveldb::DB* > m_MarketDBMap;
 		 std::map<std::string,std::string> m_MarketTickMapStored;
-		 AT::IMarketSpi* m_pTradeSpi
+		 AT::IMarketSpi* m_pTradeSpi;
 
 	};
 }

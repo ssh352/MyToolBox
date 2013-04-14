@@ -12,12 +12,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-extern "C"  __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig,  AT::ITradeSpi* apTradeSpi)
-{
-	 AT::IDriver_TD* lpDriverInstance = new CTP::CTP_TD();
-	 lpDriverInstance->Init(aConfig, apTradeSpi);
-	 return lpDriverInstance;
-}
 
 char g_Address[512] ;
 namespace CTP
@@ -182,14 +176,14 @@ namespace CTP
 		CThostFtdcInputOrderActionField  lOrderAction ;
 		memset(&lOrderAction,0,sizeof(lOrderAction));
 		lOrderAction.ActionFlag =THOST_FTDC_AF_Delete;
-		strcpy(lOrderAction.BrokerID, lExchangOrderPtr->BrokerID);
+		strcpy_s(lOrderAction.BrokerID ,sizeof(lOrderAction.BrokerID), lExchangOrderPtr->BrokerID);
 		lOrderAction.FrontID =lFrontID;
 		lOrderAction.SessionID = lSessionID;
-		strcpy(lOrderAction.InstrumentID,lExchangOrderPtr->InstrumentID);
-		strcpy(lOrderAction.InvestorID ,lExchangOrderPtr->InvestorID);
+		strcpy_s(lOrderAction.InstrumentID ,sizeof(lOrderAction.InstrumentID) ,lExchangOrderPtr->InstrumentID);
+		strcpy_s(lOrderAction.InvestorID ,sizeof(lOrderAction.InvestorID),lExchangOrderPtr->InvestorID);
 		lOrderAction.LimitPrice = lExchangOrderPtr->LimitPrice;
-		strcpy(lOrderAction.OrderRef,lExchangOrderPtr->OrderRef);
-		strcpy(lOrderAction.UserID,lExchangOrderPtr->UserID);
+		strcpy_s(lOrderAction.OrderRef ,sizeof(lOrderAction.OrderRef) ,lExchangOrderPtr->OrderRef);
+		strcpy_s(lOrderAction.UserID ,sizeof(lOrderAction.UserID) ,lExchangOrderPtr->UserID);
 		int ret = m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
 		if(ret != 0)  std::cerr<<"DeleteOrder Send Failed"<<std::endl;
 	}
@@ -205,8 +199,8 @@ namespace CTP
 		{
 			CThostFtdcQryInvestorPositionField req;
 			memset(&req, 0, sizeof(req));
-			strcpy(req.BrokerID, m_BrokerID.c_str());
-			strcpy(req.InvestorID, m_UserID.c_str());
+			strcpy_s(req.BrokerID  ,sizeof(req.BrokerID) , m_BrokerID.c_str());
+			strcpy_s(req.InvestorID  ,sizeof(req.InvestorID) , m_UserID.c_str());
 			boost::this_thread::sleep(boost::posix_time::seconds(2));
 			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
 			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
@@ -245,7 +239,7 @@ namespace CTP
 		strcpy_s(lRet.InvestorID, 13,m_UserID.c_str()); //投资者代码	
 		strcpy_s(lRet.InstrumentID, 31,lInstrument.c_str()); //合约代码	
 		std::string lnextOrderRef = boost::lexical_cast<std::string>(++m_MaxOrderRef);
-		strcpy(lRet.OrderRef,lnextOrderRef.c_str() );  //报单引用
+		strcpy_s(lRet.OrderRef,sizeof(lRet.OrderRef),lnextOrderRef.c_str() );  //报单引用
 		lRet.LimitPrice = lPrice;	//价格
 		if(abs(lRet.LimitPrice)<0.01)
 		{
@@ -413,8 +407,8 @@ namespace CTP
 	{
 		CThostFtdcQryTradingAccountField req;
 		memset(&req, 0, sizeof(req));
-		strcpy(req.BrokerID, m_BrokerID.c_str());
-		strcpy(req.InvestorID, m_UserID.c_str());
+		strcpy_s(req.BrokerID, sizeof(req.BrokerID),m_BrokerID.c_str());
+		strcpy_s(req.InvestorID,sizeof(req.InvestorID), m_UserID.c_str());
 		int ret = m_pTraderAPI->ReqQryTradingAccount(&req, ++m_RequestID);
 		if(ret != 0)  std::cerr<<"QryTradingAccount Send Failed"<<std::endl;
 	}

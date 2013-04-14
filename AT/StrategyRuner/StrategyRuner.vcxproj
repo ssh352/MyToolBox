@@ -88,11 +88,8 @@
     <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
       <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
-      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
-      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    <ProjectReference Include="..\AT_CTP_TD_LIB\AT_CTP_TD_LIB.vcxproj">
+      <Project>{d2315166-c876-461e-8374-ff3a20ab2fde}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>

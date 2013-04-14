@@ -23,7 +23,7 @@ namespace AT
 }
 
 typedef AT::IDriver_TD* (*CreatInstFun)(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);
-#ifdef IDRIVER_LIB
+#ifdef AT_LIB
 extern "C" __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);
 #else
 extern "C" __declspec(dllimport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);

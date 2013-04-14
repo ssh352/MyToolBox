@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0EEA2D5E-72CF-4E8E-BA95-E8E95CA6C95A}</ProjectGuid>
-    <RootNamespace>AT_DriverManger</RootNamespace>
+    <ProjectGuid>{D2315166-C876-461E-8374-FF3A20AB2FDE}</ProjectGuid>
+    <RootNamespace>AT_CTP_TD_LIB</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,9 +22,9 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -33,10 +33,14 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\CTP_lib.props" />
     <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\CTP_lib.props" />
     <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -45,6 +49,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -56,6 +61,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -64,7 +70,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IDriverManger.h" />
+    <ClCompile Include="..\AT_CTP_TD\CTP_TD.cpp" />
+    <ClCompile Include="..\AT_CTP_TD\DataCache_CTP_TD.cpp" />
+    <ClCompile Include="..\AT_CTP_TD\InputOrderTable.cpp" />
+    <ClCompile Include="..\AT_CTP_TD\OrderTable_CTP.cpp" />
+    <ClCompile Include="..\AT_CTP_TD\PositionTable_CTP.cpp" />
+    <ClCompile Include="..\AT_CTP_TD\TradeTable_CTP.cpp" />
+    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AT_CTP_TD\CTP_TD.h" />
+    <ClInclude Include="..\AT_CTP_TD\DataCache_CTP_TD.h" />
+    <ClInclude Include="..\AT_CTP_TD\InputOrderTable.h" />
+    <ClInclude Include="..\AT_CTP_TD\OrderTable_CTP.h" />
+    <ClInclude Include="..\AT_CTP_TD\PositionTable_CTP.h" />
+    <ClInclude Include="..\AT_CTP_TD\TradeTable_CTP.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

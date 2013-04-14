@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="TD_DataCache">
+      <UniqueIdentifier>{6061c711-9052-474d-ab36-e0e889d7fa86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API">
+      <UniqueIdentifier>{f1553b33-409d-4d1f-97ae-02b62e47b471}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AT_CTP_TD\CTP_TD.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AT_CTP_TD\DataCache_CTP_TD.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AT_CTP_TD\InputOrderTable.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AT_CTP_TD\OrderTable_CTP.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AT_CTP_TD\PositionTable_CTP.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AT_CTP_TD\TradeTable_CTP.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
+      <Filter>API</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AT_CTP_TD\CTP_TD.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_TD\DataCache_CTP_TD.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_TD\InputOrderTable.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_TD\OrderTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_TD\PositionTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AT_CTP_TD\TradeTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h">
+      <Filter>API</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

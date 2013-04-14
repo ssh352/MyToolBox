@@ -7,6 +7,9 @@
     <Filter Include="TD_DataCache">
       <UniqueIdentifier>{bf392002-02b1-4f67-a156-6a9cd65c1ebb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="misc">
+      <UniqueIdentifier>{f4f251c2-0741-43cc-b657-b95d2b45ea5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
@@ -27,6 +30,9 @@
     </ClCompile>
     <ClCompile Include="PositionTable_CTP.cpp">
       <Filter>TD_DataCache</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverFactory.cpp">
+      <Filter>misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

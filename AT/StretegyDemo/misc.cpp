@@ -1,7 +1,6 @@
 #include "StrDemo1.h"
 
-
- DLL_API AT::IStrategy* CreateStr( AT::IDriver_TD* apTradeSpi)
+ DLL_API AT::IStrategy* CreateStr(const std::string aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* apStrSpi)
  {
-	return new StrDemo1(apTradeSpi);
+	return new StrDemo1(apTradeSpi,apStrSpi);
  }

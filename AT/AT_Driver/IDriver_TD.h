@@ -11,9 +11,16 @@ namespace AT
 	class IDriver_TD
 	{
 	public:
-		//Init 
+
+		enum ETradeState
+		{
+			START,
+			READY,
+			STOP,
+		};
+
+		virtual void UpdateParam(const std::string& apParam) {};
 		virtual void Start(){};
-		//Exit Cleanly
 		virtual void Stop(){};
 
 		virtual std::string CreateOrder(const std::string& aNewOrder) =0;

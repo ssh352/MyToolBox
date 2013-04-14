@@ -13,7 +13,7 @@ using boost::posix_time::time_duration ;
 
 
 CloseStrategy::CloseStrategy(AT::IDriver_TD* apTD)
-	: IStrategy(apTD)
+	:m_pTD(apTD)
 {
 	m_CheckLevel = 0;
 }
@@ -234,7 +234,7 @@ bool CloseStrategy::CheckLevel3( double aPrice )
 	return false;
 }
 
-void CloseStrategy::SetStrategyPram( const std::string& apStrParam )
+void CloseStrategy::UpdateParam( AT::IStrategy::EStrInputState aSource,const std::string& apStrParam)
 {
 	std::stringstream lbuf(apStrParam);
 	using boost::property_tree::ptree;

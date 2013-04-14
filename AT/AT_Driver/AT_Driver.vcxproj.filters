@@ -26,6 +26,9 @@
     <ClInclude Include="AT_API_HEAD.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="IStrategySpi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Interface">

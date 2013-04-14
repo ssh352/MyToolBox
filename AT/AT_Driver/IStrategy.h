@@ -5,42 +5,29 @@
 
 namespace AT
 {
-
-	enum  StrategyState
-	{
-		Str_Init,//include sync
-		Str_Start,
-		Str_Stop,
-		Str_Reload
-	};
-
+	class IStrategySpi;
 
 	class IStrategy 
 	{
 	public:
-		IStrategy(IDriver_TD* apTD)
-			:m_pTD(apTD)
+
+		enum EStrInputState
 		{
-
-		}
-		virtual ~IStrategy(void) {};
-
-	public:
-		virtual void NotifyState(const std::string& aErrorCode) = 0;
-		virtual void SetStrategyPram(const std::string& apStrParam) = 0;
+			PARAM,
+			MDSTATE,
+			TDSTATE
+		};
+		virtual void UpdateParam(EStrInputState errCode ,const std::string& apParam) {};
+		virtual void Start() {};
+		virtual void Stop(){};
 	public:
 		virtual void OnMarketDepth(const std::string& aMarketDepth)= 0;
 		virtual void OnRtnOrder(const std::string& apOrder) = 0;
 		virtual void OnRtnTrade(const std::string& apTrade)=0;
 		virtual void OnRtnPos(const std::string& aPos) = 0;
 
-		virtual void Start() = 0;
-		virtual void Stop() = 0;
 
-
-	protected:
-		IDriver_TD* m_pTD;
 	};
 }
-typedef  AT::IStrategy* (*CreateStrFun) ( AT::IDriver_TD* apTradeSpi);
-DLL_API  AT::IStrategy* CreateStr( AT::IDriver_TD* apTradeSpi);
+typedef  AT::IStrategy* (*CreateStrFun) (const std::string aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
+DLL_API  AT::IStrategy* CreateStr(const std::string aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi);

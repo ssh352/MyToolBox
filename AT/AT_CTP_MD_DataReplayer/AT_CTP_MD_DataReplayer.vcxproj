@@ -70,12 +70,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MD_PrintTest\PrintMDSpi.cpp" />
     <ClCompile Include="CTP_MD_Replayer.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="misc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\MD_PrintTest\PrintMDSpi.h" />
     <ClInclude Include="CTP_MD_Replayer.h" />
   </ItemGroup>
   <ItemGroup>

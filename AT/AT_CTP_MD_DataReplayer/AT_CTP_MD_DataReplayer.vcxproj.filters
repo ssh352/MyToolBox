@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="CTP_MD_Replayer.cpp" />
-    <ClCompile Include="..\MD_PrintTest\PrintMDSpi.cpp" />
+    <ClCompile Include="misc.cpp">
+      <Filter>misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTP_MD_Replayer.h" />
-    <ClInclude Include="..\MD_PrintTest\PrintMDSpi.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Config">
-      <UniqueIdentifier>{c3937a09-8b5b-488e-92ec-b642fbba9bc4}</UniqueIdentifier>
+    <Filter Include="misc">
+      <UniqueIdentifier>{7caddc53-2b8a-4e43-92b4-8bac3006fade}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="MDDataReplayer.xml">
-      <Filter>Config</Filter>
+      <Filter>misc</Filter>
     </Xml>
   </ItemGroup>
 </Project>

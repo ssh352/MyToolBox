@@ -1,11 +1,10 @@
 #pragma once
 
 #include <string>
-#include "AT_Error_Code.h"
 
 namespace AT
 {
-	//not dispathe user keep thread safe
+
 	class IMarketSpi
 	{
 	public:

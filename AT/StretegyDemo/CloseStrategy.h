@@ -15,16 +15,14 @@ public:
 	virtual ~CloseStrategy();
 
 public:
-	virtual void NotifyState(const std::string& aErrorCode){};
-	virtual void SetStrategyPram(const std::string& apStrParam);
+	virtual void UpdateParam( AT::IStrategy::EStrInputState aSource,const std::string& apStrParam);
+	virtual void Start() {};
+	virtual void Stop() {};
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);
 	virtual void OnRtnTrade(const std::string& apTrade);
 	virtual void OnRtnPos(const std::string& aPos) {};
-
-	virtual void Start() {};
-	virtual void Stop() {};
 
 	void Reload();
 
@@ -69,7 +67,7 @@ private:
 	 double m_Level2QuitPrice;
 	 double m_Level3QuitPrice;
 	
-
+	  AT::IDriver_TD* m_pTD;
 
 };
 

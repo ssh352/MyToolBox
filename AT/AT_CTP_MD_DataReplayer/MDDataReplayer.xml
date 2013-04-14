@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<Replayer>
-
-  <RecordList>
-    <item>
-      <ID>IF1304</ID>
-      <Path>DBIF1304</Path>
-    </item>
-    <item>
-      <ID>IF1305</ID>
-      <Path>DBIF1305</Path>
-    </item>
-  </RecordList>
-</Replayer>
+<MarketReplayer>
+  <DBList>
+    <item>C:\GitHub\MyToolBox\AT\sln\Release\MarketDB20130414IF1304</item>
+    <item>C:\GitHub\MyToolBox\AT\sln\Release\MarketDB20130414IF1305</item>
+    <item>C:\GitHub\MyToolBox\AT\sln\Release\MarketDB20130414IF1306</item>
+  </DBList>
+</MarketReplayer>

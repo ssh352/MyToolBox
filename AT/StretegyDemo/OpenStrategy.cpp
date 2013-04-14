@@ -12,7 +12,7 @@ using boost::posix_time::time_duration ;
 
 
 OpenStrategy::OpenStrategy(AT::IDriver_TD* apTD)
-	:IStrategy(apTD)
+	:m_pTD(apTD)
 {
 }
 
@@ -158,7 +158,7 @@ void OpenStrategy::Reload()
 	m_MarketCache.clear();
 }
 
-void OpenStrategy::SetStrategyPram( const std::string& apStrParam )
+void OpenStrategy:: UpdateParam( AT::IStrategy::EStrInputState aSource,const std::string& apStrParam)
 {
 	std::stringstream lbuf(apStrParam);
 	using boost::property_tree::ptree;

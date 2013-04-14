@@ -8,9 +8,18 @@ namespace AT
 {
 	class IMarketSpi;
 
+
+
 	class IDriver_MD
 	{
 	public:
+		enum EMarketState
+		{
+			START,
+			READY,
+			STOP,
+		};
+		virtual void UpdateParam(const std::string& apParam) {};
 		virtual  void Start(){};
 		virtual	void Stop(){};
 
@@ -19,6 +28,6 @@ namespace AT
 
 }
 
-typedef AT::IDriver_MD* (*CreatMDInstFun)(const std::map<std::string,std::string>& aConfig, AT::IMarketSpi* apTradeSpi);
+typedef AT::IDriver_MD* (*CreatMDInstFun)(const std::string& aConfig, AT::IMarketSpi* apTradeSpi);
 
 DLL_API AT::IDriver_MD* CreateMD(const std::string& aConfig, AT::IMarketSpi* apTradeSpi);

@@ -18,6 +18,7 @@
     <ClInclude Include="IDriver_TD.h" />
     <ClInclude Include="IMarketSpi.h" />
     <ClInclude Include="IStrategy.h" />
+    <ClInclude Include="IStrategySpi.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
     <ClInclude Include="myForeach.h" />

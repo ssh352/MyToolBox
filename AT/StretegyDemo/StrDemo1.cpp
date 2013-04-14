@@ -3,15 +3,15 @@
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-StrDemo1::StrDemo1(AT::IDriver_TD* apTD)
-	: IStrategy(apTD)
-	, m_openState(m_pTD)
-	, m_clostState(m_pTD)
+StrDemo1::StrDemo1(AT::IDriver_TD* apTD,  AT::IStrategySpi* apStrSpi)
+	: m_openState(apTD)
+	, m_clostState(apTD)
 {
 	m_isRuning= false;
 	ChangeToOpenState();
 	SetupChild();
 }
+
 
 StrDemo1::~StrDemo1(void)
 {
@@ -40,15 +40,12 @@ void StrDemo1::OnRtnTrade( const std::string& apTrade )
 		std::cout<<"StrDemo1 Receive "<<apTrade;
 }
 
-void StrDemo1::NotifyState( const std::string& aErrorCode )
-{
 
-}
 
-void StrDemo1::SetStrategyPram(const std::string& aConfig )
+void StrDemo1::UpdateParam(EStrInputState errCode ,const std::string& apParam)
 {
-	 m_openState.SetStrategyPram(aConfig);
-	 m_clostState.SetStrategyPram(aConfig);
+	 m_openState.UpdateParam(errCode,apParam);
+	 m_clostState.UpdateParam(errCode,apParam);
 }
 
 
@@ -74,6 +71,6 @@ void StrDemo1::SetupChild()
 	std::stringstream lbuf;
 	write_xml(lbuf,lConfigPT);
 	std::string lret = lbuf.str();
-	SetStrategyPram(lret);
+	UpdateParam(AT::IStrategy::PARAM,lret);
 }
 

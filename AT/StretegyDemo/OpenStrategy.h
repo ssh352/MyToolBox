@@ -14,8 +14,8 @@ public:
 	OpenStrategy(AT::IDriver_TD* apTD);
 	virtual ~OpenStrategy();
 
-	virtual void NotifyState(const std::string& aErrorCode){};
-	virtual void SetStrategyPram(const std::string& apStrParam);
+
+	virtual void UpdateParam( AT::IStrategy::EStrInputState aSource,const std::string& apStrParam);
 public:
 	virtual void OnMarketDepth(const std::string& aMarketDepth);
 	virtual void OnRtnOrder(const std::string& apOrder);
@@ -44,6 +44,7 @@ private:
 	 std::string m_Instument ;
 	 int   m_TriggerTimeSeconds ;
 	 double m_TriigerPrice ;
+	 AT::IDriver_TD* m_pTD;
 
 };
 

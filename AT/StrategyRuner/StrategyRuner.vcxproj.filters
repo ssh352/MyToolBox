@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="资源文件">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,45 +8,50 @@
     <Filter Include="config">
       <UniqueIdentifier>{4f7ff9e5-ef12-45dd-b1e4-77102336ac97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StrategyDemo">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Runner">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IStrategy.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="StrDemo1.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StrPoster.h">
-      <Filter>头文件</Filter>
+      <Filter>StrategyDemo</Filter>
     </ClInclude>
     <ClInclude Include="OpenStrategy.h">
-      <Filter>头文件</Filter>
+      <Filter>StrategyDemo</Filter>
     </ClInclude>
     <ClInclude Include="CloseStrategy.h">
-      <Filter>头文件</Filter>
+      <Filter>StrategyDemo</Filter>
     </ClInclude>
     <ClInclude Include="..\MD_PrintTest\PrintMDSpi.h">
-      <Filter>头文件</Filter>
+      <Filter>Runner</Filter>
+    </ClInclude>
+    <ClInclude Include="StrPoster.h">
+      <Filter>Runner</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StrDemo1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Runner</Filter>
     </ClCompile>
     <ClCompile Include="StrPoster.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenStrategy.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CloseStrategy.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Runner</Filter>
     </ClCompile>
     <ClCompile Include="..\MD_PrintTest\PrintMDSpi.cpp">
-      <Filter>源文件</Filter>
+      <Filter>Runner</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseStrategy.cpp">
+      <Filter>StrategyDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenStrategy.cpp">
+      <Filter>StrategyDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="StrDemo1.cpp">
+      <Filter>StrategyDemo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

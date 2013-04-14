@@ -18,6 +18,11 @@ namespace AT
 	class IStrategy 
 	{
 	public:
+		IStrategy(IDriver_TD* apTD)
+			:m_pTD(apTD)
+		{
+
+		}
 		virtual ~IStrategy(void) {};
 
 	public:
@@ -32,13 +37,10 @@ namespace AT
 		virtual void Start() = 0;
 		virtual void Stop() = 0;
 
-		void SetTDPoint(IDriver_TD* apTD)
-		{
-			m_pTD = apTD;
-		}
+
 	protected:
 		IDriver_TD* m_pTD;
 	};
 }
-
-
+typedef  AT::IStrategy* (*CreateStrFun) ( AT::IDriver_TD* apTradeSpi);
+DLL_API  AT::IStrategy* CreateStr( AT::IDriver_TD* apTradeSpi);

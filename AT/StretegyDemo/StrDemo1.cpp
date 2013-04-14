@@ -3,7 +3,10 @@
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-StrDemo1::StrDemo1()
+StrDemo1::StrDemo1(AT::IDriver_TD* apTD)
+	: IStrategy(apTD)
+	, m_openState(m_pTD)
+	, m_clostState(m_pTD)
 {
 	m_isRuning= false;
 	ChangeToOpenState();
@@ -57,11 +60,11 @@ void StrDemo1::OnRtnPos( const std::string& aPos )
 
 void StrDemo1::SetupChild()
 {
-	m_openState.SetTDPoint(m_pTD);
+
 	m_openState.SendExitHandle(std::bind(&StrDemo1::ChangeToClostState,this,std::placeholders::_1,std::placeholders::_2));
 	m_clostState.Reload();
 
-	m_clostState.SetTDPoint(m_pTD);
+
 	m_clostState.SendExitHandle(std::bind(&StrDemo1::ChangeToOpenState,this));
 	m_clostState.Reload();
 

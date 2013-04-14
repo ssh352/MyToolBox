@@ -11,7 +11,7 @@
 class OpenStrategy :public AT::IStrategy
 {
 public:
-	OpenStrategy();
+	OpenStrategy(AT::IDriver_TD* apTD);
 	virtual ~OpenStrategy();
 
 	virtual void NotifyState(const std::string& aErrorCode){};

@@ -7,12 +7,14 @@ namespace CTP
 class CTP_TD_Mock :public AT::IDriver_TD
 {
 public:
-	CTP_TD_Mock(void);
+	CTP_TD_Mock(const std::string& aConfigFile, AT::ITradeSpi* apSpi);
 	virtual ~CTP_TD_Mock(void);
 
 public:
-	virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) ;
-public:
+
+	virtual void Start();
+	virtual void Stop();
+
 	virtual std::string CreateOrder(const std::string& aNewOrder);
 	virtual void DeleteOrder(const std::string& aClientOrderID) ;
 	virtual	void ModifyOrder(const std::string& aRequest) ;

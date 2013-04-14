@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="for_lib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AT_Error_Code.h" />
+    <ClInclude Include="AT_XML_Template.h" />
+    <ClInclude Include="ItemTable.h" />
+    <ClInclude Include="myForeach.h" />
+    <ClInclude Include="IDriver_MD.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IDriver_TD.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IMarketSpi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IStrategy.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSpi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="AT_API_HEAD.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{7f10da63-5773-4937-88c8-7a8a24a89dc5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

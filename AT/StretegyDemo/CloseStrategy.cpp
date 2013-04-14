@@ -12,7 +12,8 @@ using boost::posix_time::time_duration ;
 
 
 
-CloseStrategy::CloseStrategy(void)
+CloseStrategy::CloseStrategy(AT::IDriver_TD* apTD)
+	: IStrategy(apTD)
 {
 	m_CheckLevel = 0;
 }

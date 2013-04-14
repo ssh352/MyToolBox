@@ -36,7 +36,7 @@ void DelOrder(AT::IDriver_TD* lTDInst)
 int main()
 {
 	HMODULE  lhandle = LoadLibrary("AT_CTP_TD.dll");
-	CreatInstFun lpCallInst =(CreatInstFun) GetProcAddress(lhandle,"CreateDriverInsance");
+	CreatTDInstFun lpCallInst =(CreatTDInstFun) GetProcAddress(lhandle,"CreateDriverInsance");
 	
 
 	std::fstream configFile("config.ini");
@@ -99,5 +99,7 @@ int main()
 		}
 		::Sleep(1000);
 	}
+
+	FreeLibrary(lhandle);
 
 }

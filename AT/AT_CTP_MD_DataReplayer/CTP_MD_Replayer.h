@@ -10,13 +10,8 @@ namespace CTP
 	class CTP_MD_Replayer :public AT::IDriver_MD
 	{
 	public:
-		CTP_MD_Replayer();
+		CTP_MD_Replayer(const std::string& aConfig,AT::IMarketSpi* apTradeSpi);
 		virtual ~CTP_MD_Replayer(void);
-
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap,AT::IMarketSpi* apTradeSpi);
-
-		void Start();
-
 
 	private:
 		 std::map<std::string,leveldb::DB* > m_MarketDBMap;

@@ -11,7 +11,7 @@
 class CloseStrategy :public AT::IStrategy
 {
 public:
-	CloseStrategy();
+	CloseStrategy(AT::IDriver_TD* apTD);
 	virtual ~CloseStrategy();
 
 public:

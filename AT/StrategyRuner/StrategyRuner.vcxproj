@@ -71,7 +71,6 @@
   <ItemGroup>
     <ClInclude Include="..\MD_PrintTest\PrintMDSpi.h" />
     <ClInclude Include="CloseStrategy.h" />
-    <ClInclude Include="IStrategy.h" />
     <ClInclude Include="OpenStrategy.h" />
     <ClInclude Include="StrDemo1.h" />
     <ClInclude Include="StrPoster.h" />

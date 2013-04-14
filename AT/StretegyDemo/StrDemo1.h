@@ -6,7 +6,7 @@
 class StrDemo1 :public AT::IStrategy
 {
 public:
-	StrDemo1();
+	StrDemo1(AT::IDriver_TD * apTD);
 	virtual ~StrDemo1();
 
 	virtual void NotifyState(const std::string& aErrorCode);

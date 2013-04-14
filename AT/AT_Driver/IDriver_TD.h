@@ -3,16 +3,19 @@
 #include <string>
 #include <map>
 
+#include "AT_API_HEAD.h"
 namespace AT
 {
 	class ITradeSpi;
 
 	class IDriver_TD
 	{
+	public:
+		//Init 
+		virtual void Start(){};
+		//Exit Cleanly
+		virtual void Stop(){};
 
-	public:
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) =0;
-	public:
 		virtual std::string CreateOrder(const std::string& aNewOrder) =0;
 		virtual void DeleteOrder(const std::string& aClientOrderID) =0;
 		virtual	void ModifyOrder(const std::string& aRequest) =0;
@@ -22,9 +25,6 @@ namespace AT
 
 }
 
-typedef AT::IDriver_TD* (*CreatInstFun)(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);
-#ifdef AT_LIB
-extern "C" __declspec(dllexport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);
-#else
-extern "C" __declspec(dllimport) AT::IDriver_TD* CreateDriverInsance(const std::map<std::string,std::string>& aConfig, AT::ITradeSpi* apTradeSpi);
-#endif
+typedef AT::IDriver_TD* (*CreatTDInstFun)(const std::string & aConfigFile, AT::ITradeSpi* apTradeSpi);
+DLL_API AT::IDriver_TD* CreateTD(const std::string & aConfigFile, AT::ITradeSpi* apTradeSpi);
+

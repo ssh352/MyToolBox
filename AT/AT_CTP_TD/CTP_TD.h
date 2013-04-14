@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <map>
 #include <vector>
 #include <string>
@@ -54,21 +54,21 @@ namespace CTP
 		virtual void OnRspSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, 
 			CThostFtdcRspInfoField *apRspInfo, int nRequestID, bool bIsLast);
 
-		///±¨µ¥Í¨Öª
+		///æŠ¥å•é€šçŸ¥
 		virtual void OnRtnOrder(CThostFtdcOrderField *pOrder);
 		
-		///³É½»Í¨Öª
+		///æˆäº¤é€šçŸ¥
 		virtual void OnRtnTrade(CThostFtdcTradeField *pTrade);
 		
-		//×Ê½ğ¸üĞÂ
+		//èµ„é‡‘æ›´æ–°
 		virtual void OnRspQryTradingAccount(CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 		
-		//²ÖÎ»¸üĞÂ
+		//ä»“ä½æ›´æ–°
 		virtual void OnRspQryInvestorPosition(CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-		//É¾µ¥Ê§°Ü£¿
+		//åˆ å•å¤±è´¥ï¼Ÿ
 		virtual void OnRspOrderAction(CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
-		//ÏÂµ¥Ê§°Ü
+		//ä¸‹å•å¤±è´¥
 		virtual void OnRspOrderInsert(CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
 

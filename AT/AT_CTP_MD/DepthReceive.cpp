@@ -43,7 +43,7 @@ namespace CTP
 		{
 			char* lTmepBuf = new char[aInstrumentID.size()];
 			char** ltemplist = new char* [1];
-			strncpy(lTmepBuf,aInstrumentID.c_str(),aInstrumentID.size());
+			strcpy_s(lTmepBuf,aInstrumentID.size(),aInstrumentID.c_str());
 			ltemplist[0] = lTmepBuf;
 			m_allocateMemMap[aInstrumentID] = ltemplist;
 		}
@@ -78,7 +78,7 @@ namespace CTP
 		//m_pMDAPI->RegisterFront("tcp://182.131.17.110:62213"); //182.131.17.110:62213 华西电信MD
 		//m_pMDAPI->RegisterFront("tcp://asp-sim2-front1.financial-trading-platform.com:26213"); // "" CTP官方
 		char buf_front[256];
-		strncpy(buf_front,m_ConfigMap["Front"].c_str(),sizeof(buf_front));
+		strcpy_s(buf_front,sizeof(buf_front),m_ConfigMap["Front"].c_str());
 		m_pMDAPI->RegisterFront(buf_front);
 		m_pMDAPI->Init();
 		m_DepthState = DepthReceiver_CONNECTING_STATE;

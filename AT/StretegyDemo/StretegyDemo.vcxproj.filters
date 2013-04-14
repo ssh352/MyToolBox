@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CloseStrategy.cpp" />
+    <ClCompile Include="OpenStrategy.cpp" />
+    <ClCompile Include="StrDemo1.cpp" />
+    <ClCompile Include="misc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CloseStrategy.h" />
+    <ClInclude Include="OpenStrategy.h" />
+    <ClInclude Include="StrDemo1.h" />
+  </ItemGroup>
+</Project>

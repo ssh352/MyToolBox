@@ -3,25 +3,22 @@
 #include <string>
 #include <map>
 
-
+#include "AT_API_HEAD.h"
 namespace AT
 {
 	class IMarketSpi;
 
-
-	//accept xml string for question
-
-	//thread safe Driver promise it
 	class IDriver_MD
 	{
 	public:
-		//config 中可以带一个订阅列表,或者是否全部订阅等等设置
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap,AT::IMarketSpi* apTradeSpi) = 0;
+		virtual  void Start(){};
+		virtual	void Stop(){};
 
-		//todo 基于节约带宽的考虑 还是应该提供这两个选项 目前全推
-		//virtual Subscibe(const std::string& aSubScribe);
-		//virtual UnSubscribe(const std::string& aUnSubScribe);
+
 	};
 
 }
 
+typedef AT::IDriver_MD* (*CreatMDInstFun)(const std::map<std::string,std::string>& aConfig, AT::IMarketSpi* apTradeSpi);
+
+DLL_API AT::IDriver_MD* CreateMD(const std::string& aConfig, AT::IMarketSpi* apTradeSpi);

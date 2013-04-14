@@ -11,7 +11,8 @@ using boost::posix_time::time_duration ;
 
 
 
-OpenStrategy::OpenStrategy(void)
+OpenStrategy::OpenStrategy(AT::IDriver_TD* apTD)
+	:IStrategy(apTD)
 {
 }
 

@@ -12,13 +12,6 @@ namespace AT
 	{
 	public:
 
-		enum ETradeState
-		{
-			START,
-			READY,
-			STOP,
-		};
-
 		virtual void UpdateParam(const std::string& apParam) {};
 		virtual void Start(){};
 		virtual void Stop(){};

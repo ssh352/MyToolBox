@@ -66,26 +66,26 @@ namespace CTP
 		delete m_pWorker;
 		if(m_MockIOThread.joinable()) m_MockIOThread.join();
 
-		m_pMarketSpi->NotifyState(IDriver_MD::STOP,"CTP_MD_Replayer Stop Post");
+		m_pMarketSpi->NotifyStateMD(AT::EMarketState::STOP,"CTP_MD_Replayer Stop Post");
 	}
 
 	void CTP_MD_Replayer::DoPost( std::multimap<std::string,std::string>::iterator aPostIndex )
 	{
 		if (aPostIndex == m_MarketTickMapStored.begin())
 		{
-			m_pMarketSpi->NotifyState(IDriver_MD::READY,"CTP_MD_Replayer Ready First Post Come");
+			m_pMarketSpi->NotifyStateMD(AT::EMarketState::READY,"CTP_MD_Replayer Ready First Post Come");
+		}
+		int cout =0;
+
+		while(aPostIndex != m_MarketTickMapStored.end())
+		{
+			m_pMarketSpi->NotifyMarketDepth(aPostIndex->second);
+			aPostIndex++;
+			cout++;
 		}
 
-		m_pMarketSpi->NotifyExchange(aPostIndex->second);
-		aPostIndex++;
-		if(aPostIndex != m_MarketTickMapStored.end())
-		{
-			m_IOService.post( boost::bind(&CTP_MD_Replayer::DoPost,this,aPostIndex));
-		}
-		else
-		{
-			m_pMarketSpi->NotifyState(IDriver_MD::STOP,"All Market Have Posted");
-		}
+		m_pMarketSpi->NotifyStateMD(AT::EMarketState::END_MARKETDAY,str(boost::format( "All Market Have Posted MessageCount %d") % cout ));
+		
 	}
 
 

@@ -3,9 +3,10 @@
 #include <string>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-StrDemo1::StrDemo1(AT::IDriver_TD* apTD,  AT::IStrategySpi* apStrSpi)
+StrDemo1::StrDemo1(const std::string& aConfigFile , AT::IDriver_TD* apTD,  AT::IStrategySpi* apStrSpi)
 	: m_openState(apTD)
 	, m_clostState(apTD)
+	, m_ConfigFileName(aConfigFile)
 {
 	m_isRuning= false;
 	ChangeToOpenState();
@@ -67,7 +68,7 @@ void StrDemo1::SetupChild()
 
 
 	boost::property_tree::ptree lConfigPT;
-	read_xml("IStrParam.xml",lConfigPT);
+	read_xml(m_ConfigFileName,lConfigPT);
 	std::stringstream lbuf;
 	write_xml(lbuf,lConfigPT);
 	std::string lret = lbuf.str();

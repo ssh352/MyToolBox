@@ -29,5 +29,5 @@ namespace AT
 
 	};
 }
-typedef  AT::IStrategy* (*CreateStrFun) (const std::string aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
+typedef  AT::IStrategy* (*CreateStrInstFun) (const std::string aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
 DLL_API  AT::IStrategy* CreateStr(const std::string aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi);

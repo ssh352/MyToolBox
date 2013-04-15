@@ -12,7 +12,7 @@ class StrDemo1 :public AT::IStrategy
 {
 public:
 
-	StrDemo1(AT::IDriver_TD * apTD  , AT::IStrategySpi* apStrSpi);
+	StrDemo1(const std::string& aConfigFile,AT::IDriver_TD * apTD  , AT::IStrategySpi* apStrSpi);
 	virtual ~StrDemo1();
 
 	virtual void UpdateParam(EStrInputState errCode ,const std::string& apParam);
@@ -44,5 +44,6 @@ private:
 	IStrategy* m_CurrentState;
 	OpenStrategy m_openState;
 	CloseStrategy m_clostState;
+	std::string m_ConfigFileName;
 };
 

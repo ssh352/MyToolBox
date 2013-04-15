@@ -2,16 +2,16 @@
 #include <string>
 namespace AT
 {
-
+	enum class EStrState
+	{
+		START,
+		STOP,
+		INFO
+	};
 	class IStrategySpi
 	{
-		enum EStrState
-		{
-			START,
-			STOP,
-			INFO
-		};
-		//for notify
-		virtual void NotifyState(EStrState ErrorCode,const std::string& aErrorMsg){};
+
+		//for notify 
+		virtual void NotifyStateStr(EStrState ErrorCode,const std::string& aErrorMsg) = 0;
 	};
 }

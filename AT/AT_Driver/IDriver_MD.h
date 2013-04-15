@@ -8,17 +8,10 @@ namespace AT
 {
 	class IMarketSpi;
 
-
-
 	class IDriver_MD
 	{
 	public:
-		enum EMarketState
-		{
-			START,
-			READY,
-			STOP,
-		};
+
 		virtual void UpdateParam(const std::string& apParam) {};
 		virtual  void Start(){};
 		virtual	void Stop(){};

@@ -5,9 +5,8 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Config">
+      <UniqueIdentifier>{b172eaf3-6376-4895-8d22-6072eb04bd60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,10 +16,21 @@
     <ClCompile Include="main_dll_loader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SingleStrDLLLoaderPoster.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TD_CommandLineTest\PrintTDSpi.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="SingleStrDLLLoaderPoster.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="DLLLoader.xml">
+      <Filter>Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

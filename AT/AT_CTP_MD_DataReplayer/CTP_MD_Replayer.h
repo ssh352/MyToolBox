@@ -15,9 +15,9 @@ namespace CTP
 	public:
 		CTP_MD_Replayer(const std::string& aConfig,AT::IMarketSpi* apTradeSpi);
 		virtual ~CTP_MD_Replayer(void);
-		virtual void UpdateParam(const std::string& apParam){};
-		virtual void Start();
-		virtual void Stop();
+		virtual void UpdateParam(const std::string& apParam) override {} ;
+		virtual void Start() override;
+		virtual void Stop() override;
 
 
 	private:

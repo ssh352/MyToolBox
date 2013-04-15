@@ -12,13 +12,13 @@ public:
 
 public:
 
-	virtual void Start();
-	virtual void Stop();
+	virtual void Start() override;
+	virtual void Stop() override;
 
-	virtual std::string CreateOrder(const std::string& aNewOrder);
-	virtual void DeleteOrder(const std::string& aClientOrderID) ;
-	virtual	void ModifyOrder(const std::string& aRequest) ;
-	virtual void QueryPosition(const std::string& aRequest);
+	virtual std::string CreateOrder(const std::string& aNewOrder) override;
+	virtual void DeleteOrder(const std::string& aClientOrderID) override ;
+	virtual	void ModifyOrder(const std::string& aRequest) override;
+	virtual void QueryPosition(const std::string& aRequest) override;
 
 private:
 	std::string BuildRtnOrder(const std::string& aNewOrder,const std::string& OrderID);

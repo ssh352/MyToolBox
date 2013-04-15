@@ -90,7 +90,7 @@ void CTP_TD_Mock::Start()
 {
 	m_pWorker = new boost::asio::io_service::work(m_IOService);
 	m_MockIOThread  = std::thread( boost::bind(&(boost::asio::io_service::run),&m_IOService));
-	m_pTradeSpi->OnRtnState(IDriver_TD::READY,"Mock TD Start and Ready");
+	m_pTradeSpi->NotifyStateTD(AT::ETradeState::READY,"Mock TD Start and Ready");
 }
 
 void CTP_TD_Mock::Stop()
@@ -98,7 +98,7 @@ void CTP_TD_Mock::Stop()
 	delete m_pWorker;
 	if(m_MockIOThread.joinable()) m_MockIOThread.join();
 
-	m_pTradeSpi->OnRtnState(IDriver_TD::READY,"Mock TD Stop");
+	m_pTradeSpi->NotifyStateTD(AT::ETradeState::READY,"Mock TD Stop");
 }
 
 

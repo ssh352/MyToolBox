@@ -4,6 +4,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
+#include <string>
 namespace CTP
 {
 
@@ -14,37 +16,46 @@ namespace CTP
 		boost::property_tree::ptree pt;
 		read_xml(aConfig,pt);
 
-		for(auto lVale: pt.get_child("MarketReplayer.DBList"))
+		for( std::pair<std::string,boost::property_tree::ptree>  lDbList : pt.get_child("MarketReplayer.DBList"))
 		{
-			m_ReplayList.insert(lVale.second.data());
+			m_ReplayList .insert( boost::lexical_cast<std::string >(lDbList.second.data()));
+		}
+		//for(auto lVale:)
+		//{
+		//	for(boost::property_tree::ptree::iterator iter = lDbList.begin();iter!=lDbList.end();++iter)
+		//	{
+		//		iter
+		//		/*m_ReplayList.insert(lVale.second.data());*/
+		//	}
+		//	
+		//}
+
+
+		for (auto lDBString: m_ReplayList)
+		{
+			//std::string  lInstrumenID =;
+			leveldb::DB*& lpDB = m_MarketDBMap[lDBString];
+			leveldb::Options options;
+			options.create_if_missing = true;
+			leveldb::Status lstatus = leveldb::DB::Open(options, lDBString, &lpDB);
+			if(!lstatus.ok())
+			{
+				std::cerr<<boost::format("Open DB %s failed  ") % lDBString;
+			}
 		}
 
-
-			for (auto lDBString: m_ReplayList)
+		for(auto lPair: m_MarketDBMap)
+		{
+			leveldb::DB* m_pDB = lPair.second;
+			leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
+			for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
 			{
-				//std::string  lInstrumenID =;
-				leveldb::DB*& lpDB = m_MarketDBMap[lDBString];
-				leveldb::Options options;
-				options.create_if_missing = true;
-				leveldb::Status lstatus = leveldb::DB::Open(options, lDBString, &lpDB);
-				if(!lstatus.ok())
-				{
-					std::cerr<<boost::format("Open DB %s failed  ") % lDBString;
-				}
+				std::string lKeyTime = liter->key().ToString();
+				std::string lValMarket = liter->value().ToString();
+				m_MarketTickMapStored.insert(make_pair(lKeyTime,lValMarket));
 			}
-
-			for(auto lPair: m_MarketDBMap)
-			{
-				leveldb::DB* m_pDB = lPair.second;
-				leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
-				for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
-				{
-					std::string lKeyTime = liter->key().ToString();
-					std::string lValMarket = liter->value().ToString();
-					m_MarketTickMapStored.insert(make_pair(lKeyTime,lValMarket));
-				}
-				delete liter;
-			}
+			delete liter;
+		}
 
 	}
 
@@ -58,7 +69,7 @@ namespace CTP
 		m_MockIOThread  = std::thread( boost::bind(&(boost::asio::io_service::run),&m_IOService));
 
 		m_IOService.post( boost::bind(&CTP_MD_Replayer::DoPost,this,m_MarketTickMapStored.begin()));
-		
+
 	}
 
 	void CTP_MD_Replayer::Stop()
@@ -85,7 +96,7 @@ namespace CTP
 		}
 
 		m_pMarketSpi->NotifyStateMD(AT::EMarketState::END_MARKETDAY,str(boost::format( "All Market Have Posted MessageCount %d") % cout ));
-		
+
 	}
 
 

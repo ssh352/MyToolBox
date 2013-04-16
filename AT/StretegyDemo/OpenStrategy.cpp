@@ -31,6 +31,10 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 
 	std::string lInstrumentID = pt.get<std::string>("market.ID");
 
+	std::string lTImeSec = pt.get<std::string>("market.Second");
+	std::string lMillSec = pt.get<std::string>("market.Millsecond");
+	std::string lKey = lTImeSec + '.'+ lMillSec;
+
 	if(m_Instument !=lInstrumentID ) 
 		return;
 
@@ -91,6 +95,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 		pt.put("Order.OpenCode" , "Open");
 		pt.put("Order.Price" , lLastPrice );
 		pt.put("Order.Vol" , 1 );
+		pt.put("Order.Time",lKey);
 		m_placePrice = lLastPrice;
 		std::stringstream lStringStream;
 		write_xml(lStringStream,pt);
@@ -113,6 +118,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 			pt.put("Order.OpenCode" , "Open");
 			pt.put("Order.Price" , lLastPrice );
 			pt.put("Order.Vol" , 1 );
+			pt.put("Order.Time",lKey);
 			m_placePrice = lLastPrice;
 			std::stringstream lStringStream;
 			write_xml(lStringStream,pt);

@@ -11,9 +11,11 @@
   <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\AT_CTP_MD_DataReplayer.dll</DLLFileName>
   <DLLConfig>C:\GitHub\MyToolBox\AT\AT_CTP_MD_DataReplayer\MDDataReplayer.xml</DLLConfig>  
   </MDDLL>
-  
+
   <STRDLL>
-  <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\StretegyDemo.dll</DLLFileName>
-  <DLLConfig>C:\GitHub\MyToolBox\AT\StrategyRuner\IStrParam.xml</DLLConfig>  
+    <!-- <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\StretegyDemo.dll</DLLFileName> 
+    <DLLConfig>C:\GitHub\MyToolBox\AT\StrategyRuner\IStrParam.xml</DLLConfig>   -->
+    <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\CacheWave.dll</DLLFileName>
+    <DLLConfig>5</DLLConfig>
   </STRDLL>
 </Config>

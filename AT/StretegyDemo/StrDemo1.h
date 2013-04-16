@@ -15,14 +15,14 @@ public:
 	StrDemo1(const std::string& aConfigFile,AT::IDriver_TD * apTD  , AT::IStrategySpi* apStrSpi);
 	virtual ~StrDemo1();
 
-	virtual void UpdateParam(EStrInputState errCode ,const std::string& apParam);
-	virtual void Start() {m_isRuning = true;};
-	virtual void Stop() {m_isRuning = false;};
+	virtual void UpdateParam(EStrInputState errCode ,const std::string& apParam) override;
+	virtual void Start() override  {m_isRuning = true;};
+	virtual void Stop()  override {m_isRuning = false;};
 public:
-	virtual void OnMarketDepth(const std::string& aMarketDepth);
-	virtual void OnRtnOrder(const std::string& apOrder);
-	virtual void OnRtnTrade(const std::string& apTrade);
-	virtual void OnRtnPos(const std::string& aPos);
+	virtual void OnMarketDepth(const std::string& aMarketDepth)override;
+	virtual void OnRtnOrder(const std::string& apOrder)override;
+	virtual void OnRtnTrade(const std::string& apTrade)override;
+	virtual void OnRtnPos(const std::string& aPos)override;
 
 	void SetupChild();
 

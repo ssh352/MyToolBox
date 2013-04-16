@@ -70,6 +70,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="WaveCacher.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="WaveCacher.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

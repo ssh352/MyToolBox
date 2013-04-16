@@ -31,7 +31,8 @@
 //	</STRDLL>
 //	</Config>
 
-
+#include <atomic>
+std::atomic<bool> g_IsMarketFinish = false;
 
 
 int main(int argc ,char** argv)
@@ -46,7 +47,8 @@ int main(int argc ,char** argv)
 
 	std::string lConfigFile = argv[1];
 
-	AT::SingleStrDLLLoaderPoster lPosterInst;
+
+	AT::SingleStrDLLLoaderPoster lPosterInst(g_IsMarketFinish);
 
 	
 	boost::property_tree::ptree lPtree;
@@ -127,11 +129,9 @@ int main(int argc ,char** argv)
 	lpStrInst->Start();
 	lpMDInst->Start();
 
-	int lQuitSingle;
-	while(std::cin>>lQuitSingle)
+	
+	while(!g_IsMarketFinish)
 	{
-		if(lQuitSingle = 100)
-			break;
 		boost::this_thread::sleep(boost::posix_time::seconds(1));
 	}
 

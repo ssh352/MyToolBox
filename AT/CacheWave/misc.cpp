@@ -2,5 +2,5 @@
 
 DLL_API AT::IStrategy* CreateStr(const std::string aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* apStrSpi)
 {
-	return new WaveCacher();
+	return new WaveCacher(aConfigFile);
 }

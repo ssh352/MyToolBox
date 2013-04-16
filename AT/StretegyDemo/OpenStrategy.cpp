@@ -84,8 +84,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 
 		if(each.second -low > m_TriigerPrice)
 		{
-			std::cout<< "Buy"<< lLastPrice ;	
-
+		std::cout<< "Buy"<< lLastPrice ;	
 		using boost::property_tree::ptree;
 		ptree pt;
 		pt.put("head.type","PlaceOrder");

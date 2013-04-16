@@ -3,7 +3,8 @@
 #include <IStrategy.h>
 namespace AT
 {
-	SingleStrDLLLoaderPoster::SingleStrDLLLoaderPoster(void)
+	SingleStrDLLLoaderPoster::SingleStrDLLLoaderPoster(std::atomic<bool>& aflag )
+		:m_FinishedFalg(aflag)
 	{
 	}
 
@@ -15,6 +16,10 @@ namespace AT
 	void SingleStrDLLLoaderPoster::NotifyStateMD( EMarketState aErrorCode,const std::string& aErrorMsg )
 	{
 		std::cout<<static_cast<int>( aErrorCode) << "  Message :"<<aErrorMsg <<'\n';
+		if(aErrorCode == EMarketState::END_MARKETDAY)
+		{
+			m_FinishedFalg = true;
+		}
 		
 	}
 

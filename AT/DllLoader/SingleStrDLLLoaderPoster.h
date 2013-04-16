@@ -3,6 +3,7 @@
 #include "ITradeSpi.h"
 #include "IStrategySpi.h"
 #include <iostream>
+#include <atomic>
 namespace AT
 {
 	class IDriver_MD;
@@ -16,7 +17,7 @@ namespace AT
 		, public IStrategySpi
 	{
 	public:
-		SingleStrDLLLoaderPoster(void);
+		SingleStrDLLLoaderPoster(std::atomic<bool>&  aFinishedFalg);
 		virtual ~SingleStrDLLLoaderPoster(void);
 
 
@@ -47,6 +48,7 @@ namespace AT
 		}
 
 		AT::IStrategy* m_pStr;
+		std::atomic<bool>&  m_FinishedFalg;
 
 
 	};

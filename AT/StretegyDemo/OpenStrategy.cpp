@@ -1,7 +1,6 @@
 #include "OpenStrategy.h"
 #include <sstream>
 #include <boost\tokenizer.hpp>
-#include <myForeach.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
@@ -68,7 +67,7 @@ void OpenStrategy::OnMarketDepth( const std::string& aMarketDepth )
 	double high  =0;
 	time_duration hightime;
 
-	MYFOREACH(each , m_MarketCache)
+	for(auto each : m_MarketCache)
 	{
 		if(each.second < low ) 
 		{

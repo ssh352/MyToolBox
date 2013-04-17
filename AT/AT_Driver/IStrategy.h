@@ -1,12 +1,12 @@
 #pragma once
 #include <string>
 
-#include "IDriver_TD.h"
+#include "AT_API_HEAD.h"
 
 namespace AT
 {
 	class IStrategySpi;
-
+	class IDriver_TD;
 	class IStrategy 
 	{
 	public:

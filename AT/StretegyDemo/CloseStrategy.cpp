@@ -1,7 +1,7 @@
 #include "CloseStrategy.h"
+#include "IDriver_TD.h"
 #include <sstream>
 #include <boost\tokenizer.hpp>
-#include <myForeach.h>
 
 
 #include <boost/property_tree/ptree.hpp>

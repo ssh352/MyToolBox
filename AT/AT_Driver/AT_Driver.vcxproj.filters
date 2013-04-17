@@ -4,10 +4,8 @@
     <ClCompile Include="for_lib.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AT_Error_Code.h" />
     <ClInclude Include="AT_XML_Template.h" />
     <ClInclude Include="ItemTable.h" />
-    <ClInclude Include="myForeach.h" />
     <ClInclude Include="IDriver_MD.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -27,6 +25,9 @@
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="IStrategySpi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ISignalModule.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

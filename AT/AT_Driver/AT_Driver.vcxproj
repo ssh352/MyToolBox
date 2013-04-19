@@ -15,15 +15,18 @@
     <ClInclude Include="AT_XML_Template.h" />
     <ClInclude Include="IDriver_MD.h" />
     <ClInclude Include="IDriver_TD.h" />
+    <ClInclude Include="IMarketCache.h" />
     <ClInclude Include="IMarketSpi.h" />
     <ClInclude Include="ISignalModule.h" />
     <ClInclude Include="IStrategy.h" />
     <ClInclude Include="IStrategySpi.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
+    <ClInclude Include="MarketCache.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="for_lib.cpp" />
+    <ClCompile Include="MarketCache.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>

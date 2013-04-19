@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="for_lib.cpp" />
+    <ClCompile Include="MarketCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AT_XML_Template.h" />
@@ -28,6 +29,10 @@
       <Filter>Interface</Filter>
     </ClInclude>
     <ClInclude Include="ISignalModule.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketCache.h" />
+    <ClInclude Include="IMarketCache.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

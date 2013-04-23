@@ -24,6 +24,7 @@ public:
 	virtual void OnRtnTrade(const std::string& apTrade)override;
 	virtual void OnRtnPos(const std::string& aPos)override;
 
+private:
 	void SetupChild();
 
 	void ChangeToOpenState()

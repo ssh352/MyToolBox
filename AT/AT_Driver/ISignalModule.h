@@ -5,12 +5,15 @@
 namespace AT
 {
 	class MarketCache;
+	//Store All The History Market
 	class ISignalModule
 	{
-		virtual int OnMarket(const std::string& aMarketPtr) = 0;
+	public:
+		virtual void Start() =0;
+		virtual void Stop() = 0;
+		virtual int OnMarketDepth(const std::string& aMarketPtr) = 0;
 	};
 
 }
-
 typedef  AT::ISignalModule* (*CreateSignalInstFun) (const std::string aConfigFile, const AT::MarketCache * apMarketCache);
-DLL_API  AT::ISignalModule* CreateStr(const std::string aConfigFile, const AT::MarketCache * apMarketCache);
+DLL_API  AT::ISignalModule* CreateSignal(const std::string aConfigFile, const AT::MarketCache * apMarketCache);

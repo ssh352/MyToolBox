@@ -43,7 +43,7 @@ namespace CTP
 	{
 		if(m_pMDAPI)
 		{
-			m_pMDAPI->RegisterSpi(NULL);
+			m_pMDAPI->RegisterSpi(nullptr);
 			m_pMDAPI->Join();
 		}
 		m_pMDAPI->Release();

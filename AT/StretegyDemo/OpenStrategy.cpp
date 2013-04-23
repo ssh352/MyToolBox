@@ -1,4 +1,5 @@
 #include "OpenStrategy.h"
+#include "IDriver_TD.h"
 #include <sstream>
 #include <boost\tokenizer.hpp>
 #include <boost/property_tree/ptree.hpp>

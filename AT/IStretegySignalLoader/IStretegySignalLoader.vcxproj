@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C6F1C7E2-142A-4EED-BB4C-7E7B53417AF7}</ProjectGuid>
-    <RootNamespace>DllLoader</RootNamespace>
+    <ProjectGuid>{51E5A2B1-49D8-4C78-A393-BB9B096E33BF}</ProjectGuid>
+    <RootNamespace>IStretegySignalLoader</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -33,11 +33,13 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\lib_define.props" />
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\lib_define.props" />
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\Release_runtime.props" />
   </ImportGroup>
@@ -47,6 +49,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -58,30 +61,28 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <BrowseInformation>true</BrowseInformation>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Bscmake>
-      <PreserveSbr>true</PreserveSbr>
-    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TD_CommandLineTest\PrintTDSpi.cpp" />
-    <ClCompile Include="SingleStrDLLLoaderPoster.cpp" />
-    <ClCompile Include="main_dll_loader.cpp" />
+    <ClInclude Include="StretegySignalLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TD_CommandLineTest\PrintTDSpi.h" />
-    <ClInclude Include="SingleStrDLLLoaderPoster.h" />
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="StretegySignalLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="DLLLoader.xml">
-      <SubType>Designer</SubType>
-    </Xml>
+    <Xml Include="SignalLoaderConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

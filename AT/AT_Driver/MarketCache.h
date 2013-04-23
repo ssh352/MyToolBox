@@ -2,6 +2,7 @@
 
 namespace AT
 {
+	class ImpMarketCache;
 	class MarketCache
 	{
 	public:

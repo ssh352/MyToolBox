@@ -6,7 +6,6 @@
 #include "DepthReceive.h"
 //#include <iostream>
 #include "DataCacheCTP.h"
-#include  "MyForeach.h"
 #include <boost/tokenizer.hpp>
 
 
@@ -71,7 +70,7 @@ namespace CTP
 	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
 	{
 		//std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
-		m_MarketSpi->NotifyState(aErrorCode,aErrorMsg);
+		m_MarketSpi->NotifyStateMD(aErrorCode,aErrorMsg);
 		switch(aErrorCode)
 		{
 		case StateReceiver_RETRIEVE_DYNAMIC_STATE:

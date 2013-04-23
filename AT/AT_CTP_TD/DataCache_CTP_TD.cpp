@@ -1,5 +1,5 @@
 #include "DataCache_CTP_TD.h"
-#include "myForeach.h"
+
 namespace CTP
 {
 	DataCache_CTP_TD::DataCache_CTP_TD( const std::string& aDir )
@@ -13,7 +13,7 @@ namespace CTP
 
 	void DataCache_CTP_TD::RebuildOrderIDMap()
 	{
-		MYFOREACH( lPair, m_OrderTable)
+		for( auto lPair: m_OrderTable)
 		{
 			UpdataOrderIDMap(lPair.second);
 		}

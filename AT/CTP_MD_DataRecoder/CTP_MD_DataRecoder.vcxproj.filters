@@ -3,9 +3,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketDBWriter.cpp" />
+    <ClCompile Include="..\AT_CTP_MD\DepthReceiveV2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarketDBWriter.h" />
+    <ClInclude Include="..\AT_CTP_MD\DepthReceiveV2.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Config">

@@ -4,7 +4,6 @@
 #include "ITradeSpi.h"
 #include <vector>
 #include <boost\tokenizer.hpp>
-#include  "MyForeach.h"
 #include <sstream>
 #include <boost\thread.hpp>
 #include <boost\date_time.hpp>

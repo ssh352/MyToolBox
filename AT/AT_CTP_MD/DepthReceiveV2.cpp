@@ -34,7 +34,7 @@ namespace CTP
 		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(/*m_WorkFlowDir.c_str()*/);
 		m_pMDAPI->RegisterSpi(this);
 		char buf_front[256];
-		strncpy(buf_front,m_Front.c_str(),sizeof(buf_front));
+		strcpy_s(buf_front,sizeof(buf_front),m_Front.c_str());
 		m_pMDAPI->RegisterFront(buf_front);
 		m_pMDAPI->Init();
 	}
@@ -74,7 +74,7 @@ namespace CTP
 		char* lList[1] ={0};
 		for(std::string lInstrumen : m_SubcribeList)
 		{
-			strncpy(buf,lInstrumen.c_str(),sizeof(buf));
+			strcpy_s(buf,sizeof(buf),lInstrumen.c_str());
 			lList[0] = buf;
 			m_pMDAPI->SubscribeMarketData(lList,1);
 		}

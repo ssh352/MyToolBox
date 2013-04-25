@@ -40,6 +40,7 @@ namespace AT
 		BuySellType m_BuySellType; 
 		OrderType m_OrderType;
 		OrderStatusType m_OrderStatus;
+		AT_Time m_UpdateTime;
 		AT_Order_Key m_Key;
 	};
 

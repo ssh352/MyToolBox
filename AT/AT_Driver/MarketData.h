@@ -13,7 +13,7 @@ namespace AT
 	{
 		//without null end
 		char InstrumentID[cInstrimentIDLength];
-		 m_UpdateTime;
+		AT_Time m_UpdateTime;
 		int32_t m_BidPrice;
 		uint32_t m_BidVol;
 		int32_t m_AskPrice;

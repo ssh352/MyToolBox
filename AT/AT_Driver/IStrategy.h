@@ -1,8 +1,6 @@
 #pragma once
-#include <string>
-
 #include "AT_API_HEAD.h"
-
+#include "AT_Struct.h"
 namespace AT
 {
 	class IStrategySpi;
@@ -17,17 +15,15 @@ namespace AT
 			MDSTATE,
 			TDSTATE
 		};
-		virtual void UpdateParam(EStrInputState errCode ,const std::string& apParam) {};
+		virtual void UpdateParam(EStrInputState errCode ,const Param& apParam) {};
 		virtual void Start() {};
 		virtual void Stop(){};
 	public:
-		virtual void OnMarketDepth(const std::string& aMarketDepth)= 0;
-		virtual void OnRtnOrder(const std::string& apOrder) = 0;
-		virtual void OnRtnTrade(const std::string& apTrade)=0;
-		virtual void OnRtnPos(const std::string& aPos) = 0;
-
+		virtual void OnMarketDepth(const MarketData& aMarketDepth)= 0;
+		virtual void OnRtnOrder(const  OrderUpdate& apOrder) = 0;
+		virtual void OnRtnTrade(const  TradeUpdate& apTrade)=0;
 
 	};
 }
-typedef  AT::IStrategy* (*CreateStrInstFun) (const std::string aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
-DLL_API  AT::IStrategy* CreateStr(const std::string aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi);
+typedef  AT::IStrategy* (*CreateStrInstFun) (const char* aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
+DLL_API  AT::IStrategy* CreateStr(const char*  aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi);

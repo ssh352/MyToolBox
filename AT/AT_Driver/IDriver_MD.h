@@ -1,9 +1,8 @@
 ﻿#pragma once
 
-#include <string>
-#include <map>
 
 #include "AT_API_HEAD.h"
+#include "AT_Struct.h"
 namespace AT
 {
 	class IMarketSpi;
@@ -12,7 +11,7 @@ namespace AT
 	{
 	public:
 
-		virtual void UpdateParam(const std::string& apParam) {};
+		virtual void UpdateParam(const Param& apParam) {};
 		virtual  void Start(){};
 		virtual	void Stop(){};
 
@@ -21,6 +20,6 @@ namespace AT
 
 }
 
-typedef AT::IDriver_MD* (*CreatMDInstFun)(const std::string& aConfig, AT::IMarketSpi* apTradeSpi);
+typedef AT::IDriver_MD* (*CreatMDInstFun)(const char* aConfigFilaName, AT::IMarketSpi* apTradeSpi);
 
-DLL_API AT::IDriver_MD* CreateMD(const std::string& aConfig, AT::IMarketSpi* apTradeSpi);
+DLL_API AT::IDriver_MD* CreateMD(const char* aConfig, AT::IMarketSpi* apTradeSpi);

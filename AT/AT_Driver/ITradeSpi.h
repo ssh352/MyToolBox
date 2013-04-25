@@ -1,6 +1,7 @@
 #pragma once
 
-#include <string>
+
+#include "AT_Struct.h"
 namespace AT
 {
 	enum class ETradeState
@@ -14,9 +15,8 @@ namespace AT
 	{
 	public:
 		virtual void NotifyStateTD(ETradeState aErrorCode,const std::string& aErrorMsg) = 0;
-		virtual void OnRtnOrder(const std::string& apOrder) = 0;
-		virtual void OnRtnTrade(const std::string& apTrade)=0;
-		virtual void OnRtnPosition(const std::string& aPosition)=0;
+		virtual void OnRtnOrder(const OrderUpdate& apOrder) = 0;
+		virtual void OnRtnTrade(const TradeUpdate& apTrade)=0;
 	};
 }
 

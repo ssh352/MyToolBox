@@ -2,12 +2,8 @@
 
 #include "ConstVarDefine.h"
 
-#pragma  pack(push , 4) //4×Ö½Ú¶ÔÆë
 namespace AT
 {
-
-	
-
 	struct NewOrder
 	{
 		//without null end
@@ -28,6 +24,11 @@ namespace AT
 		AT_Order_Key m_Key;
 	};
 
+	struct ModifyOrder
+	{
+		//todo
+	};
+
 
 	struct  OrderUpdate
 	{
@@ -45,5 +46,4 @@ namespace AT
 	};
 
 }
-#pragma  pack(pop)
 

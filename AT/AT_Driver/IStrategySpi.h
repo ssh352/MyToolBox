@@ -12,6 +12,6 @@ namespace AT
 	{
 
 		//for notify 
-		virtual void NotifyStateStr(EStrState ErrorCode,const std::string& aErrorMsg) = 0;
+		virtual void NotifyStateStr(EStrState ErrorCode,const char* aErrorMsg) = 0;
 	};
 }

@@ -2,7 +2,7 @@
 namespace AT
 {
 
-	extern const AT_Time AT_INVALID_TIME = boost::posix_time::ptime(not_a_date_time);
+	extern const AT_Time AT_INVALID_TIME = boost::posix_time::ptime(boost::posix_time::not_a_date_time);
 
 
 	AT_Time AT_Local_Time()
@@ -10,11 +10,9 @@ namespace AT
 		return boost::posix_time::microsec_clock::universal_time();
 	}
 
-	AT_Time AT_Local_Time()
+	AT_Time AT_UTC_Time()
 	{
-		{
-			return boost::posix_time::microsec_clock::local_time();
-		}
+		return boost::posix_time::microsec_clock::local_time();
 	}
 
 	double TransPriceToDouble( int32_t aATPrice )

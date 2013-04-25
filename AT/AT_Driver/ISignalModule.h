@@ -1,6 +1,6 @@
 #pragma  once
-#include <string>
 #include "AT_API_HEAD.h"
+#include "AT_Struct.h"
 
 namespace AT
 {
@@ -11,9 +11,9 @@ namespace AT
 	public:
 		virtual void Start() =0;
 		virtual void Stop() = 0;
-		virtual int OnMarketDepth(const std::string& aMarketPtr) = 0;
+		virtual int OnMarketDepth(const MarketData& aMarketPtr) = 0;
 	};
 
 }
-typedef  AT::ISignalModule* (*CreateSignalInstFun) (const std::string aConfigFile, const AT::MarketCache * apMarketCache);
-DLL_API  AT::ISignalModule* CreateSignal(const std::string aConfigFile, const AT::MarketCache * apMarketCache);
+typedef  AT::ISignalModule* (*CreateSignalInstFun) (const char* aConfigFile, const AT::MarketCache * apMarketCache);
+DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::MarketCache * apMarketCache);

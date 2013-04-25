@@ -9,8 +9,8 @@ namespace AT
 	class IMarketCache
 	{
 	public:
-		virtual const IMarketCache* GetMarketSubCacheByName(const std::string& aInstrument)  const = 0;
-		virtual const IMarketCache* GetMarketSubCacheByTime(const std::string& aTimeStart, const std::string& aTimeStop)  const =0;
+		//virtual const IMarketCache* GetMarketSubCacheByName(const char* aInstrument)  const = 0;
+		//virtual const IMarketCache* GetMarketSubCacheByTime(const std::string& aTimeStart, const std::string& aTimeStop)  const =0;
 
 		//class const_iterator
 		//{

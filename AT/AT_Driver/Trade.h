@@ -1,9 +1,9 @@
 #pragma  once
 #include "ConstVarDefine.h"
-#pragma  pack(push , 4) //4×Ö½Ú¶ÔÆë
+
 namespace AT
 {
-	struct Trade
+	struct TradeUpdate
 	{
 		char  InstrumentID[cInstrimentIDLength];
 		char AccoutID[cAccoutIDLength];
@@ -14,4 +14,3 @@ namespace AT
 		AT_Order_Key m_OrderKey;	
 	};
 }
-#pragma  pack(pop)

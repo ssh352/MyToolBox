@@ -1,9 +1,6 @@
 #pragma once
 #include "ConstVarDefine.h"
 
-
-
-#pragma  pack(push , 4) //4×Ö½Ú¶ÔÆë
 namespace AT
 {
 
@@ -24,6 +21,3 @@ namespace AT
 	};
 
 }
-
-#pragma  pack(pop)
-

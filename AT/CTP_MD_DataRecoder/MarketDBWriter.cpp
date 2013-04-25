@@ -32,17 +32,11 @@ MarketDBWriter::~MarketDBWriter(void)
 {
 }
 
-void MarketDBWriter::StroeMarketTick( const std::string& aMarketTick )
+void MarketDBWriter::StroeMarketTick( const AT::MarketData& aMarketTick )
 {
-	std::stringstream lbuf(aMarketTick);
-	using boost::property_tree::ptree;
-	ptree pt;
-	read_xml(lbuf,pt);
-	std::string lInstrumentID = pt.get<std::string>("market.ID");
-	std::string lTImeSec = pt.get<std::string>("market.Second");
-	std::string lMillSec = pt.get<std::string>("market.Millsecond");
-	std::string lKey = lTImeSec + '.'+ lMillSec;
-	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(), lKey, leveldb::Slice(aMarketTick.c_str()));
-	std::cout<<aMarketTick<<'\n';
+	//todo trim?
+	std::string lInstrumentID = aMarketTick.InstrumentID;
+	std::string lUpdateTime = boost::posix_time::to_iso_string(aMarketTick.m_UpdateTime);
+	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(), lUpdateTime, leveldb::Slice((char*)&aMarketTick,sizeof(aMarketTick)));
 }
 

@@ -5,12 +5,13 @@
 #include <set>
 #include <functional>
 #include "CTP_API.h"
+#include "AT_Struct.h"
 namespace CTP
 {
 
 	//this class should using for Receive MD tick and Notify Out Side Info
 
-	typedef std::function<void (const std::string)> MarketHandlerFun; 
+	typedef std::function<void (const AT::MarketData& )> MarketHandlerFun; 
 
 	//ConfigTemplate
 	//MDConfig.Front
@@ -28,7 +29,9 @@ namespace CTP
 		void Stop();
 	private:
 		void SubscribeList();
-		std::string BuildMarketDepthString(CThostFtdcDepthMarketDataField* aMarketPtr);
+		//std::string BuildMarketDepthString(CThostFtdcDepthMarketDataField* aMarketPtr);
+		AT::MarketData Build_AT_Market(CThostFtdcDepthMarketDataField* aMarketPtr);
+		AT::AT_Time Build_AT_Time(TThostFtdcTimeType, int millsecond);
 
 	public: //from CTP API
 		virtual void OnFrontConnected();

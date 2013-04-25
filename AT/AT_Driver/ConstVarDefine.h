@@ -19,7 +19,7 @@ namespace AT
 	AT_Time AT_Local_Time();
 	AT_Time AT_UTC_Time();
 
-	static const int cInstrimentIDLength = 8;
+	static const int cInstrimentIDLength = 32;
 	static const int cAccoutIDLength = 16;
 	static const int cTradeIDLength = 16;
 

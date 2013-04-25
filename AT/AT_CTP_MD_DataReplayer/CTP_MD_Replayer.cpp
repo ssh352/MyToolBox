@@ -10,7 +10,7 @@ namespace CTP
 {
 
 
-	CTP_MD_Replayer::CTP_MD_Replayer(const std::string& aConfig,AT::IMarketSpi* apTradeSpi )
+	CTP_MD_Replayer::CTP_MD_Replayer(const char* aConfig,AT::IMarketSpi* apTradeSpi )
 		:m_pMarketSpi(apTradeSpi)
 	{
 		boost::property_tree::ptree pt;
@@ -36,7 +36,7 @@ namespace CTP
 			//std::string  lInstrumenID =;
 			leveldb::DB*& lpDB = m_MarketDBMap[lDBString];
 			leveldb::Options options;
-			options.create_if_missing = true;
+			options.create_if_missing = false;
 			leveldb::Status lstatus = leveldb::DB::Open(options, lDBString, &lpDB);
 			if(!lstatus.ok())
 			{

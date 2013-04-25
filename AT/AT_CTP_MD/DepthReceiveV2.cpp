@@ -6,6 +6,8 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+
+using namespace AT;
 namespace CTP
 {
 
@@ -92,32 +94,9 @@ namespace CTP
 
 	void DepthReceiverV2::OnRtnDepthMarketData( CThostFtdcDepthMarketDataField *pDepthMarketData )
 	{
-		std::string lMarketString = BuildMarketDepthString(pDepthMarketData);
-		m_Markethandle(lMarketString);
-	}
 
-	std::string DepthReceiverV2::BuildMarketDepthString( CThostFtdcDepthMarketDataField* aMarketPtr )
-	{
-		using boost::property_tree::ptree;
-		ptree pt;
-		pt.put("head.type","MarketUpdate");
-		pt.put("head.version",0.1f);
-		pt.put("market.ID" , aMarketPtr->InstrumentID );
-		pt.put("market.Second" , aMarketPtr->UpdateTime );
-		pt.put("market.Millsecond" , aMarketPtr->UpdateMillisec );
-		pt.put("market.LastPx" , aMarketPtr->LastPrice );
-		pt.put("market.HighPx" , aMarketPtr->HighestPrice );
-		pt.put("market.LowPx" , aMarketPtr->LowestPrice );
-		pt.put("market.AskPx1" , aMarketPtr->AskPrice1 );
-		pt.put("market.AskVol1" , aMarketPtr->AskVolume1 );
-		pt.put("market.BidPx1" , aMarketPtr->BidPrice1 );
-		pt.put("market.BidVol1" , aMarketPtr->BidVolume1 );
-		pt.put("market.OpenInterest" , aMarketPtr->OpenInterest );
-
-		std::stringstream lStringStream;
-		write_xml(lStringStream,pt);
-		std::string  lRet = lStringStream.str();
-		return lRet;
+		AT::MarketData lBuildMarket = Build_AT_Market(pDepthMarketData);
+		m_Markethandle(lBuildMarket);
 	}
 
 	void DepthReceiverV2::OnFrontDisconnected( int nReason )
@@ -162,6 +141,29 @@ namespace CTP
 	DepthReceiverV2::~DepthReceiverV2()
 	{
 
+	}
+
+	AT::MarketData DepthReceiverV2::Build_AT_Market( CThostFtdcDepthMarketDataField* aMarketPtr )
+	{
+		AT::MarketData lRet;
+
+		memcpy(lRet.InstrumentID,aMarketPtr->InstrumentID,sizeof(aMarketPtr->InstrumentID));
+		AT::AT_Time lTime = Build_AT_Time( aMarketPtr->UpdateTime, aMarketPtr->UpdateMillisec);
+
+		lRet.m_LastPrice =  IsValidPrice( aMarketPtr->LastPrice)?  TranPriceToInt( aMarketPtr->LastPrice) : AT_INVALID_PRICE;
+		lRet. m_BidPrice =  IsValidPrice( aMarketPtr->BidPrice1)? TranPriceToInt( aMarketPtr->BidPrice1) : AT_INVALID_PRICE;
+		lRet. m_AskPrice  =  IsValidPrice( aMarketPtr->AskPrice1)? TranPriceToInt( aMarketPtr->AskPrice1) : AT_INVALID_PRICE;
+		lRet.m_trunover = IsValidPrice( aMarketPtr->AskPrice1)?  TranPriceToInt( aMarketPtr->Turnover):AT_INVALID_PRICE;
+		lRet.m_AskVol  = aMarketPtr->AskVolume1;
+		lRet. m_BidVol  = aMarketPtr->BidVolume1;
+
+		return std::move(lRet);
+
+	}
+
+	AT::AT_Time DepthReceiverV2::Build_AT_Time( TThostFtdcTimeType aSecond, int millsecond )
+	{
+		return AT::AT_INVALID_TIME;
 	}
 
 

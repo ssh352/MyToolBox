@@ -13,9 +13,9 @@ namespace CTP
 	class CTP_MD_Replayer :public AT::IDriver_MD
 	{
 	public:
-		CTP_MD_Replayer(const std::string& aConfig,AT::IMarketSpi* apTradeSpi);
+		CTP_MD_Replayer(const char* aConfig,AT::IMarketSpi* apTradeSpi);
 		virtual ~CTP_MD_Replayer(void);
-		virtual void UpdateParam(const std::string& apParam) override {} ;
+		virtual void UpdateParam(const AT::Param& aParam) override {} ;
 		virtual void Start() override;
 		virtual void Stop() override;
 

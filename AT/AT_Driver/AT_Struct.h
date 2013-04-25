@@ -1,6 +1,6 @@
 #pragma  once
 
-#pragma  pack(push , 4) //4字节对齐
+#pragma  pack(push , 8) //4字节对齐
 #include "Order.h"
 #include "Trade.h"
 #include "MarketData.h"

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="API">
-      <UniqueIdentifier>{5b8398b5-a4b4-4ce0-8090-d956464cf94c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TD_DataCache">
       <UniqueIdentifier>{bf392002-02b1-4f67-a156-6a9cd65c1ebb}</UniqueIdentifier>
     </Filter>
@@ -12,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
-      <Filter>API</Filter>
-    </ClCompile>
     <ClCompile Include="CTP_TD.cpp" />
     <ClCompile Include="DataCache_CTP_TD.cpp">
       <Filter>TD_DataCache</Filter>
@@ -36,21 +30,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h">
-      <Filter>API</Filter>
-    </ClInclude>
     <ClInclude Include="CTP_TD.h" />
     <ClInclude Include="OrderTable_CTP.h">
       <Filter>TD_DataCache</Filter>

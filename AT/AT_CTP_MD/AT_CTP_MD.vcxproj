@@ -76,7 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
     <ClCompile Include="CTP_MD.cpp" />
     <ClCompile Include="DataCacheCTP.cpp" />
     <ClCompile Include="DepthReceive.cpp" />
@@ -88,11 +87,6 @@
     <ClCompile Include="StateReceiver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcMdApi.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
-    <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="CTP_MD.h" />
     <ClInclude Include="DataCacheCTP.h" />
     <ClInclude Include="DepthReceive.h" />
@@ -104,6 +98,9 @@
     <ClInclude Include="StateReceiver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
+      <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>

@@ -33,7 +33,6 @@ namespace CTP
 
 		for (auto lDBString: m_ReplayList)
 		{
-			//std::string  lInstrumenID =;
 			leveldb::DB*& lpDB = m_MarketDBMap[lDBString];
 			leveldb::Options options;
 			options.create_if_missing = false;
@@ -50,9 +49,15 @@ namespace CTP
 			leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
 			for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
 			{
-				std::string lKeyTime = liter->key().ToString();
-				std::string lValMarket = liter->value().ToString();
-				m_MarketTickMapStored.insert(make_pair(lKeyTime,lValMarket));
+				uint32_t lKeyTime = 0;
+				assert(liter->key().size() == sizeof(uint32_t));
+				memcpy(&lKeyTime,liter->key().data(),sizeof(uint32_t));
+
+				AT::MarketData lValMarket;
+				assert(liter->value().size() == sizeof(lValMarket));
+				memcpy(&lValMarket,liter->value().data(),sizeof(lValMarket));
+
+				m_MarketTickMapStored.insert(std::make_pair(lKeyTime,lValMarket));
 			}
 			delete liter;
 		}
@@ -80,7 +85,7 @@ namespace CTP
 		m_pMarketSpi->NotifyStateMD(AT::EMarketState::STOP,"CTP_MD_Replayer Stop Post");
 	}
 
-	void CTP_MD_Replayer::DoPost( std::multimap<std::string,std::string>::iterator aPostIndex )
+	void CTP_MD_Replayer::DoPost(MarketStoredMapType::iterator aPostIndex )
 	{
 		if (aPostIndex == m_MarketTickMapStored.begin())
 		{
@@ -95,7 +100,7 @@ namespace CTP
 			cout++;
 		}
 
-		m_pMarketSpi->NotifyStateMD(AT::EMarketState::END_MARKETDAY,str(boost::format( "All Market Have Posted MessageCount %d") % cout ));
+		m_pMarketSpi->NotifyStateMD(AT::EMarketState::END_MARKETDAY,str(boost::format( "All Market Have Posted MessageCount %d") % cout ).c_str());
 
 	}
 

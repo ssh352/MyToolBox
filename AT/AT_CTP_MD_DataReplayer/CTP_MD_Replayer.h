@@ -21,10 +21,10 @@ namespace CTP
 
 
 	private:
-
-		 void DoPost( std::multimap<std::string,std::string>::iterator aPostIndex);
+		typedef std::multimap<uint32_t,AT::MarketData> MarketStoredMapType;
+		 void DoPost(MarketStoredMapType::iterator aPostIndex);
 		 std::map<std::string,leveldb::DB* > m_MarketDBMap;
-		 std::multimap<std::string,std::string> m_MarketTickMapStored;
+		 std::multimap<uint32_t,AT::MarketData> m_MarketTickMapStored;
 		 AT::IMarketSpi* m_pMarketSpi;
 
 		 std::set<std::string> m_ReplayList;

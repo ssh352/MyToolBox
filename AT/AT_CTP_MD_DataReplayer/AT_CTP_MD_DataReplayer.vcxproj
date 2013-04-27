@@ -36,12 +36,14 @@
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\debug_runtime.props" />
     <Import Project="..\lib_define.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\Release_runtime.props" />
     <Import Project="..\lib_define.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -84,6 +86,9 @@
     <Xml Include="MDDataReplayer.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>

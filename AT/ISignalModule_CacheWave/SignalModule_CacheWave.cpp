@@ -4,11 +4,13 @@
 #include <boost\lexical_cast.hpp>
 namespace AT
 {
-	SignalModule_CacheWave::SignalModule_CacheWave(const std::string& aConfigFileName)
+	SignalModule_CacheWave::SignalModule_CacheWave(const char* aConfigFileName)
 	{
 		std::cout<<"Signal Con";
 		m_isWaveStart = false;
-		m_WaveVal = boost::lexical_cast<double>(aConfigFileName);
+		//todo load from file
+	//	m_WaveVal = boost::lexical_cast<double>(aConfigFileName);
+	// m_StoreFile ;
 		m_LowPoint.first = 100000;
 		m_HighPoint.first = -100000;
 		m_CheckState = Direction::BothSide;
@@ -21,15 +23,10 @@ namespace AT
 
 	}
 
-	int SignalModule_CacheWave::OnMarketDepth( const std::string& aMarketDepth )
+	int SignalModule_CacheWave::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
-		std::stringstream lbuf(aMarketDepth);
-		using boost::property_tree::ptree;
-		ptree pt;
-		read_xml(lbuf,pt);
-		double lLastPrice  = pt.get<double>("market.LastPx");
 
-
+		int32_t lLastPrice  = aMarketDepth.m_LastPrice;
 		switch (m_CheckState)
 		{
 		case SignalModule_CacheWave::Direction::BothSide:

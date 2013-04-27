@@ -8,15 +8,16 @@ namespace AT
 	class SignalModule_CacheWave :public AT::ISignalModule
 	{
 	public:
-		SignalModule_CacheWave(const std::string& aConfigFile);
+		SignalModule_CacheWave(const char* aConfigFile);
 		virtual ~SignalModule_CacheWave(void);
 
-		virtual int OnMarketDepth(const std::string& aMarketDepth) override;
+		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override {};
 		virtual void Stop() override ;
 
-		std::pair<double,std::string>	m_LowPoint;
-		std::pair<double,std::string>	m_HighPoint;
+	private: 
+		std::pair<int32_t,MarketData>	m_LowPoint;
+		std::pair<int32_t,MarketData>	m_HighPoint;
 
 
 		enum  class Direction
@@ -27,9 +28,10 @@ namespace AT
 		};
 
 		Direction m_CheckState;
-		std::vector<std::string>  m_WavePointVec;
+		std::vector<MarketData>  m_WavePointVec;
 		bool m_isWaveStart;
-		double m_WaveVal;
+		int32_t m_WaveVal;
+		std::string m_StoreFile;
 		boost::property_tree::ptree lPointTree;
 	};
 }

@@ -17,6 +17,9 @@
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="SignalModule_CacheWave.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="config.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CAF4F61-D42E-44E3-BC92-FB03DF3B5AE9}</ProjectGuid>
     <RootNamespace>ISignalModule_CacheWave</RootNamespace>
@@ -43,12 +46,14 @@
     <Import Project="..\lib_define.props" />
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\debug_runtime.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\lib_define.props" />
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\Release_runtime.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

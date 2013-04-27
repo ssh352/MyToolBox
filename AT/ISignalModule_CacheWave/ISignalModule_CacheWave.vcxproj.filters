@@ -7,4 +7,14 @@
     <ClCompile Include="SignalModule_CacheWave.cpp" />
     <ClCompile Include="misc.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="config">
+      <UniqueIdentifier>{e8bec4df-baf8-4c98-916e-5277b0778e5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="config.xml">
+      <Filter>config</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

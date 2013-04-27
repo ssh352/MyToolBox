@@ -7,6 +7,10 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+#include <boost/date_time.hpp>
+#include <boost/date_time/posix_time/conversion.hpp>
+#include <boost/date_time/gregorian/conversion.hpp>
+
 using namespace AT;
 namespace CTP
 {
@@ -153,7 +157,7 @@ namespace CTP
 		lRet.m_LastPrice =  IsValidPrice( aMarketPtr->LastPrice)?  TranPriceToInt( aMarketPtr->LastPrice) : AT_INVALID_PRICE;
 		lRet. m_BidPrice =  IsValidPrice( aMarketPtr->BidPrice1)? TranPriceToInt( aMarketPtr->BidPrice1) : AT_INVALID_PRICE;
 		lRet. m_AskPrice  =  IsValidPrice( aMarketPtr->AskPrice1)? TranPriceToInt( aMarketPtr->AskPrice1) : AT_INVALID_PRICE;
-		lRet.m_trunover = IsValidPrice( aMarketPtr->AskPrice1)?  TranPriceToInt( aMarketPtr->Turnover):AT_INVALID_PRICE;
+	//	lRet.m_trunover = IsValidPrice( aMarketPtr->AskPrice1)?  TranPriceToInt( aMarketPtr->Turnover):AT_INVALID_PRICE;
 		lRet.m_AskVol  = aMarketPtr->AskVolume1;
 		lRet. m_BidVol  = aMarketPtr->BidVolume1;
 
@@ -163,7 +167,22 @@ namespace CTP
 
 	AT::AT_Time DepthReceiverV2::Build_AT_Time( TThostFtdcTimeType aSecond, int millsecond )
 	{
-		return AT::AT_INVALID_TIME;
+		try
+		{
+			boost::gregorian::date ldate = boost::gregorian::day_clock::local_day();
+			boost::posix_time::time_duration lTimeSecond = boost::posix_time::duration_from_string(aSecond);
+			boost::posix_time::milliseconds ltimeMill(millsecond);
+			AT::AT_Time atime (ldate , lTimeSecond );
+			atime +=  ltimeMill;
+			std::cout<<atime;
+			return std::move(atime);
+
+		}
+		catch (...)
+		{
+			return AT::AT_INVALID_TIME;
+		}
+
 	}
 
 

@@ -1,6 +1,6 @@
 #pragma  once
 
-#pragma  pack(push , 8) //4×Ö½Ú¶ÔÆë
+#pragma  pack(push , 8)
 #include "Order.h"
 #include "Trade.h"
 #include "MarketData.h"

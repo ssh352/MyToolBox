@@ -10,6 +10,7 @@
     <ClCompile Include="MarketData.cpp">
       <Filter>Interface\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="IDriver_TD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ItemTable.h" />

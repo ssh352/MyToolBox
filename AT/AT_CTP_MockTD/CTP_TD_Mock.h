@@ -10,24 +10,23 @@ namespace CTP
 class CTP_TD_Mock :public AT::IDriver_TD
 {
 public:
-	CTP_TD_Mock(const std::string& aConfigFile, AT::ITradeSpi* apSpi);
+	CTP_TD_Mock(const char*  aConfigFile, AT::ITradeSpi* apSpi);
 	virtual ~CTP_TD_Mock(void);
 
 public:
 
+	virtual void UpdateParam(const AT::Param& apParam) override;
 	virtual void Start() override;
 	virtual void Stop() override;
 
-	virtual std::string CreateOrder(const std::string& aNewOrder) override;
-	virtual void DeleteOrder(const std::string& aClientOrderID) override ;
-	virtual	void ModifyOrder(const std::string& aRequest) override;
-	virtual void QueryPosition(const std::string& aRequest) override;
+	virtual void CreateOrder(const AT::NewOrder& aNewOrder) override;
+	virtual void DeleteOrder(const AT::CancelOrder& aDelOrderID) override;
+	virtual	void ModifyOrder(const AT::ModifyOrder& aRequest) override;
+
 
 private:
 	std::string BuildRtnOrder(const std::string& aNewOrder,const std::string& OrderID);
 	std::string BuildRtnTrade(const std::string& aNewOrder,const std::string& OrderID);
-
-	std::string MakeOrderID(const std::string& aNewOrder);
 
 	std::thread m_MockIOThread;
 	boost::asio::io_service m_IOService;
@@ -37,8 +36,8 @@ private:
 	boost::property_tree::ptree m_Total;
 	std::string m_SavePath;
 	int m_OrderNum;
-	double m_Profit;
-	double m_LastOpenPrice;
+	int32_t m_Profit;
+	int32_t m_LastOpenPrice;
 };
 
 }

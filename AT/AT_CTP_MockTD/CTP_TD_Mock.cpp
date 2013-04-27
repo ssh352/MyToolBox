@@ -11,7 +11,7 @@ namespace CTP
 {
 
 
-CTP_TD_Mock::CTP_TD_Mock(const std::string& aConfigFile,AT::ITradeSpi* apSpi)
+CTP_TD_Mock::CTP_TD_Mock(const char* aConfigFile,AT::ITradeSpi* apSpi)
 	: m_pTradeSpi(apSpi)
 	, m_SavePath(aConfigFile)
 	, m_OrderNum(0)
@@ -26,35 +26,25 @@ CTP_TD_Mock::~CTP_TD_Mock(void)
 
 }
 
-std::string CTP_TD_Mock::CreateOrder( const std::string& aNewOrder )
+void CTP_TD_Mock::CreateOrder(const AT::NewOrder&  aNewOrder )
 {
-	std::stringstream lBuf(aNewOrder);
-	boost::property_tree::ptree lOrderPt;
-	read_xml(lBuf,lOrderPt);
 
+	
+	std::string lInstrumen = aNewOrder.InstrumentID;
 
-	std::string lInstrumen = lOrderPt.get<std::string>("Order.ID");
-	std::string lBuySell = lOrderPt.get<std::string>("Order.BuyCode");
-	std::string lOpenClose = lOrderPt.get<std::string>("Order.OpenCode");
-	std::string lPrice = lOrderPt.get<std::string>("Order.Price");
-	std::string lVol = lOrderPt.get<std::string>("Order.Vol");
-	std::string lTime =lOrderPt.get<std::string>("Order.Time");
-
-
-
-	if(lBuySell == "Buy")
+	if(aNewOrder.m_BuySellType == AT::BuySellType::BuyOrder)
 	{
-		m_Profit -= std::stod(lPrice);
+		m_Profit -= aNewOrder.m_Price;
 	}
 	else
 	{
-		m_Profit += std::stod(lPrice);
+		m_Profit +=  aNewOrder.m_Price;
 	}
 
 
-	if(lOpenClose == "Open")
+	if(aNewOrder.m_OpenCloseType == AT::OpenCloseType::OpenOrder)
 	{
-		m_LastOpenPrice = std::stod(lPrice);
+		m_LastOpenPrice =  aNewOrder.m_Price;
 	}
 	else
 	{
@@ -62,78 +52,35 @@ std::string CTP_TD_Mock::CreateOrder( const std::string& aNewOrder )
 	}
 	m_OrderNum ++;
 
-	
-	//std::string lOrderKey = "All.Order";
-	//lOrderKey  += '.' ;
-	//lOrderKey  += boost::lexical_cast<std::string>(m_OrderNum);
-	//lOrderKey  += '.';
-	//m_SaveFilePt.put(lOrderKey + "ID",lInstrumen);
-	//m_SaveFilePt.put(lOrderKey + "BuyCode",lBuySell);
-	//m_SaveFilePt.put(lOrderKey + "OpenCode",lOpenClose);
-	//m_SaveFilePt.put(lOrderKey + "Price",lPrice);
-	//m_SaveFilePt.put(lOrderKey + "Vol",lVol);
 
-
-	std::string SaveOrder = str(boost::format("%s %s %s %s %s %s")%lInstrumen%lBuySell%lOpenClose%lPrice%lVol%lTime);
+	std::string SaveOrder = str(
+		boost::format("%s  [BuySell:%s] [OpenClose:%s] [Price:%d] [Vol:%u] [Time:%s]")
+		% lInstrumen
+		% (aNewOrder.m_BuySellType == AT::BuySellType::BuyOrder ? "Buy":"Sell")
+		% (aNewOrder.m_OpenCloseType == AT::OpenCloseType::OpenOrder? "Open":"Close" )
+		% aNewOrder.m_Price % aNewOrder.m_Vol % aNewOrder.m_MoreInfo
+		);
 
 
 	m_SaveFilePt.add("OrderList.Order",SaveOrder);
 	
 
-
-
-	std::string lOrderID = MakeOrderID(aNewOrder);
-	std::string lRtnOrder = BuildRtnOrder( aNewOrder,lOrderID);
-	std::string lRtnTrade = BuildRtnTrade(aNewOrder,lOrderID);
-	m_IOService.post(std::bind( &AT::ITradeSpi::OnRtnOrder,m_pTradeSpi,lRtnOrder));
-	m_IOService.post(std::bind( &AT::ITradeSpi::OnRtnTrade,m_pTradeSpi,lRtnTrade));
-	return lOrderID;
+	//std::string lRtnOrder = BuildRtnOrder( aNewOrder,lOrderID);
+	//std::string lRtnTrade = BuildRtnTrade(aNewOrder,lOrderID);
+	//m_IOService.post(std::bind( &AT::ITradeSpi::OnRtnOrder,m_pTradeSpi,lRtnOrder));
+	//m_IOService.post(std::bind( &AT::ITradeSpi::OnRtnTrade,m_pTradeSpi,lRtnTrade));
 }
 
-void CTP_TD_Mock::DeleteOrder( const std::string& aClientOrderID )
+void CTP_TD_Mock::DeleteOrder( const AT::CancelOrder& aDelOrderID)
 {
 	//todo not support yet
 }
 
-void CTP_TD_Mock::ModifyOrder( const std::string& aRequest )
+void CTP_TD_Mock::ModifyOrder( const AT::ModifyOrder& aRequest)
 {
 	//todo not support yet
 }
 
-void CTP_TD_Mock::QueryPosition( const std::string& aRequest )
-{
-	//todo not support yet
-}
-
-
-std::string CTP_TD_Mock::BuildRtnTrade( const std::string& aNewOrder,const std::string& OrderID )
-{
-	using boost::property_tree::ptree;
-	ptree pt;
-	pt.put("Trade.ThostOrderID",OrderID);
-	std::stringstream lStringStream;
-	write_xml(lStringStream,pt);
-	return lStringStream.str();
-	
-}
-
-std::string CTP_TD_Mock::BuildRtnOrder( const std::string& aNewOrder,const std::string& OrderID )
-{
-	using boost::property_tree::ptree;
-	ptree pt;
-	pt.put("Order.ThostOrderID",OrderID);
-	std::stringstream lStringStream;
-	write_xml(lStringStream,pt);
-	return lStringStream.str(); 
-}
-
-std::string CTP_TD_Mock::MakeOrderID(const std::string& aNewOrder)
-{
-	static int i = 0;
-	++i;
-
-	return boost::lexical_cast<std::string>(i);
-}
 
 void CTP_TD_Mock::Start()
 {
@@ -172,6 +119,11 @@ void CTP_TD_Mock::Stop()
 
 
 	m_pTradeSpi->NotifyStateTD(AT::ETradeState::STOP,"Mock TD Stop");
+}
+
+void CTP_TD_Mock::UpdateParam( const AT::Param& apParam )
+{
+
 }
 
 

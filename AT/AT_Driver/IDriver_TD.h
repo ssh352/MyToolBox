@@ -11,16 +11,17 @@ namespace AT
 	{
 	public:
 
-		virtual void UpdateParam(const Param& apParam) {};
-		virtual void Start(){};
-		virtual void Stop(){};
+		virtual void UpdateParam(const Param& apParam) =0;
+		virtual void Start() =0;
+		virtual void Stop() =0;
 
 		virtual void CreateOrder(const NewOrder& aNewOrder) =0;
 		virtual void DeleteOrder(const CancelOrder& aDelOrderID) =0;
 		virtual	void ModifyOrder(const ModifyOrder& aRequest) =0;
-		//virtual void QueryPosition(const std::string& aRequest) =0;
 	
 	};
+
+	AT_Order_Key GenerateOrderKey(); 
 
 }
 

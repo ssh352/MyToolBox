@@ -15,7 +15,7 @@ namespace AT
 		OrderType m_OrderType;
 		OpenCloseType m_OpenCloseType;
 		AT_Order_Key m_Key;
-		//char m_MoreInfo[32];
+		char m_MoreInfo[32];
 	};
 
 	struct CancelOrder

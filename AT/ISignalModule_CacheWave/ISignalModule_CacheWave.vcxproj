@@ -18,7 +18,12 @@
     <ClCompile Include="SignalModule_CacheWave.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="config.xml" />
+    <Xml Include="ISignalModule_CacheWave.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CAF4F61-D42E-44E3-BC92-FB03DF3B5AE9}</ProjectGuid>

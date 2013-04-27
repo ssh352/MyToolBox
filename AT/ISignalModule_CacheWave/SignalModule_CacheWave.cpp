@@ -6,14 +6,13 @@ namespace AT
 {
 	SignalModule_CacheWave::SignalModule_CacheWave(const char* aConfigFileName)
 	{
-		std::cout<<"Signal Con";
-		m_isWaveStart = false;
-		//todo load from file
-	//	m_WaveVal = boost::lexical_cast<double>(aConfigFileName);
-	// m_StoreFile ;
-		m_LowPoint.first = 100000;
-		m_HighPoint.first = -100000;
-		m_CheckState = Direction::BothSide;
+		
+		boost::property_tree::ptree lConfig;
+		read_xml(aConfigFileName,lConfig);
+		double lrawWaveVal  = lConfig.get<double>("ISignalModule_CacheWave.Wave_value");
+		m_WaveVal = AT::TranPriceToInt(lrawWaveVal);
+		m_StoreFile = lConfig.get<std::string>("ISignalModule_CacheWave.stroe_file");
+
 	}
 
 
@@ -22,6 +21,29 @@ namespace AT
 		std::cout<<"Signal deCon";
 
 	}
+
+
+	void SignalModule_CacheWave::Start()
+	{
+		m_isWaveStart = false;
+		m_LowPoint.first = 100000;
+		m_HighPoint.first = -100000;
+		m_CheckState = Direction::BothSide;
+	}
+
+	void SignalModule_CacheWave::Stop()
+	{
+		for(AT::MarketData& lMarket :m_WavePointVec)
+		{
+			lPointTree.add("Wave.HighLowPoint",lMarket.ToString());
+		}
+		for(AT::MarketData& lMarket :m_WaveChangeVec)
+		{
+			lPointTree.add("Wave.HighLowPoint",lMarket.ToString());
+		}
+		write_xml(m_StoreFile,lPointTree);
+	}
+
 
 	int SignalModule_CacheWave::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
@@ -53,12 +75,14 @@ namespace AT
 					{
 						m_CheckState = Direction::UpSide;
 						m_WavePointVec.push_back(m_LowPoint.second);
+						m_WaveChangeVec.push_back(aMarketDepth);
 						return 1;
 					}
 					else
 					{
 						m_CheckState = Direction::DownSide;
 						m_WavePointVec.push_back(m_HighPoint.second);
+						m_WaveChangeVec.push_back(aMarketDepth);
 						return -1;
 					}
 				}
@@ -76,6 +100,7 @@ namespace AT
 				{
 					m_CheckState = Direction::DownSide;
 					m_WavePointVec.push_back(m_HighPoint.second);
+					m_WaveChangeVec.push_back(aMarketDepth);
 					m_LowPoint.first = lLastPrice ;
 					m_LowPoint.second = aMarketDepth;
 					return -1;
@@ -94,6 +119,7 @@ namespace AT
 				{
 					m_CheckState = Direction::UpSide;
 					m_WavePointVec.push_back(m_LowPoint.second);
+					m_WaveChangeVec.push_back(aMarketDepth);
 					m_HighPoint.first = lLastPrice ;
 					m_HighPoint.second = aMarketDepth;
 					return 1;
@@ -105,15 +131,6 @@ namespace AT
 		}
 
 		return 0;
-	}
-
-	void SignalModule_CacheWave::Stop()
-	{
-		for(auto lMarket :m_WavePointVec)
-		{
-			lPointTree.add("Wave.Point",lMarket);
-		}
-		write_xml("WaveSignal.xml",lPointTree);
 	}
 
 }

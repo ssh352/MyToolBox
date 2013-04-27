@@ -13,7 +13,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="config.xml">
+    <Xml Include="ISignalModule_CacheWave.xml">
       <Filter>config</Filter>
     </Xml>
   </ItemGroup>

@@ -4,7 +4,7 @@
 
 namespace AT
 {
-	class MarketCache;
+	class IMarketCache;
 	//Store All The History Market
 	class ISignalModule
 	{
@@ -15,5 +15,5 @@ namespace AT
 	};
 
 }
-typedef  AT::ISignalModule* (*CreateSignalInstFun) (const char* aConfigFile, const AT::MarketCache * apMarketCache);
-DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::MarketCache * apMarketCache);
+typedef  AT::ISignalModule* (*CreateSignalInstFun) (const char* aConfigFile, const AT::IMarketCache * apMarketCache);
+DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache);

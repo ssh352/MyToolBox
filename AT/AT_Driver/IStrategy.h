@@ -5,6 +5,7 @@ namespace AT
 {
 	class IStrategySpi;
 	class IDriver_TD;
+	class IMarketCache;
 	class IStrategy 
 	{
 	public:
@@ -15,15 +16,15 @@ namespace AT
 			MDSTATE,
 			TDSTATE
 		};
-		virtual void UpdateParam(EStrInputState errCode ,const Param& apParam) {};
-		virtual void Start() {};
-		virtual void Stop(){};
+		virtual void UpdateParam(EStrInputState errCode ,const Param& apParam)  = 0;
+		virtual void Start() = 0;
+		virtual void Stop() = 0;
 	public:
-		virtual void OnMarketDepth(const MarketData& aMarketDepth)= 0;
+		virtual void OnMarketDepth(const MarketData& aMarketDepth) = 0;
 		virtual void OnRtnOrder(const  OrderUpdate& apOrder) = 0;
-		virtual void OnRtnTrade(const  TradeUpdate& apTrade)=0;
+		virtual void OnRtnTrade(const  TradeUpdate& apTrade) = 0;
 
 	};
 }
-typedef  AT::IStrategy* (*CreateStrInstFun) (const char* aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi);
-DLL_API  AT::IStrategy* CreateStr(const char*  aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi);
+typedef  AT::IStrategy* (*CreateStrInstFun) (const char* aConfigFile, AT::IDriver_TD* apTradeSpi, AT::IStrategySpi* aStrSpi, const  AT::IMarketCache* apMarketCache);
+DLL_API  AT::IStrategy* CreateStr(const char*  aConfigFile, AT::IDriver_TD* apTradeSpi ,AT::IStrategySpi* aStrSpi, const  AT::IMarketCache* apMarketCache);

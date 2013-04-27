@@ -1,6 +1,6 @@
 #pragma once
 #include "ConstVarDefine.h"
-
+#include <string>
 namespace AT
 {
 
@@ -28,5 +28,8 @@ namespace AT
 	//		m_LastVol = AT_INVALID_VOL;
 	//		m_trunover  = AT_INVALID_VOL;
 		}
+
+	
+		std::string ToString();
 	};
 }

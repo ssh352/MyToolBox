@@ -1,15 +1,15 @@
 #pragma  once
-#include <string>
-#include <boost\shared_ptr.hpp>
-#include <map>
-#include <vector>
+#include "MarketData.h"
+#include <memory>
+
 
 namespace AT
 {
 	class IMarketCache
 	{
 	public:
-		//virtual const IMarketCache* GetMarketSubCacheByName(const char* aInstrument)  const = 0;
+
+		//virtual void  GetMarketSubCacheByName(const char* aInstrument)  const = 0;
 		//virtual const IMarketCache* GetMarketSubCacheByTime(const std::string& aTimeStart, const std::string& aTimeStop)  const =0;
 
 		//class const_iterator

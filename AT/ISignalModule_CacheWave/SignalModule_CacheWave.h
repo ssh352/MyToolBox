@@ -12,7 +12,7 @@ namespace AT
 		virtual ~SignalModule_CacheWave(void);
 
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
-		virtual void Start() override {};
+		virtual void Start() override;
 		virtual void Stop() override ;
 
 	private: 
@@ -29,6 +29,7 @@ namespace AT
 
 		Direction m_CheckState;
 		std::vector<MarketData>  m_WavePointVec;
+		std::vector<MarketData> m_WaveChangeVec;
 		bool m_isWaveStart;
 		int32_t m_WaveVal;
 		std::string m_StoreFile;

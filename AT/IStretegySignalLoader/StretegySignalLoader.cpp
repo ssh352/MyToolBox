@@ -10,7 +10,8 @@
 #include <windows.h>
 namespace AT
 {
-	StretegySignalLoader::StretegySignalLoader(const std::string& aConfigFile,AT::IDriver_TD * apTD  , AT::IStrategySpi* apStrSpi)
+	StretegySignalLoader::StretegySignalLoader(const  char* aConfigFile,AT::IDriver_TD * apTD  , AT::IStrategySpi* apStrSpi,const AT::IMarketCache* apMarketCache)
+		:m_pMarketCache(apMarketCache)
 	{
 		boost::property_tree::ptree lConfig;
 		read_xml(aConfigFile,lConfig);
@@ -48,7 +49,7 @@ namespace AT
 				std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
 				break;
 			}
-			AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig,&m_MarketCache);
+			AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
 			if(!lpSignalInst)
 			{
 				std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;
@@ -60,13 +61,11 @@ namespace AT
 
 		for(auto lSignalPtr:m_SingleModuleVec)
 		{
-			//std::cout<<"Start Signal";
 			lSignalPtr->Start();
-			//std::cout<<"Start End";
 		}
 	}
 
-	void StretegySignalLoader::OnMarketDepth( const std::string& aMarketDepth )
+	void StretegySignalLoader::OnMarketDepth(const MarketData& aMarketDepth )
 	{
 		for(auto lSignalPtr:m_SingleModuleVec)
 		{
@@ -87,5 +86,6 @@ namespace AT
 			FreeLibrary(lHandle);
 		}
 	}
+
 
 }

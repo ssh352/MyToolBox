@@ -70,12 +70,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TD_CommandLineTest\PrintTDSpi.cpp" />
     <ClCompile Include="SingleStrDLLLoaderPoster.cpp" />
     <ClCompile Include="main_dll_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TD_CommandLineTest\PrintTDSpi.h" />
     <ClInclude Include="SingleStrDLLLoaderPoster.h" />
   </ItemGroup>
   <ItemGroup>

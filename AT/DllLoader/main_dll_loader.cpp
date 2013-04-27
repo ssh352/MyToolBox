@@ -40,7 +40,7 @@ int main(int argc ,char** argv)
 
 	if(argc < 2)
 	{
-		std::cout<<"参数不够 第一个参数因为配置文件";
+		std::cout<<"参数不够 第一个参数应为配置文件";
 		return 1;
 	}
 
@@ -69,7 +69,7 @@ int main(int argc ,char** argv)
 		std::cout<<boost::format("Can not Get TD Create Inst Fun Address");
 		return 3;
 	}
-	AT::IDriver_TD* lpTDInst = lpTDCallInst(lTDConfigFile,&lPosterInst);
+	AT::IDriver_TD* lpTDInst = lpTDCallInst(lTDConfigFile.c_str(),&lPosterInst);
 	if(!lpTDInst)
 	{
 		std::cout<<boost::format("Faile Create TD inst with ConfigFile %s  ")%lTDConfigFile;
@@ -91,7 +91,7 @@ int main(int argc ,char** argv)
 		std::cout<<boost::format("Can not Get MD Create Inst Fun Address");
 		return 6;
 	}
-	AT::IDriver_MD* lpMDInst = lpMDCallInst(lMDConfigFile,&lPosterInst);
+	AT::IDriver_MD* lpMDInst = lpMDCallInst(lMDConfigFile.c_str(),&lPosterInst);
 	if(!lpMDInst)
 	{
 		std::cout<<boost::format("Faile Create MD inst with ConfigFile %s  ")%lMDConfigFile;
@@ -114,7 +114,7 @@ int main(int argc ,char** argv)
 		return 9;
 	}
 
-	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile,lpTDInst,&lPosterInst);
+	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile.c_str(),lpTDInst,&lPosterInst);
 	if(!lpStrInst)
 	{
 		std::cout<<boost::format("Faile Create Str inst with ConfigFile %s  ")%lStrConfigFile;

@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="ConstVarDefine.cpp">
       <Filter>Interface\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="MarketCache.cpp">
+      <Filter>MarketCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AT_XML_Template.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="IDriver_MD.h">
       <Filter>Interface</Filter>
@@ -33,7 +34,6 @@
     <ClInclude Include="ISignalModule.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="MarketCache.h" />
     <ClInclude Include="IMarketCache.h">
       <Filter>Interface</Filter>
     </ClInclude>
@@ -55,6 +55,9 @@
     <ClInclude Include="AT_Struct.h">
       <Filter>Interface\Struct</Filter>
     </ClInclude>
+    <ClInclude Include="MarketCache.h">
+      <Filter>MarketCache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Interface">
@@ -62,6 +65,9 @@
     </Filter>
     <Filter Include="Interface\Struct">
       <UniqueIdentifier>{746e7bda-a8b6-4662-a7c1-08ba1c358b83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MarketCache">
+      <UniqueIdentifier>{dfc245cc-81a1-45e9-858f-9895270f46e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

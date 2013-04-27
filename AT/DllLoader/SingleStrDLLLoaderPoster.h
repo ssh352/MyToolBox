@@ -28,23 +28,22 @@ namespace AT
 			}
 		//Market
 	public:
-		virtual void NotifyStateMD(EMarketState aErrorCode,const std::string& aErrorMsg) override;
-		virtual void NotifyExchange(const std::string& aExchange) override;
-		virtual void NotifyProduct(const std::string& aProduct) override;
-		virtual void NotifyInstrument(const std::string& aInstrument) override;
-		virtual void NotifyMarketDepth(const std::string& aMarketDepth) override;
+		virtual void NotifyStateMD(EMarketState aErrorCode,const char* aErrorMsg) override;
+		virtual void NotifyMarketDepth(const MarketData& aMarketDepth) override;
 
 		//TD
 	public:
-		virtual void NotifyStateTD(ETradeState aErrorCode,const std::string& aErrorMsg) override ;
-		virtual void OnRtnOrder(const std::string& apOrder)override ;
-		virtual void OnRtnTrade(const std::string& apTrade) override;
-		virtual void OnRtnPosition(const std::string& aPosition) override;
+
+
+		virtual void NotifyStateTD(ETradeState aErrorCode,const char* aErrorMsg) override ;
+		virtual void OnRtnOrder(const OrderUpdate& apOrder)override ;
+		virtual void OnRtnTrade(const TradeUpdate& apTrade) override;
+		
 
 		//Str
-		virtual void NotifyStateStr(EStrState ErrorCode,const std::string& aErrorMsg) override
+		virtual void NotifyStateStr(EStrState ErrorCode,const char* aErrorMsg)
 		{
-			std::cout<< aErrorMsg<<'\n';
+			std::cout<<aErrorMsg;
 		}
 
 		AT::IStrategy* m_pStr;

@@ -82,6 +82,7 @@
     <Xml Include="DLLLoader.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="DllPostConfig.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

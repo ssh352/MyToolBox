@@ -9,6 +9,7 @@ namespace AT
 	class IDriver_MD;
 	class IDriver_TD;
 	class IStrategy;
+	class IMarketCache;
 
 	//todo  constuct from AT::IStrategy* and remove setup remove driverd from IStrategySpi
 	class SingleStrDLLLoaderPoster 
@@ -17,7 +18,7 @@ namespace AT
 		, public IStrategySpi
 	{
 	public:
-		SingleStrDLLLoaderPoster(std::atomic<bool>&  aFinishedFalg);
+		SingleStrDLLLoaderPoster(std::atomic<bool>&  aFinishedFalg,const char* aConfigFileName);
 		virtual ~SingleStrDLLLoaderPoster(void);
 
 
@@ -41,15 +42,19 @@ namespace AT
 		
 
 		//Str
-		virtual void NotifyStateStr(EStrState ErrorCode,const char* aErrorMsg)
+		virtual void NotifyStateStr(EStrState ErrorCode,const char* aErrorMsg);
+
+
+	public:
+		const AT::IMarketCache* GetMarketCache()
 		{
-			std::cout<<aErrorMsg;
+			return m_pMarketCache.get();
 		}
 
+	private:
+		std::auto_ptr<AT::IMarketCache>  m_pMarketCache;
 		AT::IStrategy* m_pStr;
 		std::atomic<bool>&  m_FinishedFalg;
-
-
 	};
 
 }

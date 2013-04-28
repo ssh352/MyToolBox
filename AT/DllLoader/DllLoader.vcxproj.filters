@@ -26,5 +26,8 @@
     <Xml Include="DLLLoader.xml">
       <Filter>Config</Filter>
     </Xml>
+    <Xml Include="DllPostConfig.xml">
+      <Filter>Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

@@ -48,7 +48,7 @@ int main(int argc ,char** argv)
 	std::string lConfigFile = argv[1];
 
 
-	AT::SingleStrDLLLoaderPoster lPosterInst(g_IsMarketFinish);
+	AT::SingleStrDLLLoaderPoster lPosterInst(g_IsMarketFinish,"TODO_ConfigFileName");
 
 	
 	boost::property_tree::ptree lPtree;
@@ -72,7 +72,7 @@ int main(int argc ,char** argv)
 	AT::IDriver_TD* lpTDInst = lpTDCallInst(lTDConfigFile.c_str(),&lPosterInst);
 	if(!lpTDInst)
 	{
-		std::cout<<boost::format("Faile Create TD inst with ConfigFile %s  ")%lTDConfigFile;
+		std::cout<<boost::format("failed Create TD inst with ConfigFile %s  ")%lTDConfigFile;
 		return 4;
 	}
 
@@ -94,7 +94,7 @@ int main(int argc ,char** argv)
 	AT::IDriver_MD* lpMDInst = lpMDCallInst(lMDConfigFile.c_str(),&lPosterInst);
 	if(!lpMDInst)
 	{
-		std::cout<<boost::format("Faile Create MD inst with ConfigFile %s  ")%lMDConfigFile;
+		std::cout<<boost::format("failed Create MD inst with ConfigFile %s  ")%lMDConfigFile;
 		return 7;
 	}
 
@@ -114,10 +114,10 @@ int main(int argc ,char** argv)
 		return 9;
 	}
 
-	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile.c_str(),lpTDInst,&lPosterInst);
+	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile.c_str(),lpTDInst,&lPosterInst,lPosterInst.GetMarketCache());
 	if(!lpStrInst)
 	{
-		std::cout<<boost::format("Faile Create Str inst with ConfigFile %s  ")%lStrConfigFile;
+		std::cout<<boost::format("failed Create Str inst with ConfigFile %s  ")%lStrConfigFile;
 		return 10;
 	}
 

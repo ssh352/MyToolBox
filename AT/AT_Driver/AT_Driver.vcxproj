@@ -24,7 +24,7 @@
     <ClInclude Include="IStrategySpi.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
-    <ClInclude Include="MapWarpper.h" />
+    <ClInclude Include="MarketMapWarpper.h" />
     <ClInclude Include="MarketCache.h" />
     <ClInclude Include="MarketData.h" />
     <ClInclude Include="Order.h" />
@@ -33,9 +33,14 @@
   <ItemGroup>
     <ClCompile Include="ConstVarDefine.cpp" />
     <ClCompile Include="IDriver_TD.cpp" />
-    <ClCompile Include="MapWarpper.cpp" />
+    <ClCompile Include="MarketMapWarpper.cpp" />
     <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="MarketData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
+      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>

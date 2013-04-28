@@ -11,7 +11,7 @@
       <Filter>Interface\Struct</Filter>
     </ClCompile>
     <ClCompile Include="IDriver_TD.cpp" />
-    <ClCompile Include="MapWarpper.cpp">
+    <ClCompile Include="MarketMapWarpper.cpp">
       <Filter>MarketCache</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,10 @@
     <ClInclude Include="MarketCache.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
-    <ClInclude Include="MapWarpper.h">
+    <ClInclude Include="IMarketCache.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
-    <ClInclude Include="IMarketCache.h">
+    <ClInclude Include="MarketMapWarpper.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
   </ItemGroup>

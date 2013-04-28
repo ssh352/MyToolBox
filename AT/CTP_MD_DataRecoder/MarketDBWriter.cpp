@@ -27,7 +27,6 @@ MarketDBWriter::MarketDBWriter(const std::vector<std::string>& aList,const std::
 	}
 }
 
-
 MarketDBWriter::~MarketDBWriter(void)
 {
 }
@@ -35,7 +34,7 @@ MarketDBWriter::~MarketDBWriter(void)
 void MarketDBWriter::StroeMarketTick( const AT::MarketData& aMarketTick )
 {
 	std::string lInstrumentID = aMarketTick.InstrumentID;
-	std::string lUpdateTime = boost::posix_time::to_iso_string(aMarketTick.m_UpdateTime);
-	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(), lUpdateTime, leveldb::Slice((char*)&aMarketTick,sizeof(aMarketTick)));
+	uint32_t lKey = aMarketTick.m_UpdateTime.time_of_day().total_milliseconds();
+	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(),leveldb::Slice( (char*)&lKey,sizeof(lKey)), leveldb::Slice((char*)&aMarketTick,sizeof(aMarketTick)));
 }
 

@@ -28,8 +28,8 @@ namespace AT
 	//		m_LastVol = AT_INVALID_VOL;
 	//		m_trunover  = AT_INVALID_VOL;
 		}
-
-	
-		std::string ToString();
+		std::string ToString() const;
 	};
+
+	typedef std::map<uint32_t,MarketData>  MarketMap;
 }

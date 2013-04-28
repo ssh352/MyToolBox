@@ -11,7 +11,7 @@ namespace CTP
 
 	//this class should using for Receive MD tick and Notify Out Side Info
 
-	typedef std::function<void (const AT::MarketData& )> MarketHandlerFun; 
+	typedef std::function<void (std::shared_ptr< AT::MarketData> )> MarketHandlerFun; 
 
 	//ConfigTemplate
 	//MDConfig.Front
@@ -30,7 +30,7 @@ namespace CTP
 	private:
 		void SubscribeList();
 		//std::string BuildMarketDepthString(CThostFtdcDepthMarketDataField* aMarketPtr);
-		AT::MarketData Build_AT_Market(CThostFtdcDepthMarketDataField* aMarketPtr);
+		std::shared_ptr<AT::MarketData> Build_AT_Market(CThostFtdcDepthMarketDataField* aMarketPtr);
 		AT::AT_Time Build_AT_Time(TThostFtdcTimeType, int millsecond);
 
 	public: //from CTP API

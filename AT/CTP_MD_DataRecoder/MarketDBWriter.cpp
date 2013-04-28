@@ -31,10 +31,10 @@ MarketDBWriter::~MarketDBWriter(void)
 {
 }
 
-void MarketDBWriter::StroeMarketTick( const AT::MarketData& aMarketTick )
+void MarketDBWriter::StroeMarketTick( std::shared_ptr< AT::MarketData> apMarketTick )
 {
-	std::string lInstrumentID = aMarketTick.InstrumentID;
-	uint32_t lKey = aMarketTick.m_UpdateTime.time_of_day().total_milliseconds();
-	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(),leveldb::Slice( (char*)&lKey,sizeof(lKey)), leveldb::Slice((char*)&aMarketTick,sizeof(aMarketTick)));
+	std::string lInstrumentID = apMarketTick->InstrumentID;
+	uint64_t lKey = apMarketTick->m_UpdateTime.time_of_day().total_milliseconds();
+	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(),leveldb::Slice( (char*)&lKey,sizeof(lKey)), leveldb::Slice((char*)apMarketTick.get(),sizeof(*apMarketTick)));
 }
 

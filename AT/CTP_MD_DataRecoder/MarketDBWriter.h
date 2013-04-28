@@ -12,7 +12,7 @@ public:
 	MarketDBWriter(const std::vector<std::string>& aList,const std::string & DBpath);
 	~MarketDBWriter(void);
 
-	void StroeMarketTick(const AT::MarketData& aMarketTick);
+	void StroeMarketTick(std::shared_ptr< AT::MarketData> apMarketTick);
 	
 private:
 	std::map<std::string,leveldb::DB*>			m_DBMap;;

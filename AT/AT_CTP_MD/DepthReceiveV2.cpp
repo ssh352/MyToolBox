@@ -99,7 +99,7 @@ namespace CTP
 	void DepthReceiverV2::OnRtnDepthMarketData( CThostFtdcDepthMarketDataField *pDepthMarketData )
 	{
 
-		AT::MarketData lBuildMarket = Build_AT_Market(pDepthMarketData);
+		std::shared_ptr<AT::MarketData> lBuildMarket = Build_AT_Market(pDepthMarketData);
 		m_Markethandle(lBuildMarket);
 	}
 
@@ -147,21 +147,21 @@ namespace CTP
 
 	}
 
-	AT::MarketData DepthReceiverV2::Build_AT_Market( CThostFtdcDepthMarketDataField* aMarketPtr )
+	std::shared_ptr<AT::MarketData> DepthReceiverV2::Build_AT_Market( CThostFtdcDepthMarketDataField* aMarketPtr )
 	{
-		AT::MarketData lRet;
-
-		memcpy(lRet.InstrumentID,aMarketPtr->InstrumentID,sizeof(aMarketPtr->InstrumentID));
+		std::shared_ptr<AT::MarketData> lRet(new AT::MarketData);
+		AT::MarketData& lMarket = *lRet;
+		memcpy(lMarket.InstrumentID,aMarketPtr->InstrumentID,sizeof(aMarketPtr->InstrumentID));
 		AT::AT_Time lTime = Build_AT_Time( aMarketPtr->UpdateTime, aMarketPtr->UpdateMillisec);
 
-		lRet.m_LastPrice =  IsValidPrice( aMarketPtr->LastPrice)?  TranPriceToInt( aMarketPtr->LastPrice) : AT_INVALID_PRICE;
-		lRet. m_BidPrice =  IsValidPrice( aMarketPtr->BidPrice1)? TranPriceToInt( aMarketPtr->BidPrice1) : AT_INVALID_PRICE;
-		lRet. m_AskPrice  =  IsValidPrice( aMarketPtr->AskPrice1)? TranPriceToInt( aMarketPtr->AskPrice1) : AT_INVALID_PRICE;
+		lMarket.m_LastPrice =  IsValidPrice( aMarketPtr->LastPrice)?  TranPriceToInt( aMarketPtr->LastPrice) : AT_INVALID_PRICE;
+		lMarket. m_BidPrice =  IsValidPrice( aMarketPtr->BidPrice1)? TranPriceToInt( aMarketPtr->BidPrice1) : AT_INVALID_PRICE;
+		lMarket. m_AskPrice  =  IsValidPrice( aMarketPtr->AskPrice1)? TranPriceToInt( aMarketPtr->AskPrice1) : AT_INVALID_PRICE;
 	//	lRet.m_trunover = IsValidPrice( aMarketPtr->AskPrice1)?  TranPriceToInt( aMarketPtr->Turnover):AT_INVALID_PRICE;
-		lRet.m_AskVol  = aMarketPtr->AskVolume1;
-		lRet. m_BidVol  = aMarketPtr->BidVolume1;
+		lMarket.m_AskVol  = aMarketPtr->AskVolume1;
+		lMarket. m_BidVol  = aMarketPtr->BidVolume1;
 
-		return std::move(lRet);
+		return lRet;
 
 	}
 

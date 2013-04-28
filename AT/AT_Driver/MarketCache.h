@@ -2,11 +2,10 @@
 #include "IMarketCache.h"
 namespace AT
 {
-	class ImpMarketCache;
 	class MarketCache :public IMarketCache
 	{
 	public:
-		MarketCache(void);
+		MarketCache(const char* AconfigFile);
 		~MarketCache(void);
 	};
 }

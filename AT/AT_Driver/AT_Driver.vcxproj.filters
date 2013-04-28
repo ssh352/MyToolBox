@@ -11,6 +11,9 @@
       <Filter>Interface\Struct</Filter>
     </ClCompile>
     <ClCompile Include="IDriver_TD.cpp" />
+    <ClCompile Include="MapWarpper.cpp">
+      <Filter>MarketCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ItemTable.h" />
@@ -38,9 +41,6 @@
     <ClInclude Include="ISignalModule.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="IMarketCache.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Trade.h">
       <Filter>Interface\Struct</Filter>
     </ClInclude>
@@ -60,6 +60,12 @@
       <Filter>Interface\Struct</Filter>
     </ClInclude>
     <ClInclude Include="MarketCache.h">
+      <Filter>MarketCache</Filter>
+    </ClInclude>
+    <ClInclude Include="MapWarpper.h">
+      <Filter>MarketCache</Filter>
+    </ClInclude>
+    <ClInclude Include="IMarketCache.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
   </ItemGroup>

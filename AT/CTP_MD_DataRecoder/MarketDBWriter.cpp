@@ -34,7 +34,6 @@ MarketDBWriter::~MarketDBWriter(void)
 
 void MarketDBWriter::StroeMarketTick( const AT::MarketData& aMarketTick )
 {
-	//todo trim?
 	std::string lInstrumentID = aMarketTick.InstrumentID;
 	std::string lUpdateTime = boost::posix_time::to_iso_string(aMarketTick.m_UpdateTime);
 	m_DBMap[lInstrumentID]->Put(leveldb::WriteOptions(), lUpdateTime, leveldb::Slice((char*)&aMarketTick,sizeof(aMarketTick)));

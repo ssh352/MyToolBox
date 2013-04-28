@@ -2,8 +2,11 @@
 
 namespace  AT
 {
-	MarketCache::MarketCache(void)
+
+
+	MarketCache::MarketCache( const char* AconfigFile )
 	{
+
 	}
 
 

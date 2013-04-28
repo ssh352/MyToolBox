@@ -24,6 +24,7 @@
     <ClInclude Include="IStrategySpi.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ITradeSpi.h" />
+    <ClInclude Include="MapWarpper.h" />
     <ClInclude Include="MarketCache.h" />
     <ClInclude Include="MarketData.h" />
     <ClInclude Include="Order.h" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="ConstVarDefine.cpp" />
     <ClCompile Include="IDriver_TD.cpp" />
+    <ClCompile Include="MapWarpper.cpp" />
     <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="MarketData.cpp" />
   </ItemGroup>

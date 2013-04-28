@@ -43,7 +43,19 @@ int main()
 	write_xml(lStringStream,pt);
 	std::string  lConfigString = lStringStream.str();
 
-	CTP::DepthReceiverV2 lMarketInst(lConfigString,std::bind(&MarketDBWriter::StroeMarketTick,&writeInst,std::placeholders::_1) );
+	auto lLamb = 
+		[&writeInst](std::shared_ptr< AT::MarketData> lpDataTick) 
+	{
+		std::cout<<lpDataTick->ToString()<<"\n";
+		writeInst.StroeMarketTick(lpDataTick);
+	};
+
+	auto lStatHandle = [ ](CTP::CTP_Market_Status_Enum aStatus,std::string aErrorMsg)
+	{
+		std::cout<<aErrorMsg;
+	};
+
+	CTP::DepthReceiverV2 lMarketInst(lConfigString,lLamb ,lStatHandle);
 
 	lMarketInst.Start();
 

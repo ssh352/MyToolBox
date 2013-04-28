@@ -5,9 +5,9 @@ namespace AT
 {
 
 
-	const MarketData& MapWarpper::operator[]( const uint32_t& k )
+	const MarketData& MapWarpper::operator[]( const uint32_t& k ) const
 	{
-		return m_pMap->at(k);
+		return at(k);
 	}
 
 	MapWarpper::MapWarpper( MarketMapType* aMap , std::string aID )
@@ -17,14 +17,19 @@ namespace AT
 
 	}
 
-	MapWarpper::iterator MapWarpper::begin()
+	MapWarpper::const_iterator MapWarpper::begin() const
 	{
 		return m_pMap->begin();
 	}
 
-	MapWarpper::iterator MapWarpper::end()
+	MapWarpper::const_iterator MapWarpper::end() const
 	{
 		return m_pMap->end();
+	}
+
+	const MarketData& MapWarpper::at( const uint32_t& k ) const
+	{
+		return m_pMap->at(k);
 	}
 
 }

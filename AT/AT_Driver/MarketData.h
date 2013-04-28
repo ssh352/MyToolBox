@@ -1,6 +1,7 @@
 #pragma once
 #include "ConstVarDefine.h"
 #include <string>
+#include <memory>
 namespace AT
 {
 
@@ -31,5 +32,5 @@ namespace AT
 		std::string ToString() const;
 	};
 
-	typedef std::map<uint32_t,MarketData>  MarketMap;
+	typedef std::map<uint64_t,std::shared_ptr<MarketData> >  MarketMap;
 }

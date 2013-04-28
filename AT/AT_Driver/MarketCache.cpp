@@ -36,74 +36,18 @@ namespace  AT
 
 
 			std::shared_ptr<MarketMap> lpMarketMap(new MarketMap);
+			RestoreMarketMap(lpMarketMap,lpDB);
+
 			if(false ==  m_InstrumentMarket.insert(std::make_pair(lItemName,lpMarketMap)).second)
 			{
 				std::cerr<<"can not add MarkeMap";
 				throw std::exception("can not add MarkeMap");
 			}
 
-			//LoadFromDB(lpMarketMap.get(),lpDB);
-
 			std::shared_ptr<MarketMapWarpper> lpWarpper(new MarketMapWarpper(lpMarketMap.get(),lItemName) );
 			m_AllMarketMap.insert(std::make_pair(lItemName,lpWarpper));
-			//leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
-			//for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
-			//{
-
-			//	memcpy(lStoreInstPtr.get(),liter->value().data(),liter->value().size());
-			//	m_ItemMap[liter->key().ToString()] = lStoreInstPtr;
-			//}
-			//delete liter;
-
 		}
-
-
-
-
-
-		//using namespace boost::filesystem;
-		//path  lDBPath(AconfigFile);
-		//for( directory_iterator iter(lDBPath); iter != directory_iterator(); ++iter)
-		//{
-		//	leveldb::DB* lpDB = nullptr;
-
-		//	leveldb::Options options;
-		//	options.create_if_missing = true;
-		//	leveldb::Status lstatus = leveldb::DB::Open(options, aDBPath.c_str(), &m_pDB);
-		//	if(lstatus.ok())
-		//	{
-		//		LoadFromDB();
-		//	}
-		//	else
-		//	{
-		//		throw std::exception("Open  Db Failed");
-		//	}
-		//	leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
-		//	for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
-		//	{
-
-		//		memcpy(lStoreInstPtr.get(),liter->value().data(),liter->value().size());
-		//		m_ItemMap[liter->key().ToString()] = lStoreInstPtr;
-		//	}
-		//	delete liter;
-
-
-		//	std::shared_ptr< std::map<uint32_t,MarketData> >   lpSotreMap( new std::map<uint32_t,MarketData> );
-		//	std::string lInstrumentID ;
-
-
-		//	bool isDuplicate = ! m_AllMarketMap.insert(make_pair(lInstrumentID,MarketMapWarpper(lpSotreMap.get(),lInstrumentID) ));
-		//	if(isDuplicate)
-		//	{
-		//		std::cerr<<"InsutmentDB is duplicate ignore it";
-		//		return ;
-		//	}
-		//
-		//}
-
 	}
-
-
 	MarketCache::~MarketCache(void)
 	{
 	}
@@ -120,18 +64,32 @@ namespace  AT
 		}
 	}
 
-	 void MarketCache::FeedMarketDepth( const MarketData& aMarketDepth )
+	 void MarketCache::FeedMarketDepth(std::shared_ptr< MarketData> apMarketDepth)
 	 {
-		 std::string  lInstrumentID = aMarketDepth.InstrumentID;
-		 uint32_t lKey = aMarketDepth.m_UpdateTime.time_of_day().total_milliseconds();
-		 m_InstrumentMarket[lInstrumentID]->insert(std::make_pair(lKey,aMarketDepth));
+		 std::string  lInstrumentID = apMarketDepth->InstrumentID;
+		 uint64_t lKey = apMarketDepth->m_UpdateTime.time_of_day().total_milliseconds();
+		 m_InstrumentMarket[lInstrumentID]->insert(std::make_pair(lKey,apMarketDepth));
 
-		 leveldb::Status lStatus = m_InstrumentDBMap[lInstrumentID]->Put(leveldb::WriteOptions(),leveldb::Slice( (char*)&lKey,sizeof(lKey)), leveldb::Slice((char*)&aMarketDepth,sizeof(aMarketDepth)));
+		 leveldb::Status lStatus = m_InstrumentDBMap[lInstrumentID]->Put(leveldb::WriteOptions(),leveldb::Slice( (char*)&lKey,sizeof(lKey)), leveldb::Slice((char*)apMarketDepth.get(),sizeof(MarketData)));
 		 if(!lStatus.ok())
 		 {
-			 std::cerr<<"Store  A tick Failed"<< aMarketDepth.ToString();
+			 std::cerr<<"Store  A tick Failed"<< apMarketDepth->ToString();
 		 }
 
+	 }
+
+	 void MarketCache::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap , leveldb::DB* lpDB )
+	 {
+		 leveldb::Iterator* liter = lpDB->NewIterator(leveldb::ReadOptions());
+		 for (liter->SeekToFirst(); liter->Valid(); liter->Next())
+		 {
+			std::shared_ptr<MarketData> lpMarketData(new MarketData);
+			 memcpy(lpMarketData.get(),liter->value().data(),liter->value().size());
+			 uint64_t lKey =  0;
+			 memcpy(&lKey,liter->key().data(),liter->value().size());
+			 lpMarketMap->insert(std::make_pair(lKey,lpMarketData));
+		 }
+		 delete liter;
 	 }
 
 }

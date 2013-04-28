@@ -42,6 +42,9 @@
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="MarketCache.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>
     <RootNamespace>CTP_Driver</RootNamespace>

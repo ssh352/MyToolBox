@@ -29,7 +29,7 @@ namespace AT
 
 	const MarketData& MarketMapWarpper::at( const uint32_t& k ) const
 	{
-		return m_pMap->at(k);
+		return *m_pMap->at(k);
 	}
 
 }

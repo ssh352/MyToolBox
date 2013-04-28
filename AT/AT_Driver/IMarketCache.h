@@ -18,6 +18,6 @@ namespace AT
 
 		//for creater
 	public:
-		virtual void FeedMarketDepth(const MarketData& aMarketDepth) = 0;
+		virtual void FeedMarketDepth(std::shared_ptr< MarketData> apMarketDepth) = 0;
 	};
 }

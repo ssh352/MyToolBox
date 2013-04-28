@@ -17,10 +17,11 @@ namespace AT
 		~MarketCache(void);
 		virtual const_MapWarpper_ptr  GetMarketMapByName(const char* aInstrument) const  override ;
 
-		virtual void FeedMarketDepth(const MarketData& aMarketDepth) override;
+		virtual void FeedMarketDepth(std::shared_ptr< MarketData> apMarketDepth) override;
+	
 
 	private:
-
+		void RestoreMarketMap(std::shared_ptr< MarketMap> , leveldb::DB*);
 
 		//这里有点乱 
 		//MarketMap是实际保存的map 由m_InstrumentMarket 持有所有权

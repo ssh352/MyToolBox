@@ -30,10 +30,19 @@ void MarketDataTranslator::PraseDir(const std::string& aDirName)
 	if(!exists(lDirPath) || !is_directory(lDirPath))
 	{
 		std::cerr<<"Dir is not exist"<<std::endl;
+		return ;
 	}
+
+	path lstoreDDPath ( m_DBFoudler) ;
+	if(!exists(lstoreDDPath))
+	{
+		create_directory(lstoreDDPath);
+	}
+
 
 	for(directory_iterator iter=  directory_iterator(lDirPath) ; iter != directory_iterator() ; ++ iter)
 	{
+
 		PraseFile(iter->path().string());
 	}
 }
@@ -47,14 +56,22 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 		return;
 	}
 
-	std::string lDBPath = m_DBFoudler+ aFileName;
+	//std::string lDBPath = m_DBFoudler+ aFileName;
 	// m_pDBWriter.reset(new SingleDBWriter(lDBPath.c_str()));
+
+
+	path lDbPath(m_DBFoudler);
+	path lStrreFilePath(aFileName);
+
+	lDbPath /= lStrreFilePath.filename().stem();
+	m_pDBWriter.reset(new SingleDBWriter(lDbPath.string().c_str()));
+
 
 	size_t lBuffsize = 256;
 	char* lineBuff = new char [lBuffsize];
 	while(lfile.getline(lineBuff,lBuffsize))
 	{
-		PraseFile(std::string(lineBuff,std::min(strlen(lineBuff),lBuffsize)));
+		PraseLine(std::string(lineBuff,std::min(strlen(lineBuff),lBuffsize)));
 	}
 }
 

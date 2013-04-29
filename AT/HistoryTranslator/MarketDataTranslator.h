@@ -1,27 +1,28 @@
 #ifndef MARKETDATATRANSLATOR_H_INCLUDED
 #define MARKETDATATRANSLATOR_H_INCLUDED
+#include "AT_Struct.h"
 
 #include <string>
 namespace AT
 {
-    class MarketData;
+	struct  MarketData;
 }
-class SingleDBwriter;
+class SingleDBWriter;
 
-class MarketDataTransLator
+class MarketDataTranslator
 {
 public:
-    MarketDataTransLator(const std::string& aDBstoreDIr);
-    virtual ~MarketDataTransLator(void);
+    MarketDataTranslator(const std::string& aDBstoreDIr);
+    virtual ~MarketDataTranslator(void);
 
 
     void PraseDir(const std::string& aDirName);
     void PraseFile(const std::string& aFileName);
     void PraseLine(const std::string& aLIne);
-    AT::AT_TIME PraseTime(const std::string aDate, const std::string& aTime);
+    AT::AT_Time PraseTime(const std::string aDate, const std::string& aTime);
 
 private:
-    std::auto_ptr<SingleDBwriter>   m_pDBWriter;
+    std::auto_ptr<SingleDBWriter>   m_pDBWriter;
     std::string                     m_DBFoudler;
 
 };

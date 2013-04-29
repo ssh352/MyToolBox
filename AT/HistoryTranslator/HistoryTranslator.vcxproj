@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D2AF9D75-5B5E-40F4-B262-528A59A74087}</ProjectGuid>
-    <RootNamespace>CTP_MD_DataRecoder</RootNamespace>
+    <ProjectGuid>{B44808D3-2BC6-4D46-B46C-6478CF26D388}</ProjectGuid>
+    <RootNamespace>HistoryTranslator</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -24,7 +24,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -33,17 +33,15 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\CTP_lib.props" />
-    <Import Project="..\debug_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\CTP_lib.props" />
-    <Import Project="..\Release_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -69,33 +67,21 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MarketDataTranslator.cpp" />
+    <ClCompile Include="SingleDBWriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MarketDataTranslator.h" />
+    <ClInclude Include="SingleDBWriter.h" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
       <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
-      <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
-      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\AT_CTP_MD\DepthReceiveV2.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MarketDBWriter.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\AT_CTP_MD\DepthReceiveV2.h" />
-    <ClInclude Include="MarketDBWriter.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="MDDataRecoder.xml">
-      <SubType>Designer</SubType>
-    </Xml>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

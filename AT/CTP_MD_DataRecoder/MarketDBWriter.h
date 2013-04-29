@@ -6,6 +6,9 @@
 #include <map>
 #include <vector>
 #include "AT_Struct.h"
+
+class SingleDBWriter;
+
 class MarketDBWriter
 {
 public:
@@ -15,7 +18,7 @@ public:
 	void StroeMarketTick(std::shared_ptr< AT::MarketData> apMarketTick);
 	
 private:
-	std::map<std::string,leveldb::DB*>			m_DBMap;;
+	std::map<std::string,std::auto_ptr<SingleDBWriter> >	m_DBMap;;
 
 };
 

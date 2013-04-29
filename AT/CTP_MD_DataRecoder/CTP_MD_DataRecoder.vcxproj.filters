@@ -4,10 +4,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketDBWriter.cpp" />
     <ClCompile Include="..\AT_CTP_MD\DepthReceiveV2.cpp" />
+    <ClCompile Include="..\HistoryTranslator\SingleDBWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarketDBWriter.h" />
     <ClInclude Include="..\AT_CTP_MD\DepthReceiveV2.h" />
+    <ClInclude Include="..\HistoryTranslator\SingleDBWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Config">

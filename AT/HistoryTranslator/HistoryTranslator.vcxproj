@@ -72,11 +72,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketDataTranslator.cpp" />
-    <ClCompile Include="SingleDBWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarketDataTranslator.h" />
-    <ClInclude Include="SingleDBWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">

@@ -28,6 +28,7 @@
     <ClInclude Include="MarketCache.h" />
     <ClInclude Include="MarketData.h" />
     <ClInclude Include="Order.h" />
+    <ClInclude Include="SingleDBWriter.h" />
     <ClInclude Include="Trade.h" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ClCompile Include="MarketMapWarpper.cpp" />
     <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="MarketData.cpp" />
+    <ClCompile Include="SingleDBWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">

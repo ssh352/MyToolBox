@@ -2,6 +2,11 @@
 #include "MarketData.h"
 #include "leveldb/db.h"
 
+
+namespace AT
+{
+
+
 SingleDBWriter::SingleDBWriter( const char* aStoreFile )
 {
 	leveldb::Options options;
@@ -29,5 +34,21 @@ void SingleDBWriter::StoreMarketData(std::shared_ptr<AT::MarketData> aDataPtr)
 	{
 		std::cerr<<"Store Market Failed"<<aDataPtr->ToString();
 	}
+
+}
+
+void SingleDBWriter::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap  )
+{
+	leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
+	for (liter->SeekToFirst(); liter->Valid(); liter->Next())
+	{
+		std::shared_ptr<MarketData> lpMarketData(new MarketData);
+		memcpy(lpMarketData.get(),liter->value().data(),liter->value().size());
+		uint64_t lKey =  0;
+		memcpy(&lKey,liter->key().data(),liter->value().size());
+		lpMarketMap->insert(std::make_pair(lKey,lpMarketData));
+	}
+	delete liter;
+}
 
 }

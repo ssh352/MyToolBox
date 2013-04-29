@@ -64,7 +64,7 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 	path lStrreFilePath(aFileName);
 
 	lDbPath /= lStrreFilePath.filename().stem();
-	m_pDBWriter.reset(new SingleDBWriter(lDbPath.string().c_str()));
+	m_pDBWriter.reset(new AT::SingleDBWriter(lDbPath.string().c_str()));
 
 
 	size_t lBuffsize = 256;

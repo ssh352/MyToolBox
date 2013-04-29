@@ -85,13 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AT_CTP_MD\DepthReceiveV2.cpp" />
-    <ClCompile Include="..\HistoryTranslator\SingleDBWriter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketDBWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AT_CTP_MD\DepthReceiveV2.h" />
-    <ClInclude Include="..\HistoryTranslator\SingleDBWriter.h" />
     <ClInclude Include="MarketDBWriter.h" />
   </ItemGroup>
   <ItemGroup>

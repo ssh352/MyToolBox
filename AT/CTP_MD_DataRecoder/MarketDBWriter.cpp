@@ -3,7 +3,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/filesystem.hpp>
 #include <sstream>
-#include "../HistoryTranslator/SingleDBWriter.h"
+#include "SingleDBWriter.h"
 MarketDBWriter::MarketDBWriter(const std::vector<std::string>& aList,const std::string & DBpath)
 {
 	if(!boost::filesystem::exists(DBpath))
@@ -19,7 +19,7 @@ MarketDBWriter::MarketDBWriter(const std::vector<std::string>& aList,const std::
 		boost::filesystem::path lDir(DBpath);
 		lDir += aList[i];
 		std::string lSubItemDBPath = lDir.string();
-		m_DBMap[aList[i]].reset(new SingleDBWriter(lSubItemDBPath.c_str()));
+		m_DBMap[aList[i]].reset(new AT::SingleDBWriter(lSubItemDBPath.c_str()));
 	}
 }
 

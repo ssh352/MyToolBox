@@ -14,8 +14,9 @@ namespace AT
 		BuySellType m_BuySellType; 
 		OrderType m_OrderType;
 		OpenCloseType m_OpenCloseType;
-		AT_Order_Key m_Key;
 		char m_MoreInfo[32];
+		char m_SendeeInfo[32];//info which startgy is
+		AT_Order_Key m_Key;
 	};
 
 	struct CancelOrder
@@ -26,7 +27,11 @@ namespace AT
 
 	struct ModifyOrder
 	{
-		//todo
+		int32_t m_Price;
+		uint32_t m_Vol;
+		//todo  whether should we set the orgi price and vol for avoid cross modify
+		//int32_t m_OrgiPrice;
+		//uint32_t m_OrgiVol;
 	};
 
 
@@ -35,7 +40,7 @@ namespace AT
 		char InstrumentID[cInstrimentIDLength];
 		char AccoutID[cAccoutIDLength];
 		int32_t m_Price;
-		uint32_t m_Vol;		//µ¥×ÓµÄ×ÜÊýÁ¿ £¬Èç¹ûÍ¨¹ýmodify¸ÄÐ¡ Õâ¸öÊýÁ¿Ò²»á±ä»¯
+		uint32_t m_Vol;		//ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½modifyï¿½ï¿½Ð¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ä»¯
 		uint32_t m_TradedVol;
 		uint32_t m_LiveVol;
 		BuySellType m_BuySellType; 

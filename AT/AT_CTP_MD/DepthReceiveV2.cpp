@@ -12,6 +12,8 @@
 #include <boost/date_time/gregorian/conversion.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <boost/filesystem.hpp>
+#include <string>
 using namespace AT;
 namespace CTP
 {
@@ -38,14 +40,27 @@ namespace CTP
 
 	void DepthReceiveV2::Start()
 	{
-		//TODO check the Dir if not exist ,create it
-		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(/*m_WorkFlowDir.c_str()*/);
+		using namespace boost::filesystem;
+		path lWorkFlowPath(m_WorkFlowDir);
+		if(!exists(lWorkFlowPath))
+		{
+			create_directory(lWorkFlowPath);
+		}
+
+		std::string lCreateDIr = lWorkFlowPath.string();
+		lCreateDIr += "/";
+
+		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(lCreateDIr.c_str());
 		m_pMDAPI->RegisterSpi(this);
 		char buf_front[256];
 		strcpy_s(buf_front,sizeof(buf_front),m_Front.c_str());
 		m_pMDAPI->RegisterFront(buf_front);
 		m_pMDAPI->Init();
-		if(m_Markethandle)	m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_CONNECTING,"开始连接\n");
+		std::string lConnectINfo = "开始连接 ";
+		lConnectINfo += m_Front;
+		lConnectINfo += "工作流位置 ";
+		lConnectINfo += m_WorkFlowDir;
+		if(m_MarketStateHandle)	m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_CONNECTING,lConnectINfo);
 
 		InitDelayTimer();
 	}
@@ -66,7 +81,7 @@ namespace CTP
 		CThostFtdcReqUserLoginField lLoginReq;
 		memset(&lLoginReq,0,sizeof(CThostFtdcReqUserLoginField));
 		m_pMDAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-		if(m_Markethandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_LOGIN,"连接成功开始登陆与订阅列表\n"); 
+		if(m_MarketStateHandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_LOGIN,"连接成功开始登陆与订阅列表\n"); 
 	}
 	void DepthReceiveV2::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 		CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
@@ -111,7 +126,7 @@ namespace CTP
 		}
 		if(bIsLast)
 		{
-			if(m_Markethandle)	m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_READY,"开始接受行情 启动行情监视计时器\n");
+			if(m_MarketStateHandle)	m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_READY,"开始接受行情 启动行情监视计时器\n");
 			ResetDelayTimer();
 		}
 	}
@@ -121,7 +136,7 @@ namespace CTP
 	{
 		ResetDelayTimer();
 		std::shared_ptr<AT::MarketData> lBuildMarket = Build_AT_Market(pDepthMarketData);
-		m_Markethandle(lBuildMarket);
+		if(m_Markethandle) m_Markethandle(lBuildMarket);
 	}
 
 	void DepthReceiveV2::OnFrontDisconnected( int nReason )
@@ -150,7 +165,7 @@ namespace CTP
 			break;
 		}
 		std::cerr<<"Market===================== 断开连接 稍后将会重新连接 "<<ErrMessage<<std::endl;
-		if(m_Markethandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_CONNECTING,"连接中断\n");
+		if(m_MarketStateHandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_CONNECTING,"连接中断\n");
 	}
 
 	bool DepthReceiveV2::IsValidPrice( double aPrice )

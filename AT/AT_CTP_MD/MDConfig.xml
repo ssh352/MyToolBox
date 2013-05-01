@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <MDConfig>
-  <Front>>tcp://ctpmn1-front2.citicsf.com:51213</Front>
+  <Front>tcp://ctpmn1-front2.citicsf.com:51213</Front>
   <InstrumentList>
     <item>IF1304</item>
     <item>IF1305</item>

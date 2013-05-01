@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryTranslator", "..\His
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_MD", "..\AT_CTP_MD\AT_CTP_MD.vcxproj", "{B08F1CB1-15DC-46CD-B344-C118BBBEB218}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AT_CTP_MD_Test", "..\AT_CTP_MD_Test\AT_CTP_MD_Test.vcxproj", "{28A22FB7-69D6-400D-BDB3-09E74DA6FC0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -77,6 +79,10 @@ Global
 		{B08F1CB1-15DC-46CD-B344-C118BBBEB218}.Debug|Win32.Build.0 = Debug|Win32
 		{B08F1CB1-15DC-46CD-B344-C118BBBEB218}.Release|Win32.ActiveCfg = Release|Win32
 		{B08F1CB1-15DC-46CD-B344-C118BBBEB218}.Release|Win32.Build.0 = Release|Win32
+		{28A22FB7-69D6-400D-BDB3-09E74DA6FC0C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{28A22FB7-69D6-400D-BDB3-09E74DA6FC0C}.Debug|Win32.Build.0 = Debug|Win32
+		{28A22FB7-69D6-400D-BDB3-09E74DA6FC0C}.Release|Win32.ActiveCfg = Release|Win32
+		{28A22FB7-69D6-400D-BDB3-09E74DA6FC0C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

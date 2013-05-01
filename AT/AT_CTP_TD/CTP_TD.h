@@ -1,10 +1,14 @@
 ﻿#pragma once
-#include <map>
-#include <vector>
 #include <string>
 #include "IDriver_TD.h"
 #include "CTP_API.h"
-#include "DataCache_CTP_TD.h"
+#include <boost\asio\io_service.hpp>
+
+namespace std
+{
+	class thread;
+}
+
 namespace AT
 {
 	class ITradeSpi;
@@ -42,7 +46,7 @@ namespace CTP
 		virtual void Start() override;
 		virtual void Stop() override;
 
-		virtual void CreateOrder(const AT::NewOrder& aNewOrder) override;
+		virtual void CreateOrder(const AT::InputOrder& aNewOrder) override;
 		virtual void DeleteOrder(const  AT::CancelOrder& aDelOrderID) override;
 		virtual	void ModifyOrder(const  AT::ModifyOrder& aRequest) override;
 
@@ -79,34 +83,14 @@ namespace CTP
 
 
 	private:
-		void  NotifyState();
+
 		InputOrderTypePtr BuildExchangeOrder(const std::string& aNewOrder);
 		std::string BuildRtnTradeStr(boost::shared_ptr<CThostFtdcTradeField> apTrade);
 		std::string BuildRtnOrderStr(boost::shared_ptr<CThostFtdcOrderField> apOrder);
 		std::string BuildRtnAccoutStr(boost::shared_ptr<CThostFtdcTradingAccountField> apAccout);
-		void UpdateAccout();
 
 
 	private:
-		
-		int m_RequestID;
-		
-		std::map<std::string,std::string> m_ConfigMap;
-		CTP_TD_CODE			m_RuningState;
-	private:
-
-
-		int				m_FrontID;
-		int				m_SessionID;
-		unsigned int				m_MaxOrderRef;
-		std::auto_ptr<DataCache_CTP_TD>	m_pDataCache;
-
-		bool				m_IsInQryPosition;
-
-
-	private:
-
-		
 		std::string m_ConfigFile;
 		AT::ITradeSpi*		m_pTradeSpi;
 
@@ -118,6 +102,20 @@ namespace CTP
 		std::string		m_CTP_WorkFlowDir;
 
 		CThostFtdcTraderApi*  m_pTraderAPI;
+
+		int				m_FrontID;
+		int				m_SessionID;
+
+		int				m_OrderRef;
+		int				m_RequestID;
+
+		boost::asio::io_service m_IO;
+		std::unique_ptr<boost::asio::io_service::work > m_pWorker;
+		std::unique_ptr<std::thread>	m_pReplayThread;
+	private: 
+		InputOrderTypePtr BuildExchangeOrder(const AT::InputOrder& aNewOrder);
+
+
 
 
 	};

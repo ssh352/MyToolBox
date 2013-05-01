@@ -37,6 +37,7 @@
     <Import Project="..\debug_runtime.props" />
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\lib_define.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -44,6 +45,7 @@
     <Import Project="..\Release_runtime.props" />
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\lib_define.props" />
+    <Import Project="..\ThirdPartLib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -78,7 +80,7 @@
   <ItemGroup>
     <ClCompile Include="CTP_TD.cpp" />
     <ClCompile Include="DataCache_CTP_TD.cpp" />
-    <ClCompile Include="DriverFactory.cpp" />
+    <ClCompile Include="misc.cpp" />
     <ClCompile Include="InputOrderTable.cpp" />
     <ClCompile Include="OrderTable_CTP.cpp" />
     <ClCompile Include="PositionTable_CTP.cpp" />
@@ -102,6 +104,9 @@
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="TDConfig.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

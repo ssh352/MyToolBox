@@ -7,6 +7,9 @@
     <Filter Include="misc">
       <UniqueIdentifier>{f4f251c2-0741-43cc-b657-b95d2b45ea5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{68883007-239f-4007-bc60-f7b147d75408}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTP_TD.cpp" />
@@ -25,7 +28,7 @@
     <ClCompile Include="PositionTable_CTP.cpp">
       <Filter>TD_DataCache</Filter>
     </ClCompile>
-    <ClCompile Include="DriverFactory.cpp">
+    <ClCompile Include="misc.cpp">
       <Filter>misc</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,5 +49,10 @@
     <ClInclude Include="PositionTable_CTP.h">
       <Filter>TD_DataCache</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="TDConfig.xml">
+      <Filter>Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

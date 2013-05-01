@@ -19,7 +19,7 @@ public:
 	virtual void Start() override;
 	virtual void Stop() override;
 
-	virtual void CreateOrder(const AT::NewOrder& aNewOrder) override;
+	virtual void CreateOrder(const AT::InputOrder& aNewOrder) override;
 	virtual void DeleteOrder(const AT::CancelOrder& aDelOrderID) override;
 	virtual	void ModifyOrder(const AT::ModifyOrder& aRequest) override;
 

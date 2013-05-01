@@ -14,7 +14,7 @@ namespace AT
 		virtual void Start() =0;
 		virtual void Stop() =0;
 
-		virtual void CreateOrder(const AT::NewOrder& aNewOrder) =0;
+		virtual void CreateOrder(const AT::InputOrder& aNewOrder) =0;
 		virtual void DeleteOrder(const  AT::CancelOrder& aDelOrderID) =0;
 		virtual	void ModifyOrder(const  AT::ModifyOrder& aRequest) =0;
 	

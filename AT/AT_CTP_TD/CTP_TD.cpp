@@ -1,22 +1,21 @@
 #include "CTP_TD.h"
-#include <iostream>
-#include<boost\lexical_cast.hpp>
 #include "ITradeSpi.h"
-#include <vector>
-#include <boost\tokenizer.hpp>
-#include <sstream>
-#include <boost\thread.hpp>
-#include <boost\date_time.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
+#include <iostream>
+#include <boost\asio.hpp>
+#include <functional>
+#include <thread>
+
 namespace CTP
 {
 	CTP_TD::CTP_TD(const char* aConfigFile,AT::ITradeSpi* apTradeSpi)
 		: m_RequestID(0)
+		, m_OrderRef(0)
 		, m_pTradeSpi(apTradeSpi)
 		, m_ConfigFile(aConfigFile)
 	{
@@ -31,11 +30,21 @@ namespace CTP
 			m_pTraderAPI->Join();
 		}
 		m_pTraderAPI->Release();
+
+		m_pWorker.reset();
+
+		if(m_pReplayThread->joinable())  m_pReplayThread->join();
 	}
 
 
 	void CTP_TD::Start()
 	{
+
+		m_pWorker.reset( new boost::asio::io_service::work(m_IO));
+		typedef std::size_t (boost::asio::io_service::*signature_type)();
+		signature_type run_ptr = &boost::asio::io_service::run;
+		m_pReplayThread.reset(new std::thread( std::bind(run_ptr,&m_IO))) ;
+
 		LoadConfigFromFile();
 		using namespace boost::filesystem;
 		path lWorkFlowPath(m_CTP_WorkFlowDir);
@@ -55,6 +64,8 @@ namespace CTP
 		strcpy_s(buf_front,sizeof(buf_front),m_FrontAddress.c_str());
 		m_pTraderAPI->RegisterFront(buf_front);
 		m_pTraderAPI->Init();
+
+
 
 		boost::format lInfo("CTP TD Start \n [FrontAddress: %s] \n [BrokerID: %s] \n  [User: %s] \n [WorkdFlowDir %s] \n");
 		m_pTradeSpi->NotifyStateTD(AT::ETradeState::START,	str(lInfo % m_FrontAddress % m_BrokerID % m_UserID % m_CTP_WorkFlowDir).c_str());
@@ -90,16 +101,18 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(apRspInfo))
 		{
-			m_RuningState = LoginFail;
-			NotifyState();
+			boost::format lLoginFailed( "Login Failed Message %s");
+			m_pTradeSpi->NotifyStateTD(AT::ETradeState::STOP,str(lLoginFailed % apRspInfo->ErrorMsg).c_str());
 			return;
 		}
 		else
 		{
 			m_SessionID = apRspUserLogin->SessionID;
 			m_FrontID = apRspUserLogin->FrontID;
-			m_MaxOrderRef = boost::lexical_cast<unsigned int>(apRspUserLogin->MaxOrderRef);
-			m_RuningState =ConfirmingSettlement;
+
+
+			//to check again
+			m_OrderRef = std::stoi(apRspUserLogin->MaxOrderRef);
 			CThostFtdcQrySettlementInfoConfirmField lQryFiled;
 			memset(&lQryFiled,0,sizeof(lQryFiled));
 			int ret = m_pTraderAPI->ReqQrySettlementInfoConfirm(&lQryFiled,++m_RequestID);
@@ -111,17 +124,15 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(apRspInfo))
 		{
-			m_RuningState = LoginFail;
-			NotifyState();
+			boost::format lLoginFailed( "QrySettlementInfoConfirm Failed Message %s");
+			m_pTradeSpi->NotifyStateTD(AT::ETradeState::STOP,str(lLoginFailed % apRspInfo->ErrorMsg).c_str());
 			return;
 		}
 		else
 		{
-			QueryPosition("");
 			if(apSettlementInfoConfirm!= NULL)
 			{
-				m_RuningState = Ready;
-				NotifyState();
+				m_pTradeSpi->NotifyStateTD(AT::ETradeState::READY,"TD Ready");
 			}
 			else
 			{
@@ -139,30 +150,50 @@ namespace CTP
 	{
 		if(!IsErrorRspInfo(apRspInfo))
 		{
-			m_RuningState = Ready;
-			NotifyState();
-		}
-	}
-
-	std::string CTP_TD::CreateOrder( const std::string& aNewOrder )
-	{
-		InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
-		int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
-
-		CThostFtdcInputOrderFieldTraits::SetFrontID(m_FrontID);
-		CThostFtdcInputOrderFieldTraits::SetSessionID(m_SessionID);
-		m_pDataCache->UpdataInputOrder(lExchangeOrder);
-		if(ret!=0)
-		{
-			 std::cerr<<"CreateOrder Send Failed"<<std::endl;
-			 return std::string();
+			m_pTradeSpi->NotifyStateTD(AT::ETradeState::READY,"TD Ready");
 		}
 		else
 		{
-			std::string lThostOrderID = GenerateThostOrderID(lExchangeOrder,m_FrontID,m_SessionID);
-			return lThostOrderID;
+			m_pTradeSpi->NotifyStateTD(AT::ETradeState::STOP,"TD SettlementInfoConfirm Failed");
 		}
 	}
+
+	void CTP_TD::CreateOrder( const AT::InputOrder& aNewOrder )
+	{
+		InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
+		int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
+		if(ret!=0)
+		{
+			std::cerr<<"CreateOrder  Failed"<<std::endl;
+		//	m_IO.post(std::bind())
+			//todo should move to other thread for call back
+		}
+		else
+		{
+		}
+	}
+
+	//std::string CTP_TD::CreateOrder( const std::string& aNewOrder )
+	//{
+	//	InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
+	//	int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
+
+	//	CThostFtdcInputOrderFieldTraits::SetFrontID(m_FrontID);
+	//	CThostFtdcInputOrderFieldTraits::SetSessionID(m_SessionID);
+	//	m_pDataCache->UpdataInputOrder(lExchangeOrder);
+	//	if(ret!=0)
+	//	{
+	//		 std::cerr<<"CreateOrder Send Failed"<<std::endl;
+	//		 return std::string();
+	//	}
+	//	else
+	//	{
+	//		std::string lThostOrderID = GenerateThostOrderID(lExchangeOrder,m_FrontID,m_SessionID);
+	//		return lThostOrderID;
+	//	}
+	//}
+
+
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
 	{
@@ -192,59 +223,29 @@ namespace CTP
 		if(ret != 0)  std::cerr<<"DeleteOrder Send Failed"<<std::endl;
 	}
 
-	void CTP_TD::ModifyOrder( const std::string& aRequest )
-	{
 
-	}
 
-	void CTP_TD::QueryPosition( const std::string& aRequest )
-	{
-		//no need for anyinfo just queryposition
-		{
-			CThostFtdcQryInvestorPositionField req;
-			memset(&req, 0, sizeof(req));
-			strcpy_s(req.BrokerID  ,sizeof(req.BrokerID) , m_BrokerID.c_str());
-			strcpy_s(req.InvestorID  ,sizeof(req.InvestorID) , m_UserID.c_str());
-			boost::this_thread::sleep(boost::posix_time::seconds(2));
-			int ret = m_pTraderAPI->ReqQryInvestorPosition(&req, ++m_RequestID);
-			if(ret != 0)  std::cerr<<"QryInvestorPosition Send Failed"<<std::endl;
-			m_IsInQryPosition = true;
-			m_pDataCache->ClearPosition();
-		}
-	}
 
 	void CTP_TD::OnFrontDisconnected( int nReason )
 	{
-		m_RuningState = Disconnect;
-		NotifyState();
+;
 	}
 
-	InputOrderTypePtr CTP_TD::BuildExchangeOrder( const std::string& aNewOrder )
-	{
-		std::stringstream lbuf(aNewOrder);
-		using boost::property_tree::ptree;
-		ptree pt;
-		read_xml(lbuf,pt);
-		
-		//todo check head version
 
-		
-		std::string lInstrument =pt.get<std::string>("Order.ID");
-		double lPrice = pt.get<double> ("Order.Price");
-		std::string lBuySellCode = pt.get<std::string> ("Order.BuyCode" );
-		std::string lOpenCloseCode = pt.get<std::string>("Order.OpenCode");
-		int lVol = pt.get<int>("Order.Vol");
-		
+
+	CTP::InputOrderTypePtr CTP_TD::BuildExchangeOrder( const AT::InputOrder& aNewOrder )
+	{
 
 		InputOrderTypePtr lRetPtr(new CThostFtdcInputOrderField);
+		memset(lRetPtr.get(),0,sizeof(CThostFtdcInputOrderField));
 		CThostFtdcInputOrderField& lRet = *lRetPtr;
-		memset(&lRet,0,sizeof(CThostFtdcInputOrderField));
 		strcpy_s(lRet.BrokerID,11,m_BrokerID.c_str());
-		strcpy_s(lRet.InvestorID, 13,m_UserID.c_str()); //投资者代码	
-		strcpy_s(lRet.InstrumentID, 31,lInstrument.c_str()); //合约代码	
-		std::string lnextOrderRef = boost::lexical_cast<std::string>(++m_MaxOrderRef);
-		strcpy_s(lRet.OrderRef,sizeof(lRet.OrderRef),lnextOrderRef.c_str() );  //报单引用
-		lRet.LimitPrice = lPrice;	//价格
+		strcpy_s(lRet.InvestorID, 13,m_UserID.c_str()); 	
+		strcpy_s(lRet.InstrumentID, 31,aNewOrder.InstrumentID);	
+		std::string lnextOrderRef = std::to_string(++m_OrderRef);
+		strcpy_s(lRet.OrderRef,sizeof(lRet.OrderRef),lnextOrderRef.c_str());
+
+		lRet.LimitPrice = AT::TransPriceToDouble(aNewOrder.m_Price);	//价格
 		if(abs(lRet.LimitPrice)<0.01)
 		{
 			lRet.OrderPriceType = THOST_FTDC_OPT_AnyPrice;//价格类型=市价
@@ -255,36 +256,35 @@ namespace CTP
 			lRet.OrderPriceType = THOST_FTDC_OPT_LimitPrice;//价格类型=限价	
 			lRet.TimeCondition = THOST_FTDC_TC_GFD;  //有效期类型:当日有效
 		}
-		lRet.Direction =  (lBuySellCode== "Buy")? THOST_FTDC_D_Buy:THOST_FTDC_D_Sell;  //买卖方向	
+		lRet.Direction =  (aNewOrder.m_BuySellType ==AT::BuySellType::BuyOrder )? THOST_FTDC_D_Buy:THOST_FTDC_D_Sell;  //买卖方向	
 		char lopencloseFlag;
-		if(lOpenCloseCode== "Open")
+
+		switch (aNewOrder.m_OpenCloseType)
 		{
-			lopencloseFlag = THOST_FTDC_OF_Open;
-		}
-		else if(lOpenCloseCode == "Close")
-		{
+		case AT::OpenCloseType::CloseOrder:
 			lopencloseFlag = THOST_FTDC_OF_Close;
-		}
-		else if(lOpenCloseCode == "CloseT")
-		{
+			//lopencloseFlag = THOST_FTDC_OF_CloseYesterday;
+			break;
+		case AT::OpenCloseType::CloseTodayOrder :
 			lopencloseFlag = THOST_FTDC_OF_CloseToday;
+			break;
+		case AT::OpenCloseType::OpenOrder:
+				lopencloseFlag = THOST_FTDC_OF_Open;
+			break;
 		}
-		else if(lOpenCloseCode == "CloseY")
-		{
-			lopencloseFlag = THOST_FTDC_OF_CloseYesterday;
-		}
+
 		lRet.CombOffsetFlag[0] =  lopencloseFlag; //组合开平标志:开仓
 		lRet.CombHedgeFlag[0] = THOST_FTDC_HF_Speculation;	  //组合投机套保标志	
-		lRet.VolumeTotalOriginal = lVol;	///数量		
+		lRet.VolumeTotalOriginal = aNewOrder.m_Vol;	///数量		
 		lRet.VolumeCondition = THOST_FTDC_VC_AV; //成交量类型:任何数量
 		lRet.MinVolume = 1;	//最小成交量:1	
 		lRet.ContingentCondition = THOST_FTDC_CC_Immediately;  //触发条件:立即
-		//TThostFtdcPriceType	StopPrice;  //止损价
 		lRet.ForceCloseReason = THOST_FTDC_FCC_NotForceClose;	//强平原因:非强平	
 		lRet.IsAutoSuspend = 0;  //自动挂起标志:否	
 		lRet.UserForceClose = 0;   //用户强评标志:
 		return lRetPtr;
 	}
+
 
 	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
 	try

@@ -4,7 +4,7 @@
 
 namespace AT
 {
-	struct NewOrder
+	struct InputOrder
 	{
 		//without null end
 		char InstrumentID[cInstrimentIDLength];

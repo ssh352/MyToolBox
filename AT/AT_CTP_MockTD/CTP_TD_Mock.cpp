@@ -26,7 +26,7 @@ CTP_TD_Mock::~CTP_TD_Mock(void)
 
 }
 
-void CTP_TD_Mock::CreateOrder(const AT::NewOrder&  aNewOrder )
+void CTP_TD_Mock::CreateOrder(const AT::InputOrder&  aNewOrder )
 {
 
 	

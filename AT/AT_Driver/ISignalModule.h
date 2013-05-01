@@ -11,6 +11,7 @@ namespace AT
 	public:
 		virtual void Start() =0;
 		virtual void Stop() = 0;
+		virtual void UpdateParam(EStrInputState errCode ,const Param& apParam)  = 0;
 		virtual int OnMarketDepth(const MarketData& aMarketPtr) = 0;
 	};
 

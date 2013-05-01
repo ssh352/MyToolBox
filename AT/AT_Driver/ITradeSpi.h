@@ -8,6 +8,7 @@ namespace AT
 	{
 		START,
 		READY,
+		DISCONNCT,
 		STOP,
 	};
 

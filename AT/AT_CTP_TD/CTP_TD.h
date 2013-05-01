@@ -11,7 +11,7 @@ namespace AT
 }
 namespace CTP
 {
-	enum CTP_TD_CODE
+	enum class CTP_TD_CODE
 	{
 		UnInit,
 		Connecting,
@@ -34,14 +34,18 @@ namespace CTP
 		,public CThostFtdcTraderSpi
 	{
 	public:
-		CTP_TD();
+		CTP_TD(const char* aConfigFile,AT::ITradeSpi* apTradeSpi);
 		virtual ~CTP_TD();
-		virtual void Init(const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi) ;
 	public:
-		virtual std::string CreateOrder(const std::string& aNewOrder) ;
-		virtual void DeleteOrder(const std::string& aClientOrderID) ;
-		virtual	void ModifyOrder(const std::string& aRequest);
-		virtual void QueryPosition(const std::string& aRequest);
+
+		virtual void UpdateParam(const AT::Param& apParam) override {};
+		virtual void Start() override;
+		virtual void Stop() override;
+
+		virtual void CreateOrder(const AT::NewOrder& aNewOrder) override;
+		virtual void DeleteOrder(const  AT::CancelOrder& aDelOrderID) override;
+		virtual	void ModifyOrder(const  AT::ModifyOrder& aRequest) override;
+
 
 		//from CTP not for user call
 	public:
@@ -84,15 +88,13 @@ namespace CTP
 
 
 	private:
-		CThostFtdcTraderApi*  m_pTraderAPI;
+		
 		int m_RequestID;
-		AT::ITradeSpi*		m_pTradeSpi;
+		
 		std::map<std::string,std::string> m_ConfigMap;
 		CTP_TD_CODE			m_RuningState;
 	private:
-		std::string		m_BrokerID;
-		std::string		m_UserID;
-		std::string		m_Password;
+
 
 		int				m_FrontID;
 		int				m_SessionID;
@@ -100,6 +102,23 @@ namespace CTP
 		std::auto_ptr<DataCache_CTP_TD>	m_pDataCache;
 
 		bool				m_IsInQryPosition;
+
+
+	private:
+
+		
+		std::string m_ConfigFile;
+		AT::ITradeSpi*		m_pTradeSpi;
+
+		void LoadConfigFromFile();
+		std::string		m_BrokerID;
+		std::string		m_UserID;
+		std::string		m_Password;
+		std::string		m_FrontAddress;
+		std::string		m_CTP_WorkFlowDir;
+
+		CThostFtdcTraderApi*  m_pTraderAPI;
+
 
 	};
 }

@@ -10,18 +10,18 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 
-
-char g_Address[512] ;
 namespace CTP
 {
-	CTP_TD::CTP_TD(void)
+	CTP_TD::CTP_TD(const char* aConfigFile,AT::ITradeSpi* apTradeSpi)
 		: m_RequestID(0)
-		, m_RuningState(UnInit)
-		, m_IsInQryPosition(false)
+		, m_pTradeSpi(apTradeSpi)
+		, m_ConfigFile(aConfigFile)
 	{
-	}
 
+	}
 
 	CTP_TD::~CTP_TD(void)
 	{
@@ -33,38 +33,45 @@ namespace CTP
 		m_pTraderAPI->Release();
 	}
 
-	void CTP_TD::NotifyState()
+
+	void CTP_TD::Start()
 	{
-		m_pTradeSpi->OnRtnState(m_RuningState,m_UserID);
-	}
+		LoadConfigFromFile();
+		using namespace boost::filesystem;
+		path lWorkFlowPath(m_CTP_WorkFlowDir);
+		if(!exists(lWorkFlowPath))
+		{
+			create_directory(lWorkFlowPath);
+		}
 
-	void CTP_TD::Init( const std::map<std::string,std::string>& aConfigMap,AT::ITradeSpi* apTradeSpi )
-	{
-		m_ConfigMap = aConfigMap;
-		m_pDataCache.reset(new DataCache_CTP_TD(aConfigMap.at("StoreDir")));
-		m_pTradeSpi = apTradeSpi;
+		std::string lCreateDIr = lWorkFlowPath.string();
+		lCreateDIr += "/";
+		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi(lCreateDIr.c_str());
+		m_pTraderAPI->RegisterSpi(this);
+		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESUME);					
+		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESUME);
 
-
-		m_BrokerID = m_ConfigMap["BrokerID"];
-		m_UserID = m_ConfigMap["UserID"];
-		m_Password = m_ConfigMap["Password"];
-		m_pTraderAPI = CThostFtdcTraderApi::CreateFtdcTraderApi();
-		m_pTraderAPI->RegisterSpi(this);		
-		m_pTraderAPI->SubscribePublicTopic(THOST_TERT_RESTART);					
-		m_pTraderAPI->SubscribePrivateTopic(THOST_TERT_RESTART);
-
-		memset(g_Address,0,512);
-		strcpy_s(g_Address,512,m_ConfigMap["Front"].c_str());
-
-		std::cerr<<"BrokerID "<< m_BrokerID<<'\n'
-			<<"UserID "<< m_UserID<<'\n'
-			<<"Password "<< m_Password<<'\n'
-			<<"Front "<< g_Address<<'\n'<<std::endl;
-		m_pTraderAPI->RegisterFront(g_Address);
+		char buf_front[256];
+		strcpy_s(buf_front,sizeof(buf_front),m_FrontAddress.c_str());
+		m_pTraderAPI->RegisterFront(buf_front);
 		m_pTraderAPI->Init();
-		m_RuningState = Connecting;
-		NotifyState();
+
+		boost::format lInfo("CTP TD Start \n [FrontAddress: %s] \n [BrokerID: %s] \n  [User: %s] \n [WorkdFlowDir %s] \n");
+		m_pTradeSpi->NotifyStateTD(AT::ETradeState::START,	str(lInfo % m_FrontAddress % m_BrokerID % m_UserID % m_CTP_WorkFlowDir).c_str());
 	}
+
+	void CTP_TD::LoadConfigFromFile()
+	{
+		boost::property_tree::ptree lpt;
+		read_xml(m_ConfigFile,lpt);
+
+		m_BrokerID  = lpt.get<std::string>("TDConfig.BrokeID");
+		m_UserID  = lpt.get<std::string>("TDConfig.UserID");
+		m_Password  = lpt.get<std::string>("TDConfig.Password");
+		m_FrontAddress  = lpt.get<std::string>("TDConfig.Front");
+		m_CTP_WorkFlowDir  = lpt.get<std::string>("TDConfig.WorkFlowDir");
+	}
+
 
 	void CTP_TD::OnFrontConnected()
 	{
@@ -75,10 +82,8 @@ namespace CTP
 		strcpy_s(lLoginReq.Password,41,m_Password.c_str());
 
 		int ret = m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-		if(ret!=0) std::cerr<<"ReqUserLogin Send Failed"<<std::endl;
+		if(ret!= 0) std::cerr<<"ReqUserLogin Send Failed"<<std::endl;
 
-		m_RuningState = Logining;
-		 NotifyState();
 	}
 
 	void CTP_TD::OnRspUserLogin( CThostFtdcRspUserLoginField *apRspUserLogin, CThostFtdcRspInfoField *apRspInfo, int anRequestID, bool abIsLast )
@@ -462,4 +467,8 @@ namespace CTP
 		std::string lRet =lbuf.str();
 		return lRet;
 	}
+
+
+
+
 }

@@ -11,6 +11,7 @@ namespace AT
 		SignalModule_CacheWave(const char* aConfigFile);
 		virtual ~SignalModule_CacheWave(void);
 
+		virtual void UpdateParam(ESignalInputType errCode ,const Param& apParam) override {};
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override;
 		virtual void Stop() override ;

@@ -6,12 +6,18 @@ namespace AT
 {
 	class IMarketCache;
 	//Store All The History Market
+
+	enum class ESignalInputType
+	{
+		PARAM
+	};
+
 	class ISignalModule
 	{
 	public:
 		virtual void Start() =0;
 		virtual void Stop() = 0;
-		virtual void UpdateParam(EStrInputState errCode ,const Param& apParam)  = 0;
+		virtual void UpdateParam(ESignalInputType errCode ,const Param& apParam)  = 0;
 		virtual int OnMarketDepth(const MarketData& aMarketPtr) = 0;
 	};
 

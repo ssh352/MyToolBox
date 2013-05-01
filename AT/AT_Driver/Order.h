@@ -40,7 +40,7 @@ namespace AT
 		char InstrumentID[cInstrimentIDLength];
 		char AccoutID[cAccoutIDLength];
 		int32_t m_Price;
-		uint32_t m_Vol;		//���ӵ������� ������ͨ��modify��С ��������Ҳ���仯
+		uint32_t m_Vol;		//单子的总数量 ，如果通过modify改小 这个数量也会变化
 		uint32_t m_TradedVol;
 		uint32_t m_LiveVol;
 		BuySellType m_BuySellType; 

@@ -1,123 +1,75 @@
 #include "CTP_MD.h"
 
 #include "IMarketSpi.h"
-
-#include "StateReceiver.h"
-#include "DepthReceive.h"
-//#include <iostream>
-#include "DataCacheCTP.h"
-#include <boost/tokenizer.hpp>
+#include "DepthReceiveV2.h"
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 
 
 namespace CTP
 {
-	CTP_MD::CTP_MD(void)
+
+
+	CTP_MD::CTP_MD( const char* aConfigFile,AT::IMarketSpi* apSpi )
+		:m_MarketSpi(apSpi)
+		,m_ConfigFilePath(aConfigFile)
 	{
 	}
-
 
 	CTP_MD::~CTP_MD(void)
 	{
 	}
 
-	void CTP_MD::Init(const std::map<std::string,std::string>&  aConfigMap,AT::IMarketSpi* apMarketSpi)
+	void CTP_MD::Start()
 	{
-		InitConfig(aConfigMap);
+		boost::property_tree::ptree lPt;
+		read_xml(m_ConfigFilePath,lPt);
+		
+		std::stringstream lbuf;
+		write_xml(lbuf,lPt);
 
-		m_pDataCache.reset(new DataCacheCTP);
-		m_MarketSpi = apMarketSpi;
-		m_pDepthReceiver.reset(new DepthReceiver(aConfigMap));
-		m_pDepthReceiver->SetDepthReceive(this,m_pDataCache);
 
-		if(m_EnableState)
+
+		m_pDepth.reset(new DepthReceiveV2(lbuf.str(),
+			std::bind(&CTP_MD::OnMarketDepth,this,std::placeholders::_1), 
+			std::bind(&CTP_MD::OnMarketStatus,this,std::placeholders::_1,std::placeholders::_2)
+			));
+
+		m_pDepth->Start();
+	}
+
+	void CTP_MD::Stop()
+	{
+		m_MarketSpi->NotifyStateMD(AT::EMarketState::STOP,"User Stop");
+		m_pDepth->Stop();
+	}
+
+	void CTP_MD::OnMarketStatus( CTP_Market_Status_Enum aStatus,std::string aErrorMsg )
+	{
+		switch (aStatus)
 		{
-			m_pStateReceiver.reset(new StateReceiver(aConfigMap));
-			m_pStateReceiver->SetStateReceive(this,m_pDataCache);
-			m_pStateReceiver->Start();
-		}
-		else
-		{
-			m_pDepthReceiver->Start();
-		}
-
-	
-	}
-
-	void CTP_MD::NotifyExchange( const std::string& aExchange )
-	{
-		//std::cerr<<aExchange<<std::endl;
-		m_MarketSpi->NotifyExchange(aExchange);
-	}
-
-	void CTP_MD::NotifyProduct( const std::string& aProduct )
-	{
-		//std::cerr<<aProduct<<std::endl;
-		m_MarketSpi->NotifyProduct(aProduct);
-	}
-
-	void CTP_MD::NotifyInstrument( const std::string& aInstrument )
-	{
-		//std::cerr<<aInstrument<<std::endl;
-		m_MarketSpi->NotifyInstrument(aInstrument);
-	}
-
-	void CTP_MD::NotifyMarketDepth( const std::string& aMarketDepth )
-	{
-		//std::cerr<<aMarketDepth<<std::endl;
-		m_MarketSpi->NotifyMarketDepth(aMarketDepth);
-	}
-
-	void CTP_MD::NotifySubModuleState( int aErrorCode,const std::string& aErrorMsg )
-	{
-		//std::cerr<<"NotifySubModuleState Error Code="<<aErrorCode <<"\nError Msg="<<aErrorMsg<<std::endl;
-		m_MarketSpi->NotifyStateMD(aErrorCode,aErrorMsg);
-		switch(aErrorCode)
-		{
-		case StateReceiver_RETRIEVE_DYNAMIC_STATE:
-			m_pDepthReceiver->Start();
+		case CTP::CTP_Market_Status_Enum::E_CTP_MD_CONNECTING:
+			m_MarketSpi->NotifyStateMD(AT::EMarketState::START,aErrorMsg.c_str());
 			break;
-		case DepthReceiver_RECEIVE_STATE:
-			SubSucribeAll();
+		case CTP::CTP_Market_Status_Enum::E_CTP_MD_LOGIN:
+			break;
+		case CTP::CTP_Market_Status_Enum::E_CTP_MD_READY:
+			m_MarketSpi->NotifyStateMD(AT::EMarketState::READY,aErrorMsg.c_str());
+			break;
+		case CTP::CTP_Market_Status_Enum::E_CTP_MD_MARKET_DELAY:
+			m_MarketSpi->NotifyStateMD(AT::EMarketState::WARN_MarketDelay,aErrorMsg.c_str());
+			break;
+		case CTP::CTP_Market_Status_Enum::E_CTP_MD_MARKET_LONG_DELAY:
+			m_MarketSpi->NotifyStateMD(AT::EMarketState::WARN_MarketDelay,aErrorMsg.c_str());
 			break;
 		default:
 			break;
 		}
 	}
 
-	void CTP_MD::SubSucribeAll()
+	void CTP_MD::OnMarketDepth( std::shared_ptr< AT::MarketData> apMarket )
 	{
-		if(m_EnableSubscribeList)
-		{
-			MYFOREACH(lInstrumentName,m_SubscribeList)
-			{
-				m_pDepthReceiver->SubscribeInstrument(lInstrumentName);
-			}
-		}
-		else
-		{
-			std::vector<std::string> lList = m_pDataCache->GetInstrumentListAll();
-			MYFOREACH(lInstrumentName,lList)
-			{
-				m_pDepthReceiver->SubscribeInstrument(lInstrumentName);
-			}
-		}
-
-	}
-
-	void CTP_MD::InitConfig( const std::map<std::string, std::string>& aConfigMap )
-	{
-		m_ConfigMap = aConfigMap;
-		m_EnableState = m_ConfigMap["EnableStateReceiver"] == "1";
-		m_EnableSubscribeList = m_ConfigMap["EnableSubscribeList"] == "1";
-		if(m_EnableSubscribeList)
-		{
-			std::string& lListString=m_ConfigMap["SubscribeList"];
-			boost::tokenizer<> tok(lListString);
-			MYFOREACH(lVar ,tok)
-			{
-				m_SubscribeList.insert(lVar);
-			}
-		}
+		m_MarketSpi->NotifyMarketDepth(*apMarket);
 	}
 
 }

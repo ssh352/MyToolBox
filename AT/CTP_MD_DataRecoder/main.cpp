@@ -55,7 +55,7 @@ int main()
 		std::cout<<aErrorMsg;
 	};
 
-	CTP::DepthReceiverV2 lMarketInst(lConfigString,lLamb ,lStatHandle);
+	CTP::DepthReceiveV2 lMarketInst(lConfigString,lLamb ,lStatHandle);
 
 	lMarketInst.Start();
 

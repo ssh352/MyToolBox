@@ -7,6 +7,7 @@ namespace AT
 	{
 		START,
 		READY,
+		WARN_MarketDelay,
 		END_MARKETDAY,
 		STOP,
 	};

@@ -11,9 +11,9 @@ namespace AT
 	{
 	public:
 
-		virtual void UpdateParam(const Param& apParam) {};
-		virtual  void Start(){};
-		virtual	void Stop(){};
+		virtual void UpdateParam(const AT::Param& apParam) = 0;
+		virtual  void Start() = 0;
+		virtual	void Stop() = 0;
 
 
 	};

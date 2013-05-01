@@ -26,7 +26,6 @@ namespace CTP
 		E_CTP_MD_CONNECTING,
 		E_CTP_MD_LOGIN,
 		E_CTP_MD_READY,
-
 		E_CTP_MD_MARKET_DELAY,
 		E_CTP_MD_MARKET_LONG_DELAY
 	};
@@ -34,11 +33,11 @@ namespace CTP
 	typedef std::function<void (CTP_Market_Status_Enum aStatus,std::string aErrorMsg)> MarketStateHandle;
 
 
-	class DepthReceiverV2 :public CThostFtdcMdSpi
+	class DepthReceiveV2 :public CThostFtdcMdSpi
 	{
 	public:
-		DepthReceiverV2(const std::string aConfigXml ,MarketHandlerFun aHandle, MarketStateHandle aStateHanle);
-		~DepthReceiverV2();
+		DepthReceiveV2(const std::string aConfigXml ,MarketHandlerFun aHandle, MarketStateHandle aStateHanle);
+		~DepthReceiveV2();
 		void Start();
 		void Stop();
 	private:

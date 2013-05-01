@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <set>
+#include <AT_Struct.h>
 
 namespace AT
 {
@@ -11,81 +12,37 @@ namespace AT
 }
 namespace CTP
 {
-	class StateReceiver;
-	class DepthReceiver;
-	class DataCacheCTP;
+	enum class CTP_Market_Status_Enum;
+	class DepthReceiveV2;
 
-	enum CTP_MD_CODE
+	class CTP_MD : public AT::IDriver_MD
 	{
-		CTP_MD_StateReceiver_Connecting,
-		//CTP_MD_StateReceiver_Connected,
-		CTP_MD_StateReceiver_Logining,
-		CTP_MD_StateReceiver_Login_Failed,
-		//CTP_MD_StateReceiver_Logined,
-		CTP_MD_StateReceiver_Retrieving,
-		CTP_MD_StateReceiver_Retrieve_Failed,
-	};
-
-
-	enum MD_SubMoudle_State
-	{
-		StateReceiver_UNINITIALIZE_STATE,
-		StateReceiver_CONNECTING_STATE,
-		StateReceiver_LOGINING_STATE,
-		StateReceiver_RETRIEVE_EXCHANGE_STATE,
-		StateReceiver_RETRIEVE_PRODUCT_STATE,
-		StateReceiver_RETRIEVE_INSTRUMENT_STATE,
-		StateReceiver_RETRIEVE_DYNAMIC_STATE,
-		StateReceiver_ERROR_DISCONNECT_STATE,
-		StateReceiver_ERROR_STOP_STATE,
-
-		DepthReceiver_UNINITIALIZE_STATE,
-		DepthReceiver_CONNECTING_STATE,
-		DepthReceiver_LOGINING_STATE,
-		DepthReceiver_RECEIVE_STATE,
-		DepthReceiver_ERROR_DISCONNECT_STATE,
-		DepthReceiver_ERROR_STOP_STATE,
-
-		DepthReceiver_ERROR_SUBSCRIBE_EVENT,
-		DepthReceiver_ERROR_UNSUBSCRIBE_EVENT
-
-	};
-
-	class CTP_MD :
-		public AT::IDriver_MD
-	{
-	friend class StateReceiver;
-	friend class DepthReceiver;
 	public:
-		CTP_MD(void);
+		CTP_MD(const char* aConfigFile,AT::IMarketSpi* apSpi);
 		virtual ~CTP_MD(void);
 
-	virtual void Init(const std::map<std::string,std::string>&  aConfigMap,AT::IMarketSpi* apMarketSpi);
+	public:
+		virtual void UpdateParam(const AT::Param& apParam) override {};
+		virtual  void Start()override;
+		virtual	void Stop() override;
 
 
-	//this block is using for member class direct post out
-	private:
-		 void NotifyExchange(const std::string& aExchange);  
-		 void NotifyProduct(const std::string& aProduct);
-		 void NotifyInstrument(const std::string& aInstrument);
-		 void NotifyMarketDepth(const std::string& aMarketDepth);
+	public:
+		void OnMarketDepth(std::shared_ptr< AT::MarketData>);
+		void OnMarketStatus(CTP_Market_Status_Enum aStatus,std::string aErrorMsg);
 
-		//collect submodule info and notify state out
-	private:
-		void NotifySubModuleState(int aErrorCode,const std::string& aErrorMsg = "");
-		void SubSucribeAll();
-		void InitConfig(const std::map<std::string, std::string>& aConfigMap);
-
+//		void SubSucribeAll();
+	
 	private:
 		AT::IMarketSpi*	m_MarketSpi;
-		std::map<std::string, std::string> m_ConfigMap;
-		bool m_EnableSubscribeList;
-		bool m_EnableState;
-		std::set<std::string> m_SubscribeList;
+		std::unique_ptr<CTP::DepthReceiveV2> m_pDepth ;
 
-		boost::shared_ptr<StateReceiver>  m_pStateReceiver;
-		boost::shared_ptr<DepthReceiver>  m_pDepthReceiver;
-		boost::shared_ptr<DataCacheCTP> m_pDataCache;
+	private: //config var
+		std::set<std::string> m_SubscribeList;
+		std::string m_Front;
+		std::string m_CTP_WrokStreamDir;
+		std::string m_ConfigFilePath;
+
 
 	};
 }

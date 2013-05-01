@@ -17,7 +17,7 @@ namespace CTP
 {
 
 
-	DepthReceiverV2::DepthReceiverV2( const std::string aConfigXml ,MarketHandlerFun aHandle , MarketStateHandle aStateHandle )
+	DepthReceiveV2::DepthReceiveV2( const std::string aConfigXml ,MarketHandlerFun aHandle , MarketStateHandle aStateHandle )
 		: m_Markethandle(aHandle)
 		, m_RequestID(1)
 		, m_MarketStateHandle(aStateHandle)
@@ -36,7 +36,7 @@ namespace CTP
 		m_WorkFlowDir =  pt.get<std::string>("MDConfig.WorkFlowDir");
 	}
 
-	void DepthReceiverV2::Start()
+	void DepthReceiveV2::Start()
 	{
 		//TODO check the Dir if not exist ,create it
 		m_pMDAPI = CThostFtdcMdApi::CreateFtdcMdApi(/*m_WorkFlowDir.c_str()*/);
@@ -50,7 +50,7 @@ namespace CTP
 		InitDelayTimer();
 	}
 
-	void DepthReceiverV2::Stop()
+	void DepthReceiveV2::Stop()
 	{
 		StopDelayTimer();
 		if(m_pMDAPI)
@@ -61,14 +61,14 @@ namespace CTP
 		m_pMDAPI->Release();
 	}
 
-	void DepthReceiverV2::OnFrontConnected()
+	void DepthReceiveV2::OnFrontConnected()
 	{
 		CThostFtdcReqUserLoginField lLoginReq;
 		memset(&lLoginReq,0,sizeof(CThostFtdcReqUserLoginField));
 		m_pMDAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
 		if(m_Markethandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_LOGIN,"连接成功开始登陆与订阅列表\n"); 
 	}
-	void DepthReceiverV2::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
+	void DepthReceiveV2::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 		CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 	{
 		//TODO more work about auto reconnect whether cause  recall the flow
@@ -81,7 +81,7 @@ namespace CTP
 			SubscribeList();
 		}
 	}
-	void DepthReceiverV2::SubscribeList()
+	void DepthReceiveV2::SubscribeList()
 	{
 		char buf[10] = {0};
 		char* lList[1] ={0};
@@ -98,7 +98,7 @@ namespace CTP
 	}
 
 
-	void DepthReceiverV2::OnRspSubMarketData( CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	void DepthReceiveV2::OnRspSubMarketData( CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
@@ -117,14 +117,14 @@ namespace CTP
 	}
 
 
-	void DepthReceiverV2::OnRtnDepthMarketData( CThostFtdcDepthMarketDataField *pDepthMarketData )
+	void DepthReceiveV2::OnRtnDepthMarketData( CThostFtdcDepthMarketDataField *pDepthMarketData )
 	{
 		ResetDelayTimer();
 		std::shared_ptr<AT::MarketData> lBuildMarket = Build_AT_Market(pDepthMarketData);
 		m_Markethandle(lBuildMarket);
 	}
 
-	void DepthReceiverV2::OnFrontDisconnected( int nReason )
+	void DepthReceiveV2::OnFrontDisconnected( int nReason )
 	{
 		std::string ErrMessage;
 		switch(nReason)
@@ -153,23 +153,23 @@ namespace CTP
 		if(m_Markethandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_CONNECTING,"连接中断\n");
 	}
 
-	bool DepthReceiverV2::IsValidPrice( double aPrice )
+	bool DepthReceiveV2::IsValidPrice( double aPrice )
 	{
 		//note 1.79769e+308; is the max val .
 		return aPrice < 1.79768e+308;
 	}
 
-	double DepthReceiverV2::GetDispalyPrice( double aPrice )
+	double DepthReceiveV2::GetDispalyPrice( double aPrice )
 	{
 		return IsValidPrice(aPrice)? aPrice: -1;
 	}
 
-	DepthReceiverV2::~DepthReceiverV2()
+	DepthReceiveV2::~DepthReceiveV2()
 	{
 
 	}
 
-	std::shared_ptr<AT::MarketData> DepthReceiverV2::Build_AT_Market( CThostFtdcDepthMarketDataField* aMarketPtr )
+	std::shared_ptr<AT::MarketData> DepthReceiveV2::Build_AT_Market( CThostFtdcDepthMarketDataField* aMarketPtr )
 	{
 		std::shared_ptr<AT::MarketData> lRet(new AT::MarketData);
 		AT::MarketData& lMarket = *lRet;
@@ -187,7 +187,7 @@ namespace CTP
 
 	}
 
-	AT::AT_Time DepthReceiverV2::Build_AT_Time( TThostFtdcTimeType aSecond, int millsecond )
+	AT::AT_Time DepthReceiveV2::Build_AT_Time( TThostFtdcTimeType aSecond, int millsecond )
 	{
 		try
 		{
@@ -206,14 +206,14 @@ namespace CTP
 
 	}
 
-	void DepthReceiverV2::CheckMarketDelay( const boost::system::error_code& errCOde )
+	void DepthReceiveV2::CheckMarketDelay( const boost::system::error_code& errCOde )
 	{
 		if(errCOde == boost::asio::error::operation_aborted )
 			return;
 		if(m_MarketStateHandle) m_MarketStateHandle(CTP_Market_Status_Enum::E_CTP_MD_MARKET_DELAY,"Delay Makret");
 	}
 
-	void DepthReceiverV2::ResetDelayTimer()
+	void DepthReceiveV2::ResetDelayTimer()
 	{
 		m_pCheckDelayTimer->cancel();
 		m_pCheckDelayTimer->expires_from_now(boost::posix_time::seconds(2));
@@ -226,7 +226,7 @@ namespace CTP
 		m_pCheckDelayTimer->async_wait(CheckHandle);
 	}
 
-	void DepthReceiverV2::InitDelayTimer()
+	void DepthReceiveV2::InitDelayTimer()
 	{
 		m_pBoostIOService.reset(new boost::asio::io_service);
 		m_pBoostWorker.reset(new boost::asio::io_service::work(*m_pBoostIOService));
@@ -234,7 +234,7 @@ namespace CTP
 		m_pCheckDelayTimer.reset(new boost::asio::deadline_timer(*m_pBoostIOService));
 	}
 
-	void DepthReceiverV2::StopDelayTimer()
+	void DepthReceiveV2::StopDelayTimer()
 	{
 		m_pCheckDelayTimer->cancel();
 		m_pBoostWorker.reset();

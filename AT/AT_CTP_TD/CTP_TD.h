@@ -85,10 +85,13 @@ namespace CTP
 	private:
 
 		InputOrderTypePtr BuildExchangeOrder(const std::string& aNewOrder);
-		std::string BuildRtnTradeStr(boost::shared_ptr<CThostFtdcTradeField> apTrade);
-		std::string BuildRtnOrderStr(boost::shared_ptr<CThostFtdcOrderField> apOrder);
-		std::string BuildRtnAccoutStr(boost::shared_ptr<CThostFtdcTradingAccountField> apAccout);
+		std::string BuildRtnTradeStr(std::shared_ptr<CThostFtdcTradeField> apTrade);
+		std::string BuildRtnOrderStr(std::shared_ptr<CThostFtdcOrderField> apOrder);
+		std::string BuildRtnAccoutStr(std::shared_ptr<CThostFtdcTradingAccountField> apAccout);
 
+
+		void SendOrderUpdate(std::shared_ptr<AT::OrderUpdate> apOrderUpdate);
+		void SendTradeUpdate(std::shared_ptr<AT::TradeUpdate > apTradeUpdate);
 
 	private:
 		std::string m_ConfigFile;
@@ -109,7 +112,7 @@ namespace CTP
 		int				m_OrderRef;
 		int				m_RequestID;
 
-		boost::asio::io_service m_IO;
+		boost::asio::io_service m_IO_Service;
 		std::unique_ptr<boost::asio::io_service::work > m_pWorker;
 		std::unique_ptr<std::thread>	m_pReplayThread;
 	private: 

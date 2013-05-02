@@ -40,10 +40,10 @@ namespace CTP
 	void CTP_TD::Start()
 	{
 
-		m_pWorker.reset( new boost::asio::io_service::work(m_IO));
+		m_pWorker.reset( new boost::asio::io_service::work(m_IO_Service));
 		typedef std::size_t (boost::asio::io_service::*signature_type)();
 		signature_type run_ptr = &boost::asio::io_service::run;
-		m_pReplayThread.reset(new std::thread( std::bind(run_ptr,&m_IO))) ;
+		m_pReplayThread.reset(new std::thread( std::bind(run_ptr,&m_IO_Service))) ;
 
 		LoadConfigFromFile();
 		using namespace boost::filesystem;
@@ -160,39 +160,27 @@ namespace CTP
 
 	void CTP_TD::CreateOrder( const AT::InputOrder& aNewOrder )
 	{
+
+		//TODO check valid Order
+		std::cout<<"Receive Order \n\n\n"<<aNewOrder.ToString();
 		InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
 		int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
 		if(ret!=0)
 		{
 			std::cerr<<"CreateOrder  Failed"<<std::endl;
-		//	m_IO.post(std::bind())
-			//todo should move to other thread for call back
+			std::shared_ptr<AT::OrderUpdate> lRejectOrder (new AT::OrderUpdate);
+			AT::CopyOrderFields(*lRejectOrder,aNewOrder);
+			lRejectOrder->m_UpdateTime = AT::AT_Local_Time();
+			lRejectOrder->m_OrderStatus = AT::OrderStatusType::RejectOrder;
+			lRejectOrder->m_TradedVol = 0;
+			lRejectOrder->m_LiveVol = 0;
+			m_IO_Service.post(std::bind(&CTP_TD::SendOrderUpdate,this,lRejectOrder));
 		}
 		else
 		{
+			std::cout<<"Create Order Succeed ";
 		}
 	}
-
-	//std::string CTP_TD::CreateOrder( const std::string& aNewOrder )
-	//{
-	//	InputOrderTypePtr lExchangeOrder = BuildExchangeOrder(aNewOrder);
-	//	int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
-
-	//	CThostFtdcInputOrderFieldTraits::SetFrontID(m_FrontID);
-	//	CThostFtdcInputOrderFieldTraits::SetSessionID(m_SessionID);
-	//	m_pDataCache->UpdataInputOrder(lExchangeOrder);
-	//	if(ret!=0)
-	//	{
-	//		 std::cerr<<"CreateOrder Send Failed"<<std::endl;
-	//		 return std::string();
-	//	}
-	//	else
-	//	{
-	//		std::string lThostOrderID = GenerateThostOrderID(lExchangeOrder,m_FrontID,m_SessionID);
-	//		return lThostOrderID;
-	//	}
-	//}
-
 
 
 	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
@@ -466,6 +454,18 @@ namespace CTP
 			<<"Available = "<<apAccout->Available<<'\n';
 		std::string lRet =lbuf.str();
 		return lRet;
+	}
+
+	void CTP_TD::SendOrderUpdate( std::shared_ptr<AT::OrderUpdate> apOrderUpdate )
+	{
+		std::cout<< apOrderUpdate->ToString();
+		m_pTradeSpi->OnRtnOrder(*apOrderUpdate);
+	}
+
+	void CTP_TD::SendTradeUpdate( std::shared_ptr<AT::TradeUpdate > apTradeUpdate )
+	{
+		std::cout<< apTradeUpdate->ToString();
+		m_pTradeSpi->OnRtnTrade(*apTradeUpdate);
 	}
 
 

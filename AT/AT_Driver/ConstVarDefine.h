@@ -15,6 +15,8 @@ namespace AT
 	static const uint32_t AT_INVALID_VOL = _UI32_MAX;
 	
 	typedef boost::posix_time::ptime AT_Time;
+	std::string ToString(const AT_Time& aTime);
+
 	extern const AT_Time AT_INVALID_TIME;
 	AT_Time AT_Local_Time();
 	AT_Time AT_UTC_Time();
@@ -22,6 +24,7 @@ namespace AT
 	static const int cInstrimentIDLength = 32;
 	static const int cAccoutIDLength = 16;
 	static const int cTradeIDLength = 16;
+	static const int cExchangeOrderIDLength = 33;
 
 
 	enum class BuySellType
@@ -29,12 +32,14 @@ namespace AT
 		BuyOrder,
 		SellOrder,
 	};
+	std::string ToString(BuySellType aType);
 
 	enum class OrderType
 	{
 		LimitOrder,
 		MarketOrder
 	};
+	std::string ToString(OrderType aType);
 
 
 	//todo when need add
@@ -43,6 +48,7 @@ namespace AT
 		IOC,
 		//....
 	};
+	std::string ToString(TimeInForceType aType);
 
 	enum class OpenCloseType
 	{
@@ -50,16 +56,19 @@ namespace AT
 		CloseOrder,
 		CloseTodayOrder
 	};
+	std::string ToString(OpenCloseType aType);
 
 	enum class OrderStatusType
 	{
-		//reject order not consider
-
+		RejectOrder,
 		ActiveOrder,
 		StoppedOrder,
 	};
+	std::string ToString(OrderStatusType aType);
 
 	typedef 	boost::uuids::uuid AT_Order_Key;
+	std::string ToString(AT_Order_Key aKey);
+
 	double TransPriceToDouble(int32_t aATPrice);
 	int32_t TranPriceToInt(double aExchangePrice);
 

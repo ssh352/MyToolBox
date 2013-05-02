@@ -17,6 +17,9 @@
     <ClCompile Include="SingleDBWriter.cpp">
       <Filter>MarketCache</Filter>
     </ClCompile>
+    <ClCompile Include="Order.cpp">
+      <Filter>Interface\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ItemTable.h" />

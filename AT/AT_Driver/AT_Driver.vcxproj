@@ -37,6 +37,7 @@
     <ClCompile Include="MarketMapWarpper.cpp" />
     <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="MarketData.cpp" />
+    <ClCompile Include="Order.cpp" />
     <ClCompile Include="SingleDBWriter.cpp" />
   </ItemGroup>
   <ItemGroup>

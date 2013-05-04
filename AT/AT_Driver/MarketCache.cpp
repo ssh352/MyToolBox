@@ -43,7 +43,7 @@ namespace  AT
 	{
 	}
 
-	 IMarketCache::const_MapWarpper_ptr MarketCache::GetMarketMapByName(const char* aInstrument) const  
+	const_MapWarpper_ptr MarketCache::GetMarketMapByName(const char* aInstrument) const  
 	{
 		if(m_AllMarketMap.find( std::string(aInstrument)) != m_AllMarketMap.end())
 		{

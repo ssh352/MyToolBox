@@ -5,7 +5,7 @@ namespace AT
 {
 
 
-	const MarketData& MarketMapWarpper::operator[]( const uint32_t& k ) const
+	const MarketData& MarketMapWarpper::operator[]( const uint32_t k ) const
 	{
 		return at(k);
 	}
@@ -19,15 +19,15 @@ namespace AT
 
 	MarketMapWarpper::const_iterator MarketMapWarpper::begin() const
 	{
-		return m_pMap->begin();
+		return const_iterator(m_pMap->begin());
 	}
 
 	MarketMapWarpper::const_iterator MarketMapWarpper::end() const
 	{
-		return m_pMap->end();
+		return  const_iterator(m_pMap->end());
 	}
 
-	const MarketData& MarketMapWarpper::at( const uint32_t& k ) const
+	const MarketData& MarketMapWarpper::at( const uint32_t k ) const
 	{
 		return *m_pMap->at(k);
 	}

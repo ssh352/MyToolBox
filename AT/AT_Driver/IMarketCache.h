@@ -7,12 +7,13 @@ namespace AT
 {
 
 	class MarketMapWarpper;
+	typedef std::shared_ptr<const MarketMapWarpper>  const_MapWarpper_ptr;
 	class IMarketCache
 	{
 		
 		//for user
 	public:
-		typedef std::shared_ptr<const MarketMapWarpper>  const_MapWarpper_ptr;
+		
 		virtual const_MapWarpper_ptr  GetMarketMapByName(const char* aInstrument)  const = 0;
 
 

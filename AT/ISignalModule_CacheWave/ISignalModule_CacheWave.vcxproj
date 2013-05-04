@@ -12,10 +12,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SignalModule_CacheWave.h" />
+    <ClInclude Include="SignalPrintHistory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="SignalModule_CacheWave.cpp" />
+    <Xml Include="SignalPrintHistoryConfig.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <FileType>CppCode</FileType>
+    </Xml>
+    <ClCompile Include="SignalPrintHistory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="ISignalModule_CacheWave.xml" />

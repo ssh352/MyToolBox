@@ -17,8 +17,8 @@ namespace AT
 	public:
 		virtual void Start() =0;
 		virtual void Stop() = 0;
-		virtual void UpdateParam(ESignalInputType errCode ,const Param& apParam)  = 0;
-		virtual int OnMarketDepth(const MarketData& aMarketPtr) = 0;
+		virtual void UpdateParam(AT::ESignalInputType aInputCode ,const AT::Param& apParam)  = 0;
+		virtual int OnMarketDepth(const  AT::MarketData& aMarketPtr) = 0;
 	};
 
 }

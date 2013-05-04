@@ -183,33 +183,33 @@ namespace CTP
 	}
 
 
-	void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
-	{
-		boost::shared_ptr<CThostFtdcOrderField> lExchangOrderPtr = m_pDataCache->FindOrderByThostID(aClientOrderID);
+	//void CTP_TD::DeleteOrder( const std::string& aClientOrderID )
+	//{
+	//	boost::shared_ptr<CThostFtdcOrderField> lExchangOrderPtr = m_pDataCache->FindOrderByThostID(aClientOrderID);
 
-		if(!lExchangOrderPtr)
-		{
-			//LogError
-			return;
-		}
-		int lFrontID ;
-		int lSessionID;
-		std::string lOrderRef = ResolveThostOrderID(aClientOrderID,lSessionID,lFrontID);
+	//	if(!lExchangOrderPtr)
+	//	{
+	//		//LogError
+	//		return;
+	//	}
+	//	int lFrontID ;
+	//	int lSessionID;
+	//	std::string lOrderRef = ResolveThostOrderID(aClientOrderID,lSessionID,lFrontID);
 
-		CThostFtdcInputOrderActionField  lOrderAction ;
-		memset(&lOrderAction,0,sizeof(lOrderAction));
-		lOrderAction.ActionFlag =THOST_FTDC_AF_Delete;
-		strcpy_s(lOrderAction.BrokerID ,sizeof(lOrderAction.BrokerID), lExchangOrderPtr->BrokerID);
-		lOrderAction.FrontID =lFrontID;
-		lOrderAction.SessionID = lSessionID;
-		strcpy_s(lOrderAction.InstrumentID ,sizeof(lOrderAction.InstrumentID) ,lExchangOrderPtr->InstrumentID);
-		strcpy_s(lOrderAction.InvestorID ,sizeof(lOrderAction.InvestorID),lExchangOrderPtr->InvestorID);
-		lOrderAction.LimitPrice = lExchangOrderPtr->LimitPrice;
-		strcpy_s(lOrderAction.OrderRef ,sizeof(lOrderAction.OrderRef) ,lExchangOrderPtr->OrderRef);
-		strcpy_s(lOrderAction.UserID ,sizeof(lOrderAction.UserID) ,lExchangOrderPtr->UserID);
-		int ret = m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
-		if(ret != 0)  std::cerr<<"DeleteOrder Send Failed"<<std::endl;
-	}
+	//	CThostFtdcInputOrderActionField  lOrderAction ;
+	//	memset(&lOrderAction,0,sizeof(lOrderAction));
+	//	lOrderAction.ActionFlag =THOST_FTDC_AF_Delete;
+	//	strcpy_s(lOrderAction.BrokerID ,sizeof(lOrderAction.BrokerID), lExchangOrderPtr->BrokerID);
+	//	lOrderAction.FrontID =lFrontID;
+	//	lOrderAction.SessionID = lSessionID;
+	//	strcpy_s(lOrderAction.InstrumentID ,sizeof(lOrderAction.InstrumentID) ,lExchangOrderPtr->InstrumentID);
+	//	strcpy_s(lOrderAction.InvestorID ,sizeof(lOrderAction.InvestorID),lExchangOrderPtr->InvestorID);
+	//	lOrderAction.LimitPrice = lExchangOrderPtr->LimitPrice;
+	//	strcpy_s(lOrderAction.OrderRef ,sizeof(lOrderAction.OrderRef) ,lExchangOrderPtr->OrderRef);
+	//	strcpy_s(lOrderAction.UserID ,sizeof(lOrderAction.UserID) ,lExchangOrderPtr->UserID);
+	//	int ret = m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
+	//	if(ret != 0)  std::cerr<<"DeleteOrder Send Failed"<<std::endl;
+	//}
 
 
 
@@ -279,8 +279,8 @@ namespace CTP
 	{
 		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
 		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
-		m_pDataCache->UpdataOrder(lpOrder);
-		m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
+		//m_pDataCache->UpdataOrder(lpOrder);
+		//m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
 	}
 	catch(std::exception& ex)
 	{
@@ -293,7 +293,7 @@ namespace CTP
 		boost::shared_ptr<CThostFtdcTradeField> lpTrade (new CThostFtdcTradeField);
 		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
 	//	m_pDataCache->UpdataTrade(lpTrade);
-		m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
+	//	m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
 		//m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
 	}
 	catch (std::exception& ex)
@@ -301,160 +301,160 @@ namespace CTP
 		std::cerr<<ex.what();
 	};
 
-	std::string CTP_TD::BuildRtnTradeStr( boost::shared_ptr<CThostFtdcTradeField> apTrade )
-	{
-	
-	
-		std::string lExchangOrderID = GenerateExchangeOrderID(apTrade);
-		std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
+	//std::string CTP_TD::BuildRtnTradeStr( std::shared_ptr<CThostFtdcTradeField> apTrade )
+	//{
+	//
+	//
+	//	std::string lExchangOrderID = GenerateExchangeOrderID(apTrade);
+	//	std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
 
-		using boost::property_tree::ptree;
-		ptree pt;
-		pt.put("head.type","TradeUpdate");
-		pt.put("head.version",0.1f);
-		pt.put("Order.AccountID",apTrade->UserID);
-		pt.put("Trade.ThostOrderID" , lThostOrderID );
-		pt.put("Trade.TradeID" , apTrade->TradeID  );
-		pt.put("Trade.InstrumentID" ,apTrade->InstrumentID  );
-		pt.put("Trade.TradeVol" , apTrade->Volume );
-		pt.put("Trade.Price" , apTrade->Price );
-		pt.put("Trade.Time" , apTrade->TradeTime);
+	//	using boost::property_tree::ptree;
+	//	ptree pt;
+	//	pt.put("head.type","TradeUpdate");
+	//	pt.put("head.version",0.1f);
+	//	pt.put("Order.AccountID",apTrade->UserID);
+	//	pt.put("Trade.ThostOrderID" , lThostOrderID );
+	//	pt.put("Trade.TradeID" , apTrade->TradeID  );
+	//	pt.put("Trade.InstrumentID" ,apTrade->InstrumentID  );
+	//	pt.put("Trade.TradeVol" , apTrade->Volume );
+	//	pt.put("Trade.Price" , apTrade->Price );
+	//	pt.put("Trade.Time" , apTrade->TradeTime);
 
-		
-		std::stringstream lStringStream;
-		write_xml(lStringStream,pt);
-		return lStringStream.str();
-	}
+	//	
+	//	std::stringstream lStringStream;
+	//	write_xml(lStringStream,pt);
+	//	return lStringStream.str();
+	//}
 
-	std::string CTP_TD::BuildRtnOrderStr( boost::shared_ptr<CThostFtdcOrderField> apOrder )
-	{
-		std::string lExchangOrderID = GenerateExchangeOrderID(apOrder);
-		std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
-		
-		using boost::property_tree::ptree;
-		ptree pt;
-		pt.put("head.type","OrderUpdate");
-		pt.put("head.version",0.1f);
-		pt.put("Order.AccountID",apOrder->UserID);
-		pt.put("Order.ThostOrderID" , lThostOrderID );
-		pt.put("Order.ExchangOrderID" , lExchangOrderID  );
-		pt.put("Order.InstrumentID" ,apOrder->InstrumentID );
-		pt.put("Order.TotalVol" ,apOrder->VolumeTotalOriginal);
-		pt.put("Order.TradeVol" , apOrder->VolumeTraded);
-		pt.put("Order.Price" ,apOrder->LimitPrice );
-		pt.put("Order.UpdateTime" ,apOrder->UpdateTime);
-		pt.put("BuySell = ",apOrder->Direction);
-		pt.put("Order.OpenClose" ,apOrder->CombOffsetFlag[0] );
-		pt.put("Order.OrderType" ,apOrder->OrderType);
-		pt.put("Order.TimeCodition" , apOrder->TimeCondition);
-		pt.put("Order.OrderStatus" ,apOrder->OrderStatus );
-		pt.put("Order.OrderSubmitStatus" ,apOrder->OrderSubmitStatus);
-		pt.put("StatusMsg",apOrder->StatusMsg);	
-		
-		std::stringstream lStringStream;
-		write_xml(lStringStream,pt);
-		return lStringStream.str();
-		
-	}
+	//std::string CTP_TD::BuildRtnOrderStr( boost::shared_ptr<CThostFtdcOrderField> apOrder )
+	//{
+	//	std::string lExchangOrderID = GenerateExchangeOrderID(apOrder);
+	//	std::string lThostOrderID = m_pDataCache->GetThostOrderIDByExchangeOrderID(lExchangOrderID);
+	//	
+	//	using boost::property_tree::ptree;
+	//	ptree pt;
+	//	pt.put("head.type","OrderUpdate");
+	//	pt.put("head.version",0.1f);
+	//	pt.put("Order.AccountID",apOrder->UserID);
+	//	pt.put("Order.ThostOrderID" , lThostOrderID );
+	//	pt.put("Order.ExchangOrderID" , lExchangOrderID  );
+	//	pt.put("Order.InstrumentID" ,apOrder->InstrumentID );
+	//	pt.put("Order.TotalVol" ,apOrder->VolumeTotalOriginal);
+	//	pt.put("Order.TradeVol" , apOrder->VolumeTraded);
+	//	pt.put("Order.Price" ,apOrder->LimitPrice );
+	//	pt.put("Order.UpdateTime" ,apOrder->UpdateTime);
+	//	pt.put("BuySell = ",apOrder->Direction);
+	//	pt.put("Order.OpenClose" ,apOrder->CombOffsetFlag[0] );
+	//	pt.put("Order.OrderType" ,apOrder->OrderType);
+	//	pt.put("Order.TimeCodition" , apOrder->TimeCondition);
+	//	pt.put("Order.OrderStatus" ,apOrder->OrderStatus );
+	//	pt.put("Order.OrderSubmitStatus" ,apOrder->OrderSubmitStatus);
+	//	pt.put("StatusMsg",apOrder->StatusMsg);	
+	//	
+	//	std::stringstream lStringStream;
+	//	write_xml(lStringStream,pt);
+	//	return lStringStream.str();
+	//	
+	//}
 
-	void CTP_TD::OnRspOrderAction( CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	{
-		if(IsErrorRspInfo(pRspInfo))
-		{
-			//todo cancel reject
-			boost::shared_ptr<CThostFtdcInputOrderActionField> lpRet(new CThostFtdcInputOrderActionField );
-			memcpy(lpRet.get(),pInputOrderAction,sizeof(CThostFtdcInputOrderActionField));
-			std::string lThostOrderID = GenerateThostOrderID(lpRet);
-			std::stringstream lbuf;
-			lbuf<<"Cancel Order Failed ThostOrderID =  "<< lThostOrderID << "UserID "<<m_UserID;
-			m_pTradeSpi->OnRtnState(Cancel_Failed,lbuf.str());
-		}
-	}
+	//void CTP_TD::OnRspOrderAction( CThostFtdcInputOrderActionField *pInputOrderAction, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	//{
+	//	if(IsErrorRspInfo(pRspInfo))
+	//	{
+	//		//todo cancel reject
+	//		boost::shared_ptr<CThostFtdcInputOrderActionField> lpRet(new CThostFtdcInputOrderActionField );
+	//		memcpy(lpRet.get(),pInputOrderAction,sizeof(CThostFtdcInputOrderActionField));
+	//		std::string lThostOrderID = GenerateThostOrderID(lpRet);
+	//		std::stringstream lbuf;
+	//		lbuf<<"Cancel Order Failed ThostOrderID =  "<< lThostOrderID << "UserID "<<m_UserID;
+	//		m_pTradeSpi->OnRtnState(Cancel_Failed,lbuf.str());
+	//	}
+	//}
 
-	void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	{
-		if(IsErrorRspInfo(pRspInfo))
-		{
-			//todo check this message is in current session
-			//how to handle it is a problem 
-			//because it not carray frontID and SessionID
-			boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
-			memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
-			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
-			
-			using boost::property_tree::ptree;
-			ptree pt;
-			pt.put("head.type","OrderUpdate");
-			pt.put("head.version",0.1f);
-			pt.put("Order.AccountID",m_UserID);
-			pt.put("Order.ThostOrderID" , lThostOrderID );
-			pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
-			std::stringstream lStringStream;
-			write_xml(lStringStream,pt);
-			m_pTradeSpi->OnRtnOrder(lStringStream.str());
-		}
-	}
+	//void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	//{
+	//	if(IsErrorRspInfo(pRspInfo))
+	//	{
+	//		//todo check this message is in current session
+	//		//how to handle it is a problem 
+	//		//because it not carray frontID and SessionID
+	//		boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
+	//		memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
+	//		std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
+	//		
+	//		using boost::property_tree::ptree;
+	//		ptree pt;
+	//		pt.put("head.type","OrderUpdate");
+	//		pt.put("head.version",0.1f);
+	//		pt.put("Order.AccountID",m_UserID);
+	//		pt.put("Order.ThostOrderID" , lThostOrderID );
+	//		pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
+	//		std::stringstream lStringStream;
+	//		write_xml(lStringStream,pt);
+	//		m_pTradeSpi->OnRtnOrder(lStringStream.str());
+	//	}
+	//}
 
-	void CTP_TD::UpdateAccout()
-	{
-		CThostFtdcQryTradingAccountField req;
-		memset(&req, 0, sizeof(req));
-		strcpy_s(req.BrokerID, sizeof(req.BrokerID),m_BrokerID.c_str());
-		strcpy_s(req.InvestorID,sizeof(req.InvestorID), m_UserID.c_str());
-		int ret = m_pTraderAPI->ReqQryTradingAccount(&req, ++m_RequestID);
-		if(ret != 0)  std::cerr<<"QryTradingAccount Send Failed"<<std::endl;
-	}
+	//void CTP_TD::UpdateAccout()
+	//{
+	//	CThostFtdcQryTradingAccountField req;
+	//	memset(&req, 0, sizeof(req));
+	//	strcpy_s(req.BrokerID, sizeof(req.BrokerID),m_BrokerID.c_str());
+	//	strcpy_s(req.InvestorID,sizeof(req.InvestorID), m_UserID.c_str());
+	//	int ret = m_pTraderAPI->ReqQryTradingAccount(&req, ++m_RequestID);
+	//	if(ret != 0)  std::cerr<<"QryTradingAccount Send Failed"<<std::endl;
+	//}
 
-	void CTP_TD::OnRspQryInvestorPosition( CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	{
-		if(IsErrorRspInfo(pRspInfo))
-		{
-			//todo add User Tag
-			m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
-			m_IsInQryPosition = false; 
-		}
-		if(NULL!=pInvestorPosition)
-		{
-			boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
-			memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
-			m_pDataCache->UpdatePosition(lpPos);
-		}
+	//void CTP_TD::OnRspQryInvestorPosition( CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	//{
+	//	if(IsErrorRspInfo(pRspInfo))
+	//	{
+	//		//todo add User Tag
+	//		m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
+	//		m_IsInQryPosition = false; 
+	//	}
+	//	if(NULL!=pInvestorPosition)
+	//	{
+	//		boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
+	//		memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
+	//		m_pDataCache->UpdatePosition(lpPos);
+	//	}
 
 
-		if(bIsLast)
-		{
-			m_IsInQryPosition = false; 
-			std::string lPosRspStr = m_pDataCache->GeneratorPositionString();
-			m_pTradeSpi->OnRtnPosition(lPosRspStr);
-			UpdateAccout();
-		}
-	}
+	//	if(bIsLast)
+	//	{
+	//		m_IsInQryPosition = false; 
+	//		std::string lPosRspStr = m_pDataCache->GeneratorPositionString();
+	//		m_pTradeSpi->OnRtnPosition(lPosRspStr);
+	//		UpdateAccout();
+	//	}
+	//}
 
-	void CTP_TD::OnRspQryTradingAccount( CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	{
-		if(IsErrorRspInfo(pRspInfo))
-		{
-			m_pTradeSpi->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
-		}
-		boost::shared_ptr<CThostFtdcTradingAccountField> lpTradingAccout(new CThostFtdcTradingAccountField);
-		memcpy(lpTradingAccout.get(),pTradingAccount,sizeof(CThostFtdcTradingAccountField));
-		m_pTradeSpi->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
-	}
+	//void CTP_TD::OnRspQryTradingAccount( CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	//{
+	//	if(IsErrorRspInfo(pRspInfo))
+	//	{
+	//		m_pTradeSpi->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
+	//	}
+	//	boost::shared_ptr<CThostFtdcTradingAccountField> lpTradingAccout(new CThostFtdcTradingAccountField);
+	//	memcpy(lpTradingAccout.get(),pTradingAccount,sizeof(CThostFtdcTradingAccountField));
+	//	m_pTradeSpi->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
+	//}
 
-	std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )
-	{
-		std::stringstream lbuf;
-		lbuf<< "AccountID = "<<apAccout->AccountID<<'\n'
-			<<"FrozenMargin = "<<apAccout->FrozenMargin<<'\n'
-			<<"FrozenCash = "<<apAccout->FrozenCash<<'\n'
-			<<"CurrMargin = "<<apAccout->CurrMargin<<'\n'
-			<<"CloseProfit = "<<apAccout->CloseProfit<<'\n'
-			<<"PositionProfit = "<<apAccout->PositionProfit<<'\n'
-			<<"Balance = "<<apAccout->Balance<<'\n'
-			<<"Available = "<<apAccout->Available<<'\n';
-		std::string lRet =lbuf.str();
-		return lRet;
-	}
+	//std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )
+	//{
+	//	std::stringstream lbuf;
+	//	lbuf<< "AccountID = "<<apAccout->AccountID<<'\n'
+	//		<<"FrozenMargin = "<<apAccout->FrozenMargin<<'\n'
+	//		<<"FrozenCash = "<<apAccout->FrozenCash<<'\n'
+	//		<<"CurrMargin = "<<apAccout->CurrMargin<<'\n'
+	//		<<"CloseProfit = "<<apAccout->CloseProfit<<'\n'
+	//		<<"PositionProfit = "<<apAccout->PositionProfit<<'\n'
+	//		<<"Balance = "<<apAccout->Balance<<'\n'
+	//		<<"Available = "<<apAccout->Available<<'\n';
+	//	std::string lRet =lbuf.str();
+	//	return lRet;
+	//}
 
 	void CTP_TD::SendOrderUpdate( std::shared_ptr<AT::OrderUpdate> apOrderUpdate )
 	{
@@ -466,6 +466,21 @@ namespace CTP
 	{
 		std::cout<< apTradeUpdate->ToString();
 		m_pTradeSpi->OnRtnTrade(*apTradeUpdate);
+	}
+
+	void CTP_TD::DeleteOrder( const AT::CancelOrder& aDelOrderID )
+	{
+
+	}
+
+	void CTP_TD::ModifyOrder( const AT::ModifyOrder& aRequest )
+	{
+
+	}
+
+	void CTP_TD::Stop()
+	{
+
 	}
 
 

@@ -11,6 +11,7 @@ namespace AT
 		int32_t m_TradePrice;
 		uint32_t m_TradeVol;
 		AT_Time m_TradeTime;
-		AT_Order_Key m_OrderKey;	
+		AT_Order_Key m_Key;
+		std::string ToString();
 	};
 }

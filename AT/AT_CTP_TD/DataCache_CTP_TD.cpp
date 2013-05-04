@@ -91,7 +91,7 @@ namespace CTP
 	{
 		std::stringstream lbuf;
 		lbuf<<"All Position Start"<<'\n';
-		MYFOREACH( lPair, m_PositionTable)
+		for (auto lPair: m_PositionTable)
 		{
 			lbuf << "==================\n"<< GeneratorOnePositionString(lPair.second);
 		}

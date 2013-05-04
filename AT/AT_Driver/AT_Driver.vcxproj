@@ -39,6 +39,7 @@
     <ClCompile Include="MarketData.cpp" />
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="SingleDBWriter.cpp" />
+    <ClCompile Include="Trade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">

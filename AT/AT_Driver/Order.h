@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ConstVarDefine.h"
-
+#pragma  pack(push , 8)
 namespace AT
 {
 	struct InputOrder
@@ -89,3 +89,4 @@ namespace AT
 
 }
 
+#pragma  pack(pop)

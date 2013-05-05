@@ -20,6 +20,7 @@ namespace AT
 
 		~MarketCache(void);
 		virtual const_MapWarpper_ptr  GetMarketMapByName(const char* aInstrument) const  override ;
+		virtual MarketCacheAllInstruments GetAllInstruments() const override; 
 
 		virtual void FeedMarketDepth(std::shared_ptr< MarketData> apMarketDepth) override;
 	

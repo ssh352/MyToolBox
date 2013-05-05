@@ -50,6 +50,20 @@ namespace  AT
 		}
 	}
 
+
+	AT::MarketCacheAllInstruments MarketCache::GetAllInstruments() const 
+	{
+		MarketCacheAllInstruments lret;
+		lret.m_CacheSize = m_AllMarketMap.size();
+		int index = 0;
+		for(auto lPair:m_AllMarketMap)
+		{
+			lret.m_CacheList[index++] = lPair.second;
+		}
+		return std::move(lret);
+	}
+
+
 	 void MarketCache::FeedMarketDepth(std::shared_ptr< MarketData> apMarketDepth)
 	 {
 		 std::string  lInstrumentID = apMarketDepth->InstrumentID;

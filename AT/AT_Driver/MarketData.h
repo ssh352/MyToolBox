@@ -2,6 +2,7 @@
 #include "ConstVarDefine.h"
 #include <string>
 #include <memory>
+#pragma  pack(push , 8)
 namespace AT
 {
 
@@ -34,3 +35,4 @@ namespace AT
 
 	typedef std::map<uint64_t,std::shared_ptr<MarketData> >  MarketMap;
 }
+#pragma  pack(pop)

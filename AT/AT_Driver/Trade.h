@@ -1,6 +1,6 @@
 #pragma  once
 #include "ConstVarDefine.h"
-
+#pragma  pack(push , 8)
 namespace AT
 {
 	struct TradeUpdate
@@ -15,3 +15,4 @@ namespace AT
 		std::string ToString();
 	};
 }
+#pragma  pack(pop)

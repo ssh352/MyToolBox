@@ -56,6 +56,8 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 		return;
 	}
 
+	m_currentInstrumentID = aFileName.substr(0,6);
+
 	//std::string lDBPath = m_DBFoudler+ aFileName;
 	// m_pDBWriter.reset(new SingleDBWriter(lDBPath.c_str()));
 
@@ -90,6 +92,7 @@ void MarketDataTranslator::PraseLine(const std::string& aLIne)
 
 		std::shared_ptr<AT::MarketData> lpMarket(new AT::MarketData);
 		AT::MarketData& lRetMarket = *lpMarket;
+		strcpy_s(lRetMarket.InstrumentID,sizeof(lRetMarket.InstrumentID),m_currentInstrumentID.c_str());
 		lRetMarket.m_UpdateTime = PraseTime(lWordVec[0],lWordVec[1]);
 		lRetMarket.m_LastPrice = AT::TranPriceToInt(std::stod(lWordVec[2]));
 

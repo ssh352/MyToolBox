@@ -34,7 +34,7 @@ namespace AT
 
 		std::map<std::string, const_MapWarpper_ptr > m_AllMarketMap;//for all Instrument
 		std::map<std::string,std::shared_ptr< MarketMap> > m_InstrumentMarket; // for update 
-		std::map<std::string ,std::auto_ptr<SingleDBHandler>> m_InstrumentDBMap;
+		std::map<std::string ,std::shared_ptr<SingleDBHandler>> m_InstrumentDBMap;
 		std::string m_DBPath;
 
 	};

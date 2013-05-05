@@ -16,8 +16,5 @@
     <Xml Include="ISignalModule_CacheWave.xml">
       <Filter>config</Filter>
     </Xml>
-    <Xml Include="SignalPrintHistoryConfig.xml">
-      <Filter>config</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

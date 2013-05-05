@@ -82,7 +82,7 @@ namespace  AT
 
 	 void MarketCache::CreateDBitem( const std::string &lDbPathName,const std::string& lItemName  )
 	 {
-		 std::auto_ptr<SingleDBHandler> lpDB(new SingleDBHandler(lDbPathName.c_str()));
+		 std::shared_ptr<SingleDBHandler> lpDB(new SingleDBHandler(lDbPathName.c_str()));
 
 		 m_InstrumentDBMap.insert(std::make_pair(lItemName,lpDB));
 

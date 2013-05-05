@@ -8,6 +8,13 @@
     <ClCompile Include="misc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="SignalLoaderConfig.xml" />
+    <Filter Include="config">
+      <UniqueIdentifier>{d0a179d2-2da4-4690-89c2-f1501eb85401}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SignalLoaderConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

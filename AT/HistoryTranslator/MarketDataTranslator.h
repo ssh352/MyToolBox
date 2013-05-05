@@ -25,6 +25,7 @@ public:
 private:
     std::auto_ptr<AT::SingleDBHandler>   m_pDBWriter;
     std::string                     m_DBFoudler;
+	std::string						m_currentInstrumentID;
 
 };
 

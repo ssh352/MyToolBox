@@ -16,10 +16,6 @@
   <ItemGroup>
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="SignalModule_CacheWave.cpp" />
-    <Xml Include="SignalPrintHistoryConfig.xml">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <FileType>CppCode</FileType>
-    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="ISignalModule_CacheWave.xml" />

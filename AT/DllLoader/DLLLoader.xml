@@ -2,19 +2,19 @@
 
 <Config>
   <TDDLL>
-  <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\AT_CTP_MockTD.dll</DLLFileName>
+  <DLLFileName>C:\GitTrunk\MyToolBox\AT\sln\Release\AT_CTP_MockTD.dll</DLLFileName>
   <DLLConfig>OrderSave2</DLLConfig>
   </TDDLL>
 
   <MDDLL>
-  <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\AT_CTP_MD_DataReplayer.dll</DLLFileName>
-  <DLLConfig>C:\GitHub\MyToolBox\AT\AT_CTP_MD_DataReplayer\MDDataReplayer.xml</DLLConfig>  
+  <DLLFileName>C:\GitTrunk\MyToolBox\AT\sln\Release\AT_CTP_MD_DataReplayer.dll</DLLFileName>
+  <DLLConfig>C:\GitTrunk\MyToolBox\AT\sln\Release\DataReplayDB</DLLConfig>  
   </MDDLL>
 
   <STRDLL>
     <!-- <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\StretegyDemo.dll</DLLFileName> 
     <DLLConfig>C:\GitHub\MyToolBox\AT\StrategyRuner\IStrParam.xml</DLLConfig>   -->
-    <DLLFileName>C:\GitHub\MyToolBox\AT\sln\Release\CacheWave.dll</DLLFileName>
-    <DLLConfig>5</DLLConfig>
+    <DLLFileName>C:\GitTrunk\MyToolBox\AT\sln\Release\IStretegySignalLoader.dll</DLLFileName>
+    <DLLConfig>C:\GitTrunk\MyToolBox\AT\IStretegySignalLoader\SignalLoaderConfig.xml</DLLConfig>
   </STRDLL>
 </Config>

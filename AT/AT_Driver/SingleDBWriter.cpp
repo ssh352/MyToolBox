@@ -50,7 +50,7 @@ void SingleDBHandler::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap 
 		std::shared_ptr<MarketData> lpMarketData(new MarketData);
 		memcpy(lpMarketData.get(),liter->value().data(),liter->value().size());
 		uint64_t lKey =  0;
-		memcpy(&lKey,liter->key().data(),liter->value().size());
+		memcpy(&lKey,liter->key().data(),liter->key().size());
 		lpMarketMap->insert(std::make_pair(lKey,lpMarketData));
 	}
 	delete liter;

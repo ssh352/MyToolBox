@@ -5,12 +5,12 @@
   <Signals>
     <Item>
       <SignalDllName>ISignalModule_CacheWave.dll</SignalDllName>
-      <SignalDllConfig>5</SignalDllConfig>
+      <SignalDllConfig>C:\GitTrunk\MyToolBox\AT\ISignalModule_CacheWave\ISignalModule_CacheWave.xml</SignalDllConfig>
     </Item>
 
     <Item>
-      <SignalDllName>ISignalModule_CacheWave2.dll</SignalDllName>
-      <SignalDllConfig>10</SignalDllConfig>
+      <SignalDllName>ISignalModule_PrintHistory.dll</SignalDllName>
+      <SignalDllConfig>C:\GitTrunk\MyToolBox\AT\ISignalModule_PrintHistory\SignalPrintHistoryConfig.xml</SignalDllConfig>
     </Item>
   </Signals>
 </SignalLoaderStr>

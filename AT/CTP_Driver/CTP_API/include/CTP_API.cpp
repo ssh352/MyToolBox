@@ -66,7 +66,7 @@ namespace CTP
 		lbuf >> lplaceholder;
 		std::string lOrderRef;
 		lbuf>> lOrderRef;
-		return lOrderRef;
+		return std::move(lOrderRef);
 	}
 
 	std::string MakeExchangeOrderID( const char* ExchangeID, const char* ExchangeOrderID )

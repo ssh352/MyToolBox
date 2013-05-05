@@ -440,9 +440,34 @@ namespace CTP
 		m_pTradeSpi->OnRtnTrade(*apTradeUpdate);
 	}
 
-	void CTP_TD::DeleteOrder( const AT::CancelOrder& aDelOrderID )
+	void CTP_TD::DeleteOrder( const AT::CancelOrder& aDelOrder )
 	{
+		AT::AT_Order_Key lOrderKey = aDelOrder.m_Key;
+		std::shared_ptr<AT::OrderUpdate> lpOrder = m_pOrderTable->GetItem(lOrderKey);
 
+		if(!lpOrder)
+		{
+			std::string logInfo = "Del Order did not Exist in Cache: ";
+			logInfo += AT::ToString(lOrderKey);
+			ATLOG(AT::LogLevel::L_ERROR,logInfo);
+			return;
+		}
+			int lFrontID ;
+			int lSessionID;
+			std::string lOrderRef = ResolveThostOrderID(lpOrder->m_PlatformOrderID,lSessionID,lFrontID);
+
+			CThostFtdcInputOrderActionField  lOrderAction ;
+			memset(&lOrderAction,0,sizeof(lOrderAction));
+			lOrderAction.ActionFlag =THOST_FTDC_AF_Delete;
+			strcpy_s(lOrderAction.BrokerID ,sizeof(lOrderAction.BrokerID),m_BrokerID.c_str());
+			lOrderAction.FrontID =lFrontID;
+			lOrderAction.SessionID = lSessionID;
+			strcpy_s(lOrderAction.InstrumentID ,sizeof(lOrderAction.InstrumentID) ,lpOrder->InstrumentID);
+			strcpy_s(lOrderAction.InvestorID ,sizeof(lOrderAction.InvestorID),m_UserID.c_str());
+			strcpy_s(lOrderAction.OrderRef ,sizeof(lOrderAction.OrderRef) ,lOrderRef.c_str());
+			strcpy_s(lOrderAction.UserID ,sizeof(lOrderAction.UserID) ,m_UserID.c_str());
+			int ret = m_pTraderAPI->ReqOrderAction(&lOrderAction,++m_RequestID);
+			if(ret != 0) ATLOG(AT::LogLevel::L_ERROR,"DeleteOrder Send Failed");
 	}
 
 	void CTP_TD::ModifyOrder( const AT::ModifyOrder& aRequest )

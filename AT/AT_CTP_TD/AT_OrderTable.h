@@ -4,28 +4,17 @@
 
 namespace AT
 {
-
 	class OrderUpdateTraits
 	{
-		static std::string GetItemID(InputOrderTypePtr apOrder)
+	public:
+		typedef AT_Order_Key KeyType ;
+
+		static KeyType GetItemKey(std::shared_ptr<AT::OrderUpdate> apOrder)
 		{
-			
+			return apOrder->m_Key;
 		}
 	};
-
-	class AT_OrderTable :public ItemTable<AT::OrderUpdate,CThostFtdcOrderFieldTraits>
-	{
-	public:
-		void AddOrder(Order_Ptr apOrder );
-		Order_Ptr GetOrder(const std::string& aThostOrderID);
-	};
-
-	class AT_OrderTable 
-	{
-	public:
-		AT_OrderTable(void);
-		virtual ~AT_OrderTable(void);
-	};
+	typedef  ItemTable<AT::OrderUpdate,OrderUpdateTraits>  AT_OrderTable ;
 }
 
 

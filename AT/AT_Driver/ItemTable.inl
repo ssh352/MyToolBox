@@ -31,7 +31,7 @@ ItemTable<ItemType,ItemTraits>::~ItemTable()
 
 
 template<typename ItemType,typename ItemTraits>
-ItemTable<ItemType,ItemTraits>::LoadFromDB()
+void ItemTable<ItemType,ItemTraits>::LoadFromDB()
 {
 	leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
 	for (liter->SeekToFirst(); liter->Valid(); liter->Next()) 
@@ -46,7 +46,7 @@ ItemTable<ItemType,ItemTraits>::LoadFromDB()
 }
 
 template<typename ItemType,typename ItemTraits>
-ItemTable<ItemType,ItemTraits>::ItemPtr	ItemTable<ItemType,ItemTraits>::GetItem( const KeyType& aItemID )
+typename ItemTable<ItemType,ItemTraits>::ItemPtr	ItemTable<ItemType,ItemTraits>::GetItem( const KeyType& aItemID )
 {
 	if(m_ItemMap.count(aItemID))
 	{

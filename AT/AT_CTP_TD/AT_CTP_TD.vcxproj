@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AT_OrderTable.cpp" />
     <ClCompile Include="CTP_TD.cpp" />
     <ClCompile Include="DataCache_CTP_TD.cpp" />
     <ClCompile Include="misc.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="TradeTable_CTP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AT_OrderTable.h" />
     <ClInclude Include="CTP_TD.h" />
     <ClInclude Include="DataCache_CTP_TD.h" />
     <ClInclude Include="InputOrderTable.h" />

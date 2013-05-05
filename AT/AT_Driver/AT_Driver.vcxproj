@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ATLogger.h" />
     <ClInclude Include="AT_API_HEAD.h" />
     <ClInclude Include="AT_Param.h" />
     <ClInclude Include="AT_Struct.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="Trade.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ATLogger.cpp" />
     <ClCompile Include="ConstVarDefine.cpp" />
     <ClCompile Include="IDriver_TD.cpp" />
     <ClCompile Include="MarketMapWarpper.cpp" />

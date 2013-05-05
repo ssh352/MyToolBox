@@ -23,6 +23,7 @@
     <ClCompile Include="Trade.cpp">
       <Filter>Interface\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="ATLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ItemTable.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="SingleDBWriter.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
+    <ClInclude Include="ATLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Interface">

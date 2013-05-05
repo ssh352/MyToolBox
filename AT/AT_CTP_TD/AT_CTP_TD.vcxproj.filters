@@ -31,6 +31,9 @@
     <ClCompile Include="misc.cpp">
       <Filter>misc</Filter>
     </ClCompile>
+    <ClCompile Include="AT_OrderTable.cpp">
+      <Filter>TD_DataCache</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CTP_TD.h" />
@@ -47,6 +50,9 @@
       <Filter>TD_DataCache</Filter>
     </ClInclude>
     <ClInclude Include="PositionTable_CTP.h">
+      <Filter>TD_DataCache</Filter>
+    </ClInclude>
+    <ClInclude Include="AT_OrderTable.h">
       <Filter>TD_DataCache</Filter>
     </ClInclude>
   </ItemGroup>

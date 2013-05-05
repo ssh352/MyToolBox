@@ -26,20 +26,21 @@ namespace AT
 	void SignalModule_CacheWave::Start()
 	{
 		m_isWaveStart = false;
-		m_LowPoint.first = 100000;
-		m_HighPoint.first = -100000;
+		m_LowPoint.first = 1000000000;
+		m_HighPoint.first = -1000000000;
 		m_CheckState = Direction::BothSide;
 	}
 
 	void SignalModule_CacheWave::Stop()
 	{
+		boost::property_tree::ptree lPointTree;
 		for(AT::MarketData& lMarket :m_WavePointVec)
 		{
-			lPointTree.add("Wave.HighLowPoint",lMarket.ToString());
+			lPointTree.add("Wave.m_WavePointVec",lMarket.ToString());
 		}
 		for(AT::MarketData& lMarket :m_WaveChangeVec)
 		{
-			lPointTree.add("Wave.HighLowPoint",lMarket.ToString());
+			lPointTree.add("Wave.m_WaveChangeVec",lMarket.ToString());
 		}
 		write_xml(m_StoreFile,lPointTree);
 	}

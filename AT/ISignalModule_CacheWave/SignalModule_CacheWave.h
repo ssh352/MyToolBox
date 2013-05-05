@@ -34,7 +34,7 @@ namespace AT
 		bool m_isWaveStart;
 		int32_t m_WaveVal;
 		std::string m_StoreFile;
-		boost::property_tree::ptree lPointTree;
+	
 	};
 }
 

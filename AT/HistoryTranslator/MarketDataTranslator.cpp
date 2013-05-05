@@ -56,7 +56,7 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 		return;
 	}
 
-	m_currentInstrumentID = aFileName.substr(0,6);
+	
 
 	//std::string lDBPath = m_DBFoudler+ aFileName;
 	// m_pDBWriter.reset(new SingleDBWriter(lDBPath.c_str()));
@@ -68,6 +68,7 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 	lDbPath /= lStrreFilePath.filename().stem();
 	m_pDBWriter.reset(new AT::SingleDBHandler(lDbPath.string().c_str()));
 
+	m_currentInstrumentID =  lStrreFilePath.filename().stem().string().substr(0,6);
 
 	size_t lBuffsize = 256;
 	char* lineBuff = new char [lBuffsize];
@@ -121,7 +122,7 @@ AT::AT_Time MarketDataTranslator::PraseTime(const std::string aDate, const std::
 		int second = std::stoi(lWordVec[2]);
 		int millsecond = std::stoi(lWordVec[3]);
 		boost::posix_time::time_duration lTimeDur(hour,min,second,0);
-		lTimeDur += boost::posix_time::milliseconds(millsecond);
+		lTimeDur += boost::posix_time::milliseconds(millsecond*100);
 		AT::AT_Time ltime (ldate,lTimeDur);
 		return std::move(ltime);
 	}

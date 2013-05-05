@@ -178,7 +178,7 @@ namespace CTP
 		}
 		else
 		{
-			std::cout<<"Create Order Succeed ";
+			std::cout<<"Send Create Order Succeed ";
 		}
 	}
 
@@ -371,29 +371,29 @@ namespace CTP
 	//	}
 	//}
 
-	//void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	//{
-	//	if(IsErrorRspInfo(pRspInfo))
-	//	{
-	//		//todo check this message is in current session
-	//		//how to handle it is a problem 
-	//		//because it not carray frontID and SessionID
-	//		boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
-	//		memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
-	//		std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
-	//		
-	//		using boost::property_tree::ptree;
-	//		ptree pt;
-	//		pt.put("head.type","OrderUpdate");
-	//		pt.put("head.version",0.1f);
-	//		pt.put("Order.AccountID",m_UserID);
-	//		pt.put("Order.ThostOrderID" , lThostOrderID );
-	//		pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
-	//		std::stringstream lStringStream;
-	//		write_xml(lStringStream,pt);
-	//		m_pTradeSpi->OnRtnOrder(lStringStream.str());
-	//	}
-	//}
+	void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			//todo check this message is in current session
+			//how to handle it is a problem 
+			//because it not carray frontID and SessionID
+			boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
+			memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
+			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
+			
+			using boost::property_tree::ptree;
+			ptree pt;
+			pt.put("head.type","OrderUpdate");
+			pt.put("head.version",0.1f);
+			pt.put("Order.AccountID",m_UserID);
+			pt.put("Order.ThostOrderID" , lThostOrderID );
+			pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
+			std::stringstream lStringStream;
+			write_xml(lStringStream,pt);
+			m_pTradeSpi->OnRtnOrder(lStringStream.str());
+		}
+	}
 
 	//void CTP_TD::UpdateAccout()
 	//{

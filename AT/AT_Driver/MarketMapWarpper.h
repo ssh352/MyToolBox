@@ -50,9 +50,8 @@ namespace AT
 	public:
 		std::string GetInstrumentID()const {return m_InstrumentID;} ;
 
-		std::pair<const_iterator,const_iterator> lower_bound(const uint32_t k) const;
+		const_iterator lower_bound(const uint32_t k) const;
 		const_iterator upper_bound (const uint32_t k) const;
-		std::pair<const_iterator,const_iterator> TimeRange(const uint32_t low , const uint32_t aHigh) const;
 		const_iterator begin() const;
 		const_iterator end() const;
 

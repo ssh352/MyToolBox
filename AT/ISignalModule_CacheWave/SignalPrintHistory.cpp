@@ -3,6 +3,8 @@
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
 #include <MarketMapWarpper.h>
+
+
 SignalPrintHistory::SignalPrintHistory(const char* aConfigFile,const AT::IMarketCache* apMarketCache)
 	: m_pConstMarketCache(apMarketCache)
 	, m_Configfile(aConfigFile)

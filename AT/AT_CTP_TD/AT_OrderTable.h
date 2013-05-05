@@ -21,7 +21,9 @@ namespace AT
 	public:
 		AT_OrderTable(const char* aOrderTableDBpaht);
 		virtual ~AT_OrderTable();
+		std::shared_ptr<AT::OrderUpdate> FindOrderByPlatformOrderID(const std::string& aPlatfromORderID);
 		std::shared_ptr<AT::OrderUpdate> FindOrderByExchangeOrderID(const std::string& aExchangORderID);
+
 	};
 	
 }

@@ -23,8 +23,9 @@ namespace AT
 
 	static const int cInstrimentIDLength = 32;
 	static const int cAccoutIDLength = 16;
-	static const int cTradeIDLength = 16;
-	static const int cExchangeOrderIDLength = 33;
+	static const int cTradeIDLength = 21;
+	static const int cPlatformOrderIDLength = 81;
+	static const int cExchangeOrderIDLength = 81;
 	static const int cErrorMessageLength = 81;	//same with CTP same fields
 
 
@@ -61,6 +62,7 @@ namespace AT
 
 	enum class OrderStatusType
 	{
+		UnHandleOrder,
 		RejectOrder,
 		ActiveOrder,
 		StoppedOrder,

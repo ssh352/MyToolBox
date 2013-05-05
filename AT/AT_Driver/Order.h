@@ -59,7 +59,8 @@ namespace AT
 	{
 		char InstrumentID[cInstrimentIDLength];
 		char AccoutID[cAccoutIDLength];
-		char ExchangeOrderID[cExchangeOrderIDLength];
+		char m_PlatformOrderID[cPlatformOrderIDLength];
+		char m_ExchangeOrderID[cExchangeOrderIDLength];
 		char m_ErrorMessage[cErrorMessageLength];
 		int32_t m_Price;
 		uint32_t m_Vol;		//单子的总数量 ，如果通过modify改小 这个数量也会变化
@@ -75,9 +76,9 @@ namespace AT
 		{
 			memset(InstrumentID,0,sizeof(InstrumentID));
 			memset(AccoutID,0,sizeof(AccoutID));
-			memset(ExchangeOrderID,0,sizeof(ExchangeOrderID));
+			memset(m_PlatformOrderID,0,sizeof(m_PlatformOrderID));
 			memset(m_ErrorMessage,0,sizeof(m_ErrorMessage));
-			
+			memset(m_ExchangeOrderID,0,sizeof(m_ExchangeOrderID));
 		}
 		std::string ToString() const;
 	};

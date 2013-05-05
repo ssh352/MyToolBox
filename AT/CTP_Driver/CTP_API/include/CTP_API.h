@@ -20,7 +20,8 @@ namespace CTP
 
 	std::string GenerateThostOrderID(InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID);
 
-	std::string MakeExangeOrderID(const char* aOrderRef,int aFrontID,int aSessionID);
+	std::string MakePlatformOrderID(const char* aOrderRef,int aFrontID,int aSessionID);
+	std::string MakeExchangeOrderID(const char* ExchangeID, const char* ExchangeOrderID);
 
 	template<typename TorderPtr>
 	std::string GenerateThostOrderID( TorderPtr aOrderPtr )

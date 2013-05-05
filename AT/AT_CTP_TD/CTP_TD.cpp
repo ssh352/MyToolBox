@@ -181,12 +181,12 @@ namespace CTP
 		{
 			std::shared_ptr<AT::OrderUpdate > lpOrder(new AT::OrderUpdate);
 			AT::CopyOrderFields(*lpOrder,aNewOrder);
-			std::string lExchangOrderID = CTP::MakeExangeOrderID(lExchangeOrder->OrderRef,m_FrontID,m_SessionID);
-			if(sizeof(lpOrder->ExchangeOrderID) -1 < lExchangOrderID.size())
+			std::string lPlatformOrderID = CTP::MakePlatformOrderID(lExchangeOrder->OrderRef,m_FrontID,m_SessionID);
+			if(sizeof(lpOrder->m_PlatformOrderID) -1 < lPlatformOrderID.size())
 			{
 				ATLOG(AT::LogLevel::L_ERROR,"ExchangeOrderID is too long");
 			}
-			strcpy_s(lpOrder->ExchangeOrderID ,sizeof(lpOrder->ExchangeOrderID),lExchangOrderID.c_str());
+			strcpy_s(lpOrder->m_PlatformOrderID ,sizeof(lpOrder->m_PlatformOrderID),lPlatformOrderID.c_str());
 			m_pOrderTable->PutItem(lpOrder);
 			ATLOG(AT::LogLevel::L_INFO,"Send CreateOrder  Succeed");
 		}
@@ -283,33 +283,78 @@ namespace CTP
 		return lRetPtr;
 	}
 
+	void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
+	{
+		if(IsErrorRspInfo(pRspInfo))
+		{
+			std::string lPlatformOrderID = MakePlatformOrderID(pInputOrder->OrderRef,m_FrontID,m_SessionID);
 
-	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *pOrder )
-	try
-	{
-		boost::shared_ptr<CThostFtdcOrderField> lpOrder (new CThostFtdcOrderField);
-		memcpy(lpOrder.get(),pOrder,sizeof(CThostFtdcOrderField));
-		//m_pDataCache->UpdataOrder(lpOrder);
-		//m_pTradeSpi->OnRtnOrder(BuildRtnOrderStr(lpOrder));
-	}
-	catch(std::exception& ex)
-	{
-		std::cerr<<ex.what();
+			ATLOG(AT::LogLevel::L_ERROR,"CreateOrder  Failed");
+			std::shared_ptr<AT::OrderUpdate> lRejectOrder = m_pOrderTable->FindOrderByPlatformOrderID(lPlatformOrderID);
+			lRejectOrder->m_UpdateTime = AT::AT_Local_Time();
+			lRejectOrder->m_OrderStatus = AT::OrderStatusType::RejectOrder;
+			strcpy_s(lRejectOrder->m_ErrorMessage ,sizeof(lRejectOrder->m_ErrorMessage),pRspInfo->ErrorMsg);
+			lRejectOrder->m_TradedVol = 0;
+			lRejectOrder->m_LiveVol = 0;
+			m_IO_Service.post(std::bind(&CTP_TD::SendOrderUpdate,this,lRejectOrder));
+		}
+		else
+		{
+			ATLOG(AT::LogLevel::L_ERROR,"Un handle OnRspOrderInsert");
+			ATLOG(AT::LogLevel::L_ERROR,pRspInfo->ErrorMsg);
+		}
 	}
 
-	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *pTrade )
-	try
+	void CTP_TD::OnRtnOrder( CThostFtdcOrderField *apExchangeOrder )
 	{
-		boost::shared_ptr<CThostFtdcTradeField> lpTrade (new CThostFtdcTradeField);
-		memcpy(lpTrade.get(),pTrade,sizeof(CThostFtdcTradeField));
-	//	m_pDataCache->UpdataTrade(lpTrade);
-	//	m_pTradeSpi->OnRtnTrade(BuildRtnTradeStr(lpTrade));
-		//m_pTradeSpi->OnRtnState(Position_Change,m_pDataCache->GeneratorPositionString());
+		std::string lPlatformOrderID = MakePlatformOrderID(apExchangeOrder->OrderRef,apExchangeOrder->FrontID,apExchangeOrder->SessionID);
+		std::shared_ptr<AT::OrderUpdate> lpOrder = m_pOrderTable->FindOrderByPlatformOrderID(lPlatformOrderID);
+		lpOrder->m_TradedVol = apExchangeOrder->VolumeTraded;
+		lpOrder->m_LiveVol = apExchangeOrder->VolumeTotal;
+		lpOrder->m_UpdateTime = AT::AT_Local_Time();
+		AT::OrderStatusType lSatus ;
+		switch (apExchangeOrder->OrderStatus)
+		{
+		case THOST_FTDC_OST_AllTraded:
+		case THOST_FTDC_OST_PartTradedNotQueueing:
+		case THOST_FTDC_OST_NoTradeNotQueueing:
+		case THOST_FTDC_OST_Canceled:
+			lSatus = AT::OrderStatusType::StoppedOrder;
+			break;
+		case THOST_FTDC_OST_PartTradedQueueing:
+		case THOST_FTDC_OST_NoTradeQueueing:
+			lSatus = AT::OrderStatusType::ActiveOrder;
+			break; 
+		case THOST_FTDC_OST_Unknown:
+		case THOST_FTDC_OST_NotTouched:
+		case THOST_FTDC_OST_Touched:
+			lSatus = AT::OrderStatusType::UnHandleOrder;
+			break;
+		default:
+			break;
+		}
+		lpOrder->m_OrderStatus  = lSatus;
+		ATLOG(AT::LogLevel::L_INFO,lpOrder->ToString());
+		m_pOrderTable->PutItem(lpOrder);
+		m_IO_Service.post(std::bind(&CTP_TD::SendOrderUpdate,this,lpOrder));
 	}
-	catch (std::exception& ex)
+
+
+	void CTP_TD::OnRtnTrade( CThostFtdcTradeField *apExchangeTrade )
 	{
-		std::cerr<<ex.what();
-	};
+		std::string lExchangOrderID = CTP::MakeExchangeOrderID(apExchangeTrade->ExchangeID,apExchangeTrade->OrderSysID);
+		std::shared_ptr<AT::OrderUpdate> lpOrder = m_pOrderTable->FindOrderByExchangeOrderID(lExchangOrderID);
+		std::shared_ptr<AT::TradeUpdate> lpTrade(new AT::TradeUpdate);
+		memcpy(lpTrade->AccoutID, lpOrder->AccoutID,sizeof(lpTrade->AccoutID));
+		memcpy(lpTrade->InstrumentID, lpOrder->InstrumentID,sizeof(lpTrade->InstrumentID));
+		memcpy(lpTrade->m_TradeID,apExchangeTrade->TradeID,sizeof(lpTrade->m_TradeID));
+		lpTrade-> m_TradePrice = AT::TranPriceToInt(apExchangeTrade->Price);
+		lpTrade->m_TradeVol = apExchangeTrade->Volume;
+		lpTrade-> m_TradeTime = AT::AT_Local_Time();
+		lpTrade-> m_Key = lpOrder->m_Key;
+		m_IO_Service.post(std::bind(&CTP_TD::SendTradeUpdate,this,lpTrade));
+	}
+
 
 	//std::string CTP_TD::BuildRtnTradeStr( std::shared_ptr<CThostFtdcTradeField> apTrade )
 	//{
@@ -381,88 +426,7 @@ namespace CTP
 	//	}
 	//}
 
-	void CTP_TD::OnRspOrderInsert( CThostFtdcInputOrderField *pInputOrder, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	{
-		if(IsErrorRspInfo(pRspInfo))
-		{
-			std::string lExchangeOrderID = MakeExangeOrderID(pInputOrder->OrderRef,m_FrontID,m_SessionID);
 
-			ATLOG(AT::LogLevel::L_ERROR,"CreateOrder  Failed");
-			std::shared_ptr<AT::OrderUpdate> lRejectOrder = m_pOrderTable->FindOrderByExchangeOrderID(lExchangeOrderID);
-			lRejectOrder->m_UpdateTime = AT::AT_Local_Time();
-			lRejectOrder->m_OrderStatus = AT::OrderStatusType::RejectOrder;
-			strcpy_s(lRejectOrder->m_ErrorMessage ,sizeof(lRejectOrder->m_ErrorMessage),pRspInfo->ErrorMsg);
-			lRejectOrder->m_TradedVol = 0;
-			lRejectOrder->m_LiveVol = 0;
-			m_IO_Service.post(std::bind(&CTP_TD::SendOrderUpdate,this,lRejectOrder));
-		}
-		else
-		{
-			ATLOG(AT::LogLevel::L_ERROR,"Un handle OnRspOrderInsert");
-			ATLOG(AT::LogLevel::L_ERROR,pRspInfo->ErrorMsg);
-		}
-	}
-
-	//void CTP_TD::UpdateAccout()
-	//{
-	//	CThostFtdcQryTradingAccountField req;
-	//	memset(&req, 0, sizeof(req));
-	//	strcpy_s(req.BrokerID, sizeof(req.BrokerID),m_BrokerID.c_str());
-	//	strcpy_s(req.InvestorID,sizeof(req.InvestorID), m_UserID.c_str());
-	//	int ret = m_pTraderAPI->ReqQryTradingAccount(&req, ++m_RequestID);
-	//	if(ret != 0)  std::cerr<<"QryTradingAccount Send Failed"<<std::endl;
-	//}
-
-	//void CTP_TD::OnRspQryInvestorPosition( CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	//{
-	//	if(IsErrorRspInfo(pRspInfo))
-	//	{
-	//		//todo add User Tag
-	//		m_pTradeSpi->OnRtnState(QryPosition_Failed,"QryInvestorPosition  Failed");
-	//		m_IsInQryPosition = false; 
-	//	}
-	//	if(NULL!=pInvestorPosition)
-	//	{
-	//		boost::shared_ptr<CThostFtdcInvestorPositionField>  lpPos(new CThostFtdcInvestorPositionField);
-	//		memcpy(lpPos.get(),pInvestorPosition,sizeof(CThostFtdcInvestorPositionField));
-	//		m_pDataCache->UpdatePosition(lpPos);
-	//	}
-
-
-	//	if(bIsLast)
-	//	{
-	//		m_IsInQryPosition = false; 
-	//		std::string lPosRspStr = m_pDataCache->GeneratorPositionString();
-	//		m_pTradeSpi->OnRtnPosition(lPosRspStr);
-	//		UpdateAccout();
-	//	}
-	//}
-
-	//void CTP_TD::OnRspQryTradingAccount( CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast )
-	//{
-	//	if(IsErrorRspInfo(pRspInfo))
-	//	{
-	//		m_pTradeSpi->OnRtnState(QryAccout_Failed , "Qry Accout  Failed");
-	//	}
-	//	boost::shared_ptr<CThostFtdcTradingAccountField> lpTradingAccout(new CThostFtdcTradingAccountField);
-	//	memcpy(lpTradingAccout.get(),pTradingAccount,sizeof(CThostFtdcTradingAccountField));
-	//	m_pTradeSpi->OnRtnState(QryAccout_Succeed , BuildRtnAccoutStr(lpTradingAccout) );
-	//}
-
-	//std::string CTP_TD::BuildRtnAccoutStr( boost::shared_ptr<CThostFtdcTradingAccountField> apAccout )
-	//{
-	//	std::stringstream lbuf;
-	//	lbuf<< "AccountID = "<<apAccout->AccountID<<'\n'
-	//		<<"FrozenMargin = "<<apAccout->FrozenMargin<<'\n'
-	//		<<"FrozenCash = "<<apAccout->FrozenCash<<'\n'
-	//		<<"CurrMargin = "<<apAccout->CurrMargin<<'\n'
-	//		<<"CloseProfit = "<<apAccout->CloseProfit<<'\n'
-	//		<<"PositionProfit = "<<apAccout->PositionProfit<<'\n'
-	//		<<"Balance = "<<apAccout->Balance<<'\n'
-	//		<<"Available = "<<apAccout->Available<<'\n';
-	//	std::string lRet =lbuf.str();
-	//	return lRet;
-	//}
 
 	void CTP_TD::SendOrderUpdate( std::shared_ptr<AT::OrderUpdate> apOrderUpdate )
 	{

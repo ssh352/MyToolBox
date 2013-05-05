@@ -80,21 +80,41 @@
   <ItemGroup>
     <ClCompile Include="AT_OrderTable.cpp" />
     <ClCompile Include="CTP_TD.cpp" />
-    <ClCompile Include="DataCache_CTP_TD.cpp" />
+    <ClCompile Include="DataCache_CTP_TD.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="misc.cpp" />
-    <ClCompile Include="InputOrderTable.cpp" />
-    <ClCompile Include="OrderTable_CTP.cpp" />
-    <ClCompile Include="PositionTable_CTP.cpp" />
-    <ClCompile Include="TradeTable_CTP.cpp" />
+    <ClCompile Include="InputOrderTable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="OrderTable_CTP.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PositionTable_CTP.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="TradeTable_CTP.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AT_OrderTable.h" />
     <ClInclude Include="CTP_TD.h" />
-    <ClInclude Include="DataCache_CTP_TD.h" />
-    <ClInclude Include="InputOrderTable.h" />
-    <ClInclude Include="OrderTable_CTP.h" />
-    <ClInclude Include="PositionTable_CTP.h" />
-    <ClInclude Include="TradeTable_CTP.h" />
+    <ClInclude Include="DataCache_CTP_TD.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="InputOrderTable.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="OrderTable_CTP.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PositionTable_CTP.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="TradeTable_CTP.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">

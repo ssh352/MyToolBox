@@ -107,6 +107,9 @@ namespace AT
 		case AT::OrderStatusType::StoppedOrder:
 			return std::string("StoppedOrder");
 			break;
+		case  AT::OrderStatusType::UnHandleOrder:
+			return std::string("UnHandleOrder");
+			break;
 		default:
 			assert(false);
 			return std::string("Assert False");

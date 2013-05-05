@@ -5,7 +5,7 @@
 namespace CTP
 {
 
-	std::string MakeExangeOrderID(const char* aOrderRef,int aFrontID,int aSessionID)
+	std::string MakePlatformOrderID(const char* aOrderRef,int aFrontID,int aSessionID)
 	{
 		std::string lRet;
 		lRet += std::to_string(aSessionID);
@@ -13,7 +13,10 @@ namespace CTP
 		lRet += std::to_string(aFrontID);
 		lRet += '_';
 		lRet += aOrderRef;
+		return std::move(lRet);
 	}
+
+
 
 	std::string GenerateThostOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
 	{
@@ -64,6 +67,14 @@ namespace CTP
 		std::string lOrderRef;
 		lbuf>> lOrderRef;
 		return lOrderRef;
+	}
+
+	std::string MakeExchangeOrderID( const char* ExchangeID, const char* ExchangeOrderID )
+	{
+		std::string lRet;
+		lRet += ExchangeID;
+		lRet += ExchangeOrderID;
+		return std::move(lRet);
 	}
 
 }

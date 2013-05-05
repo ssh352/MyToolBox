@@ -58,7 +58,7 @@ namespace AT
 		return str(boost::format("OrderUpdate [OrderKey: %s] \n[InstrumentID:: %s] [AccoutID:: %s] [ExchangeID: %s] \n[Price: %d]  [Vol: %u] [BuySell: %s] [OrderType: %s][OpenClose :%s] [TradeVol: %d] [LiveVol: %d]\
 								 [Time %s] [OrderStatus: %s]") 
 								 % AT::ToString(m_Key)
-								 % InstrumentID % AccoutID % ExchangeOrderID
+								 % InstrumentID % AccoutID % m_PlatformOrderID
 								 % m_Price %m_Vol
 								 %  AT::ToString(m_BuySellType)
 								 %  AT::ToString(m_OrderType) 

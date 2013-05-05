@@ -48,7 +48,7 @@ int main(int argc ,char** argv)
 	std::string lConfigFile = argv[1];
 
 
-	AT::SingleStrDLLLoaderPoster lPosterInst(g_IsMarketFinish,"TODO_ConfigFileName");
+	AT::SingleStrDLLLoaderPoster lPosterInst(g_IsMarketFinish);
 
 	
 	boost::property_tree::ptree lPtree;
@@ -114,7 +114,7 @@ int main(int argc ,char** argv)
 		return 9;
 	}
 
-	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile.c_str(),lpTDInst,&lPosterInst,lPosterInst.GetMarketCache());
+	AT::IStrategy* lpStrInst = lpStrCallInst(lStrConfigFile.c_str(),lpTDInst,&lPosterInst,lpMDInst->GetMarketCache());
 	if(!lpStrInst)
 	{
 		std::cout<<boost::format("failed Create Str inst with ConfigFile %s  ")%lStrConfigFile;

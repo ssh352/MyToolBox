@@ -14,6 +14,7 @@ namespace CTP
 {
 	enum class CTP_Market_Status_Enum;
 	class DepthReceiveV2;
+	class IMarketCache;
 
 	class CTP_MD : public AT::IDriver_MD
 	{
@@ -25,6 +26,7 @@ namespace CTP
 		virtual void UpdateParam(const AT::Param& apParam) override {};
 		virtual  void Start()override;
 		virtual	void Stop() override;
+		virtual AT::IMarketCache* GetMarketCache()override;
 
 
 	public:
@@ -42,7 +44,6 @@ namespace CTP
 		std::string m_Front;
 		std::string m_CTP_WrokStreamDir;
 		std::string m_ConfigFilePath;
-
-
+		std::unique_ptr<AT::IMarketCache> m_pMarketCache;
 	};
 }

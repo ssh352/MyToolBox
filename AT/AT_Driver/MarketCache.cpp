@@ -1,42 +1,36 @@
 #include "MarketCache.h"
 #include "MarketMapWarpper.h"
 #include "SingleDBWriter.h"
-
-#include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\xml_parser.hpp>
-//#include <boost\filesystem.hpp>
+#include "ATLogger.h"
+#include <boost\filesystem.hpp>
 
 #include <iostream>
 namespace  AT
 {
-
+	using namespace boost::filesystem;
 
 	MarketCache::MarketCache( const char* AconfigFile )
+		:m_DBPath(AconfigFile)
 	{
-
-		boost::property_tree::ptree lConfig;
-		read_xml(AconfigFile,lConfig);
-
-		for( std::pair<std::string,boost::property_tree::ptree>  lMarketItemList : lConfig.get_child("MarketCache.Items"))
-		{
-			std::string lItemName = lMarketItemList.first;
-			std::string lItemDBPath = lMarketItemList.second.get<std::string>("Path");
-
-			std::auto_ptr<SingleDBWriter> lpDB(new SingleDBWriter(lItemDBPath.c_str()));
 		
-			m_InstrumentDBMap.insert(std::make_pair(lItemName,lpDB));
 
-
-			std::shared_ptr<MarketMap> lpMarketMap(new MarketMap);
-			lpDB->RestoreMarketMap(lpMarketMap);
-
-			if(false ==  m_InstrumentMarket.insert(std::make_pair(lItemName,lpMarketMap)).second)
+		path lDir(m_DBPath);
+		if(!exists(lDir))
+		{
+			create_directory(lDir);
+			return;
+		}
+		else
+		{
+			for (directory_iterator iter = directory_iterator(lDir); iter != directory_iterator(); ++iter)
 			{
-				std::cerr<<"can not add MarkeMap";
-				throw std::exception("can not add MarkeMap");
+
+				std::string lItemName = iter->path().filename().string();
+				std::string lDbPathName = iter->path().string().c_str();
+
+				CreateDBitem(lDbPathName, lItemName);
+
 			}
-			std::shared_ptr<MarketMapWarpper> lpWarpper(new MarketMapWarpper(lpMarketMap.get(),lItemName) );
-			m_AllMarketMap.insert(std::make_pair(lItemName,lpWarpper));
 		}
 	}
 	MarketCache::~MarketCache(void)
@@ -51,6 +45,7 @@ namespace  AT
 		}
 		else
 		{
+			ATLOG(AT::LogLevel::L_ERROR,"Can not Get Instrument From MarketDataCache");
 			throw std::exception("Can not Get Instrument From MarketDataCache");
 		}
 	}
@@ -59,8 +54,34 @@ namespace  AT
 	 {
 		 std::string  lInstrumentID = apMarketDepth->InstrumentID;
 		 uint64_t lKey = apMarketDepth->m_UpdateTime.time_of_day().total_milliseconds();
+
+		 if(m_InstrumentMarket.count(lInstrumentID) == 0 )
+		 {
+			 path lDir(m_DBPath);
+			 lDir /= lInstrumentID;
+			 CreateDBitem(lDir.string(),lInstrumentID);		
+		 }
 		 m_InstrumentMarket[lInstrumentID]->insert(std::make_pair(lKey,apMarketDepth));
 		 m_InstrumentDBMap[lInstrumentID]->StoreMarketData(apMarketDepth);
+
+	 }
+
+	 void MarketCache::CreateDBitem( const std::string &lDbPathName,const std::string& lItemName  )
+	 {
+		 std::auto_ptr<SingleDBHandler> lpDB(new SingleDBHandler(lDbPathName.c_str()));
+
+		 m_InstrumentDBMap.insert(std::make_pair(lItemName,lpDB));
+
+		 std::shared_ptr<MarketMap> lpMarketMap(new MarketMap);
+		 lpDB->RestoreMarketMap(lpMarketMap);
+
+		 if(false ==  m_InstrumentMarket.insert(std::make_pair(lItemName,lpMarketMap)).second)
+		 {
+			 ATLOG(AT::LogLevel::L_ERROR,"can not add MarkeMap");
+			 throw std::exception("can not add MarkeMap");
+		 }
+		 std::shared_ptr<MarketMapWarpper> lpWarpper(new MarketMapWarpper(lpMarketMap.get(),lItemName) );
+		 m_AllMarketMap.insert(std::make_pair(lItemName,lpWarpper));
 	 }
 
 }

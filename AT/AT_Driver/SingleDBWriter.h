@@ -12,11 +12,11 @@ namespace leveldb
 namespace AT
 {
 	struct  MarketData;
-	class SingleDBWriter
+	class SingleDBHandler
 	{
 	public:
-		SingleDBWriter(const char* aStoreFile);
-		virtual ~SingleDBWriter();
+		SingleDBHandler(const char* aStoreFile);
+		virtual ~SingleDBHandler();
 
 		void StoreMarketData(std::shared_ptr<AT::MarketData> aDatPtr);
 		void RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap  );

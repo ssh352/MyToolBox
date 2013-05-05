@@ -18,7 +18,7 @@ namespace AT
 		, public IStrategySpi
 	{
 	public:
-		SingleStrDLLLoaderPoster(std::atomic<bool>&  aFinishedFalg,const char* aConfigFileName);
+		SingleStrDLLLoaderPoster(std::atomic<bool>&  aFinishedFalg);
 		virtual ~SingleStrDLLLoaderPoster(void);
 
 
@@ -39,20 +39,10 @@ namespace AT
 		virtual void NotifyStateTD(ETradeState aErrorCode,const char* aErrorMsg) override ;
 		virtual void OnRtnOrder(const OrderUpdate& apOrder)override ;
 		virtual void OnRtnTrade(const TradeUpdate& apTrade) override;
-		
 
 		//Str
 		virtual void NotifyStateStr(EStrState ErrorCode,const char* aErrorMsg);
-
-
-	public:
-		const AT::IMarketCache* GetMarketCache()
-		{
-			return m_pMarketCache.get();
-		}
-
 	private:
-		std::auto_ptr<AT::IMarketCache>  m_pMarketCache;
 		AT::IStrategy* m_pStr;
 		std::atomic<bool>&  m_FinishedFalg;
 	};

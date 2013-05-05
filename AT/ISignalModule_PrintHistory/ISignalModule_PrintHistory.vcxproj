@@ -10,74 +10,40 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ATLogger.h" />
-    <ClInclude Include="AT_API_HEAD.h" />
-    <ClInclude Include="AT_Param.h" />
-    <ClInclude Include="AT_Struct.h" />
-    <ClInclude Include="ConstVarDefine.h" />
-    <ClInclude Include="IDriver_MD.h" />
-    <ClInclude Include="IDriver_TD.h" />
-    <ClInclude Include="IMarketCache.h" />
-    <ClInclude Include="IMarketSpi.h" />
-    <ClInclude Include="ISignalModule.h" />
-    <ClInclude Include="IStrategy.h" />
-    <ClInclude Include="IStrategySpi.h" />
-    <ClInclude Include="ItemTable.h" />
-    <ClInclude Include="ITradeSpi.h" />
-    <ClInclude Include="MarketMapWarpper.h" />
-    <ClInclude Include="MarketCache.h" />
-    <ClInclude Include="MarketData.h" />
-    <ClInclude Include="Order.h" />
-    <ClInclude Include="SingleDBWriter.h" />
-    <ClInclude Include="Trade.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ATLogger.cpp" />
-    <ClCompile Include="ConstVarDefine.cpp" />
-    <ClCompile Include="IDriver_TD.cpp" />
-    <ClCompile Include="MarketMapWarpper.cpp" />
-    <ClCompile Include="MarketCache.cpp" />
-    <ClCompile Include="MarketData.cpp" />
-    <ClCompile Include="Order.cpp" />
-    <ClCompile Include="SingleDBWriter.cpp" />
-    <ClCompile Include="Trade.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
-      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{595B35F4-D24B-4E9F-B718-6B08080C76E0}</ProjectGuid>
-    <RootNamespace>CTP_Driver</RootNamespace>
-    <ProjectName>AT_Driver</ProjectName>
+    <ProjectGuid>{57ED5480-FCCA-4F01-8E11-0A0F7D4057DE}</ProjectGuid>
+    <RootNamespace>ISignalModule_PrintHistory</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\debug_runtime.props" />
+    <Import Project="..\lib_define.props" />
+    <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\Release_runtime.props" />
+    <Import Project="..\lib_define.props" />
+    <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -85,8 +51,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)CTPAPI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>IDRIVER_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -98,19 +63,29 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)CTPAPI\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>IDRIVER_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BrowseInformation>true</BrowseInformation>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Bscmake>
-      <PreserveSbr>true</PreserveSbr>
-    </Bscmake>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="SignalPrintHistory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SignalPrintHistory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SignalPrintHistoryConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

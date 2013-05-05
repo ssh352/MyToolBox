@@ -10,7 +10,7 @@
 namespace AT
 {
 
-	class SingleDBWriter;
+	class SingleDBHandler;
 }
 
 class MarketDBWriter
@@ -22,7 +22,7 @@ public:
 	void StroeMarketTick(std::shared_ptr< AT::MarketData> apMarketTick);
 	
 private:
-	std::map<std::string,std::auto_ptr<AT::SingleDBWriter> >	m_DBMap;;
+	std::map<std::string,std::auto_ptr<AT::SingleDBHandler> >	m_DBMap;;
 
 };
 

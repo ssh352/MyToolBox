@@ -6,6 +6,7 @@
 namespace AT
 {
 	class IMarketSpi;
+	class IMarketCache;
 
 	class IDriver_MD
 	{
@@ -13,6 +14,7 @@ namespace AT
 		virtual void UpdateParam(const AT::Param& apParam) = 0;
 		virtual  void Start() = 0;
 		virtual	void Stop() = 0;
+		virtual AT::IMarketCache* GetMarketCache() = 0;
 	};
 
 }

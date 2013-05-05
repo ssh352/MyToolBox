@@ -10,4 +10,5 @@
     <item>IF1308</item>
   </InstrumentList>
   <WorkFlowDir>MD_TEST</WorkFlowDir>
+  <MarketCache>MD_MarketCache</MarketCache>
 </MDConfig>

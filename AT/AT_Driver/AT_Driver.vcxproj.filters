@@ -93,13 +93,5 @@
     <Filter Include="MarketCache">
       <UniqueIdentifier>{dfc245cc-81a1-45e9-858f-9895270f46e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MarketCache\config">
-      <UniqueIdentifier>{0e30e0ec-1d8f-4562-9bb8-af0c08c0d008}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="MarketCache.xml">
-      <Filter>MarketCache\config</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

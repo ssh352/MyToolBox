@@ -4,10 +4,9 @@
 #include <IMarketCache.h>
 namespace AT
 {
-	SingleStrDLLLoaderPoster::SingleStrDLLLoaderPoster(std::atomic<bool>& aflag , const char* aConfigFile)
+	SingleStrDLLLoaderPoster::SingleStrDLLLoaderPoster(std::atomic<bool>& aflag)
 		:m_FinishedFalg(aflag)
 	{
-		//todo load MarketCache
 	}
 
 

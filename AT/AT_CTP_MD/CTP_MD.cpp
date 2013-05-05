@@ -2,6 +2,7 @@
 
 #include "IMarketSpi.h"
 #include "DepthReceiveV2.h"
+#include "MarketCache.h"
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
 
@@ -28,7 +29,11 @@ namespace CTP
 		std::stringstream lbuf;
 		write_xml(lbuf,lPt);
 
-
+		std::string lCachePos = lPt.get<std::string>("MDConfig.MarketCache");
+		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
+		lCachePos += '/';
+		lCachePos += lDataString;
+		m_pMarketCache.reset(new AT::MarketCache(lCachePos.c_str()));
 
 		m_pDepth.reset(new DepthReceiveV2(lbuf.str(),
 			std::bind(&CTP_MD::OnMarketDepth,this,std::placeholders::_1), 
@@ -69,7 +74,13 @@ namespace CTP
 
 	void CTP_MD::OnMarketDepth( std::shared_ptr< AT::MarketData> apMarket )
 	{
+		m_pMarketCache->FeedMarketDepth(apMarket);
 		m_MarketSpi->NotifyMarketDepth(*apMarket);
+	}
+
+	AT::IMarketCache* CTP_MD::GetMarketCache()
+	{
+		return m_pMarketCache.get();
 	}
 
 }

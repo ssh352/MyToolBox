@@ -8,13 +8,16 @@ namespace leveldb
 }
 namespace AT
 {
-	class SingleDBWriter;
+	class SingleDBHandler;
 	class MarketCache :public IMarketCache
 	{
 		
 	public:
+		//输入为数据保存地址 遍历
+		MarketCache(const char* StoreDBPath);
 
-		MarketCache(const char* AconfigFile);
+		void CreateDBitem(const std::string &lDbPathName,const std::string& lItemName );
+
 		~MarketCache(void);
 		virtual const_MapWarpper_ptr  GetMarketMapByName(const char* aInstrument) const  override ;
 
@@ -30,7 +33,8 @@ namespace AT
 
 		std::map<std::string, const_MapWarpper_ptr > m_AllMarketMap;//for all Instrument
 		std::map<std::string,std::shared_ptr< MarketMap> > m_InstrumentMarket; // for update 
-		std::map<std::string ,std::auto_ptr<SingleDBWriter>> m_InstrumentDBMap;
+		std::map<std::string ,std::auto_ptr<SingleDBHandler>> m_InstrumentDBMap;
+		std::string m_DBPath;
 
 	};
 }

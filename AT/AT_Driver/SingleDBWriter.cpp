@@ -1,30 +1,33 @@
 #include "SingleDBWriter.h"
 #include "MarketData.h"
 #include "leveldb/db.h"
-
+#include "ATLogger.h"
 
 namespace AT
 {
 
 
-SingleDBWriter::SingleDBWriter( const char* aStoreFile )
+SingleDBHandler::SingleDBHandler( const char* aStoreFile )
 {
 	leveldb::Options options;
 	options.create_if_missing = true;
 	leveldb::Status lstatus = leveldb::DB::Open(options, aStoreFile, &m_pDB);
 	if(!lstatus.ok())
 	{
-		throw std::logic_error("Can not create DB");
+		std::string lErrorInfo = "Can not open DB";
+		lErrorInfo += aStoreFile;
+		ATLOG(AT::LogLevel::L_ERROR,lErrorInfo);
+		throw std::logic_error("Can not open DB");
 	}
 
 }
 
-SingleDBWriter::~SingleDBWriter()
+SingleDBHandler::~SingleDBHandler()
 {
 		delete m_pDB;
 }
 
-void SingleDBWriter::StoreMarketData(std::shared_ptr<AT::MarketData> aDataPtr)
+void SingleDBHandler::StoreMarketData(std::shared_ptr<AT::MarketData> aDataPtr)
 {
 	uint64_t lKey = aDataPtr->m_UpdateTime.time_of_day().total_milliseconds();
 	leveldb::Slice lKeySlice ((char*)&lKey,sizeof(lKey));
@@ -32,12 +35,14 @@ void SingleDBWriter::StoreMarketData(std::shared_ptr<AT::MarketData> aDataPtr)
 
     if(! m_pDB->Put(leveldb::WriteOptions(),lKeySlice,lValSlice).ok())
 	{
-		std::cerr<<"Store Market Failed"<<aDataPtr->ToString();
+		std::string lErrorInfo = "Store Market Failed";
+		lErrorInfo += aDataPtr->ToString();
+		ATLOG(AT::LogLevel::L_ERROR,lErrorInfo);
 	}
 
 }
 
-void SingleDBWriter::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap  )
+void SingleDBHandler::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap  )
 {
 	leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
 	for (liter->SeekToFirst(); liter->Valid(); liter->Next())

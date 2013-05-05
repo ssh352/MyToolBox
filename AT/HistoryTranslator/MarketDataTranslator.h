@@ -6,7 +6,7 @@
 namespace AT
 {
 	struct  MarketData;
-	class SingleDBWriter;
+	class SingleDBHandler;
 }
 
 
@@ -23,7 +23,7 @@ public:
     AT::AT_Time PraseTime(const std::string aDate, const std::string& aTime);
 
 private:
-    std::auto_ptr<AT::SingleDBWriter>   m_pDBWriter;
+    std::auto_ptr<AT::SingleDBHandler>   m_pDBWriter;
     std::string                     m_DBFoudler;
 
 };

@@ -14,7 +14,16 @@ namespace AT
 			return apOrder->m_Key;
 		}
 	};
-	typedef  ItemTable<AT::OrderUpdate,OrderUpdateTraits>  AT_OrderTable ;
+
+	
+	class AT_OrderTable :public  ItemTable<AT::OrderUpdate,OrderUpdateTraits>
+	{
+	public:
+		AT_OrderTable(const char* aOrderTableDBpaht);
+		virtual ~AT_OrderTable();
+		std::shared_ptr<AT::OrderUpdate> FindOrderByExchangeOrderID(const std::string& aExchangORderID);
+	};
+	
 }
 
 

@@ -33,7 +33,7 @@ public:
 private:
 	void LoadFromDB();
 
-private:
+	protected:
 	std::map<KeyType, ItemPtr> m_ItemMap;
 	leveldb::DB*				m_pDB;
 };

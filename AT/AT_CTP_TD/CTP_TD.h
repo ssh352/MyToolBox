@@ -2,6 +2,7 @@
 #include <string>
 #include "IDriver_TD.h"
 #include "CTP_API.h"
+#include "AT_OrderTable.h"
 #include <boost\asio\io_service.hpp>
 
 namespace std
@@ -103,6 +104,7 @@ namespace CTP
 		std::string		m_Password;
 		std::string		m_FrontAddress;
 		std::string		m_CTP_WorkFlowDir;
+		std::string		m_OrderTableDB;
 
 		CThostFtdcTraderApi*  m_pTraderAPI;
 
@@ -118,10 +120,6 @@ namespace CTP
 	private: 
 		InputOrderTypePtr BuildExchangeOrder(const AT::InputOrder& aNewOrder);
 
-
-
-
+		std::shared_ptr<AT::AT_OrderTable> m_pOrderTable;
 	};
 }
-
-

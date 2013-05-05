@@ -25,6 +25,7 @@ namespace AT
 	static const int cAccoutIDLength = 16;
 	static const int cTradeIDLength = 16;
 	static const int cExchangeOrderIDLength = 33;
+	static const int cErrorMessageLength = 81;	//same with CTP same fields
 
 
 	enum class BuySellType

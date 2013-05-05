@@ -46,6 +46,9 @@ namespace CTP
 		m_pReplayThread.reset(new std::thread( std::bind(run_ptr,&m_IO_Service))) ;
 
 		LoadConfigFromFile();
+
+		m_pOrderTable.reset(new AT::AT_OrderTable(m_OrderTableDB.c_str()));
+
 		using namespace boost::filesystem;
 		path lWorkFlowPath(m_CTP_WorkFlowDir);
 		if(!exists(lWorkFlowPath))
@@ -81,6 +84,7 @@ namespace CTP
 		m_Password  = lpt.get<std::string>("TDConfig.Password");
 		m_FrontAddress  = lpt.get<std::string>("TDConfig.Front");
 		m_CTP_WorkFlowDir  = lpt.get<std::string>("TDConfig.WorkFlowDir");
+		m_OrderTableDB = lpt.get<std::string>("TDConfig.TD_OrderTableDB");
 	}
 
 
@@ -93,8 +97,7 @@ namespace CTP
 		strcpy_s(lLoginReq.Password,41,m_Password.c_str());
 
 		int ret = m_pTraderAPI->ReqUserLogin(&lLoginReq,++m_RequestID);
-		if(ret!= 0) std::cerr<<"ReqUserLogin Send Failed"<<std::endl;
-
+		if(ret!= 0) ATLOG(AT::LogLevel::L_ERROR ,"ReqUserLogin Send Failed");
 	}
 
 	void CTP_TD::OnRspUserLogin( CThostFtdcRspUserLoginField *apRspUserLogin, CThostFtdcRspInfoField *apRspInfo, int anRequestID, bool abIsLast )
@@ -109,14 +112,12 @@ namespace CTP
 		{
 			m_SessionID = apRspUserLogin->SessionID;
 			m_FrontID = apRspUserLogin->FrontID;
-
-
 			//to check again
 			m_OrderRef = std::stoi(apRspUserLogin->MaxOrderRef);
 			CThostFtdcQrySettlementInfoConfirmField lQryFiled;
 			memset(&lQryFiled,0,sizeof(lQryFiled));
 			int ret = m_pTraderAPI->ReqQrySettlementInfoConfirm(&lQryFiled,++m_RequestID);
-			if(ret!=0) std::cerr<<"ReqQrySettlementInfoConfirm Send Failed"<<std::endl;
+			if(ret!=0)  ATLOG(AT::LogLevel::L_ERROR ,"ReqQrySettlementInfoConfirm Send Failed");
 		}
 	}
 
@@ -141,7 +142,7 @@ namespace CTP
 				strcpy_s(lQryFiled.BrokerID,11,m_BrokerID.c_str());
 				strcpy_s(lQryFiled.InvestorID,13,m_UserID.c_str());
 				int ret = m_pTraderAPI->ReqSettlementInfoConfirm(&lQryFiled,++m_RequestID);
-				if(ret!=0) std::cerr<<"ReqQryExchange Send Failed"<<std::endl;
+				if(ret!=0)  ATLOG(AT::LogLevel::L_ERROR ,"ReqQryExchange Send Failed"); 
 			}
 		}
 	}
@@ -167,7 +168,7 @@ namespace CTP
 		int ret = m_pTraderAPI->ReqOrderInsert(lExchangeOrder.get(),++m_RequestID);
 		if(ret!=0)
 		{
-			std::cerr<<"CreateOrder  Failed"<<std::endl;
+			ATLOG(AT::LogLevel::L_ERROR,"CreateOrder  Failed");
 			std::shared_ptr<AT::OrderUpdate> lRejectOrder (new AT::OrderUpdate);
 			AT::CopyOrderFields(*lRejectOrder,aNewOrder);
 			lRejectOrder->m_UpdateTime = AT::AT_Local_Time();
@@ -178,7 +179,16 @@ namespace CTP
 		}
 		else
 		{
-			std::cout<<"Send Create Order Succeed ";
+			std::shared_ptr<AT::OrderUpdate > lpOrder(new AT::OrderUpdate);
+			AT::CopyOrderFields(*lpOrder,aNewOrder);
+			std::string lExchangOrderID = CTP::MakeExangeOrderID(lExchangeOrder->OrderRef,m_FrontID,m_SessionID);
+			if(sizeof(lpOrder->ExchangeOrderID) -1 < lExchangOrderID.size())
+			{
+				ATLOG(AT::LogLevel::L_ERROR,"ExchangeOrderID is too long");
+			}
+			strcpy_s(lpOrder->ExchangeOrderID ,sizeof(lpOrder->ExchangeOrderID),lExchangOrderID.c_str());
+			m_pOrderTable->PutItem(lpOrder);
+			ATLOG(AT::LogLevel::L_INFO,"Send CreateOrder  Succeed");
 		}
 	}
 
@@ -375,23 +385,21 @@ namespace CTP
 	{
 		if(IsErrorRspInfo(pRspInfo))
 		{
-			//todo check this message is in current session
-			//how to handle it is a problem 
-			//because it not carray frontID and SessionID
-			boost::shared_ptr<CThostFtdcInputOrderField> lpRet(new CThostFtdcInputOrderField );
-			memcpy(lpRet.get(),pInputOrder,sizeof(CThostFtdcInputOrderField));
-			std::string lThostOrderID = GenerateThostOrderID(lpRet,m_FrontID,m_SessionID);
-			
-			using boost::property_tree::ptree;
-			ptree pt;
-			pt.put("head.type","OrderUpdate");
-			pt.put("head.version",0.1f);
-			pt.put("Order.AccountID",m_UserID);
-			pt.put("Order.ThostOrderID" , lThostOrderID );
-			pt.put("Order.OrderStatus" ,THOST_FTDC_OST_Canceled);
-			std::stringstream lStringStream;
-			write_xml(lStringStream,pt);
-			m_pTradeSpi->OnRtnOrder(lStringStream.str());
+			std::string lExchangeOrderID = MakeExangeOrderID(pInputOrder->OrderRef,m_FrontID,m_SessionID);
+
+			ATLOG(AT::LogLevel::L_ERROR,"CreateOrder  Failed");
+			std::shared_ptr<AT::OrderUpdate> lRejectOrder = m_pOrderTable->FindOrderByExchangeOrderID(lExchangeOrderID);
+			lRejectOrder->m_UpdateTime = AT::AT_Local_Time();
+			lRejectOrder->m_OrderStatus = AT::OrderStatusType::RejectOrder;
+			strcpy_s(lRejectOrder->m_ErrorMessage ,sizeof(lRejectOrder->m_ErrorMessage),pRspInfo->ErrorMsg);
+			lRejectOrder->m_TradedVol = 0;
+			lRejectOrder->m_LiveVol = 0;
+			m_IO_Service.post(std::bind(&CTP_TD::SendOrderUpdate,this,lRejectOrder));
+		}
+		else
+		{
+			ATLOG(AT::LogLevel::L_ERROR,"Un handle OnRspOrderInsert");
+			ATLOG(AT::LogLevel::L_ERROR,pRspInfo->ErrorMsg);
 		}
 	}
 

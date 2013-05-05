@@ -4,6 +4,17 @@
 #include <sstream>
 namespace CTP
 {
+
+	std::string MakeExangeOrderID(const char* aOrderRef,int aFrontID,int aSessionID)
+	{
+		std::string lRet;
+		lRet += std::to_string(aSessionID);
+		lRet += '_';
+		lRet += std::to_string(aFrontID);
+		lRet += '_';
+		lRet += aOrderRef;
+	}
+
 	std::string GenerateThostOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
 	{
 		std::string lRet;

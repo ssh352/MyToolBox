@@ -72,10 +72,12 @@ void ItemTable<ItemType,ItemTraits>::PutItem(ItemPtr apItem)
 {
 	KeyType lItemID =  ItemTraits::GetItemKey(apItem);
 	m_ItemMap[lItemID] = apItem;
-	leveldb::Status lstatus  =m_pDB->Put(leveldb::WriteOptions(), lItemID, leveldb::Slice(((char*)apItem.get()), sizeof(ItemType)));
+	leveldb::Slice lKey (((char*)&lItemID), sizeof(KeyType));
+	leveldb::Slice lVal (((char*)apItem.get()), sizeof(ItemType));
+	leveldb::Status lstatus  =m_pDB->Put(leveldb::WriteOptions(), lKey,lVal);
 	if(!lstatus.ok())
 	{
-		ATLOG(LogLevel::L_ERROR,"Can not Save DB");
+		ATLOG(AT::LogLevel::L_ERROR,"Can not Save DB");
 	}
 }
 

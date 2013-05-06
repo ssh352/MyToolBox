@@ -3,7 +3,6 @@
 #include "IDriver_TD.h"
 #include "IDriver_MD.h"
 #include "IStrategy.h"
-#include "../CTP_TD_Test/PrintTDSpi.h"
 #include <fstream>
 #include <iostream>
 

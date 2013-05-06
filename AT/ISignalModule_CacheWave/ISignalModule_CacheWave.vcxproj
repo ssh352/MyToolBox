@@ -18,7 +18,9 @@
     <ClCompile Include="SignalModule_CacheWave.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="ISignalModule_CacheWave.xml" />
+    <Xml Include="ISignalModule_CacheWave.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">

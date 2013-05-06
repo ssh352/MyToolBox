@@ -9,8 +9,7 @@ namespace AT
 	class IStrategy 
 	{
 	public:
-
-		enum EStrInputState
+		enum class EStrInputState
 		{
 			PARAM,
 			MDSTATE,

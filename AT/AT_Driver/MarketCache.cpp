@@ -3,7 +3,6 @@
 #include "SingleDBWriter.h"
 #include "ATLogger.h"
 #include <boost\filesystem.hpp>
-
 #include <iostream>
 namespace  AT
 {
@@ -17,7 +16,9 @@ namespace  AT
 		path lDir(m_DBPath);
 		if(!exists(lDir))
 		{
-			create_directory(lDir);
+			boost::system::error_code lErr;
+			create_directory(lDir,lErr);
+			std::cout<<lErr.message();
 			return;
 		}
 		else

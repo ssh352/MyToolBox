@@ -5,7 +5,7 @@
 #include "MarketCache.h"
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
-
+#include <boost\filesystem.hpp>
 
 namespace CTP
 {
@@ -30,10 +30,16 @@ namespace CTP
 		write_xml(lbuf,lPt);
 
 		std::string lCachePos = lPt.get<std::string>("MDConfig.MarketCache");
+		boost::filesystem::path lDir(lCachePos);
+
 		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
-		lCachePos += '/';
-		lCachePos += lDataString;
-		m_pMarketCache.reset(new AT::MarketCache(lCachePos.c_str()));
+		
+		if (!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		lDir /= lDataString;
+		m_pMarketCache.reset(new AT::MarketCache(lDir.string().c_str()));
 
 		m_pDepth.reset(new DepthReceiveV2(lbuf.str(),
 			std::bind(&CTP_MD::OnMarketDepth,this,std::placeholders::_1), 

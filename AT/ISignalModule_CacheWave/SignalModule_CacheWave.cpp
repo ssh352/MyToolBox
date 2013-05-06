@@ -1,7 +1,6 @@
 #include "SignalModule_CacheWave.h"
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
-#include <boost\lexical_cast.hpp>
 namespace AT
 {
 	SignalModule_CacheWave::SignalModule_CacheWave(const char* aConfigFileName)

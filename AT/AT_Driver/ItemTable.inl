@@ -4,7 +4,8 @@
 template<typename ItemType,typename ItemTraits>
 ItemTable<ItemType,ItemTraits>::ItemTable(const char* apDBpath)
 {
-	if(strlen(apDBpath))
+	
+	if(apDBpath == nullptr || strlen(apDBpath) == 0 )
 	{
 		throw std::exception("DBpath Null");
 	}

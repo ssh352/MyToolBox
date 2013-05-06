@@ -24,6 +24,7 @@
       <Filter>Interface\Struct</Filter>
     </ClCompile>
     <ClCompile Include="ATLogger.cpp" />
+    <ClCompile Include="ITradeSpi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ItemTable.h" />

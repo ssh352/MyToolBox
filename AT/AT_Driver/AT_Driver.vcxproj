@@ -36,6 +36,7 @@
     <ClCompile Include="ATLogger.cpp" />
     <ClCompile Include="ConstVarDefine.cpp" />
     <ClCompile Include="IDriver_TD.cpp" />
+    <ClCompile Include="ITradeSpi.cpp" />
     <ClCompile Include="MarketMapWarpper.cpp" />
     <ClCompile Include="MarketCache.cpp" />
     <ClCompile Include="MarketData.cpp" />

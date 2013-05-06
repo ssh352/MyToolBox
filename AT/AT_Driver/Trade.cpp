@@ -2,7 +2,7 @@
 #include <boost\format.hpp>
 namespace AT
 {
-	std::string TradeUpdate::ToString()
+	std::string TradeUpdate::ToString() const
 	{
 		char	m_TradeID[cTradeIDLength];
 		AT_Time m_TradeTime;
@@ -14,7 +14,6 @@ namespace AT
 								 %  AT::ToString(m_TradeTime) 
 								 %  m_TradeID
 								 );
-		return std::string("TODO this is a Trade");
 	}
 
 }

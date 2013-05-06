@@ -2,6 +2,7 @@
 
 
 #include "AT_Struct.h"
+#include <string>
 namespace AT
 {
 	enum class ETradeState
@@ -11,6 +12,7 @@ namespace AT
 		DISCONNCT,
 		STOP,
 	};
+	std::string ToString(ETradeState aState);
 
 	class ITradeSpi
 	{
@@ -19,5 +21,8 @@ namespace AT
 		virtual void OnRtnOrder(const OrderUpdate& apOrder) = 0;
 		virtual void OnRtnTrade(const TradeUpdate& apTrade)=0;
 	};
+
+
+
 }
 

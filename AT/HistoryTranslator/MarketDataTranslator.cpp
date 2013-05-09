@@ -39,10 +39,9 @@ void MarketDataTranslator::PraseDir(const std::string& aDirName)
 		create_directory(lstoreDDPath);
 	}
 
-
+    #pragma omp parallel for
 	for(directory_iterator iter=  directory_iterator(lDirPath) ; iter != directory_iterator() ; ++ iter)
 	{
-
 		PraseFile(iter->path().string());
 	}
 }
@@ -56,7 +55,7 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 		return;
 	}
 
-	
+
 
 	//std::string lDBPath = m_DBFoudler+ aFileName;
 	// m_pDBWriter.reset(new SingleDBWriter(lDBPath.c_str()));
@@ -66,19 +65,19 @@ void MarketDataTranslator::PraseFile(const std::string& aFileName)
 	path lStrreFilePath(aFileName);
 
 	lDbPath /= lStrreFilePath.filename().stem();
-	m_pDBWriter.reset(new AT::SingleDBHandler(lDbPath.string().c_str()));
+	std::shared_ptr< AT::SingleDBHandler> lpDBWriter(new AT::SingleDBHandler(lDbPath.string().c_str()));
 
-	m_currentInstrumentID =  lStrreFilePath.filename().stem().string().substr(0,6);
+	std::string lInstrumentID =  lStrreFilePath.filename().stem().string().substr(0,6);
 
 	size_t lBuffsize = 256;
 	char* lineBuff = new char [lBuffsize];
 	while(lfile.getline(lineBuff,lBuffsize))
 	{
-		PraseLine(std::string(lineBuff,std::min(strlen(lineBuff),lBuffsize)));
+		PraseLine(lInstrumentID,std::string(lineBuff,std::min(strlen(lineBuff),lBuffsize)), lpDBWriter);
 	}
 }
 
-void MarketDataTranslator::PraseLine(const std::string& aLIne)
+void MarketDataTranslator::PraseLine(const std::string& aInstrumentID ,const std::string& aLIne,std::shared_ptr< AT::SingleDBHandler> apDBWriter)
 {
 
 	try
@@ -93,7 +92,7 @@ void MarketDataTranslator::PraseLine(const std::string& aLIne)
 
 		std::shared_ptr<AT::MarketData> lpMarket(new AT::MarketData);
 		AT::MarketData& lRetMarket = *lpMarket;
-		strcpy_s(lRetMarket.InstrumentID,sizeof(lRetMarket.InstrumentID),m_currentInstrumentID.c_str());
+		strcpy_s(lRetMarket.InstrumentID,sizeof(lRetMarket.InstrumentID),aInstrumentID.c_str());
 		lRetMarket.m_UpdateTime = PraseTime(lWordVec[0],lWordVec[1]);
 		lRetMarket.m_LastPrice = AT::TranPriceToInt(std::stod(lWordVec[2]));
 
@@ -102,7 +101,7 @@ void MarketDataTranslator::PraseLine(const std::string& aLIne)
 		lRetMarket.m_BidPrice = AT::TranPriceToInt(std::stod(lWordVec[5]));
 		lRetMarket.m_BidVol = std::stoi(lWordVec[6]);
 
-		m_pDBWriter->StoreMarketData(lpMarket);
+		apDBWriter->StoreMarketData(lpMarket);
 	}
 	catch (...)
 	{
@@ -132,5 +131,4 @@ AT::AT_Time MarketDataTranslator::PraseTime(const std::string aDate, const std::
 		throw;
 	}
 }
-
 

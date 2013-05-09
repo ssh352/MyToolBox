@@ -20,7 +20,7 @@ public:
 
     void PraseDir(const std::string& aDirName);
     void PraseFile(const std::string& aFileName);
-    void PraseLine(const std::string& aLIne,,std::shared_ptr< AT::SingleDBHandler> apDBWriter);
+    void PraseLine(const std::string& aInstrumentID,const std::string& aLIne,std::shared_ptr< AT::SingleDBHandler> apDBWriter);
     AT::AT_Time PraseTime(const std::string aDate, const std::string& aTime);
 
 private:

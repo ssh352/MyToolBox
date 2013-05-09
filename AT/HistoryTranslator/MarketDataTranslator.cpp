@@ -39,11 +39,21 @@ void MarketDataTranslator::PraseDir(const std::string& aDirName)
 		create_directory(lstoreDDPath);
 	}
 
-    #pragma omp parallel for
+	std::vector<std::string> lFileList ;
+   
 	for(directory_iterator iter=  directory_iterator(lDirPath) ; iter != directory_iterator() ; ++ iter)
 	{
-		PraseFile(iter->path().string());
+		lFileList.push_back(iter->path().string());
 	}
+	AT::AT_Time lbegin = AT::AT_Local_Time();
+//	 #pragma omp parallel for
+	for(int i = 0; i< lFileList.size(); ++i)
+	{
+		PraseFile(lFileList[i]);
+	}
+	AT::AT_Time lend = AT::AT_Local_Time();
+	std::cout<<lbegin -lend;
+
 }
 
 void MarketDataTranslator::PraseFile(const std::string& aFileName)

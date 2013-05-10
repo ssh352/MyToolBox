@@ -6,14 +6,13 @@
 #include <thread>
 #include <chrono>
 
-#include <csignal>
-
-bool g_isRunning = true;
-void singaleHandle(int parame)
-{
-	std::cerr<<"singaleHandle  "<<parame;
-	g_isRunning =false;
-}
+//#include <csignal>
+//bool g_isRunning = true;
+//void singaleHandle(int parame)
+//{
+//	std::cerr<<"singaleHandle  "<<parame;
+//	g_isRunning =false;
+//}
 
 
 
@@ -22,7 +21,6 @@ void singaleHandle(int parame)
 
 int main(int argc,char** argv)
 {
-	signal(SIGINT,singaleHandle);
 	std::string lTDDllName = "AT_CTP_TD.dll";
 	std::string lTDConfigFile ="C:\\GitTrunk\\MyToolBox\\AT\\AT_CTP_TD\\TDConfig.xml";
 	HMODULE  lTDhandle = LoadLibrary(lTDDllName.c_str());
@@ -48,10 +46,9 @@ int main(int argc,char** argv)
 	}
 	
 	lpTDInst->Start();
-	 std::chrono::milliseconds dura( 2000 );
 	while (g_isRunning)
 	{
-		std::this_thread::sleep_for(dura);
+		std::this_thread::sleep_for( std::chrono::milliseconds(2000));
 	}
 	lpTDInst->Stop();
 	//TODO there should be problem about dll create and exe release it . 

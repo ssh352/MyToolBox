@@ -26,4 +26,4 @@ namespace AT
 
 typedef AT::IDriver_TD* (*CreatTDInstFun)(const char*  aConfigFile, AT::ITradeSpi* apTradeSpi);
 DLL_API AT::IDriver_TD* CreateTD(const char* aConfigFile, AT::ITradeSpi* apTradeSpi);
-
+//DLL_API void DeleteTD(AT::IDriver_TD*);

@@ -49,9 +49,6 @@
     <ClInclude Include="IStrategySpi.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ISignalModule.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Trade.h">
       <Filter>Interface\Struct</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
     <ClInclude Include="MarketCache.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
-    <ClInclude Include="IMarketCache.h">
-      <Filter>MarketCache</Filter>
-    </ClInclude>
     <ClInclude Include="MarketMapWarpper.h">
       <Filter>MarketCache</Filter>
     </ClInclude>
@@ -83,6 +77,12 @@
       <Filter>MarketCache</Filter>
     </ClInclude>
     <ClInclude Include="ATLogger.h" />
+    <ClInclude Include="IMarketCache.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ISignalModule.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Interface">

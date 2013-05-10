@@ -9,6 +9,7 @@ namespace AT
 	{
 		START,
 		READY,
+		INFO,
 		DISCONNCT,
 		STOP,
 	};

@@ -74,7 +74,8 @@
   <ItemGroup>
     <ClInclude Include="ISignalHandler.h" />
     <ClInclude Include="ITradeAccount.h" />
-    <ClInclude Include="ITradeCommandDispacher.h" />
+    <ClInclude Include="ITradeAccountObserver.h" />
+    <ClInclude Include="ITradeSignalDispacher.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
     <ClInclude Include="StretegySignalLoader.h" />
     <ClInclude Include="TradeCommand.h" />

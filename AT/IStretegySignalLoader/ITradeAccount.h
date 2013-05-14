@@ -1,9 +1,16 @@
 #pragma  once
-#include "TradeSignal.h"
+#include "TradeCommand.h"
 namespace AT
 {
+	class ITradeAccountObserver;
+
 	class ITradeAccount
 	{
-		void HandleTradeSignal(const AT::TradeSignal& aSignal);
+	public:
+		//input method call from TradeSignalExecutor
+		void HandleTradeCommand(const AT::TradeCommand& aSignal);
+
+		//×¢²á¹Û²ìÕß
+		void RegisterObserver(ITradeAccountObserver*);
 	};
 }

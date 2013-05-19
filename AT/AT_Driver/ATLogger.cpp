@@ -14,6 +14,9 @@
 #include <boost/log/support/date_time.hpp>
 #include <boost/log/attributes/current_process_name.hpp>
 
+#include <boost/log/sinks/async_frontend.hpp>
+#include <boost/log/sinks/text_file_backend.hpp>
+
 namespace logging = boost::log;
 namespace sinks = boost::log::sinks;
 namespace attrs = boost::log::attributes;
@@ -48,7 +51,7 @@ inline std::ostream & operator<< ( std::ostream & strm,  AT::LogLevel lvl)
 //]
 
 
-
+#include <boost\smart_ptr.hpp>
 
 //[ example_wide_char_logging_initialization
 // Declare attribute keywords
@@ -58,19 +61,72 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(timestamp, "TimeStamp", boost::posix_time::ptime)
 void init_logging()
 {
 	const std::string moudleName = boost::log::aux::get_process_name();
-	boost::shared_ptr< sinks::synchronous_sink< sinks::text_file_backend > > sink = logging::add_file_log
+
+	boost::shared_ptr< logging::core > core = logging::core::get();
+
+	// Create a backend and initialize it with a stream
+	{
+		typedef sinks::asynchronous_sink< sinks::text_ostream_backend > sink_t1;
+		boost::shared_ptr< sinks::text_ostream_backend > backend1 =
+			boost::make_shared< sinks::text_ostream_backend >();
+		backend1->add_stream (boost::shared_ptr< std::ostream >(&std::clog, logging::empty_deleter()));
+		boost::shared_ptr< sink_t1 > sink1(new sink_t1(backend1));
+		core->add_sink(sink1);
+		sink1->set_formatter
+			(
+			expr::stream
+			<< expr::format_date_time(timestamp, "%H:%M:%S.%f")
+			<<" ["<< expr::attr< boost::log::aux::process::id>("ProcessID")<<"]"
+			<<" ["<< expr::attr< boost::log::aux::thread::id>("ThreadID") <<"]" 
+			<< " [LogLevel:" <<  expr::attr< AT::LogLevel >("Severity") << "] "
+			<< expr::message
+			);
+	}
+
+	{
+	typedef sinks::asynchronous_sink< sinks::text_file_backend > sink_t2;
+	boost::shared_ptr< sinks::text_file_backend > backend2 =
+		boost::make_shared< sinks::text_file_backend >(
+			keywords::open_mode = std::ios_base::app,
+			keywords::file_name = moudleName +"_%Y_%m_%d_%N.log",                                        /*< file name pattern >*/
+			keywords::rotation_size = 10 * 1024 * 1024,                                   /*< rotate files every 10 MiB... >*/
+			keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0)/*< ...or at midnight >*/
+		);
+	backend2->auto_flush(true);
+	boost::shared_ptr< sink_t2 > sink2(new sink_t2(backend2));
+	core->add_sink(sink2);
+
+	sink2->set_formatter
 		(
-		keywords::open_mode = std::ios_base::app,
-		keywords::file_name = moudleName +"_%Y_%m_%d_%N.log",                                        /*< file name pattern >*/
-		keywords::rotation_size = 10 * 1024 * 1024,                                   /*< rotate files every 10 MiB... >*/
-		keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0)/*< ...or at midnight >*/
-		,keywords::format = expr::stream
+		expr::stream
 		<< expr::format_date_time(timestamp, "%H:%M:%S.%f")
 		<<" ["<< expr::attr< boost::log::aux::process::id>("ProcessID")<<"]"
 		<<" ["<< expr::attr< boost::log::aux::thread::id>("ThreadID") <<"]" 
 		<< " [LogLevel:" <<  expr::attr< AT::LogLevel >("Severity") << "] "
 		<< expr::message
 		);
+	}
+
+
+
+
+
+	//boost::shared_ptr< sinks::synchronous_sink< sinks::text_file_backend > > sink = logging::add_file_log
+	//	(
+	//	keywords::open_mode = std::ios_base::app,
+	//	keywords::file_name = moudleName +"_%Y_%m_%d_%N.log",                                        /*< file name pattern >*/
+	//	keywords::rotation_size = 10 * 1024 * 1024,                                   /*< rotate files every 10 MiB... >*/
+	//	keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0)/*< ...or at midnight >*/
+	//	,keywords::format = expr::stream
+	//	<< expr::format_date_time(timestamp, "%H:%M:%S.%f")
+	//	<<" ["<< expr::attr< boost::log::aux::process::id>("ProcessID")<<"]"
+	//	<<" ["<< expr::attr< boost::log::aux::thread::id>("ThreadID") <<"]" 
+	//	<< " [LogLevel:" <<  expr::attr< AT::LogLevel >("Severity") << "] "
+	//	<< expr::message
+	//	);
+
+	
+
 	logging::add_common_attributes();
 
 	src::severity_logger<  AT::LogLevel > slg;

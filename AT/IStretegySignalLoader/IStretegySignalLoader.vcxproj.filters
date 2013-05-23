@@ -5,9 +5,6 @@
     <ClInclude Include="ISignalHandler.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="ITradeCommandDispacher.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="TradeSignal.h">
       <Filter>struct</Filter>
     </ClInclude>
@@ -20,10 +17,21 @@
     <ClInclude Include="TradeCommand.h">
       <Filter>struct</Filter>
     </ClInclude>
+    <ClInclude Include="ITradeAccountObserver.h" />
+    <ClInclude Include="ITradeSignalDispacher.h" />
+    <ClInclude Include="ITradeSignalProducer.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalProducerDemo.h">
+      <Filter>DemoClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StretegySignalLoader.cpp" />
     <ClCompile Include="misc.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo.cpp">
+      <Filter>DemoClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="config">
@@ -34,6 +42,9 @@
     </Filter>
     <Filter Include="struct">
       <UniqueIdentifier>{70abf8ee-6470-4679-a864-dfbfb4c73d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DemoClass">
+      <UniqueIdentifier>{307c38b8-ea68-44d5-87ed-cec56d0237ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

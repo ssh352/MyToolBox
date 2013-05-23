@@ -77,13 +77,16 @@
     <ClInclude Include="ITradeAccountObserver.h" />
     <ClInclude Include="ITradeSignalDispacher.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
+    <ClInclude Include="ITradeSignalProducer.h" />
     <ClInclude Include="StretegySignalLoader.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="TradeSignalProducerDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="StretegySignalLoader.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SignalLoaderConfig.xml" />

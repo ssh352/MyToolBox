@@ -8,9 +8,6 @@
     <ClInclude Include="TradeSignal.h">
       <Filter>struct</Filter>
     </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="ITradeAccount.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -19,17 +16,29 @@
     </ClInclude>
     <ClInclude Include="ITradeAccountObserver.h" />
     <ClInclude Include="ITradeSignalDispacher.h" />
-    <ClInclude Include="ITradeSignalProducer.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="TradeSignalProducerDemo.h">
       <Filter>DemoClass</Filter>
+    </ClInclude>
+    <ClInclude Include="StrategyDemo514.h">
+      <Filter>DemoClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalProducer.h">
+      <Filter>NewInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalFliter.h">
+      <Filter>NewInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalExecutor.h">
+      <Filter>NewInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StretegySignalLoader.cpp" />
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="TradeSignalProducerDemo.cpp">
+      <Filter>DemoClass</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyDemo514.cpp">
       <Filter>DemoClass</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,6 +54,9 @@
     </Filter>
     <Filter Include="DemoClass">
       <UniqueIdentifier>{307c38b8-ea68-44d5-87ed-cec56d0237ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewInterface">
+      <UniqueIdentifier>{e7f5b7bd-4bfe-4323-9dec-f6624414b2d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

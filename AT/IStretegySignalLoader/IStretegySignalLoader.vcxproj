@@ -77,7 +77,9 @@
     <ClInclude Include="ITradeAccountObserver.h" />
     <ClInclude Include="ITradeSignalDispacher.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
+    <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="StrategyDemo514.h" />
     <ClInclude Include="StretegySignalLoader.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
@@ -85,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="misc.cpp" />
+    <ClCompile Include="StrategyDemo514.cpp" />
     <ClCompile Include="StretegySignalLoader.cpp" />
     <ClCompile Include="TradeSignalProducerDemo.cpp" />
   </ItemGroup>

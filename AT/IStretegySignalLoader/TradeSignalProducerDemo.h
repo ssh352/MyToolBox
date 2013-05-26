@@ -11,9 +11,10 @@ public:
 	TradeSignalProducerDemo(AT::ISignalModule* aPSignal);
 	virtual ~TradeSignalProducerDemo(void);
 
-	virtual bool OnMarketDepth(const MarketData& aMarketDepth) override ;
+	virtual std::pair<bool,TradeSignal> OnMarketDepth(const MarketData& aMarketDepth) override ;
 private: 
 	AT::ISignalModule* m_pSingalModule;
+	uint16_t			m_Sequence;
 };
 
 }

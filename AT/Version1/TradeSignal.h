@@ -7,6 +7,7 @@ namespace AT
 	using boost::int32_t ;
 	struct  TradeSignal
 	{
+		bool	m_Valid;
 		int32_t m_TradeSignalType;
 		int32_t m_TradeSignalSequence;
 	};

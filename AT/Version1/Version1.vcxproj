@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{51E5A2B1-49D8-4C78-A393-BB9B096E33BF}</ProjectGuid>
-    <RootNamespace>IStretegySignalLoader</RootNamespace>
+    <ProjectGuid>{03939A29-D009-468B-A8B9-5E3C30BBEE02}</ProjectGuid>
+    <RootNamespace>Version1</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,7 +22,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -33,17 +33,17 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lib_define.props" />
-    <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\debug_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\CTP_lib.props" />
+    <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lib_define.props" />
-    <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\Release_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\CTP_lib.props" />
+    <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -72,19 +72,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="StretegySignalLoader.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="misc.cpp" />
-    <ClCompile Include="StretegySignalLoader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="SignalLoaderConfig.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
-      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
-    </ProjectReference>
+    <ClInclude Include="ISignalHandler.h" />
+    <ClInclude Include="ITradeAccount.h" />
+    <ClInclude Include="ITradeAccountObserver.h" />
+    <ClInclude Include="ITradeSignalDispacher.h" />
+    <ClInclude Include="ITradeSignalExecutor.h" />
+    <ClInclude Include="ITradeSignalFliter.h" />
+    <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="TradeCommand.h" />
+    <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="TradeSignalProducerDemo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

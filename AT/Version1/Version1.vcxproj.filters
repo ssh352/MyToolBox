@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TradeCommand.h" />
+    <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="TradeSignalProducerDemo.h" />
+    <ClInclude Include="ISignalHandler.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeAccount.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeAccountObserver.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalDispacher.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalExecutor.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalFliter.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalProducer.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="interface">
+      <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

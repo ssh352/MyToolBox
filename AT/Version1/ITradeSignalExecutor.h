@@ -12,7 +12,7 @@ namespace AT
 		void OnMarketDepth(const AT::MarketData& aMarketDepth);
 
 		//输入3 来自于下游模块的通知
-		void NotifyTraded(const   & aSignal , int32_t accountIndex);
+		void NotifyTraded(const TradeSignal& aSignal , int32_t accountIndex);
 		void NotifyCancel(const TradeSignal& aSignal , int32_t accountIndex);
 		//void NotifyTrade(const TradeSignal& aSignal , int32_t accountIndex);
 

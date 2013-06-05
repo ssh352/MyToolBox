@@ -9,6 +9,8 @@ namespace AT
 		virtual bool FliterTradeSignal(const TradeSignal& signal) = 0;
 		virtual void OnMarketDepth(const MarketData& aMakretData) = 0;
 		virtual void UpdateProfit(int32_t aProfit,AT_Time aTime) = 0;
-	};
 
+		//for TradeSignalExecutor
+		virtual void NotifySignalExecutorState();
+	};
 }

@@ -15,7 +15,7 @@ namespace AT
 		//};
 		char InstrumentID[cInstrimentIDLength];
 		BuySellType m_BuySellType;
-		uint32_t m_VolFactor;
+		uint32_t m_VolFactor; 
 		int32_t m_Price;
 		TradeSignal m_TradeSignal;
 		//OperatonType m_OperationType;

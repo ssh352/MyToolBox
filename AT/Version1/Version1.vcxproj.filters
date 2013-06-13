@@ -2,11 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="IndexContainer.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalProducer.cpp" />
+    <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
-    <ClInclude Include="TradeSignalProducerDemo.h" />
     <ClInclude Include="ISignalHandler.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -28,6 +32,11 @@
     <ClInclude Include="ITradeSignalProducer.h">
       <Filter>interface</Filter>
     </ClInclude>
+    <ClInclude Include="IndexContainer.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalProducer.h" />
+    <ClInclude Include="version1Container.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="interface">

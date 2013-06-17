@@ -7,11 +7,11 @@ namespace AT
 class IndexContainer;
 
 //todo config files
-class TradeSignalProducer :public ITradeSignalProducer
+class TradeSignalProducerDemo1 :public ITradeSignalProducer
 {
 public:
-	TradeSignalProducer(const std::string& aConfigFile,IndexContainer* apIndexContainer);
-	virtual ~TradeSignalProducer(void);
+	TradeSignalProducerDemo1(const std::string& aConfigFile,IndexContainer* apIndexContainer);
+	virtual ~TradeSignalProducerDemo1(void);
 	virtual TradeSignal  ProduceTradeSignal(const AT_Time& aNow) override;
 
 private:

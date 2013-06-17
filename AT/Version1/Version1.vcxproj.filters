@@ -5,8 +5,8 @@
     <ClCompile Include="IndexContainer.cpp">
       <Filter>interface</Filter>
     </ClCompile>
-    <ClCompile Include="TradeSignalProducer.cpp" />
     <ClCompile Include="version1Container.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TradeCommand.h" />
@@ -35,8 +35,8 @@
     <ClInclude Include="IndexContainer.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="TradeSignalProducer.h" />
     <ClInclude Include="version1Container.h" />
+    <ClInclude Include="TradeSignalProducerDemo1.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="interface">

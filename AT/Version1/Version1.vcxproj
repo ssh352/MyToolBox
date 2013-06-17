@@ -74,7 +74,7 @@
   <ItemGroup>
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TradeSignalProducer.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +88,7 @@
     <ClInclude Include="ITradeSignalProducer.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
-    <ClInclude Include="TradeSignalProducer.h" />
+    <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

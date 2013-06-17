@@ -5,15 +5,18 @@
 #include "TradeSignal.h"
 namespace AT
 {
+
+	enum class TradeCommandType
+	{
+		Invalid,
+		Input,
+		Modify,
+		Cancel
+	};
+
 	struct TradeCommand
 	{
-		enum class TradeCommandType
-		{
-			Invalid,
-			Input,
-			Modify,
-			Cancel
-		};
+	
 
 		TradeCommand(TradeCommandType aType)
 			:m_CommandType(aType)

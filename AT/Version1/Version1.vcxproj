@@ -83,10 +83,8 @@
   <ItemGroup>
     <ClInclude Include="CloseExecutor_3Level.h" />
     <ClInclude Include="IndexContainer.h" />
-    <ClInclude Include="ISignalHandler.h" />
     <ClInclude Include="ITradeAccount.h" />
     <ClInclude Include="ITradeAccountObserver.h" />
-    <ClInclude Include="ITradeSignalDispacher.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
     <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />

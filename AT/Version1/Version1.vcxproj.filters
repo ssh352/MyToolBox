@@ -41,12 +41,6 @@
     <ClInclude Include="version1Container.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="ISignalHandler.h">
-      <Filter>interface\old</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalDispacher.h">
-      <Filter>interface\old</Filter>
-    </ClInclude>
     <ClInclude Include="ITradeAccount.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -73,9 +67,6 @@
     </Filter>
     <Filter Include="interface">
       <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="interface\old">
-      <UniqueIdentifier>{ecf15b0e-b54f-4156-ada0-fa510c402f4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

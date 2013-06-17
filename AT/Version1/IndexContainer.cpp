@@ -25,8 +25,20 @@ void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime )
 {
-	//todo
-	return 0;
+
+	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
+	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
+
+	int lret = 0;
+	for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
+	{
+		if(iter->second == ExpectVal)
+		{
+			lret++;
+		}
+	}
+	return lret;
 }
 
 

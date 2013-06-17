@@ -69,7 +69,7 @@ namespace AT
 		case TradeCommandType::Input:
 			{
 				InputCommand* lpInput = static_cast<InputCommand*> (apTradeCommand.get());
-				strcpy(lpInput->m_operation.AccoutID ,m_AccountID.c_str());
+				strcpy_s(lpInput->m_operation.AccoutID ,cAccoutIDLength,m_AccountID.c_str());
 				m_pTD->CreateOrder(lpInput->m_operation);
 			}
 			break;

@@ -7,6 +7,7 @@ namespace AT
 class IDriver_TD;
 class ITradeAccountObserver;
 class ITradeSignalExecutor;
+struct TradeCommand;
 
 class TradeAccountDemo1 :public ITradeAccount
 {

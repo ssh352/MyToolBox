@@ -1,10 +1,12 @@
 #pragma once
 #include "ITradeAccount.h"
 #include <string>
+#include <boost\smart_ptr.hpp>
 namespace AT
 {
 class IDriver_TD;
 class ITradeAccountObserver;
+class ITradeSignalExecutor;
 
 class TradeAccountDemo1 :public ITradeAccount
 {
@@ -23,7 +25,8 @@ private:
 	std::string m_AccountID;
 	IDriver_TD* m_pTD;
 	ITradeAccountObserver* m_pTradeAccountOB;
-
+	std::map<std::string,boost::shared_ptr<ITradeSignalExecutor> > m_OpenExecutorMap;
+	boost::shared_ptr<ITradeSignalExecutor>							m_CloseExecutor;
 
 
 };

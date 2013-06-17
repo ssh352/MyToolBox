@@ -95,6 +95,14 @@
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
+      <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -19,7 +19,7 @@ public:
 	void OnMarketDepth(const AT::MarketData& aMarketDepth) ;
 
 
-	std::vector<TradeSignal> ProduceTradeSignal( AT_Time lNow );
+	std::vector<TradeSignal> ProduceTradeSignal( const AT::MarketData& aTriggerMarket );
 
 	void UpdateSubPartMarket( const AT::MarketData& aMarketDepth );
 
@@ -27,7 +27,6 @@ private:
 	IndexContainer* m_pIndexContaner;
 	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 	ITradeSignalFliter*					m_pTradeSignalFliter;
-	ITradeSignalExecutor*				m_pTradeSignalExecutor;
 
 };
 

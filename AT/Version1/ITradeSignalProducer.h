@@ -8,7 +8,7 @@ namespace AT
 class ITradeSignalProducer
 {
 public:
-	virtual TradeSignal  ProduceTradeSignal(const AT_Time& aNow) = 0;
+	virtual TradeSignal  ProduceTradeSignal(const MarketData& aTriggerMakret) = 0;
 	 
 };
 

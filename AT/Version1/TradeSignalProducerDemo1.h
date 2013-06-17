@@ -14,7 +14,7 @@ class TradeSignalProducerDemo1 :public ITradeSignalProducer
 public:
 	TradeSignalProducerDemo1(const std::string& aConfigFile,IndexContainer* apIndexContainer);
 	virtual ~TradeSignalProducerDemo1(void);
-	virtual TradeSignal  ProduceTradeSignal(const AT_Time& aNow) override;
+	virtual TradeSignal ProduceTradeSignal(const MarketData& aTriggerMakret) override;
 
 private:
 	IndexContainer* m_pIndexContainer;

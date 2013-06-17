@@ -43,9 +43,6 @@
     <ClInclude Include="ITradeSignalDispacher.h">
       <Filter>interface\old</Filter>
     </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
-      <Filter>interface\old</Filter>
-    </ClInclude>
     <ClInclude Include="ITradeAccount.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -53,6 +50,9 @@
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="TradeAccountDemo1.h" />
+    <ClInclude Include="ITradeSignalExecutor.h">
+      <Filter>interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">

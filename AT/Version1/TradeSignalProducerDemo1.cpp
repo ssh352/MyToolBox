@@ -15,10 +15,10 @@ TradeSignalProducerDemo1::TradeSignalProducerDemo1(const std::string& aConfigFil
 
 }
 
-TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const AT_Time& aNow )
+AT::TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const MarketData& aTriggerMarket )
 {
 		TradeSignal lret ;
-		if(m_pIndexContainer->GetIndexCount("HKY006",1,aNow,aNow) >= 1)
+		if(m_pIndexContainer->GetIndexCount("HKY006",1,aTriggerMarket.m_UpdateTime,aTriggerMarket.m_UpdateTime) >= 1)
 		{
 			lret.m_Valid = true;
 			lret.m_TradeSignalSequence = 0;

@@ -24,18 +24,14 @@ void AT::version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	UpdateSubPartMarket(aMarketDepth);
 
-	AT_Time lNow = aMarketDepth.m_UpdateTime;
-
-	std::vector<TradeSignal> lTradeSignalVec = ProduceTradeSignal(lNow);
-
+	std::vector<TradeSignal> lTradeSignalVec = ProduceTradeSignal(aMarketDepth);
 
 	TradeSignal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
 
-	//m_pTradeSignalExecutor->HandleTradeSignal(lFinalSignal);
 
 }
 
-std::vector<TradeSignal> AT::version1Container::ProduceTradeSignal( AT_Time lNow )
+std::vector<TradeSignal> AT::version1Container::ProduceTradeSignal( const AT::MarketData& lNow )
 {
 	std::vector<TradeSignal> lSignalResult;
 	for(auto lpSignalProducer :m_TradeSignalProducerVec)
@@ -49,7 +45,6 @@ void version1Container::UpdateSubPartMarket( const AT::MarketData& aMarketDepth 
 {
 	m_pIndexContaner->OnMarketDepth(aMarketDepth);
 	m_pTradeSignalFliter->OnMarketDepth(aMarketDepth);
-	m_pTradeSignalExecutor->OnMarketDepth(aMarketDepth);
 }
 
 }

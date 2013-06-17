@@ -15,7 +15,7 @@ namespace AT
 
 	void TradeAccountDemo1::HandleTradeSignal( const TradeSignal& aTradeSignal )
 	{
-
+		
 	}
 
 	void TradeAccountDemo1::OnMarketDepth( const MarketData& aMarketDepth )
@@ -39,8 +39,9 @@ namespace AT
 		m_AccountID;
 
 		//todo Load Signal OpenExecutor Map
-
+		m_OpenExecutorMap;
 		//todo Load Close Executor
-	}
+		m_CloseExecutor;
+	}	
 
 }

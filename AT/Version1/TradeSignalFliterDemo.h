@@ -15,6 +15,22 @@ public:
 
 	virtual void OnMarketDepth(const AT::MarketData&  aMarket) override;
 	virtual void UpdateProfit(int32_t aProfit,AT_Time aTime) override ;
+
+private:
+
+	bool m_IsOnLastSignal;
+	AT_Time m_LastTime;
+	AT_Time	m_StopTime;
+	std::map<AT_Time,int32_t> m_ProfitStatusMap;
+
+private:
+
+
+	int  m_Time1;
+	int	 m_Time2;
+	int  m_Time3;
+	int  m_TotalProfitStopVal;
+	std::map<int ,int> m_StopLevelTimeMap;
 };
 
 }

@@ -7,6 +7,20 @@ namespace AT
 {
 	struct TradeCommand
 	{
+		enum class TradeCommandType
+		{
+			Invalid,
+			Input,
+			Modify,
+			Cancel
+		};
+
+		TradeCommand(TradeCommandType aType)
+			:m_CommandType(aType)
+		{
+
+		}
+		TradeCommandType m_CommandType;
 	};
 
 	struct InvalidOrderCommand
@@ -15,20 +29,40 @@ namespace AT
 	};
 	struct InvalidCommand :public TradeCommand
 	{
+		InvalidCommand()
+			: TradeCommand(TradeCommandType::Invalid)
+		{
+
+		}
 		InvalidOrderCommand	m_operation;
 	};
 
 	struct InputCommand :public TradeCommand
 	{
+		InputCommand()
+			: TradeCommand(TradeCommandType::Input)
+		{
+
+		}
 		InputOrder	m_operation;
 	};
 	struct CancelCommand :public TradeCommand
 	{
+		CancelCommand()
+			: TradeCommand(TradeCommandType::Cancel)
+		{
+
+		}
 		CancelOrder	m_operation;
 	};
 
 	struct ModifyCommand :public TradeCommand
 	{
+		ModifyCommand()
+			: TradeCommand(TradeCommandType::Modify)
+		{
+
+		}
 		ModifyOrder	m_operation;
 	};
 

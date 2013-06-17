@@ -11,8 +11,13 @@
     <ClCompile Include="version1Container.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="TradeSignalFliterDemo.cpp" />
-    <ClCompile Include="TradeAccountDemo1.cpp" />
+    <ClCompile Include="TradeAccountDemo1.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalFliterDemo.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseExecutor_3Level.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -36,7 +41,6 @@
     <ClInclude Include="version1Container.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="TradeSignalFliterDemo.h" />
     <ClInclude Include="ISignalHandler.h">
       <Filter>interface\old</Filter>
     </ClInclude>
@@ -49,10 +53,16 @@
     <ClInclude Include="ITradeAccountObserver.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="TradeAccountDemo1.h" />
     <ClInclude Include="ITradeSignalExecutor.h">
       <Filter>interface</Filter>
     </ClInclude>
+    <ClInclude Include="TradeSignalFliterDemo.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeAccountDemo1.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseExecutor_3Level.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">

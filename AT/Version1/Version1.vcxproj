@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CloseExecutor_3Level.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TradeAccountDemo1.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloseExecutor_3Level.h" />
     <ClInclude Include="IndexContainer.h" />
     <ClInclude Include="ISignalHandler.h" />
     <ClInclude Include="ITradeAccount.h" />

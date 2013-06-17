@@ -17,11 +17,17 @@ TradeSignalProducerDemo1::TradeSignalProducerDemo1(const std::string& aConfigFil
 
 TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const AT_Time& aNow )
 {
+		TradeSignal lret ;
 		if(m_pIndexContainer->GetIndexCount("HKY006",1,aNow,aNow) >= 1)
 		{
-			TradeSignal lret ;
+			lret.m_Valid = true;
 			lret.m_TradeSignalSequence = 0;
 			lret.m_TradeSignalType = m_Seqence++;
+			return lret;
+		}
+		else
+		{
+			lret.m_Valid = false;
 			return lret;
 		}
 }

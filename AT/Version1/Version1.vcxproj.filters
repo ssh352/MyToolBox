@@ -12,23 +12,9 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
+    <ClCompile Include="TradeAccountDemo1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ISignalHandler.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeAccount.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeAccountObserver.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalDispacher.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="ITradeSignalFliter.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -51,16 +37,35 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="TradeSignalFliterDemo.h" />
+    <ClInclude Include="ISignalHandler.h">
+      <Filter>interface\old</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalDispacher.h">
+      <Filter>interface\old</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalExecutor.h">
+      <Filter>interface\old</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeAccount.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeAccountObserver.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeAccountDemo1.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="interface">
-      <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes">
       <UniqueIdentifier>{5d54a631-cd55-4eb9-bcb4-478d3935bed0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Struct">
       <UniqueIdentifier>{dad661e9-65a6-44c6-af9b-50b79b1ede67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interface\old">
+      <UniqueIdentifier>{ecf15b0e-b54f-4156-ada0-fa510c402f4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -3,11 +3,27 @@
 #include "AT_Struct.h"
 namespace AT
 {
-	class ITradeAccount;
+
+	class ITradeAccountObserver;
+
+	enum class TradeAccountOrderStatus
+	{
+		NoOrder,
+		OpenOrder,
+		CloseOrder
+	}; 
+
+	enum class TradeAccountPositionStatus
+	{
+		Empty_Pos,
+		Partly_Pos,
+		Full_Pos
+	}; 
+
 	class ITradeAccountObserver
 	{
 	public:
-		void NotifyAccoutStateChange(const AT::OrderUpdate& aOrder, AT::ITradeAccount* );
+		virtual void NotifyAccoutStateChange(TradeAccountOrderStatus aOrderSatus, TradeAccountPositionStatus aPosStatus,const std::string& accountID) = 0;
 	};
 
 }

@@ -1,6 +1,7 @@
 #pragma  once
 #include "AT_Struct.h"
-#include "TradeSignal.h"
+#include "TradeCommand.h"
+#include <boost\smart_ptr.hpp>
 namespace AT
 {
 	class ITradeSignalExecutor 
@@ -9,16 +10,13 @@ namespace AT
 	public:
 
 		//输入1 来自于上层的交易信号
-		virtual void HandleTradeSignal(const TradeSignal& aSignal) =0;
+		virtual boost::shared_ptr<TradeCommand> SetupTarget(int targetQuantity,const AT::MarketData& aMarket) =0;
+		virtual boost::shared_ptr<TradeCommand> AddTarget(int addTargetQuantity, const AT::MarketData& aMarket) =0;
 
-		//输入2 行情信号
-		virtual void OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
-
-		//输入3 来自于下游模块的通知
-		//virtual void NotifyTraded(const TradeSignal& aSignal , int32_t accountIndex) =0;
-		//virtual void NotifyCancel(const TradeSignal& aSignal , int32_t accountIndex) = 0;
-		//void NotifyTrade(const TradeSignal& aSignal , int32_t accountIndex);
-
+		//输入2 来自于执行层面
+		virtual  boost::shared_ptr<TradeCommand> OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
+		virtual  boost::shared_ptr<TradeCommand> OnRtnOrder(const  AT::OrderUpdate& apOrder) =0;
+		virtual  boost::shared_ptr<TradeCommand> OnRtnTrade(const  AT::TradeUpdate& apTrade) =0;
 	};
 
 

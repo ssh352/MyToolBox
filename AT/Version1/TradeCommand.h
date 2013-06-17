@@ -7,18 +7,30 @@ namespace AT
 {
 	struct TradeCommand
 	{
-		//enum class OperatonType
-		//{
-		//	NewTradeCommand,
-		//	ModifyTradeCommand,
-		//	CancelTradeCommand
-		//};
-		char InstrumentID[cInstrimentIDLength];
-		BuySellType m_BuySellType;
-		uint32_t m_VolFactor; 
-		int32_t m_Price;
-		TradeSignal m_TradeSignal;
-		//OperatonType m_OperationType;
 	};
+
+	struct InvalidOrderCommand
+	{
+
+	};
+	struct InvalidCommand :public TradeCommand
+	{
+		InvalidOrderCommand	m_operation;
+	};
+
+	struct InputCommand :public TradeCommand
+	{
+		InputOrder	m_operation;
+	};
+	struct CancelCommand :public TradeCommand
+	{
+		CancelOrder	m_operation;
+	};
+
+	struct ModifyCommand :public TradeCommand
+	{
+		ModifyOrder	m_operation;
+	};
+
 }
 #pragma  pack(pop)

@@ -1,0 +1,31 @@
+#pragma once
+#include "ITradeAccount.h"
+#include <string>
+namespace AT
+{
+class IDriver_TD;
+class ITradeAccountObserver;
+
+class TradeAccountDemo1 :public ITradeAccount
+{
+public:
+	TradeAccountDemo1(const std::string& aConfigFile, IDriver_TD* apTD,ITradeAccountObserver* apTradeAccountOB);
+	virtual ~TradeAccountDemo1(void);
+	virtual void HandleTradeSignal(const TradeSignal& aTradeSignal) override;
+	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
+	virtual void OnRtnOrder(const  OrderUpdate& apOrder) override;
+	virtual void OnRtnTrade(const  TradeUpdate& apTrade) override;  
+
+private:
+	void InitFromConfigFile(const std::string& aConfigFile);
+
+private:
+	std::string m_AccountID;
+	IDriver_TD* m_pTD;
+	ITradeAccountObserver* m_pTradeAccountOB;
+
+
+
+};
+
+}

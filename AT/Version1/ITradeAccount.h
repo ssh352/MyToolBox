@@ -1,22 +1,14 @@
 #pragma  once
-#include "TradeCommand.h"
+#include "TradeSignal.h"
+#include "AT_Struct.h"
 namespace AT
 {
-	class ITradeAccountObserver;
-
 	class ITradeAccount
 	{
 	public:
-		//input method call from TradeSignalExecutor
-		virtual void HandleTradeCommand(const AT::TradeCommand& aTradeCommand) = 0;
-
-		//×¢²á¹Û²ìÕß
-		virtual void RegisterObserver(ITradeAccountObserver*) = 0;
-
-		enum  class TradeAccountState
-		{
-			IDLE,
-			BUSY,
-		};   
+		virtual void HandleTradeSignal(const TradeSignal& aTradeSignal) = 0;
+		virtual void OnMarketDepth(const MarketData& aMarketDepth) = 0;
+		virtual void OnRtnOrder(const  OrderUpdate& apOrder) = 0;
+		virtual void OnRtnTrade(const  TradeUpdate& apTrade) = 0;  
 	};
 }

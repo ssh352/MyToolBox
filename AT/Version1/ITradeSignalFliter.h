@@ -8,11 +8,10 @@ namespace AT
 	public:
 		virtual TradeSignal FliterTradeSignal(std::vector<TradeSignal> aList) = 0;
 
-	public: 
-		virtual void OnMarketDepth(const MarketData& aMakretData) = 0;
+		virtual void UpdateTime(AT_Time aTime ) = 0;
 		virtual void UpdateProfit(int32_t aProfit,AT_Time aTime) = 0;
 
-		//for TradeSignalExecutor
-		virtual void NotifySignalExecutorState();
+	//	//for TradeSignalExecutor
+	//	virtual void NotifySignalExecutorState();
 	};
 }

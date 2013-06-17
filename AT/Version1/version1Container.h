@@ -6,7 +6,7 @@ namespace AT
 {
 class IndexContainer;
 class ITradeSignalProducer;
-
+class ITradeSignalFliter;
 
 class version1Container
 {
@@ -20,6 +20,7 @@ public:
 private:
 	IndexContainer* m_pIndexContaner;
 	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
+	ITradeSignalFliter*					m_pTradeSignalFliter;
 
 };
 

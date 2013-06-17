@@ -3,14 +3,17 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="IndexContainer.cpp">
-      <Filter>interface</Filter>
+      <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="version1Container.cpp" />
-    <ClCompile Include="TradeSignalProducerDemo1.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo1.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="version1Container.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalFliterDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TradeCommand.h" />
-    <ClInclude Include="TradeSignal.h" />
     <ClInclude Include="ISignalHandler.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -33,14 +36,31 @@
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="IndexContainer.h">
-      <Filter>interface</Filter>
+      <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="version1Container.h" />
-    <ClInclude Include="TradeSignalProducerDemo1.h" />
+    <ClInclude Include="TradeSignalProducerDemo1.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeCommand.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignal.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="version1Container.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalFliterDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="interface">
       <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{5d54a631-cd55-4eb9-bcb4-478d3935bed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Struct">
+      <UniqueIdentifier>{dad661e9-65a6-44c6-af9b-50b79b1ede67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

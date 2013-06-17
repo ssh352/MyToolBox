@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="ITradeSignalProducer.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="TradeSignalFliterDemo.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />
   </ItemGroup>

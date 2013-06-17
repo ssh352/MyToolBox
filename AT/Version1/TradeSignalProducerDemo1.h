@@ -7,6 +7,8 @@ namespace AT
 class IndexContainer;
 
 //todo config files
+
+//load the logic from script as python
 class TradeSignalProducerDemo1 :public ITradeSignalProducer
 {
 public:

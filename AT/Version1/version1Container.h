@@ -28,6 +28,8 @@ private:
 	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 	ITradeSignalFliter*					m_pTradeSignalFliter;
 
+
+
 };
 
 }

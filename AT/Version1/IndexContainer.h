@@ -17,6 +17,7 @@ private:
 	std::vector<ISignalModule*>		m_SignalModuleVec;
 	typedef std::map<AT_Time,int>	SignalResultMap;
 	std::map<std::string,SignalResultMap> m_SignalResultMapGroupBySignalName;
+
 };
 
 

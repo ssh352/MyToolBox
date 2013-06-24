@@ -18,6 +18,9 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="CloseExecutor_3Level.cpp" />
+    <ClCompile Include="TradeAccountContainer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -57,6 +60,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="CloseExecutor_3Level.h" />
+    <ClInclude Include="TradeAccountContainer.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">

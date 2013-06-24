@@ -75,6 +75,7 @@
     <ClCompile Include="CloseExecutor_3Level.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TradeAccountContainer.cpp" />
     <ClCompile Include="TradeAccountDemo1.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="ITradeSignalExecutor.h" />
     <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="TradeAccountContainer.h" />
     <ClInclude Include="TradeAccountDemo1.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />

@@ -39,9 +39,9 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 
 	//Á¬Ðø¿÷Ëð1´Î
 
-	LastNTradeStatus lret = IsLastNTradeLoss(1);
+	LastNTradeStatus lret1 = IsLastNTradeLoss(1);
 
-	if(lret.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_Time1) )
+	if(lret1.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_Time1) )
 	{
 		TradeSignal lret;
 		lret.m_Valid = false;

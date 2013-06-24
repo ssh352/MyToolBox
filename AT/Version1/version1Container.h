@@ -1,6 +1,7 @@
 #pragma once
 #include "AT_Struct.h"
 #include "TradeSignal.h"
+#include "TradeAccountContainer.h"
 #include <vector>
 namespace AT
 {
@@ -17,7 +18,8 @@ public:
 
 	//feed data
 	void OnMarketDepth(const AT::MarketData& aMarketDepth) ;
-
+	 void OnRtnOrder(const  OrderUpdate& apOrder) ;
+	 void OnRtnTrade(const  TradeUpdate& apTrade) ; 
 
 	std::vector<TradeSignal> ProduceTradeSignal( const AT::MarketData& aTriggerMarket );
 
@@ -28,7 +30,7 @@ private:
 	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 	ITradeSignalFliter*					m_pTradeSignalFliter;
 
-
+	TradeAccountContainer				m_TradeAccountContaner;
 
 };
 

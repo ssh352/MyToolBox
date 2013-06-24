@@ -1,4 +1,6 @@
 #include "TradeAccountContainer.h"
+#include <boost\bind.hpp>
+#include <boost\function.hpp>
 namespace AT
 {
 
@@ -6,6 +8,13 @@ TradeAccountContainer::TradeAccountContainer(void)
 {
 
 	//init the m_AccountList
+
+	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
+		= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);
+	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
+	{
+		lAccoutPtr->SetProfitCallback(lNotifyCallback);
+	}
 }
 
 

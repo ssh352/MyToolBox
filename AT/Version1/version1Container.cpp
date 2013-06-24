@@ -3,6 +3,7 @@
 #include "ITradeSignalProducer.h"
 #include "ITradeSignalFliter.h"
 #include "ITradeSignalExecutor.h"
+#include <boost\bind.hpp>
 namespace AT
 {
 
@@ -13,6 +14,8 @@ version1Container::version1Container(void)
 //	IndexContainer* m_pIndexContaner;
 //	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 //	ITradeSignalFliter*					m_pTradeSignalFliter;
+
+	m_TradeAccountContaner.SetProfitCallback(boost::bind(&ITradeSignalFliter::UpdateProfit,m_pTradeSignalFliter,_1,_2));
 }
 
 
@@ -27,6 +30,8 @@ void AT::version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	std::vector<TradeSignal> lTradeSignalVec = ProduceTradeSignal(aMarketDepth);
 
 	TradeSignal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
+
+	m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
 
 
 }
@@ -45,6 +50,17 @@ void version1Container::UpdateSubPartMarket( const AT::MarketData& aMarketDepth 
 {
 	m_pIndexContaner->OnMarketDepth(aMarketDepth);
 	m_pTradeSignalFliter->OnMarketDepth(aMarketDepth);
+	m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
+}
+
+void version1Container::OnRtnOrder( const OrderUpdate& apOrder )
+{
+	m_TradeAccountContaner.OnRtnOrder(apOrder);
+}
+
+void version1Container::OnRtnTrade( const TradeUpdate& apTrade )
+{
+	m_TradeAccountContaner.OnRtnTrade(apTrade);
 }
 
 }

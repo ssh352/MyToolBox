@@ -17,6 +17,13 @@ CloseExecutor_3Level::CloseExecutor_3Level( CloseSetting_3Level aSetting)
 
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
 {
+	if(targetQuantity == 0 )
+	{
+		boost::shared_ptr<TradeCommand> lret;
+		lret.reset(new InvalidCommand);
+		return lret;
+	}
+
 	m_CurrentLevel = 0;
 	m_StartPrice = aMarket.m_LastPrice;
 	m_TargetVol = targetQuantity;
@@ -29,6 +36,13 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::SetupTarget( int targetQua
 
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::AddTarget( int addTargetQuantity,bool isBuy, const AT::MarketData& aMarket )
 {
+	if(addTargetQuantity == 0 )
+	{
+		boost::shared_ptr<TradeCommand> lret;
+		lret.reset(new InvalidCommand);
+		return lret;
+	}
+
 	m_TargetVol += addTargetQuantity;
 	m_IsBuy = isBuy;
 
@@ -39,8 +53,6 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::AddTarget( int addTargetQu
 
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-
-
 	if(m_TargetVol > 0)
 	{
 		int lPriceDiffStart = aMarketDepth.m_LastPrice - m_StartPrice;
@@ -137,11 +149,6 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnTrade( const AT::Trad
 std::string CloseExecutor_3Level::GetExecutorID()
 {
 	return "Level3Quit";
-}
-
-void CloseExecutor_3Level::SetFinishedCallbakc( FinishExecuteCallbackType aFinishCallback )
-{
-	m_FinishehNotfiy = aFinishCallback;
 }
 
 }

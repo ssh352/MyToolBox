@@ -24,8 +24,10 @@ namespace AT
 
 		//输入3 设置完成任务的callback
 		//
-		virtual void SetFinishedCallbakc(FinishExecuteCallbackType aFinishCallback) = 0;
+		virtual void SetFinishedCallback(FinishExecuteCallbackType aFinishCallback) {m_FinishehNotfiy = aFinishCallback;};
 		virtual std::string GetExecutorID() = 0;
+	protected:
+		FinishExecuteCallbackType  m_FinishehNotfiy;
 	};
 
 

@@ -12,7 +12,7 @@ struct TradeCommand;
 class TradeAccountDemo1 :public ITradeAccount
 {
 public:
-	TradeAccountDemo1(const std::string& aConfigFile, IDriver_TD* apTD,ITradeAccountObserver* apTradeAccountOB);
+	TradeAccountDemo1(const std::string& aConfigFile, IDriver_TD* apTD);
 	virtual ~TradeAccountDemo1(void);
 	virtual void HandleTradeSignal(const TradeSignal& aTradeSignal) override;
 	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
@@ -34,8 +34,8 @@ private:
 	std::string m_AccountID;
 private:
 	IDriver_TD* m_pTD;
-	ITradeAccountObserver* m_pTradeAccountOB;
 	std::map<std::string,boost::shared_ptr<ITradeSignalExecutor> > m_OpenExecutorMap;
+	//boost::shared_ptr<ITradeSignalExecutor>							m_OpenExecutor;;
 	boost::shared_ptr<ITradeSignalExecutor>							m_CloseExecutor;
 	std::string			m_openExecutorID;
 

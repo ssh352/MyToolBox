@@ -11,15 +11,20 @@
     <ClCompile Include="version1Container.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="TradeAccountDemo1.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="TradeSignalFliterDemo.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="CloseExecutor_3Level.cpp" />
+    <ClCompile Include="CloseExecutor_3Level.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenLimitExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
     <ClCompile Include="TradeAccountContainer.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Classes\TradeAccount</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeAccountDemo1.cpp">
+      <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,18 +55,23 @@
     <ClInclude Include="ITradeAccountObserver.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="TradeSignalFliterDemo.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="TradeAccountDemo1.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="CloseExecutor_3Level.h">
+      <Filter>Classes\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="CloseExecutor_3Level.h" />
+    <ClInclude Include="OpenLimitExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="ITradeSignalExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
     <ClInclude Include="TradeAccountContainer.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeAccountDemo1.h">
+      <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +83,12 @@
     </Filter>
     <Filter Include="interface">
       <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Executor">
+      <UniqueIdentifier>{f096a966-8fc3-4510-8a8c-7182237d60f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\TradeAccount">
+      <UniqueIdentifier>{0044f8ad-4e85-48e1-80b0-4b9a69e8ad42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

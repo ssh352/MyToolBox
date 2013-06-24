@@ -2,13 +2,13 @@
 #include "ITradeSignalExecutor.h"
 #include "IDriver_TD.h"
 #include "CloseExecutor_3Level.h"
+#include "OpenLimitExecutor.h"
 #include <boost\bind.hpp>
 namespace AT
 {
 
-	TradeAccountDemo1::TradeAccountDemo1( const std::string& aConfigFile, IDriver_TD* apTD,ITradeAccountObserver* apTradeAccountOB )
+	TradeAccountDemo1::TradeAccountDemo1( const std::string& aConfigFile, IDriver_TD* apTD )
 		:m_pTD(apTD)
-		,m_pTradeAccountOB(apTradeAccountOB)
 		,m_IsCompleteClose(true)
 		,m_IsCompleteOpen(true)
 		,m_totalProfit(0)
@@ -63,13 +63,13 @@ namespace AT
 		m_AccountID;
 
 		//todo Load Signal OpenExecutor Map
-		m_OpenExecutorMap;
+		m_OpenExecutorMap["HKY006"].reset(new OpenLimitExecutor(30));
 
 		//todo Load Close Executor
 
 		CloseSetting_3Level lCloseConfig;
 		m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
-		m_CloseExecutor->SetFinishedCallbakc(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
+		m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
 	}	
 
 	void TradeAccountDemo1::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )

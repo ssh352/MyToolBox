@@ -1,5 +1,6 @@
 #pragma once
 #include "ITradeAccount.h"
+#include "IDriver_TD.h"
 #include <boost\smart_ptr.hpp>
 namespace AT
 {
@@ -8,7 +9,7 @@ typedef  boost::function<void(int32_t profix,AT_Time aTime)> FliterProfitUpdater
 class TradeAccountContainer
 {
 public:
-	TradeAccountContainer(void);
+	TradeAccountContainer(const char* configFile, AT::IDriver_TD* apTD );
 	~TradeAccountContainer(void);
 
 	void HandleTradeSignalProfit(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender );

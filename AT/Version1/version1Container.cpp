@@ -8,14 +8,19 @@ namespace AT
 {
 
 
-version1Container::version1Container(void)
+version1Container::version1Container(const char* aConfigFile, AT::IDriver_TD* apTD, AT::IStrategySpi* aStrSpi, const  AT::IMarketCache* apMarketCache)
+	:m_pTD(apTD)
+	,m_MarketCache(apMarketCache)
+	,m_TradeAccountContaner(aConfigFile,apTD)
 {
 ////todo init
 //	IndexContainer* m_pIndexContaner;
 //	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 //	ITradeSignalFliter*					m_pTradeSignalFliter;
+	 InitIndexContainer();
+	 InitFliter();
+	 InitAccountContainer();
 
-	m_TradeAccountContaner.SetProfitCallback(boost::bind(&ITradeSignalFliter::UpdateProfit,m_pTradeSignalFliter,_1,_2));
 }
 
 
@@ -23,7 +28,7 @@ version1Container::~version1Container(void)
 {
 }
 
-void AT::version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	UpdateSubPartMarket(aMarketDepth);
 
@@ -36,7 +41,7 @@ void AT::version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 }
 
-std::vector<TradeSignal> AT::version1Container::ProduceTradeSignal( const AT::MarketData& lNow )
+std::vector<TradeSignal> version1Container::ProduceTradeSignal( const AT::MarketData& lNow )
 {
 	std::vector<TradeSignal> lSignalResult;
 	for(auto lpSignalProducer :m_TradeSignalProducerVec)
@@ -61,6 +66,21 @@ void version1Container::OnRtnOrder( const OrderUpdate& apOrder )
 void version1Container::OnRtnTrade( const TradeUpdate& apTrade )
 {
 	m_TradeAccountContaner.OnRtnTrade(apTrade);
+}
+
+void version1Container::InitIndexContainer()
+{
+
+}
+
+void version1Container::InitAccountContainer()
+{
+	m_TradeAccountContaner.SetProfitCallback(boost::bind(&ITradeSignalFliter::UpdateProfit,m_pTradeSignalFliter,_1,_2));
+}
+
+void version1Container::InitFliter()
+{
+
 }
 
 }

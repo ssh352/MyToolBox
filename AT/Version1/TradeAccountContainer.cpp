@@ -1,13 +1,24 @@
 #include "TradeAccountContainer.h"
+#include "IDriver_TD.h"
+#include "TradeAccountDemo1.h"
 #include <boost\bind.hpp>
 #include <boost\function.hpp>
 namespace AT
 {
 
-TradeAccountContainer::TradeAccountContainer(void)
+
+TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriver_TD* apTD )
 {
 
-	//init the m_AccountList
+	//todo load from file but now , just hard code
+	boost::shared_ptr<ITradeAccount> lpAccount1;
+	lpAccount1.reset(new TradeAccountDemo1("AccountFile1.xml",apTD));
+	m_AccountList.push_back(lpAccount1);
+
+
+	boost::shared_ptr<ITradeAccount> lpAccoun2;
+	lpAccoun2.reset(new TradeAccountDemo1("AccountFile2.xml",apTD));
+	m_AccountList.push_back(lpAccoun2);
 
 	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
 		= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);

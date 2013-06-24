@@ -75,4 +75,7 @@
       <UniqueIdentifier>{48061f78-cacb-4ee2-91e1-a72903d3cc74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SignalFliter.xml" />
+  </ItemGroup>
 </Project>

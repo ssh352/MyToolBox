@@ -15,6 +15,7 @@ namespace AT
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override;
 		virtual void Stop() override ;
+		virtual std::string GetIndexName() override{return "HKY006";}
 
 	private: 
 		std::pair<int32_t,MarketData>	m_LowPoint;

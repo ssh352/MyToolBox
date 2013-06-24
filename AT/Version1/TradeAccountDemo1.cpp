@@ -13,6 +13,7 @@ namespace AT
 		,m_IsCompleteOpen(true)
 		,m_totalProfit(0)
 	{
+		InitFromConfigFile(aConfigFile);
 	}
 
 	TradeAccountDemo1::~TradeAccountDemo1(void)

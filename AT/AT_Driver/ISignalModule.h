@@ -19,7 +19,7 @@ namespace AT
 		virtual void Stop() = 0;
 		virtual void UpdateParam(AT::ESignalInputType aInputCode ,const AT::Param& apParam)  = 0;
 		virtual int OnMarketDepth(const  AT::MarketData& aMarketPtr) = 0;
-		virtual std::string GetIndexName(){return " ";};
+		virtual std::string GetIndexName()=0;
 	};
 
 }

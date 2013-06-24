@@ -1,4 +1,6 @@
 #include "TradeSignalFliterDemo.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace AT
 {
@@ -7,13 +9,17 @@ namespace AT
 TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 {
 	//load from  files
+	boost::property_tree::ptree lpt;
+	read_xml("SignalFliter.xml",lpt);
 	m_StopTriggerVol2;
 	m_StopTriggerVol3;
 
-	m_Time1;
-	m_Time2;
-	m_Time3;
-	m_TotalProfitStopVal;
+	m_Time1 = lpt.get<int>("SignalFliter.Time1");
+	m_Time2 = lpt.get<int>("SignalFliter.Time2");
+	m_Time3 = lpt.get<int>("SignalFliter.Time3");
+	m_StopLevelTimeMap[lpt.get<int>("SignalFliter.TotalTimeProfit.Profit")] = lpt.get<int>("SignalFliter.TotalTimeProfit.Time");
+	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.TotalProfitStop");
+	m_StopTime = lpt.get<AT_Time>("SignalFliter.StopTime");
 }
 
 
@@ -50,7 +56,8 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 	//2次
 
 	LastNTradeStatus lret2 = IsLastNTradeLoss(2);
-	if(lret2.m_isAllLoss && lret2.m_TotalLoss > m_StopTriggerVol2 )
+//	if(lret2.m_isAllLoss && lret2.m_TotalLoss > m_StopTriggerVol2 )
+	if(lret2.m_isAllLoss && (m_LastTime-lret2.m_TimeLoss)<boost::posix_time::seconds(m_Time2))
 	{
 		TradeSignal lret;
 		lret.m_Valid = false;
@@ -59,7 +66,8 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 
 
 	LastNTradeStatus lret3 = IsLastNTradeLoss(3);
-	if(lret3.m_isAllLoss && lret3.m_TotalLoss > m_StopTriggerVol3 )
+	//if(lret3.m_isAllLoss && lret3.m_TotalLoss > m_StopTriggerVol3 )
+	if(lret3.m_isAllLoss && (m_LastTime-lret3.m_TimeLoss)<boost::posix_time::seconds(m_Time3))
 	{
 		TradeSignal lret;
 		lret.m_Valid = false;
@@ -74,6 +82,15 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 		totalProfit += lProfitPair.second;
 	}
 	if(totalProfit < m_TotalProfitStopVal)
+	{
+		TradeSignal lret;
+		lret.m_Valid = false;
+		return lret;
+	}
+
+	//总亏损N点时N秒冻结时长
+	if(totalProfit < m_StopLevelTimeMap.begin()->first &&
+		(m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_StopLevelTimeMap.begin()->second))
 	{
 		TradeSignal lret;
 		lret.m_Valid = false;
@@ -115,17 +132,19 @@ TradeSignalFliterDemo::LastNTradeStatus TradeSignalFliterDemo::IsLastNTradeLoss(
 {
 	LastNTradeStatus lret = {false,0};
 	std::map<AT_Time,int32_t>::reverse_iterator iter = m_ProfitStatusMap.rbegin();
-	for (int i = lastI; i< lastI;++i)
+	for (int i = 0; i< lastI;++i)
 	{
 		if(iter!= m_ProfitStatusMap.rend() && iter->second < 0 )
 		{
 			lret.m_TotalLoss += iter->second;
+			lret.m_TimeLoss = iter->first;
 		}
 		else
 		{
 			lret.m_isAllLoss = false;
 			return lret;
 		}
+		iter--;
 	}
 	lret.m_isAllLoss = true;
 	return lret;

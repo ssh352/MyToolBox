@@ -21,6 +21,7 @@ private:
 	{
 		bool m_isAllLoss;
 		int	m_TotalLoss;
+		AT_Time m_TimeLoss;
 	};
 	LastNTradeStatus IsLastNTradeLoss(int i);
 

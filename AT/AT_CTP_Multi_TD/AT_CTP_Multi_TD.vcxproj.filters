@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTP_MULTI_TD.cpp" />
+    <ClCompile Include="testLoad.cpp" />
   </ItemGroup>
 </Project>

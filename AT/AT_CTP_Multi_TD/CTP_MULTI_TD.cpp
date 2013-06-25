@@ -16,10 +16,10 @@ namespace CTP
 		boost::property_tree::ptree lpt;
 		read_xml(aConfigFile,lpt);
 
-		for(auto lSignalAccountNodePair: lpt)
+		for(auto lSignalAccountNodePair: lpt.get_child("Multi_Config"))
 		{
-			std::string lAccountID = lSignalAccountNodePair.second.get<std::string>("Account.AccountID");
-			std::string lAccountConfig = lSignalAccountNodePair.second.get<std::string>("Account.Config");
+			std::string lAccountID = lSignalAccountNodePair.second.get<std::string>("AccountID");
+			std::string lAccountConfig = lSignalAccountNodePair.second.get<std::string>("Config");
 			lCTP_TD_Map[lAccountID] = lAccountConfig;
 		}
 

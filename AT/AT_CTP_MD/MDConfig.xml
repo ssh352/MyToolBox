@@ -3,9 +3,6 @@
 <MDConfig>
   <Front>tcp://ctpmn1-front2.citicsf.com:51213</Front>
   <InstrumentList>
-    <item>IF1304</item>
-    <item>IF1305</item>
-    <item>IF1306</item>
     <item>IF1307</item>
     <item>IF1308</item>
   </InstrumentList>

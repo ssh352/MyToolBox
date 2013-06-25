@@ -4,6 +4,8 @@
 #include "CloseExecutor_3Level.h"
 #include "OpenLimitExecutor.h"
 #include <boost\bind.hpp>
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 namespace AT
 {
 
@@ -60,14 +62,31 @@ namespace AT
 	void TradeAccountDemo1::InitFromConfigFile( const std::string& aConfigFile )
 	{
 		//todo load AccountID
-		m_AccountID;
+		boost::property_tree::ptree lpt;
+		read_xml(aConfigFile,lpt);
+
+		m_AccountID = lpt.get<std::string>("AccountFile.AccountID");
+
+		m_TargetVol = 1;
 
 		//todo Load Signal OpenExecutor Map
 		m_OpenExecutorMap["HKY006"].reset(new OpenLimitExecutor(30));
+		m_OpenExecutorMap["HKY006"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
 
 		//todo Load Close Executor
 
 		CloseSetting_3Level lCloseConfig;
+		lCloseConfig.QuitLevel_0 = lpt.get<int>("AccountFile.Level0.QuitPrice");
+		lCloseConfig.QuitLevel_1 = lpt.get<int>("AccountFile.Level1.QuitPrice");
+		lCloseConfig.QuitLevel_2 = lpt.get<int>("AccountFile.Level2.QuitPrice");
+		lCloseConfig.QuitLevel_3 = lpt.get<int>("AccountFile.Level3.QuitPrice");
+		lCloseConfig.EnterLevel_1 = lpt.get<int>("AccountFile.Level1.EnterPrice");
+		lCloseConfig.EnterLevel_2 = lpt.get<int>("AccountFile.Level2.EnterPrice");
+		lCloseConfig.EnterLevel_3 = lpt.get<int>("AccountFile.Level3.EnterPrice");
+		std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopTime");
+		lCloseConfig.StopTime = boost::posix_time::time_from_string(strStopTime);
+		std::string strStopClearTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopClearTime");
+		lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
 		m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
 		m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
 	}	
@@ -108,11 +127,13 @@ namespace AT
 		
 		if(!isFinishe)
 		{
-			boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
+			//boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
 			m_IsCompleteClose = false;
-			DoTradeCommand(lTradeCommand);
+			//DoTradeCommand(lTradeCommand);
 
 		}
+		boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
+		DoTradeCommand(lTradeCommand);
 
 		m_totalProfit += aVol * aPrice * (IsBuy? -1 : 1);
 		if(m_IsCompleteClose && m_IsCompleteOpen)

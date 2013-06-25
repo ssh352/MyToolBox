@@ -75,6 +75,7 @@
     <ClCompile Include="CloseExecutor_3Level.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_versionLoaderPoster.cpp" />
     <ClCompile Include="OpenLimitExecutor.cpp" />
     <ClCompile Include="TradeAccountContainer.cpp" />
     <ClCompile Include="TradeAccountDemo1.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="ITradeSignalExecutor.h" />
     <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="OpenLimitExecutor.h" />
     <ClInclude Include="TradeAccountContainer.h" />
     <ClInclude Include="TradeAccountDemo1.h" />
@@ -100,6 +102,12 @@
     <ClInclude Include="version1Container.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
+      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
+      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
       <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
     </ProjectReference>
@@ -108,7 +116,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="AccountFile1.xml" />
+    <Xml Include="AccountFile2.xml" />
     <Xml Include="SignalFliter.xml" />
+    <Xml Include="SignalLoaderConfig.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

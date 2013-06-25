@@ -4,6 +4,13 @@
 #include "ITradeSignalFliter.h"
 #include "ITradeSignalExecutor.h"
 #include <boost\bind.hpp>
+#include "TradeSignalFliterDemo.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include "ISignalModule.h"
+#include <windows.h>
+#include <boost\format.hpp>
+#include "TradeSignalProducerDemo1.h"
 namespace AT
 {
 
@@ -35,8 +42,12 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	std::vector<TradeSignal> lTradeSignalVec = ProduceTradeSignal(aMarketDepth);
 
 	TradeSignal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
+	if(lFinalSignal.m_Valid)
+	{
+		m_TradeAccountContaner.HandleTradeSignal(lFinalSignal);
+	}
 
-	m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
+	
 
 
 }
@@ -70,7 +81,37 @@ void version1Container::OnRtnTrade( const TradeUpdate& apTrade )
 
 void version1Container::InitIndexContainer()
 {
+	boost::property_tree::ptree lConfig;
+	read_xml("SignalLoaderConfig.xml",lConfig);
 
+	std::vector<AT::ISignalModule*>  SingleModuleVec;
+
+	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
+	{
+		std::string lDllName = lSingleMoudleList.second.get<std::string>("SignalDllName");
+		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("SignalDllConfig");
+		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
+		if( ! lSinglehandle)
+		{
+			std::cout<<boost::format("Can not load SingleMoudle DLL %s")%lDllName;
+			break;
+		}
+		CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
+		if (! lpSignalCallInst)
+		{
+			std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
+			break;
+		}
+		AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_MarketCache);
+		if(!lpSignalInst)
+		{
+			std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;
+			break;
+		}
+		SingleModuleVec.push_back(lpSignalInst);
+		m_LibHandleVec.push_back(lSinglehandle);
+	}
+	m_pIndexContaner =  new IndexContainer(SingleModuleVec);
 }
 
 void version1Container::InitAccountContainer()
@@ -80,7 +121,24 @@ void version1Container::InitAccountContainer()
 
 void version1Container::InitFliter()
 {
+	m_pTradeSignalFliter = new TradeSignalFliterDemo();
+}
+void version1Container::InitSignalProducer()
+{
+	m_TradeSignalProducerVec.push_back(new TradeSignalProducerDemo1("",m_pIndexContaner));
+}
+void version1Container::Start()
+{
+	m_pIndexContaner->Start();
 
+}
+void version1Container::Stop()
+{
+	m_pIndexContaner->Stop();
+	for(auto lHandle :m_LibHandleVec)
+	{
+		FreeLibrary(lHandle);
+	}
 }
 
 }

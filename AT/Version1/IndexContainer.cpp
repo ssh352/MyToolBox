@@ -40,6 +40,20 @@ int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,A
 	}
 	return lret;
 }
+void IndexContainer::Start()
+{
+	for(auto lSignalPtr:m_SignalModuleVec)
+	{
+		lSignalPtr->Start();
+	}
+}
 
+void IndexContainer::Stop()
+{
+	for(auto lSignalPtr:m_SignalModuleVec)
+	{
+		lSignalPtr->Stop();
+	}
+}
 
 }

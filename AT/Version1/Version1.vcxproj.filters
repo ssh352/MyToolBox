@@ -26,6 +26,7 @@
     <ClCompile Include="TradeAccountDemo1.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
+    <ClCompile Include="main_versionLoaderPoster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -73,6 +74,7 @@
     <ClInclude Include="TradeAccountDemo1.h">
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
+    <ClInclude Include="main_versionLoaderPoster.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -93,5 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="SignalFliter.xml" />
+    <Xml Include="SignalLoaderConfig.xml" />
+    <Xml Include="AccountFile1.xml" />
+    <Xml Include="AccountFile2.xml" />
   </ItemGroup>
 </Project>

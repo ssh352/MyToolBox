@@ -45,6 +45,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::AddTarget( int addTargetQu
 
 	m_TargetVol += addTargetQuantity;
 	m_IsBuy = isBuy;
+	m_StartPrice = aMarket.m_LastPrice;
 
 	boost::shared_ptr<TradeCommand> lret;
 	lret.reset(new InvalidCommand);
@@ -55,6 +56,14 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::M
 {
 	if(m_TargetVol > 0)
 	{
+		if(aMarketDepth.m_UpdateTime>= m_Setting.StopClearTime)//市价清仓
+		{
+			return DoQuit(aMarketDepth);///////////////////////市价还未处理//////////////////////
+		}
+		if(aMarketDepth.m_UpdateTime >= m_Setting.StopTime)//全部清仓
+		{
+			return DoQuit(aMarketDepth);
+		}
 		int lPriceDiffStart = aMarketDepth.m_LastPrice - m_StartPrice;
 		switch (m_CurrentLevel)
 		{
@@ -106,6 +115,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::DoQuit(const AT::MarketDat
 	lpInputOrder->m_operation.m_Vol = m_TargetVol;
 	m_ActiveOrderVol += m_TargetVol;
 	m_TargetVol = 0;
+	m_CurrentLevel = 0;
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
 	lret.reset(lpInputOrder);

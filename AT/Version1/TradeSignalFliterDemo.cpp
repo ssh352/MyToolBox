@@ -1,6 +1,8 @@
 #include "TradeSignalFliterDemo.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include "boost/date_time/posix_time/posix_time.hpp"
+#include "boost/date_time/posix_time/posix_time_types.hpp"
 
 namespace AT
 {
@@ -19,7 +21,8 @@ TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 	m_Time3 = lpt.get<int>("SignalFliter.Time3");
 	m_StopLevelTimeMap[lpt.get<int>("SignalFliter.TotalTimeProfit.Profit")] = lpt.get<int>("SignalFliter.TotalTimeProfit.Time");
 	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.TotalProfitStop");
-	m_StopTime = lpt.get<AT_Time>("SignalFliter.StopTime");
+	std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StopTime");
+	m_StopTime = boost::posix_time::time_from_string(strStopTime);
 }
 
 

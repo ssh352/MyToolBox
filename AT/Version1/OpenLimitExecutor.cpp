@@ -36,10 +36,14 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::AddTarget( int addTargetQuant
 	lpInputOrder->m_operation.m_Vol = addTargetQuantity;
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
+	//市价、限价
+	lpInputOrder->m_operation.m_OrderType = OrderType::LimitOrder;
+
 	lret.reset(lpInputOrder);
 	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
 	m_TragetVol = addTargetQuantity;
 	m_IsBuy = isBuy;
+	m_StartTime = aMarket.m_UpdateTime;
 	return lret;
 }
 
@@ -49,7 +53,13 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnMarketDepth( const AT::Mark
 	if(m_LastMarket.m_UpdateTime - m_StartTime > boost::posix_time::seconds(m_OrderValidTime))
 	{
 		//cancel order
-		m_FinishehNotfiy(0,0,m_IsBuy,true);	
+		boost::shared_ptr<TradeCommand> lret;
+		CancelCommand* lpCancleOrder = new CancelCommand;
+
+		lpCancleOrder->m_operation.m_Key = *m_SendOrderSet.rbegin();
+		lret.reset(lpCancleOrder);
+		m_FinishehNotfiy(0,0,m_IsBuy,true);
+		return lret;
 	}
 	{
 		boost::shared_ptr<TradeCommand> lret;

@@ -12,6 +12,10 @@ struct CloseSetting_3Level
 	int QuitLevel_1;
 	int EnterLevel_2;
 	int QuitLevel_2;
+	int EnterLevel_3;
+	int QuitLevel_3;
+	AT_Time StopTime;//规定时间点还有持仓，则全部平仓
+	AT_Time StopClearTime;//规定时间点还有持仓，则按市价清仓
 };
 
 class CloseExecutor_3Level :public ITradeSignalExecutor

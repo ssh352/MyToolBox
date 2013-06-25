@@ -11,14 +11,20 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 {
 
 	//todo load from file but now , just hard code
+	AccountProfitStatus lnewStatus ;
+	memset(&lnewStatus,0,sizeof(AccountProfitStatus));
+
 	boost::shared_ptr<ITradeAccount> lpAccount1;
 	lpAccount1.reset(new TradeAccountDemo1("AccountFile1.xml",apTD));
 	m_AccountList.push_back(lpAccount1);
+	m_AccountFinishedList[lpAccount1] = lnewStatus;
 
 
 	boost::shared_ptr<ITradeAccount> lpAccoun2;
 	lpAccoun2.reset(new TradeAccountDemo1("AccountFile2.xml",apTD));
 	m_AccountList.push_back(lpAccoun2);
+	m_AccountFinishedList[lpAccoun2] = lnewStatus;
+
 
 	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
 		= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);

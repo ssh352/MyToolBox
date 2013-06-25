@@ -4,6 +4,7 @@
 #include "TradeSignal.h"
 #include "TradeAccountContainer.h"
 #include <vector>
+#include <windows.h>
 namespace AT
 {
 class IndexContainer;
@@ -23,8 +24,8 @@ public:
 	 virtual void OnRtnTrade(const  TradeUpdate& apTrade) override; 
 
 	 virtual void UpdateParam(EStrInputState errCode ,const Param& apParam) override{};
-	 virtual void Start()override{};
-	 virtual void Stop() override{};
+	 virtual void Start()override;
+	 virtual void Stop() override;
 
 private:
 
@@ -35,6 +36,7 @@ private:
 	void InitIndexContainer();
 	void InitFliter();
 	void InitAccountContainer();
+	void InitSignalProducer();
 
 private:
 	IndexContainer* m_pIndexContaner;
@@ -45,6 +47,7 @@ private:
 	AT::IDriver_TD* m_pTD;
 	const AT::IMarketCache* m_MarketCache;
 
+	std::vector<HMODULE>				m_LibHandleVec;
 };
 
 }

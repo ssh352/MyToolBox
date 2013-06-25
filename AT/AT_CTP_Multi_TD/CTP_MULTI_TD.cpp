@@ -8,8 +8,25 @@ namespace CTP
 {
 
 
-	CTP_MULTI_TD::CTP_MULTI_TD(void)
+	CTP_MULTI_TD::CTP_MULTI_TD(const std::string& aConfigFile,AT::ITradeSpi* apTradeSpi)
+		:m_pTradeSpi(apTradeSpi)
 	{
+
+		std::map<std::string,std::string> lCTP_TD_Map;
+		boost::property_tree::ptree lpt;
+		read_xml(aConfigFile,lpt);
+
+		for(auto lSignalAccountNodePair: lpt)
+		{
+			std::string lAccountID = lSignalAccountNodePair.second.get<std::string>("Account.AccountID");
+			std::string lAccountConfig = lSignalAccountNodePair.second.get<std::string>("Account.Config");
+			lCTP_TD_Map[lAccountID] = lAccountConfig;
+		}
+
+		for (auto lSingleTDPair: lCTP_TD_Map)
+		{
+			LoadSignalTD(lSingleTDPair.first,lSingleTDPair.second);
+		}
 	}
 
 
@@ -17,62 +34,67 @@ namespace CTP
 	{
 	}
 
-	void CTP_MULTI_TD::Init( const std::map<std::string,std::string>& aConfigMap, AT::ITradeSpi* apTradeSpi )
+
+
+	void CTP_MULTI_TD::LoadSignalTD( const std::string& AccountName, const std::string aConfigFileName )
 	{
-		boost::property_tree::ptree lMultiTDpt;
-		std::string ConfigFileName =aConfigMap.at("ConfigFile");
-		read_xml(ConfigFileName,lMultiTDpt);
-		std::set<std::string> lTDCOnfigList;
-		for(auto lVale: lMultiTDpt.get_child("Multi_Config.Itemlist"))
+		m_TradeInstMap[AccountName].reset(new CTP_TD(aConfigFileName.c_str(),m_pTradeSpi));
+	}
+
+	void CTP_MULTI_TD::UpdateParam( const AT::Param& apParam )
+	{
+		//nothing todo now;
+	}
+
+	void CTP_MULTI_TD::Start()
+	{
+		for (auto lTDInstPair: m_TradeInstMap)
 		{
-			lTDCOnfigList.insert(lVale.second.data());
+			lTDInstPair.second->Start();
 		}
 		
-		for(std::string lConfigName :lTDCOnfigList )
+	}
+
+	void CTP_MULTI_TD::Stop()
+	{
+		for (auto lTDInstPair: m_TradeInstMap)
 		{
-			std::map<std::string,std::string> lTDConfigMap;
-			std::string lConfigNodeName ="Multi_Config."+lConfigName + '.';
-			lTDConfigMap["BrokerID"] = lMultiTDpt.get<std::string>(lConfigNodeName+"BrokerID");
-			lTDConfigMap["UserID"] =  lMultiTDpt.get<std::string>(lConfigNodeName+"UserID");
-			lTDConfigMap["Password"]= lMultiTDpt.get<std::string>(lConfigNodeName+"Password");
-			lTDConfigMap["Front"] = lMultiTDpt.get<std::string>(lConfigNodeName+"Front");
-			lTDConfigMap["StoreDir"] = lMultiTDpt.get<std::string>(lConfigNodeName+"StoreDir");
-			std::shared_ptr<CTP_TD> lCurrentTDInst(new CTP_TD);
-			lCurrentTDInst->Init(lTDConfigMap,apTradeSpi);
-			m_TradeInstMap[lConfigName] =lCurrentTDInst;
+			lTDInstPair.second->Stop();
 		}
-
 	}
 
-	std::string CTP_MULTI_TD::CreateOrder( const std::string& aNewOrder )
+	void CTP_MULTI_TD::CreateOrder( const AT::InputOrder& aNewOrder )
 	{
-		std::stringstream lbuf(aNewOrder);
-		using boost::property_tree::ptree;
-		ptree pt;
-		read_xml(lbuf,pt);
-
-		std::string lConfigName = pt.get<std::string>("Order.User");
-
-		std::string lClientOrderID = m_TradeInstMap[lConfigName]->CreateOrder(aNewOrder);
-		mCLientID_TD_Map[lClientOrderID] = m_TradeInstMap[lConfigName];
-		return lClientOrderID;
-		
+		std::string lAccountID = aNewOrder.AccoutID;
+		m_TradeInstMap[lAccountID]->CreateOrder(aNewOrder);
+		//保存Key 与Account之间的映射，当撤单的时候能够正确找到原来的账户
+		m_OrderKeyMap[lAccountID].insert(aNewOrder.m_Key);
 	}
 
-	void CTP_MULTI_TD::DeleteOrder( const std::string& aClientOrderID )
+	void CTP_MULTI_TD::DeleteOrder( const AT::CancelOrder& aDelOrderID )
 	{
-		 mCLientID_TD_Map[aClientOrderID]->DeleteOrder(aClientOrderID);
-	}
-
-	void CTP_MULTI_TD::ModifyOrder( const std::string& aRequest )
-	{
+		std::string lAccountID = FindOrderInstByOrderKey(aDelOrderID.m_Key);
+		m_TradeInstMap[lAccountID]->DeleteOrder(aDelOrderID);
 		return;
 	}
 
-	void CTP_MULTI_TD::QueryPosition( const std::string& aRequest )
+	void CTP_MULTI_TD::ModifyOrder( const AT::ModifyOrder& aRequest )
 	{
-		//todo
+		std::string lAccountID = FindOrderInstByOrderKey(aRequest.m_Key);
+		m_TradeInstMap[lAccountID]->ModifyOrder(aRequest);
 		return;
+	}
+
+	std::string CTP_MULTI_TD::FindOrderInstByOrderKey( const AT::AT_Order_Key &aKEy )
+	{
+		for(auto lOrderKeyMapPair:m_OrderKeyMap)
+		{
+			std::set<AT::AT_Order_Key>& lOrderKeySet = lOrderKeyMapPair.second;
+			if (lOrderKeySet.find(aKEy) !=lOrderKeySet.end() )
+			{
+				return  lOrderKeyMapPair.first;
+			}
+		}
 	}
 
 }

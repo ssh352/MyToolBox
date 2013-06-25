@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Multi_Config>
-  
-<Itemlist>
-<Item>TDConfig1</Item>
-<Item>TDConfig2</Item>   
-</Itemlist>
 
-<TDConfig1>
-  <StoreDir>TD_STroe1</StoreDir>
-	<BrokerID>1017</BrokerID>
-	<UserID>00000072</UserID>
-	<Password>123456</Password>
-	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
-</TDConfig1>
-  
- <TDConfig2>
-  <StoreDir>TD_STroe2</StoreDir>
-	<BrokerID>1017</BrokerID>
-	<UserID>00000074</UserID>
-	<Password>123456</Password>
-	<Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
-</TDConfig2> 
+  <Account>
+    <AccountID>AccountID_1</AccountID>
+    <Config>Config_1</Config>
+  </Account>
 
+  <Account>
+    <AccountID>AccountID_1</AccountID>
+    <Config>Config_1</Config>
+  </Account>
 
 </Multi_Config>
-  
-  
+
+
 
 
 

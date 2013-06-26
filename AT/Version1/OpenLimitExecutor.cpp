@@ -40,7 +40,7 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::AddTarget( int addTargetQuant
 	lpInputOrder->m_operation.m_OrderType = OrderType::LimitOrder;
 
 	lret.reset(lpInputOrder);
-	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
+	m_SendOrderKey = lpInputOrder->m_operation.m_Key;
 	m_TragetVol = addTargetQuantity;
 	m_IsBuy = isBuy;
 	m_StartTime = aMarket.m_UpdateTime;
@@ -56,7 +56,7 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnMarketDepth( const AT::Mark
 		boost::shared_ptr<TradeCommand> lret;
 		CancelCommand* lpCancleOrder = new CancelCommand;
 
-		lpCancleOrder->m_operation.m_Key = *m_SendOrderSet.rbegin();
+		lpCancleOrder->m_operation.m_Key = m_SendOrderKey;
 		lret.reset(lpCancleOrder);
 		m_FinishehNotfiy(0,0,m_IsBuy,true);
 		return lret;
@@ -70,7 +70,7 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnMarketDepth( const AT::Mark
 
 boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
-	if (m_SendOrderSet.find(apTrade.m_Key ) != m_SendOrderSet.end())
+	if (apTrade.m_Key  == m_SendOrderKey )
 	{
 		m_TragetVol -= apTrade.m_TradeVol;
 		m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		

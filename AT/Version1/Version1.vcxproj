@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{786EEAAB-3760-4E53-BBDF-445C1A0CEB05}</ProjectGuid>
-    <RootNamespace>AT_CTP_Multi_TD</RootNamespace>
+    <ProjectGuid>{03939A29-D009-468B-A8B9-5E3C30BBEE02}</ProjectGuid>
+    <RootNamespace>Version1</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -22,25 +22,28 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lib_define.props" />
+    <Import Project="..\ThirdPartLib.props" />
+    <Import Project="..\Inclde_CTP.props" />
+    <Import Project="..\CTP_lib.props" />
+    <Import Project="..\debug_runtime.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\ThirdPartLib.props" />
     <Import Project="..\Inclde_CTP.props" />
-    <Import Project="..\Release_runtime.props" />
     <Import Project="..\CTP_lib.props" />
-    <Import Project="..\lib_define.props" />
+    <Import Project="..\Release_runtime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -60,34 +63,63 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CTP_MULTI_TD.h" />
+    <ClCompile Include="CloseExecutor_3Level.cpp" />
+    <ClCompile Include="IndexContainer.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_versionLoaderPoster.cpp" />
+    <ClCompile Include="OpenLimitExecutor.cpp" />
+    <ClCompile Include="TradeAccountContainer.cpp" />
+    <ClCompile Include="TradeAccountDemo1.cpp" />
+    <ClCompile Include="TradeSignalFliterDemo.cpp" />
+    <ClCompile Include="TradeSignalProducerDemo1.cpp" />
+    <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CTP_MULTI_TD.cpp" />
+    <ClInclude Include="CloseExecutor_3Level.h" />
+    <ClInclude Include="IndexContainer.h" />
+    <ClInclude Include="ITradeAccount.h" />
+    <ClInclude Include="ITradeAccountObserver.h" />
+    <ClInclude Include="ITradeSignalExecutor.h" />
+    <ClInclude Include="ITradeSignalFliter.h" />
+    <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="main_versionLoaderPoster.h" />
+    <ClInclude Include="OpenLimitExecutor.h" />
+    <ClInclude Include="TradeAccountContainer.h" />
+    <ClInclude Include="TradeAccountDemo1.h" />
+    <ClInclude Include="TradeCommand.h" />
+    <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="TradeSignalFliterDemo.h" />
+    <ClInclude Include="TradeSignalProducerDemo1.h" />
+    <ClInclude Include="version1Container.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Multi_TD.xml" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
+      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
       <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
       <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
-      <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
+    <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
+      <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="AccountFile1.xml" />
+    <Xml Include="AccountFile2.xml" />
+    <Xml Include="SignalFliter.xml" />
+    <Xml Include="SignalLoaderConfig.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

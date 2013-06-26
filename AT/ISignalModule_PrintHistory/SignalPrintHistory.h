@@ -12,6 +12,7 @@ public:
 	virtual int OnMarketDepth(const AT::MarketData& aMarketDepth) override;
 	virtual void Start() override;
 	virtual void Stop() override ;
+	virtual std::string GetIndexName() override{return "";}
 
 private:
 	std::string m_Configfile;

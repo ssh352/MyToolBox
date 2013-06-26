@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SignalLoaderStr>
+  <Signals>
+    <Item>
+      <SignalDllName>ISignalModule_CacheWave.dll</SignalDllName>
+      <SignalDllConfig>../ISignalModule_CacheWave/ISignalModule_CacheWave.xml</SignalDllConfig>
+    </Item>
+
+  </Signals>
+</SignalLoaderStr>

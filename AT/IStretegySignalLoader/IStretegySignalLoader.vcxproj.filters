@@ -2,24 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="StretegySignalLoader.h" />
-    <ClInclude Include="ISignalHandler.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeCommandDispacher.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeSignal.h">
-      <Filter>struct</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeAccount.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeCommand.h">
-      <Filter>struct</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StretegySignalLoader.cpp" />
@@ -28,12 +10,6 @@
   <ItemGroup>
     <Filter Include="config">
       <UniqueIdentifier>{d0a179d2-2da4-4690-89c2-f1501eb85401}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="interface">
-      <UniqueIdentifier>{eb207cd5-07ba-4dd7-87d1-7935ce4f12a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="struct">
-      <UniqueIdentifier>{70abf8ee-6470-4679-a864-dfbfb4c73d1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

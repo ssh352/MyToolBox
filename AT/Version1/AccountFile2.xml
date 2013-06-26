@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<AccountFile>
+  <AccountID>00000072</AccountID>
+  <Level0>
+    <QuitPrice>-1</QuitPrice>
+  </Level0>
+  <Level1>
+    <EnterPrice>3</EnterPrice>
+    <QuitPrice>3</QuitPrice>
+  </Level1>
+  <Level2>
+    <EnterPrice>5</EnterPrice>
+    <QuitPrice>2</QuitPrice>
+  </Level2>
+  <Level3>
+    <EnterPrice>10</EnterPrice>
+    <QuitPrice>7</QuitPrice>
+  </Level3>
+  <StopTime>15:06</StopTime>
+  <StopClearTime>15:08</StopClearTime>
+</AccountFile>

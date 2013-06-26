@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SignalFliter>
+  <Time1>3</Time1>
+  <Time2>5</Time2>
+  <Time3>8</Time3>
+  <TotalTimeProfit>
+    <Profit>-6</Profit>
+    <Time>10</Time>
+  </TotalTimeProfit>
+  <TotalProfitStop>-10</TotalProfitStop>
+  <StopTime>14:45</StopTime>
+</SignalFliter>

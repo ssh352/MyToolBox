@@ -3,6 +3,8 @@
 #include "TradeAccountDemo1.h"
 #include <boost\bind.hpp>
 #include <boost\function.hpp>
+#include "../AT_Driver/ATLogger.h"
+#include "boost/format.hpp"
 namespace AT
 {
 
@@ -20,10 +22,10 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 	m_AccountFinishedList[lpAccount1] = lnewStatus;
 
 
-	boost::shared_ptr<ITradeAccount> lpAccoun2;
+	/*boost::shared_ptr<ITradeAccount> lpAccoun2;
 	lpAccoun2.reset(new TradeAccountDemo1("AccountFile2.xml",apTD));
 	m_AccountList.push_back(lpAccoun2);
-	m_AccountFinishedList[lpAccoun2] = lnewStatus;
+	m_AccountFinishedList[lpAccoun2] = lnewStatus;*/
 
 
 	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
@@ -85,12 +87,10 @@ void TradeAccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTim
 	{
 		if(lFinishedPtrValType.first.get() == sender)
 		{
-			lFinishedPtrValType.second = lnewStatus;
+			m_AccountFinishedList[lFinishedPtrValType.first] = lnewStatus;
 			break;
 		}
 	}
-
-
 	int totalProfix = 0;
 	for (auto lFinishedPtrValType : m_AccountFinishedList)
 	{

@@ -1,5 +1,9 @@
 #include "CloseExecutor_3Level.h"
 #include "IDriver_TD.h"
+#include "boost/format.hpp"
+#include "../AT_Driver/ATLogger.h"
+#include <sstream>
+using namespace std;
 namespace AT
 {
 
@@ -12,7 +16,8 @@ CloseExecutor_3Level::CloseExecutor_3Level( CloseSetting_3Level aSetting)
 	:m_Setting(aSetting)
 	,m_CurrentLevel(0)
 {
-
+	m_TargetVol = 0;
+	m_ActiveOrderVol = 0;
 }
 
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
@@ -58,7 +63,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::M
 	{
 		if(aMarketDepth.m_UpdateTime>= m_Setting.StopClearTime)//市价清仓
 		{
-			return DoQuit(aMarketDepth);///////////////////////市价还未处理//////////////////////
+			return DoQuit(aMarketDepth);
 		}
 		if(aMarketDepth.m_UpdateTime >= m_Setting.StopTime)//全部清仓
 		{
@@ -92,6 +97,16 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::M
 			{
 				return DoQuit(aMarketDepth);
 			}
+			else if(lPriceDiffStart >= m_Setting.EnterLevel_3)
+			{
+				m_CurrentLevel = 3;
+			}
+			break;
+		case 3:
+			if(lPriceDiffStart <m_Setting.QuitLevel_3)
+			{
+				return DoQuit(aMarketDepth);
+			}
 			break;
 		default:
 			break;
@@ -118,6 +133,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::DoQuit(const AT::MarketDat
 	m_CurrentLevel = 0;
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
+	lpInputOrder->m_operation.m_OrderType = OrderType::MarketOrder;
 	lret.reset(lpInputOrder);
 	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
 	return lret;
@@ -150,7 +166,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnTrade( const AT::Trad
 
 	m_ActiveOrderVol -= apTrade.m_TradeVol;
 
-	bool isFinishe = m_ActiveOrderVol == 0;
+	bool isFinishe = m_ActiveOrderVol == 0 ;
 	m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,isFinishe);
 
 	return lret;

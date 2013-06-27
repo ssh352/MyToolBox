@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Multi_Config>
-<Account><AccountID>AccountID_1</AccountID><Config>Config_1</Config></Account>
- <Account><AccountID>AccountID_2</AccountID><Config>Config_2</Config></Account>
+  <Account><AccountID>00000289</AccountID> <Config>AccountFile1.xml</Config></Account>
 </Multi_Config>
 
 
-
+<!--<Account><AccountID>00000288</AccountID><Config>AccountFile2.xml</Config></Account>-->
 
 
 

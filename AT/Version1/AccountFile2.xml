@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <AccountFile>
-  <AccountID>00000072</AccountID>
+  <AccountID>00000288</AccountID>
   <Level0>
     <QuitPrice>-1</QuitPrice>
   </Level0>
@@ -19,4 +19,20 @@
   </Level3>
   <StopTime>15:06</StopTime>
   <StopClearTime>15:08</StopClearTime>
+
+  <Front>tcp://125.64.36.25:26205</Front>
+  <WorkFlowDir>TD_TEST</WorkFlowDir>
+  <BrokeID>1001</BrokeID>
+  <UserID>00000288</UserID>
+  <Password>123456</Password>
+  <OrderTablePath>OrderSavedPath</OrderTablePath>
 </AccountFile>
+
+<!-- 
+  <Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
+  <WorkFlowDir>TD_TEST</WorkFlowDir>
+  <BrokeID>1017</BrokeID>
+  <UserID>00000019</UserID>
+  <Password>123456</Password>
+  <OrderTablePath>OrderSavedPath</OrderTablePath>
+-->

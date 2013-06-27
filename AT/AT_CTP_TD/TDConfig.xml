@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TDConfig>
+<AccountFile>
   <Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
   <WorkFlowDir>TD_TEST</WorkFlowDir>
   <BrokeID>1017</BrokeID>
   <UserID>00000019</UserID>
   <Password>123456</Password>
   <OrderTablePath>OrderSavedPath</OrderTablePath>
-</TDConfig>
+</AccountFile>

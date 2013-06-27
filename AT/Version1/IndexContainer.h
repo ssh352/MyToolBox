@@ -12,6 +12,7 @@ public:
 	~IndexContainer(void);
 	void OnMarketDepth(const AT::MarketData& aMarketDepth) ;
 	int GetIndexCount(const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime);
+	int GetIndex( const std::string& aIndexName,int iIndex,AT_Time aStartTime,AT_Time aEndTime );
 	void Start();
 	void Stop();
 

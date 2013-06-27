@@ -3,6 +3,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/posix_time/posix_time_types.hpp"
+#include <boost/format.hpp>
 
 namespace AT
 {
@@ -23,6 +24,7 @@ TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.TotalProfitStop");
 	std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StopTime");
 	m_StopTime = boost::posix_time::time_from_string(strStopTime);
+	m_IsOnLastSignal = false;
 }
 
 
@@ -32,13 +34,19 @@ TradeSignalFliterDemo::~TradeSignalFliterDemo(void)
 
 TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> aList )
 {
+	if(aList.size() == 0)
+	{
+		TradeSignal lret;
+		lret.m_Valid = false;
+		return lret;
+	}
 	if(m_IsOnLastSignal)
 	{
 		TradeSignal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
-
+	
 	if(m_LastTime > m_StopTime)
 	{
 		TradeSignal lret;

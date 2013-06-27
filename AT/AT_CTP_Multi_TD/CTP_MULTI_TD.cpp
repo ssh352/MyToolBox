@@ -26,6 +26,7 @@ namespace CTP
 		for (auto lSingleTDPair: lCTP_TD_Map)
 		{
 			LoadSignalTD(lSingleTDPair.first,lSingleTDPair.second);
+			//m_TradeInstMap[lSingleTDPair.first].reset(new CTP_TD(lSingleTDPair.second.c_str(),m_pTradeSpi));
 		}
 	}
 
@@ -95,6 +96,7 @@ namespace CTP
 				return  lOrderKeyMapPair.first;
 			}
 		}
+		return "";
 	}
 
 }

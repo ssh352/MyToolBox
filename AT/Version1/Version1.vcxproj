@@ -37,6 +37,7 @@
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\debug_runtime.props" />
+    <Import Project="..\MP_Comply.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -44,6 +45,7 @@
     <Import Project="..\Inclde_CTP.props" />
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\Release_runtime.props" />
+    <Import Project="..\MP_Comply.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -76,9 +78,7 @@
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_versionLoaderPoster.cpp" />
-    <ClCompile Include="OpenFollowExecutor.cpp" />
     <ClCompile Include="OpenLimitExecutor.cpp" />
-    <ClCompile Include="OpenMarketexecutor.cpp" />
     <ClCompile Include="TradeAccountContainer.cpp" />
     <ClCompile Include="TradeAccountDemo1.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
@@ -94,9 +94,7 @@
     <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
-    <ClInclude Include="OpenFollowExecutor.h" />
     <ClInclude Include="OpenLimitExecutor.h" />
-    <ClInclude Include="OpenMarketexecutor.h" />
     <ClInclude Include="TradeAccountContainer.h" />
     <ClInclude Include="TradeAccountDemo1.h" />
     <ClInclude Include="TradeCommand.h" />
@@ -108,6 +106,9 @@
   <ItemGroup>
     <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
       <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
+      <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
       <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>

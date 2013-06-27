@@ -21,13 +21,17 @@ public:
 	virtual  boost::shared_ptr<TradeCommand> OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 	virtual std::string GetExecutorID()  override;
 
+	boost::shared_ptr<TradeCommand> AddOrder(int vol);
+
 private:
-	AT_Order_Key				m_SendOrderKey;
+	std::set<AT_Order_Key>		m_SendOrderSet;
 	AT_Time						m_StartTime;
 	int							m_TragetVol;
 	AT::MarketData				m_LastMarket;
 	bool						m_IsBuy;
 	int							m_OrderValidTime;
+	OrderType					m_OrderType;
+	AT_Order_Key				m_DelOrderSet;
 };
 
 }

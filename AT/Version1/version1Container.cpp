@@ -27,7 +27,7 @@ version1Container::version1Container(const char* aConfigFile, AT::IDriver_TD* ap
 	 InitIndexContainer();
 	 InitFliter();
 	 InitAccountContainer();
-
+	 InitSignalProducer();
 }
 
 
@@ -47,17 +47,20 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 		m_TradeAccountContaner.HandleTradeSignal(lFinalSignal);
 	}
 
-	
-
 
 }
 
 std::vector<TradeSignal> version1Container::ProduceTradeSignal( const AT::MarketData& lNow )
 {
 	std::vector<TradeSignal> lSignalResult;
+	TradeSignal tradeSignal;
 	for(auto lpSignalProducer :m_TradeSignalProducerVec)
 	{
-		lSignalResult.push_back(lpSignalProducer->ProduceTradeSignal(lNow));
+		tradeSignal = lpSignalProducer->ProduceTradeSignal(lNow);
+		if(tradeSignal.m_Valid)
+		{
+			lSignalResult.push_back(lpSignalProducer->ProduceTradeSignal(lNow));
+		}
 	}
 	return lSignalResult;
 }

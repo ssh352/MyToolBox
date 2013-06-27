@@ -1,5 +1,6 @@
 #include "IndexContainer.h"
 #include "ISignalModule.h"
+#include <boost/format.hpp>
 namespace AT
 {
 
@@ -29,16 +30,37 @@ int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,A
 	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
 	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
 	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
-
 	int lret = 0;
-	for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
+	if(lStart != lResultMap.end() && lEnd != lResultMap.end())
 	{
-		if(iter->second == ExpectVal)
+		for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
 		{
-			lret++;
+			if(iter->second == ExpectVal)
+			{
+				lret++;
+			}
 		}
 	}
 	return lret;
+}
+int IndexContainer::GetIndex( const std::string& aIndexName,int iIndex,AT_Time aStartTime,AT_Time aEndTime )
+{
+	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
+	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
+	int lret = 0;
+	if(lStart != lResultMap.end() && lEnd != lResultMap.end())
+	{
+		for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
+		{
+			lret++;
+			if(lret == iIndex )
+			{
+				return iter->second;
+			}
+		}
+	}
+	return 0;
 }
 void IndexContainer::Start()
 {

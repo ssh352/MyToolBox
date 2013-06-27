@@ -1,4 +1,5 @@
 #include "CTP_API.h"
+#include <boost\lexical_cast.hpp>
 #include <iostream>
 #include <sstream>
 namespace CTP
@@ -20,11 +21,11 @@ namespace CTP
 	std::string GenerateThostOrderID( InputOrderTypePtr aOrderPtr,int aFrontID,int aSessionID )
 	{
 		std::string lRet;
-		lRet += std::to_string(aSessionID);
+		lRet += boost::lexical_cast<std::string>(aSessionID);
 		lRet += '_';
-		lRet +=  std::to_string(aFrontID);
+		lRet += boost::lexical_cast<std::string>(aFrontID);
 		lRet += '_';
-		lRet += aOrderPtr->OrderRef;
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
 		return lRet;
 	}
 
@@ -33,14 +34,14 @@ namespace CTP
 	std::string GenerateClientOrderID( OrderTypePtr aOrderPtr )
 	{
 		std::string lRet;
-		lRet += aOrderPtr->OrderRef;
+		lRet += boost::lexical_cast<std::string>(aOrderPtr->OrderRef);
 		return lRet;
 	}
 
 	std::string GenerateTradeID( TradeTypePtr aTradePtr )
 	{
 		std::string lRet;
-		lRet += (aTradePtr->TradeID);
+		lRet += boost::lexical_cast<std::string>(aTradePtr->TraderID);
 		return lRet;
 	}
 

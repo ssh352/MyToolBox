@@ -7,6 +7,6 @@
     <Profit>-6</Profit>
     <Time>10</Time>
   </TotalTimeProfit>
-  <TotalProfitStop>-10</TotalProfitStop>
-  <StopTime>14:45</StopTime>
+  <TotalProfitStop>-5000</TotalProfitStop>
+  <StopTime>22:00</StopTime>
 </SignalFliter>

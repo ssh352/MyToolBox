@@ -1,7 +1,7 @@
 #include "CTP_MD_Replayer.h"
 #include "IMarketSpi.h"
 #include "MarketCache.h"
-#include <leveldb/db.h>
+//#include <leveldb/db.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/format.hpp>
@@ -67,9 +67,4 @@ namespace CTP
 	{
 		return m_pMarketCache.get();
 	}
-
-
-
-
-
 }

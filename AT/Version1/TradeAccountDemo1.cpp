@@ -25,11 +25,12 @@ namespace AT
 	void TradeAccountDemo1::HandleTradeSignal( const TradeSignal& aTradeSignal )
 	{
 		m_LastTradeSignal = aTradeSignal;
-		m_openExecutorID = std::string(aTradeSignal.m_ID,g_TradeSignalIDLength);
+		m_openExecutorID = aTradeSignal.m_ID;
 		if(m_OpenExecutorMap.find(m_openExecutorID) != m_OpenExecutorMap.end())
 		{
 		   boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->AddTarget(m_TargetVol,aTradeSignal.m_BuyOrSell,aTradeSignal.m_TriggerMarketData);
 		   m_IsCompleteOpen = false;
+		   m_IsCompleteClose = false;
 		   DoTradeCommand(lTradeCommand);
 		}
 	}
@@ -37,24 +38,37 @@ namespace AT
 	void TradeAccountDemo1::OnMarketDepth( const MarketData& aMarketDepth )
 	{
 		m_LastMarket = aMarketDepth;
-		  boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnMarketDepth(aMarketDepth);
-		  DoTradeCommand(lTradeCommand);
+		boost::shared_ptr<TradeCommand> lTradeCommand;
+		if(m_openExecutorID != "")
+		{
+			lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnMarketDepth(aMarketDepth);
+			DoTradeCommand(lTradeCommand);
+		}
+		  
 		  lTradeCommand = m_CloseExecutor->OnMarketDepth(aMarketDepth);
 		  DoTradeCommand(lTradeCommand);
 	}
 
 	void TradeAccountDemo1::OnRtnOrder( const OrderUpdate& apOrder )
 	{
-		boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnOrder(apOrder);
-		DoTradeCommand(lTradeCommand);
+		boost::shared_ptr<TradeCommand> lTradeCommand;
+		if(m_openExecutorID != "")
+		{
+			lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnOrder(apOrder);
+			DoTradeCommand(lTradeCommand);
+		}
 		lTradeCommand = m_CloseExecutor->OnRtnOrder(apOrder);
 		DoTradeCommand(lTradeCommand);
 	}
 
 	void TradeAccountDemo1::OnRtnTrade( const TradeUpdate& apTrade )
 	{
-		boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnTrade(apTrade);
-		DoTradeCommand(lTradeCommand);
+		boost::shared_ptr<TradeCommand> lTradeCommand;
+		if(m_openExecutorID != "")
+		{
+			lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnTrade(apTrade);
+			DoTradeCommand(lTradeCommand);
+		}
 		lTradeCommand = m_CloseExecutor->OnRtnTrade(apTrade);
 		DoTradeCommand(lTradeCommand);
 	}
@@ -132,6 +146,7 @@ namespace AT
 			//DoTradeCommand(lTradeCommand);
 
 		}
+		
 		boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
 		DoTradeCommand(lTradeCommand);
 

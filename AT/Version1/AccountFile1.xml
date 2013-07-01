@@ -23,7 +23,7 @@
   <Front>tcp://125.64.36.25:26205</Front>
   <WorkFlowDir>TD_TEST</WorkFlowDir>
   <BrokeID>1001</BrokeID>
-  <UserID>00000289</UserID>
+  <UserID>00000290</UserID>
   <Password>123456</Password>
   <OrderTablePath>OrderSavedPath</OrderTablePath>
   

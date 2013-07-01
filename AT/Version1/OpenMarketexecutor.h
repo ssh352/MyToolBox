@@ -25,6 +25,7 @@ private:
 	int							m_TragetVol;
 	bool						m_IsBuy;
 	std::set<AT_Order_Key>		m_SendOrderSet;
+	int							m_MaxVol;//市价最大下单数量
 };
 
 }

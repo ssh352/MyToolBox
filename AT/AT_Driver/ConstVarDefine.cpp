@@ -36,6 +36,7 @@ namespace AT
 		case AT::BuySellType::SellOrder:
 			return std::string("SellOrder");
 			break;
+
 		default:
 			assert(false);
 			return std::string("Assert False");
@@ -52,6 +53,9 @@ namespace AT
 			break;
 		case AT::OrderType::MarketOrder:
 			return std::string("MarketOrder");
+			break;
+		case AT::OrderType::StopLossOrder:
+			return std::string("StopLossOrder");
 			break;
 		default:
 			assert(false);

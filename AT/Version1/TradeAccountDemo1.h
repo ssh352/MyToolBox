@@ -29,6 +29,7 @@ private:
 	void HandleCloseExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe);
 	void HandleOpenExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy, bool isFinishe);
 
+
 private:
 	int			m_TargetVol;
 	std::string m_AccountID;
@@ -46,6 +47,8 @@ private:
 	bool m_IsCompleteClose;
 
 	int m_totalProfit;
+
+	
 
 };
 

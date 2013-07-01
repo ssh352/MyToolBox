@@ -3,9 +3,12 @@
 #include "IDriver_TD.h"
 #include "CloseExecutor_3Level.h"
 #include "OpenLimitExecutor.h"
+#include "OpenMarketexecutor.h"
+#include "OpenFollowExecutor.h"
 #include <boost\bind.hpp>
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
+#include "../AT_Driver/ATLogger.h"
 namespace AT
 {
 
@@ -28,6 +31,20 @@ namespace AT
 		m_openExecutorID = aTradeSignal.m_ID;
 		if(m_OpenExecutorMap.find(m_openExecutorID) != m_OpenExecutorMap.end())
 		{
+			//单边持仓限额大于600
+			if(m_OpenExecutorMap[m_openExecutorID]->GetSignalDirectionVol(aTradeSignal.m_BuyOrSell ? BuySellType::BuyOrder :BuySellType::SellOrder) >= 600)  
+			{
+				if(aTradeSignal.m_BuyOrSell)
+				{
+					ATLOG(LogLevel::L_ERROR,"买单持仓限额超过600手");
+				}
+				else
+				{
+					ATLOG(LogLevel::L_ERROR,"卖单持仓限额超过600手");
+				}
+				
+				return;
+			}
 		   boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->AddTarget(m_TargetVol,aTradeSignal.m_BuyOrSell,aTradeSignal.m_TriggerMarketData);
 		   m_IsCompleteOpen = false;
 		   m_IsCompleteClose = false;
@@ -83,9 +100,47 @@ namespace AT
 
 		m_TargetVol = 1;
 
+		//加载策略相关信息
+		boost::property_tree::ptree ptStretegy;
+		read_xml("StretegyConfig.xml",ptStretegy);
+		std::string strSignalName;
+		int iOrderExecutor;
+		int iOrdersValidity;
+		int iBufferPoint;
+		int iFollowupPriority;
+		for (std::pair<std::string,boost::property_tree::ptree> lSignal:ptStretegy.get_child("StretegyConfig.Signals"))
+		{
+			strSignalName = lSignal.second.get<std::string>("SignalName");
+			iOrderExecutor = lSignal.second.get<int>("Open.OrderExecutor");
+			iOrdersValidity = lSignal.second.get<int>("Open.OrdersValidity");
+			iBufferPoint = lSignal.second.get<int>("Open.BufferPoint");
+			iFollowupPriority = lSignal.second.get<int>("Open.FollowUpPriority");
+			if(iOrderExecutor == 1)//市价
+			{
+				m_OpenExecutorMap[strSignalName].reset(new OpenMarketExecutor());
+			}
+			else if(iOrderExecutor == 2)//挂单
+			{
+				m_OpenExecutorMap[strSignalName].reset(new OpenLimitExecutor(iOrdersValidity,iBufferPoint));
+			}
+			else   //追加单
+			{
+				FollowExecutorParma follow;
+				follow.m_FollowRange = 3;
+				follow.m_FollowTime = 5;
+				m_OpenExecutorMap[strSignalName].reset(new OpenFollowExecutor(follow));
+			}
+			m_OpenExecutorMap[strSignalName]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
+			m_OpenExecutorMap[strSignalName]->InitSignalDirectionVol();
+			m_OpenExecutorMap[strSignalName]->InitTotalTime();
+		}
+
 		//todo Load Signal OpenExecutor Map
-		m_OpenExecutorMap["HKY006"].reset(new OpenLimitExecutor(30));
-		m_OpenExecutorMap["HKY006"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
+// 		m_OpenExecutorMap["TradingSignal01"].reset(new OpenLimitExecutor(30,-2));
+// 		m_OpenExecutorMap["TradingSignal01"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
+// 
+// 		m_OpenExecutorMap["TradingSignal02"].reset(new OpenMarketExecutor());
+// 		m_OpenExecutorMap["TradingSignal02"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
 
 		//todo Load Close Executor
 
@@ -103,6 +158,8 @@ namespace AT
 		lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
 		m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
 		m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
+		m_CloseExecutor->InitSignalDirectionVol();
+		m_CloseExecutor->InitTotalTime();
 	}	
 
 	void TradeAccountDemo1::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
@@ -113,6 +170,16 @@ namespace AT
 				return;
 		case TradeCommandType::Input:
 			{
+				if(m_openExecutorID != "")
+				{
+					//交易次数不能超过1000次
+					if(m_OpenExecutorMap[m_openExecutorID]->GetTotalTime() > 1000)
+					{
+						ATLOG(LogLevel::L_ERROR,"交易次数已超过1000次");
+						return;
+					}
+					m_OpenExecutorMap[m_openExecutorID]->SetTotalTime();
+				}
 				InputCommand* lpInput = static_cast<InputCommand*> (apTradeCommand.get());
 				strcpy_s(lpInput->m_operation.AccoutID ,cAccoutIDLength,m_AccountID.c_str());
 				m_pTD->CreateOrder(lpInput->m_operation);
@@ -126,6 +193,16 @@ namespace AT
 			break;			
 		case TradeCommandType::Cancel:
 			{
+				if(m_openExecutorID != "")
+				{
+					//撤单交易次数不能超过500次
+					if(m_OpenExecutorMap[m_openExecutorID]->GetTotalCancleTime() > 500)
+					{
+						ATLOG(LogLevel::L_ERROR,"撤单交易次数已超过500次");
+						return;
+					}
+					m_OpenExecutorMap[m_openExecutorID]->SetTotalCancleTime();
+				}
 				CancelCommand* lpDelOrder = static_cast<CancelCommand*> (apTradeCommand.get());
 				m_pTD->DeleteOrder(lpDelOrder->m_operation);
 			}

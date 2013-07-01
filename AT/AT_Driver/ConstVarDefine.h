@@ -39,7 +39,8 @@ namespace AT
 	enum class OrderType
 	{
 		LimitOrder,
-		MarketOrder
+		MarketOrder,
+		StopLossOrder,
 	};
 	std::string ToString(OrderType aType);
 

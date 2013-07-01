@@ -1,5 +1,6 @@
 #include "OpenFollowExecutor.h"
 #include "IDriver_TD.h"
+#include "../AT_Driver/ATLogger.h"
 namespace AT
 {
 
@@ -8,6 +9,7 @@ OpenFollowExecutor::OpenFollowExecutor( FollowExecutorParma aParma )
 	:m_Setting(aParma)
 {
 	m_ExecutorStatus = FollowExecutorStatus::IDLE;
+	m_MaxVol = 500;
 }
 
 
@@ -28,6 +30,13 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::AddTarget( int addTargetQuan
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
+	if(addTargetQuantity >m_MaxVol)
+	{
+		ATLOG(LogLevel::L_ERROR,"限价指令每次最大下单数量为500手");
+		boost::shared_ptr<TradeCommand> lret;
+		lret.reset(new InvalidCommand);
+		return lret;
+	}
 	
 	m_StartTime = aMarket.m_UpdateTime;
 	m_IsBuy = isBuy;
@@ -41,7 +50,7 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::AddTarget( int addTargetQuan
 boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	m_LastPrice = aMarketDepth.m_LastPrice;
-	if(m_ExecutorStatus == FollowExecutorStatus::OrderPlaced)
+	if(m_ExecutorStatus == FollowExecutorStatus::WaitingOrderPlace)
 	{
 		if(IsOrderPriceNeedModify(aMarketDepth))
 		{	
@@ -108,6 +117,11 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::SetupTarget( int targetQuant
 
 bool OpenFollowExecutor::IsOrderPriceNeedModify(const AT::MarketData& aMarketDepth)
 {
+	int iDiffPrice = abs(m_LastOrderPrice-aMarketDepth.m_LastPrice);
+	if(iDiffPrice < m_Setting.m_FollowRange)
+	{
+		return true;
+	}
 	return false;
 }
 
@@ -134,6 +148,7 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::PlaceOrder( int addTargetQua
 	m_TragetVol = addTargetQuantity;
 
 	m_ExecutorStatus = FollowExecutorStatus::WaitingOrderPlace;
+	m_LastOrderPrice = m_LastPrice;
 	return lret;
 }
 

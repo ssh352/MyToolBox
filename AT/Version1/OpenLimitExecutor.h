@@ -8,7 +8,7 @@ namespace AT
 class OpenLimitExecutor :public ITradeSignalExecutor
 {
 public:
-	OpenLimitExecutor(int ValidTimeInSecond);
+	OpenLimitExecutor(int ValidTimeInSecond,int iBufferPoint);
 	virtual ~OpenLimitExecutor(void);
 
 	//输入1 来自于上层的交易信号
@@ -20,9 +20,7 @@ public:
 	virtual  boost::shared_ptr<TradeCommand> OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
 	virtual  boost::shared_ptr<TradeCommand> OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 	virtual std::string GetExecutorID()  override;
-
-	boost::shared_ptr<TradeCommand> AddOrder(int vol);
-
+	boost::shared_ptr<TradeCommand> PlaceOrder(int addTargetQuantity,int Price); 
 private:
 	std::set<AT_Order_Key>		m_SendOrderSet;
 	AT_Time						m_StartTime;
@@ -30,8 +28,9 @@ private:
 	AT::MarketData				m_LastMarket;
 	bool						m_IsBuy;
 	int							m_OrderValidTime;
-	OrderType					m_OrderType;
 	AT_Order_Key				m_DelOrderSet;
+	int							m_iBufferPoint;//缓冲点
+	int							m_MaxVol;
 };
 
 }

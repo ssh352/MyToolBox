@@ -128,7 +128,7 @@ void version1Container::InitFliter()
 }
 void version1Container::InitSignalProducer()
 {
-	m_TradeSignalProducerVec.push_back(new TradeSignalProducerDemo1("",m_pIndexContaner));
+	m_TradeSignalProducerVec.push_back(new TradeSignalProducerDemo1("SignalConfig.xml",m_pIndexContaner));
 }
 void version1Container::Start()
 {

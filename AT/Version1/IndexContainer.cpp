@@ -49,6 +49,10 @@ int IndexContainer::GetIndex( const std::string& aIndexName,int iIndex,AT_Time a
 	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
 	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
 	int lret = 0;
+	if(lStart == lResultMap.end())
+	{
+		lStart = lResultMap.begin();
+	}
 	if(lStart != lResultMap.end() && lEnd != lResultMap.end())
 	{
 		for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)

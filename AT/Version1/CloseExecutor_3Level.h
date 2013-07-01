@@ -7,6 +7,7 @@ namespace AT
 
 struct CloseSetting_3Level
 {
+	int StopLossOrderPrice; //优先单止损价格差
 	int QuitLevel_0;
 	int EnterLevel_1;
 	int QuitLevel_1;
@@ -34,7 +35,14 @@ public:
 	virtual  boost::shared_ptr<TradeCommand> OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 	virtual std::string GetExecutorID() override;
 
+
+
 private:
+	//止盈止损单(后续跟进优先单)
+	boost::shared_ptr<TradeCommand> PlaceStopLossOrder(const AT::MarketData& aMarket);
+	//平仓单
+	boost::shared_ptr<TradeCommand> PlaceCloseOrder(const AT::MarketData& aMarket);
+
 	boost::shared_ptr<TradeCommand> DoQuit(const AT::MarketData& aMarket);
 
 	int			m_CurrentLevel;
@@ -43,11 +51,25 @@ private:
 	int			m_TargetVol;
 	int			m_ActiveOrderVol;
 	CloseSetting_3Level	m_Setting;
+	AT_Order_Key				m_DelOrderSet;
+	AT::MarketData m_LastMarket;
+	int				m_LastLossPrice;
+	AT_Time			m_TriggerLossTime;
 
 private:
 	bool		m_IsBuy;
-	
 	std::set<AT_Order_Key>		m_SendOrderSet;
+	std::set<AT_Order_Key>		m_SendLossSet;
+
+	enum class Status
+	{
+		IDLE,
+		WaitForStopLossOrderPlace,
+		WaitQuitSignal,
+		WaitForStopLossOrderCancel,
+		WaitForNewQuitOrder,
+	};
+	Status					m_Status;
 };
 
 }

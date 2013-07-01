@@ -27,6 +27,12 @@
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
     <ClCompile Include="main_versionLoaderPoster.cpp" />
+    <ClCompile Include="OpenFollowExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMarketexecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -75,6 +81,12 @@
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
     <ClInclude Include="main_versionLoaderPoster.h" />
+    <ClInclude Include="OpenFollowExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenMarketexecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -98,5 +110,7 @@
     <Xml Include="SignalLoaderConfig.xml" />
     <Xml Include="AccountFile1.xml" />
     <Xml Include="AccountFile2.xml" />
+    <Xml Include="StretegyConfig.xml" />
+    <Xml Include="SignalConfig.xml" />
   </ItemGroup>
 </Project>

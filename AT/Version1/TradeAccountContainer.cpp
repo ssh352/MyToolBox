@@ -22,10 +22,10 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 	m_AccountFinishedList[lpAccount1] = lnewStatus;
 
 
-	/*boost::shared_ptr<ITradeAccount> lpAccoun2;
+	boost::shared_ptr<ITradeAccount> lpAccoun2;
 	lpAccoun2.reset(new TradeAccountDemo1("AccountFile2.xml",apTD));
 	m_AccountList.push_back(lpAccoun2);
-	m_AccountFinishedList[lpAccoun2] = lnewStatus;*/
+	m_AccountFinishedList[lpAccoun2] = lnewStatus;
 
 
 	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback

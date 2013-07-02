@@ -45,9 +45,9 @@ namespace AT
 	std::string ToString(OrderType aType);
 
 
-	//todo when need add
 	enum class TimeInForceType
 	{
+		GOOD_FOR_DAY,
 		IOC,
 		//....
 	};
@@ -67,6 +67,7 @@ namespace AT
 		RejectOrder,
 		ActiveOrder,
 		StoppedOrder,
+		SuspendOrder,
 	};
 	std::string ToString(OrderStatusType aType);
 

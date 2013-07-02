@@ -14,6 +14,7 @@ namespace AT
 		BuySellType m_BuySellType; 
 		OrderType m_OrderType;
 		OpenCloseType m_OpenCloseType;
+		TimeInForceType m_TimeInForceCode;
 		char m_MoreInfo[32];
 		char m_SenderInfo[32];//info which startgy is
 		AT_Order_Key m_Key;

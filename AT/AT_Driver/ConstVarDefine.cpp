@@ -71,6 +71,9 @@ namespace AT
 		case AT::TimeInForceType::IOC:
 			return std::string("IOC");
 			break;
+		case AT::TimeInForceType::GOOD_FOR_DAY:
+			return std::string("GOOD_FOR_DAY");
+			break;
 		default:
 			assert(false);
 			return std::string("Assert False");
@@ -113,6 +116,9 @@ namespace AT
 			break;
 		case  AT::OrderStatusType::UnHandleOrder:
 			return std::string("UnHandleOrder");
+			break;
+		case OrderStatusType::SuspendOrder:
+			return  std::string("SuspendOrder");
 			break;
 		default:
 			assert(false);

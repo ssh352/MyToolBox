@@ -1,18 +1,21 @@
 #include "IndexContainer.h"
 #include "ISignalModule.h"
+#include "ATLogger.h"
 #include <boost/format.hpp>
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/xml_parser.hpp"
-#include "../ISignalModule_CacheWave/SignalModule_CacheWave.h"
+
+#include "windows.h"
 
 namespace AT
 {
 
 
-IndexContainer::IndexContainer(const char* aConfigFile/*std::vector<ISignalModule*> apMoudleList*/)
-{
-	InitLoadIndex(aConfigFile);
-}
+	IndexContainer::IndexContainer(const char* aConfigFile,AT::IMarketCache* apMarketCache)
+		:m_pMarketCache(apMarketCache)
+	{
+		InitLoadIndex(aConfigFile);
+	}
 
 
 IndexContainer::~IndexContainer(void)
@@ -47,29 +50,34 @@ int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,A
 	}
 	return lret;
 }
-int IndexContainer::GetIndex( const std::string& aIndexName,int iIndex,AT_Time aStartTime,AT_Time aEndTime )
+
+int IndexContainer::GetIndex( const std::string& aIndexName )
 {
 	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
-	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
-	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
-	int lret = 0;
-	if(lStart == lResultMap.end())
+	if(lResultMap.size() > 1)
 	{
-		lStart = lResultMap.begin();
+		return lResultMap.rbegin()->second;
 	}
-	if(lStart != lResultMap.end() && lEnd != lResultMap.end())
+	else
 	{
-		for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
-		{
-			lret++;
-			if(lret == iIndex )
-			{
-				return iter->second;
-			}
-		}
+		ATLOG(L_INFO,"GetIndex when no MarketFeed");
+		return 0;
 	}
+}
+
+int IndexContainer::GetLastNonZero( const std::string& aIndexName )
+{
+	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+	for (SignalResultMap::reverse_iterator iter = lResultMap.rbegin(); iter != lResultMap.rend(); ++iter)
+	{
+		if(iter->second != 0)
+			return iter->second;
+	}
+	ATLOG(L_INFO,"GetLastNonZero ,but NonZero, so Return 0");
 	return 0;
 }
+
+
 void IndexContainer::Start()
 {
 	for(auto lSignalPtr:m_SignalModuleVec)
@@ -87,64 +95,41 @@ void IndexContainer::Stop()
 }
 void IndexContainer::InitLoadIndex(const char* aConfigFile)
 {
-	boost::property_tree::ptree lIndexPt;
-	read_xml(aConfigFile,lIndexPt);
-	int iItemID ;
-	std::string strItemName;
-	int iItemParam;
-	std::map<std::string,ItemParam> mapItem;
-	for (auto lSignal:lIndexPt.get_child("SignalConfig.Signals"))
+	m_SignalModuleVec.clear();
+
+	boost::property_tree::ptree lConfig;
+	read_xml(aConfigFile,lConfig);
+	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
 	{
-		for (auto lIndex:lSignal.second.get_child("HKY"))
+		std::string lDllName = lSingleMoudleList.second.get<std::string>("Dll");
+		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("ConfigFile");
+		std::string lDllIndexName = lSingleMoudleList.second.get<std::string>("IndexName");
+		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
+		if( ! lSinglehandle)
 		{
-			iItemID = lIndex.second.get<int>("ItemID");
-			strItemName = lIndex.second.get<std::string>("ItemName");
-			iItemParam = lIndex.second.get<int>("ParamID");
-			ItemParam itemPara = {iItemID,iItemParam};
-			if(mapItem.size() > 0)
-			{
-				if(mapItem.find(strItemName) != mapItem.end())
-				{
-					mapItem[strItemName] = itemPara;
-				}
-			}
-			else
-			{
-				mapItem[strItemName] = itemPara;
-			}
-			
-		}
-	}
-	//加载所有的Item
-	for(std::map<std::string,ItemParam>::const_iterator iter = mapItem.begin();iter != mapItem.end();++iter)
-	{
-		switch (iter->second.Item)
-		{
-		case 6:  //HK006
-			{
-				SignalModule_CacheWave* pModule = new SignalModule_CacheWave(iter->second.Param);
-				pModule->SetIndexName(iter->first);
-				m_SignalModuleVec.push_back(pModule);
-			}
-			break;
-		case 1://HK001
-			{
-
-			}
-			break;
-		case 2://HK002
-			{
-
-			}
-			break;;
-		case 3://HK003
-			{
-
-			}
-			break;
-		default:
+			ATLOG(AT::LogLevel::L_ERROR,str(boost::format("Can not load SingleMoudle DLL %s")%lDllName));
 			break;
 		}
+		CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
+		if (! lpSignalCallInst)
+		{
+			ATLOG(AT::LogLevel::L_ERROR,"Can not Get Single Create Inst Fun Address");
+			break;
+		}
+		AT::IIndexModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
+		if(!lpSignalInst)
+		{
+			ATLOG(AT::LogLevel::L_ERROR,str(boost::format("failed Create IndexMoudle inst with ConfigFile %s  ")%lDllConfig));
+			break;
+		}
+		lpSignalInst->SetIndexName(lDllIndexName);
+		m_SignalModuleVec.push_back(lpSignalInst);
+		//todo store for clean  优先级低
+		//m_LibHandleVec.push_back(lSinglehandle);
 	}
 }
+
+
+
+
 }

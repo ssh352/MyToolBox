@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--本文件定义将会在信号配置表里面使用的指标 且只包含指标-->
+<!--每一个指标包含以下内容-->
+<!--名字 HKY001 等  方法(dll名字，或者类型指代的名字)， 方法使用的配置文件-->
+
+
+<IndexContainerConfig>
+  <Indexs>
+    
+ <item>
+   <IndexName>HKY_001</IndexName>
+   <Dll>ISignalModule_CacheWave.dll</Dll>
+   <ConfigFile>HKY001.xml</ConfigFile>
+ </item>
+
+  <item>
+    <IndexName>HKY_002</IndexName>
+    <Dll>ISignalModule_CacheWave.dll</Dll>
+    <ConfigFile>HKY002.xml</ConfigFile>
+  </item>
+
+  <item>
+    <IndexName>HKY_003</IndexName>
+    <Dll>ISignalModule_CacheWave.dll</Dll>
+    <ConfigFile>HKY003.xml</ConfigFile>
+  </item>
+    
+ </Indexs>
+</IndexContainerConfig>

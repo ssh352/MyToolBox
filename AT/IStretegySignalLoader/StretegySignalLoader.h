@@ -7,7 +7,7 @@ namespace AT
 {
 	class IDriver_TD;
 	class IStrategySpi;
-	class ISignalModule;
+	class IIndexModule;
 	class IMarketCache;
 
 	class StretegySignalLoader :public AT::IStrategy
@@ -25,7 +25,7 @@ namespace AT
 		virtual void OnRtnTrade(const  TradeUpdate& apTrade)override{};
 
 	private:
-		std::vector<AT::ISignalModule*>  m_SingleModuleVec;
+		std::vector<AT::IIndexModule*>  m_SingleModuleVec;
 		std::vector<HMODULE>				m_LibHandleVec;
 		std::vector<std::pair< std::string, std::string> > m_SingleList;
 		const AT::IMarketCache*						m_pMarketCache;

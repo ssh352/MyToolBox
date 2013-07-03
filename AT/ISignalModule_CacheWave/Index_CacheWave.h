@@ -5,18 +5,16 @@
 #include <boost\property_tree\ptree.hpp>
 namespace AT
 {
-	class SignalModule_CacheWave :public AT::ISignalModule
+	class Index_CacheWave :public AT::IIndexModule
 	{
 	public:
-		SignalModule_CacheWave(int iWave);
-		virtual ~SignalModule_CacheWave(void);
+		Index_CacheWave(const char * configFile,const AT::IMarketCache * apMarketCache);
+		virtual ~Index_CacheWave(void);
 
 		virtual void UpdateParam(ESignalInputType errCode ,const Param& apParam) override {};
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override;
 		virtual void Stop() override ;
-		virtual std::string GetIndexName(){return m_IndexName;};
-				void SetIndexName(std::string indexName){m_IndexName = indexName;}
 
 	private: 
 		std::pair<int32_t,MarketData>	m_LowPoint;
@@ -35,8 +33,10 @@ namespace AT
 		std::vector<MarketData> m_WaveChangeVec;
 		bool m_isWaveStart;
 		int32_t m_WaveVal;
+		std::string m_InstrumentID;
 		std::string m_StoreFile;
 		std::string m_IndexName;
+		const AT::IMarketCache * m_pMarketCache;
 	
 	};
 }

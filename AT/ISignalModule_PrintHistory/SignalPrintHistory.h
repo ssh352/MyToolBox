@@ -3,7 +3,7 @@
 #include "ISignalModule.h"
 #include <string>
 #include <set>
-class SignalPrintHistory :public AT::ISignalModule
+class SignalPrintHistory :public AT::IIndexModule
 {
 public:
 	SignalPrintHistory(const char* aConfigFile,const AT::IMarketCache* apMarketCache);

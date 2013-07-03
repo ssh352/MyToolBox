@@ -12,16 +12,21 @@ namespace AT
 		PARAM
 	};
 
-	class ISignalModule
+	class IIndexModule
 	{
 	public:
 		virtual void Start() =0;
 		virtual void Stop() = 0;
 		virtual void UpdateParam(AT::ESignalInputType aInputCode ,const AT::Param& apParam)  = 0;
 		virtual int OnMarketDepth(const  AT::MarketData& aMarketPtr) = 0;
-		virtual std::string GetIndexName()=0;
+		std::string GetIndexName(){return m_IndexName;};
+		std::string SetIndexName(const std::string& aIndexName){m_IndexName = aIndexName;};
+	private:
+		std::string m_IndexName;
+
+		
 	};
 
 }
-typedef  AT::ISignalModule* (*CreateSignalInstFun) (const char* aConfigFile, const AT::IMarketCache * apMarketCache);
-DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache);
+typedef  AT::IIndexModule* (*CreateSignalInstFun) (const char* aConfigFile, const AT::IMarketCache * apMarketCache);
+DLL_API  AT::IIndexModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache);

@@ -49,7 +49,7 @@ namespace AT
 				std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
 				break;
 			}
-			AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
+			AT::IIndexModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
 			if(!lpSignalInst)
 			{
 				std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;

@@ -11,17 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SignalModule_CacheWave.h" />
+    <ClInclude Include="Index_CacheWave.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="misc.cpp" />
-    <ClCompile Include="SignalModule_CacheWave.cpp" />
+    <ClCompile Include="Index_CacheWave.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="ISignalModule_CacheWave1.xml">
+    <Xml Include="Index_CacheWave.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="ISignalModule_CacheWave2.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
@@ -31,6 +30,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CAF4F61-D42E-44E3-BC92-FB03DF3B5AE9}</ProjectGuid>
     <RootNamespace>ISignalModule_CacheWave</RootNamespace>
+    <ProjectName>IIndexMoudle_CacheWave</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,7 +40,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

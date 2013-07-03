@@ -1,7 +1,7 @@
-#include "SignalModule_CacheWave.h"
+#include "Index_CacheWave.h"
 
-DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache)
+DLL_API  AT::IIndexModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache)
 {
-	return NULL;
-//	return  new AT::SignalModule_CacheWave(aConfigFile);
+	//return NULL;
+	return  new AT::Index_CacheWave(aConfigFile,  apMarketCache);
 }

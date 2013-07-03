@@ -20,7 +20,7 @@ namespace AT
 		virtual void UpdateParam(AT::ESignalInputType aInputCode ,const AT::Param& apParam)  = 0;
 		virtual int OnMarketDepth(const  AT::MarketData& aMarketPtr) = 0;
 		std::string GetIndexName(){return m_IndexName;};
-		std::string SetIndexName(const std::string& aIndexName){m_IndexName = aIndexName;};
+		void SetIndexName(const std::string& aIndexName){m_IndexName = aIndexName;};
 	private:
 		std::string m_IndexName;
 

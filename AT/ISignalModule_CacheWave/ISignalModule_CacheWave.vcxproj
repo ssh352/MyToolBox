@@ -30,7 +30,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CAF4F61-D42E-44E3-BC92-FB03DF3B5AE9}</ProjectGuid>
     <RootNamespace>ISignalModule_CacheWave</RootNamespace>
-    <ProjectName>IIndexMoudle_CacheWave</ProjectName>
+    <ProjectName>IndexMoudle_CacheWave</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

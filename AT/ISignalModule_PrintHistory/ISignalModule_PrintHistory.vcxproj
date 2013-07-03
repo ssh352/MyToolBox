@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{57ED5480-FCCA-4F01-8E11-0A0F7D4057DE}</ProjectGuid>
     <RootNamespace>ISignalModule_PrintHistory</RootNamespace>
+    <ProjectName>IndexModule_PrintHistory</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

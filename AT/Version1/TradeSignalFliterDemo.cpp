@@ -24,6 +24,8 @@ TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.TotalProfitStop");
 	std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StopTime");
 	m_StopTime = boost::posix_time::time_from_string(strStopTime);
+	std::string strStartTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StartTime");
+	m_StartTime = boost::posix_time::time_from_string(strStartTime);
 	m_IsOnLastSignal = false;
 }
 
@@ -46,7 +48,14 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 		lret.m_Valid = false;
 		return lret;
 	}
-	
+	//开始开仓时间
+	if (m_LastTime < m_StartTime )
+	{
+		TradeSignal lret;
+		lret.m_Valid = false;
+		return lret;
+	}
+	//停止开仓时间
 	if(m_LastTime > m_StopTime)
 	{
 		TradeSignal lret;

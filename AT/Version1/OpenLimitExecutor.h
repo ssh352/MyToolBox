@@ -30,7 +30,7 @@ private:
 	int							m_OrderValidTime;
 	AT_Order_Key				m_DelOrderSet;
 	int							m_iBufferPoint;//»º³åµã
-	int							m_MaxVol;
+	std::string					m_InstrumentID;
 };
 
 }

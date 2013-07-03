@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--SignalID:信号id；SignalPlans：信号预案id；SignalFliterID：信号过滤预案id-->
+<!--OpenExecutorID:进场预案id；CloseExecutorID：出场预案id-->
+<StretegyConfig>
+  <Signals>
+    <Item>
+      <SignalID>TradingSignal01</SignalID>
+      <SignalPlansID>1</SignalPlansID>
+      <SignalFliterID>1</SignalFliterID>
+      <OpenExecutorID>1</OpenExecutorID>
+      <CloseExecutorID>1</CloseExecutorID>
+
+    </Item>
+    <Item>
+      <SignalID>TradingSignal02</SignalID>
+      <SignalPlansID>1</SignalPlansID>
+      <SignalFliterID>1</SignalFliterID>
+      <OpenExecutorID>1</OpenExecutorID>
+      <CloseExecutorID>1</CloseExecutorID>
+    </Item>
+  </Signals>
+</StretegyConfig>

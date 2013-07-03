@@ -9,6 +9,7 @@
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
 #include "../AT_Driver/ATLogger.h"
+#include <boost\filesystem.hpp>
 namespace AT
 {
 
@@ -18,7 +19,8 @@ namespace AT
 		,m_IsCompleteOpen(true)
 		,m_totalProfit(0)
 	{
-		InitFromConfigFile(aConfigFile);
+		//InitFromConfigFile(aConfigFile);
+		InitExchangeRule();
 	}
 
 	TradeAccountDemo1::~TradeAccountDemo1(void)
@@ -32,7 +34,8 @@ namespace AT
 		if(m_OpenExecutorMap.find(m_openExecutorID) != m_OpenExecutorMap.end())
 		{
 			//单边持仓限额大于600
-			if(m_OpenExecutorMap[m_openExecutorID]->GetSignalDirectionVol(aTradeSignal.m_BuyOrSell ? BuySellType::BuyOrder :BuySellType::SellOrder) >= 600)  
+			int iSinglePositionVol = aTradeSignal.m_BuyOrSell ? m_BuyDirectionVol:m_SellDirectionVol;
+			if( iSinglePositionVol > m_SinglePositionVol )  
 			{
 				if(aTradeSignal.m_BuyOrSell)
 				{
@@ -43,6 +46,12 @@ namespace AT
 					ATLOG(LogLevel::L_ERROR,"卖单持仓限额超过600手");
 				}
 				
+				return;
+			}
+			//最大累计开仓手数
+			if (m_TotalOpenVol > m_TotalMaxOpenVol)
+			{
+				ATLOG(LogLevel::L_ERROR,"超过最大累计开仓手数");
 				return;
 			}
 		   boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->AddTarget(m_TargetVol,aTradeSignal.m_BuyOrSell,aTradeSignal.m_TriggerMarketData);
@@ -68,6 +77,11 @@ namespace AT
 
 	void TradeAccountDemo1::OnRtnOrder( const OrderUpdate& apOrder )
 	{
+		//撤单成功
+		if(apOrder.m_OrderStatus == OrderStatusType::StoppedOrder)
+		{
+			SetTotalCancleTime();
+		}
 		boost::shared_ptr<TradeCommand> lTradeCommand;
 		if(m_openExecutorID != "")
 		{
@@ -80,6 +94,13 @@ namespace AT
 
 	void TradeAccountDemo1::OnRtnTrade( const TradeUpdate& apTrade )
 	{
+		//单边持仓限额
+		SetSignalDirectionVol(apTrade.m_BuySellType,apTrade.m_TradeVol,apTrade.m_OpenCloseType == OpenCloseType::OpenOrder ? true:false);
+		if(apTrade.m_OpenCloseType == OpenCloseType::OpenOrder)
+		{
+			SetTotalOpenVol(apTrade.m_TradeVol);
+		}
+		
 		boost::shared_ptr<TradeCommand> lTradeCommand;
 		if(m_openExecutorID != "")
 		{
@@ -98,11 +119,33 @@ namespace AT
 
 		m_AccountID = lpt.get<std::string>("AccountFile.AccountID");
 
-		m_TargetVol = 1;
+		m_TargetVol = lpt.get<int>("AccountFile.TargetVol");
+
+		m_ExchangePath = lpt.get<std::string>("AccountFile.ExchangeRule");
+
+		//创建存储交易所相关数量的文件夹
+		boost::filesystem::path lDir(m_ExchangePath);
+
+		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
+
+		if (!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		lDir /= lDataString;
+		if(!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		m_TradeVolDB.reset(new SingleDBHandler(lDir.string().c_str()));
 
 		//加载策略相关信息
 		boost::property_tree::ptree ptStretegy;
 		read_xml("StretegyConfig.xml",ptStretegy);
+		boost::property_tree::ptree ptOpen;
+		read_xml("OpenExecutorConfig.xml",ptOpen);
+		boost::property_tree::ptree ptClose;
+		read_xml("CloseExecutorConfig.xml",ptClose);
 		std::string strSignalName;
 		int iOrderExecutor;
 		int iOrdersValidity;
@@ -110,7 +153,7 @@ namespace AT
 		int iFollowupPriority;
 		for (std::pair<std::string,boost::property_tree::ptree> lSignal:ptStretegy.get_child("StretegyConfig.Signals"))
 		{
-			strSignalName = lSignal.second.get<std::string>("SignalName");
+			strSignalName = lSignal.second.get<std::string>("SignalID");
 			iOrderExecutor = lSignal.second.get<int>("Open.OrderExecutor");
 			iOrdersValidity = lSignal.second.get<int>("Open.OrdersValidity");
 			iBufferPoint = lSignal.second.get<int>("Open.BufferPoint");
@@ -123,7 +166,7 @@ namespace AT
 			{
 				m_OpenExecutorMap[strSignalName].reset(new OpenLimitExecutor(iOrdersValidity,iBufferPoint));
 			}
-			else   //追加单
+			else   //追价单
 			{
 				FollowExecutorParma follow;
 				follow.m_FollowRange = 3;
@@ -131,8 +174,6 @@ namespace AT
 				m_OpenExecutorMap[strSignalName].reset(new OpenFollowExecutor(follow));
 			}
 			m_OpenExecutorMap[strSignalName]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
-			m_OpenExecutorMap[strSignalName]->InitSignalDirectionVol();
-			m_OpenExecutorMap[strSignalName]->InitTotalTime();
 		}
 
 		//todo Load Signal OpenExecutor Map
@@ -158,8 +199,6 @@ namespace AT
 		lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
 		m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
 		m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
-		m_CloseExecutor->InitSignalDirectionVol();
-		m_CloseExecutor->InitTotalTime();
 	}	
 
 	void TradeAccountDemo1::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
@@ -170,18 +209,29 @@ namespace AT
 				return;
 		case TradeCommandType::Input:
 			{
-				if(m_openExecutorID != "")
-				{
-					//交易次数不能超过1000次
-					if(m_OpenExecutorMap[m_openExecutorID]->GetTotalTime() > 1000)
-					{
-						ATLOG(LogLevel::L_ERROR,"交易次数已超过1000次");
-						return;
-					}
-					m_OpenExecutorMap[m_openExecutorID]->SetTotalTime();
-				}
 				InputCommand* lpInput = static_cast<InputCommand*> (apTradeCommand.get());
 				strcpy_s(lpInput->m_operation.AccoutID ,cAccoutIDLength,m_AccountID.c_str());
+				if(m_openExecutorID != "")
+				{
+					//限价单限制
+					if(lpInput->m_operation.m_OrderType == OrderType::LimitOrder)
+					{
+						if(lpInput->m_operation.m_Vol > m_LimitMaxVol)
+						{
+							ATLOG(LogLevel::L_ERROR,"限价单超过最大手数");
+							return;
+						}
+					}
+					else if(lpInput->m_operation.m_OrderType == OrderType::MarketOrder)//市价单
+					{
+						if(lpInput->m_operation.m_Vol > m_MarketMaxVol)
+						{
+							ATLOG(LogLevel::L_ERROR,"市价单超过最大手数");
+							return;
+						}
+					}
+				}
+				
 				m_pTD->CreateOrder(lpInput->m_operation);
 			}
 			break;
@@ -196,12 +246,11 @@ namespace AT
 				if(m_openExecutorID != "")
 				{
 					//撤单交易次数不能超过500次
-					if(m_OpenExecutorMap[m_openExecutorID]->GetTotalCancleTime() > 500)
+					if(m_TotalCancleTime > m_MaxCancleTime)
 					{
 						ATLOG(LogLevel::L_ERROR,"撤单交易次数已超过500次");
 						return;
 					}
-					m_OpenExecutorMap[m_openExecutorID]->SetTotalCancleTime();
 				}
 				CancelCommand* lpDelOrder = static_cast<CancelCommand*> (apTradeCommand.get());
 				m_pTD->DeleteOrder(lpDelOrder->m_operation);
@@ -223,7 +272,11 @@ namespace AT
 			//DoTradeCommand(lTradeCommand);
 
 		}
-		
+		if(aPrice == 0 && aVol == 0)
+		{
+			m_IsCompleteClose = true;
+		}
+		//平仓
 		boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
 		DoTradeCommand(lTradeCommand);
 
@@ -244,5 +297,63 @@ namespace AT
 			m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
 		}
 	}
+	void TradeAccountDemo1::InitExchangeRule()
+	{
+		boost::property_tree::ptree ptExchange;
+		read_xml("ExchangeRuleConfig.xml",ptExchange);
+		m_LimitMaxVol = ptExchange.get<int>("ExchangeRuluConfig.LimitMaxVol");
+		m_MarketMaxVol = ptExchange.get<int>("ExchangeRuluConfig.MarketMaxVol");
+		m_MaxCancleTime = ptExchange.get<int>("ExchangeRuluConfig.MaxCancleTimeVol");
+		m_TotalMaxOpenVol = ptExchange.get<int>("ExchangeRuluConfig.MaxTotalOpenVol");
+		m_SinglePositionVol = ptExchange.get<int>("ExchangeRuluConfig.SinglePositionMaxVol");
+		m_AutoTradeMaxTime = ptExchange.get<int>("ExchangeRuluConfig.AutoTradeMaxTime");
 
+		RestoreTradeVol();
+	}
+	void TradeAccountDemo1::SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd)
+	{
+		if(type == BuySellType::BuyOrder)
+		{
+			if(bAdd)
+			{
+				m_BuyDirectionVol += Vol;
+			}
+			else
+			{
+				m_BuyDirectionVol -= Vol;
+			}
+		}
+		else
+		{
+			if (bAdd)
+			{
+				m_SellDirectionVol += Vol;
+			}
+			else
+			{
+				m_SellDirectionVol -= Vol;
+			}
+		}
+		StoreTradeVol();
+	}
+	void TradeAccountDemo1::StoreTradeVol()
+	{
+		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
+		pTradeVolData->m_BuyDirectionVol = m_BuyDirectionVol;
+		pTradeVolData->m_SellDirectionVol = m_SellDirectionVol;
+		pTradeVolData->m_TotalCancleTime = m_TotalCancleTime;
+		pTradeVolData->m_TotalOpenVol = m_TotalOpenVol;
+		pTradeVolData->m_AutoTradeTime = m_AutoTradeTime;
+		m_TradeVolDB->StoreTradeVolData(pTradeVolData);
+	}
+	void TradeAccountDemo1::RestoreTradeVol()
+	{
+		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
+		m_TradeVolDB->RestoreTradeVolData(pTradeVolData);
+		m_BuyDirectionVol = pTradeVolData->m_BuyDirectionVol;
+		m_SellDirectionVol = pTradeVolData->m_SellDirectionVol;
+		m_TotalCancleTime = pTradeVolData->m_TotalCancleTime;
+		m_TotalOpenVol = pTradeVolData->m_TotalOpenVol;
+		m_AutoTradeTime = pTradeVolData->m_AutoTradeTime;
+	}
 }

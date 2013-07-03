@@ -29,6 +29,7 @@ private:
 	bool m_IsOnLastSignal;
 	AT_Time m_LastTime;
 	AT_Time	m_StopTime;
+	AT_Time m_StartTime;
 	std::map<AT_Time,int32_t> m_ProfitStatusMap;
 
 private:

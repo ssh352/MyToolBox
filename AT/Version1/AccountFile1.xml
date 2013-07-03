@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
-  <AccountID>00000289</AccountID>
-  <Level0>
-    <QuitPrice>-2</QuitPrice>
-  </Level0>
-  <Level1>
-    <EnterPrice>3</EnterPrice>
-    <QuitPrice>2</QuitPrice>
-  </Level1>
-  <Level2>
-    <EnterPrice>5</EnterPrice>
-    <QuitPrice>3</QuitPrice>
-  </Level2>
-  <Level3>
-    <EnterPrice>10</EnterPrice>
-    <QuitPrice>7</QuitPrice>
-  </Level3>
-  <StopTime>22:00</StopTime>
-  <StopClearTime>22:10</StopClearTime>
-
+  <AccountID>00000290</AccountID>
+  
   <Front>tcp://125.64.36.25:26205</Front>
-  <WorkFlowDir>TD_TEST</WorkFlowDir>
+  <WorkFlowDir>TD_TEST1</WorkFlowDir>
   <BrokeID>1001</BrokeID>
   <UserID>00000290</UserID>
   <Password>123456</Password>
-  <OrderTablePath>OrderSavedPath</OrderTablePath>
+  <OrderTablePath>OrderSavedPath1</OrderTablePath>
+  <ExchangeRule>ExchangeRule1</ExchangeRule>
+
+  <TargetVol>1</TargetVol>
   
 </AccountFile>

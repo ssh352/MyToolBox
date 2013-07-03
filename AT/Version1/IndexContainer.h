@@ -5,10 +5,15 @@ namespace AT
 {
 class ISignalModule;
 
+struct ItemParam
+{
+	int Item;
+	int Param;
+};
 class IndexContainer
 {
 public:
-	IndexContainer(std::vector<ISignalModule*>);
+	IndexContainer(const char* aConfigFile);
 	~IndexContainer(void);
 	void OnMarketDepth(const AT::MarketData& aMarketDepth) ;
 	int GetIndexCount(const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime);
@@ -16,6 +21,8 @@ public:
 	void Start();
 	void Stop();
 
+	//初始化加载指标
+	void InitLoadIndex(const char* aConfigFile);
 private:
 	std::vector<ISignalModule*>		m_SignalModuleVec;
 	typedef std::map<AT_Time,int>	SignalResultMap;

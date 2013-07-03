@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--ID:信号预案id；BuyOrSell:1是买，0为卖；Priority：信号优先级-->
+<!--ItemName:指标名字，根据指标名字可找到相应的参数;ReturnValue:返回值；Time：出现返回值的次数；Duration:时间段，如5秒-->
+<!--ParamID:参数id；ItemID：指标模块，6：KHY006，1：KHY001,2：HKY002，3：HKY003-->
+<SignalConfig>
+  <Signals>
+    <Item>
+      <ID>1</ID>
+      <BuyOrSell>1</BuyOrSell>
+      <Priority>100</Priority>
+      <HKY>
+        <Item>
+        <IsUse>1</IsUse>
+        <ItemID>6</ItemID>
+        <ItemName>6_1</ItemName>
+        <ParamID>2</ParamID>
+        <ReturnValue>1</ReturnValue>
+        <Time>1</Time>
+        <Duration>5</Duration>
+        </Item>
+        <Item>
+          <IsUse>1</IsUse>
+          <ItemID>6</ItemID>
+          <ItemName>6_2</ItemName>
+          <ParamID>4</ParamID>
+          <ReturnValue>1</ReturnValue>
+          <Time>1</Time>
+          <Duration>5</Duration>
+        </Item>
+      </HKY>
+    </Item>
+    <Item>
+      <ID>2</ID>
+      <BuyOrSell>0</BuyOrSell>
+      <Priority>50</Priority>
+      <HKY>
+        <Item>
+          <IsUse>1</IsUse>
+          <ItemID>6</ItemID>
+          <ItemName>6_1</ItemName>
+          <ParamID>2</ParamID>
+          <ReturnValue>1</ReturnValue>
+          <Time>1</Time>
+          <Duration>5</Duration>
+        </Item>
+        <Item>
+          <IsUse>1</IsUse>
+          <ItemID>6</ItemID>
+          <ItemName>6_2</ItemName>
+          <ParamID>4</ParamID>
+          <ReturnValue>1</ReturnValue>
+          <Time>1</Time>
+          <Duration>5</Duration>
+        </Item>
+      </HKY>
+    </Item>
+  </Signals>
+</SignalConfig>

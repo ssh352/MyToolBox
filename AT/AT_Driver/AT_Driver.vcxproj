@@ -16,6 +16,7 @@
     <ClInclude Include="AT_Param.h" />
     <ClInclude Include="AT_Struct.h" />
     <ClInclude Include="ConstVarDefine.h" />
+    <ClInclude Include="TradeVol.h" />
     <ClInclude Include="IDriver_MD.h" />
     <ClInclude Include="IDriver_TD.h" />
     <ClInclude Include="IMarketCache.h" />

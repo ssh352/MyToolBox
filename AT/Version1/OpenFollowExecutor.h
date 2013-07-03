@@ -43,7 +43,6 @@ private:
 	std::string					m_InstrumentID;
 	int							m_LastPrice;
 	int							m_LastOrderPrice;
-	int							m_MaxVol;
 
 	enum  class FollowExecutorStatus
 	{

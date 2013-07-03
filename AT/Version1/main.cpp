@@ -18,10 +18,10 @@ int main()
 	AT::main_versionLoaderPoster versionPoster(g_IsMarketFinish);
 
 //	AT::IDriver_TD* pTD = new CTP::CTP_TD("../AT_CTP_TD/TDConfig.xml",&versionPoster);
-	AT::IDriver_TD* pTD = new CTP::CTP_MULTI_TD("../AT_CTP_Multi_TD/Multi_TD.xml",&versionPoster);
+	AT::IDriver_TD* pTD = new CTP::CTP_MULTI_TD("AccountFile.xml",&versionPoster);
 	AT::IDriver_MD* pMD = new CTP::CTP_MD("../AT_CTP_MD/MDConfig.xml",&versionPoster);
 
-	AT::version1Container* pVersionContainer = new AT::version1Container("",pTD,&versionPoster,pMD->GetMarketCache());
+	AT::version1Container* pVersionContainer = new AT::version1Container("AccountFile.xml",pTD,&versionPoster,pMD->GetMarketCache());
 
 	versionPoster.Setup(pVersionContainer);
 

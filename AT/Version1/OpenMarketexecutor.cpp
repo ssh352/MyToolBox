@@ -7,7 +7,6 @@ namespace AT
 
 OpenMarketExecutor::OpenMarketExecutor()
 {
-	m_MaxVol = 50;
 }
 
 
@@ -24,13 +23,6 @@ boost::shared_ptr<TradeCommand> OpenMarketExecutor::AddTarget( int addTargetQuan
 {
 	if(addTargetQuantity == 0 )
 	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
-	}
-	if(addTargetQuantity > m_MaxVol)
-	{
-		ATLOG(LogLevel::L_ERROR,"市价指令每次最大下单数量为50手");
 		boost::shared_ptr<TradeCommand> lret;
 		lret.reset(new InvalidCommand);
 		return lret;

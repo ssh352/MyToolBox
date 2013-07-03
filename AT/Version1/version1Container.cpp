@@ -84,37 +84,39 @@ void version1Container::OnRtnTrade( const TradeUpdate& apTrade )
 
 void version1Container::InitIndexContainer()
 {
-	boost::property_tree::ptree lConfig;
-	read_xml("SignalLoaderConfig.xml",lConfig);
+	//boost::property_tree::ptree lConfig;
+	//read_xml("SignalLoaderConfig.xml",lConfig);
 
-	std::vector<AT::ISignalModule*>  SingleModuleVec;
+	//std::vector<AT::ISignalModule*>  SingleModuleVec;
 
-	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
-	{
-		std::string lDllName = lSingleMoudleList.second.get<std::string>("SignalDllName");
-		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("SignalDllConfig");
-		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
-		if( ! lSinglehandle)
-		{
-			std::cout<<boost::format("Can not load SingleMoudle DLL %s")%lDllName;
-			break;
-		}
-		CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
-		if (! lpSignalCallInst)
-		{
-			std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
-			break;
-		}
-		AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_MarketCache);
-		if(!lpSignalInst)
-		{
-			std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;
-			break;
-		}
-		SingleModuleVec.push_back(lpSignalInst);
-		m_LibHandleVec.push_back(lSinglehandle);
-	}
-	m_pIndexContaner =  new IndexContainer(SingleModuleVec);
+	//for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
+	//{
+	//	std::string lDllName = lSingleMoudleList.second.get<std::string>("SignalDllName");
+	//	std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("SignalDllConfig");
+	//	std::string lDllIndexName = lSingleMoudleList.second.get<std::string>("IndexName");
+	//	HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
+	//	if( ! lSinglehandle)
+	//	{
+	//		std::cout<<boost::format("Can not load SingleMoudle DLL %s")%lDllName;
+	//		break;
+	//	}
+	//	CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
+	//	if (! lpSignalCallInst)
+	//	{
+	//		std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
+	//		break;
+	//	}
+	//	AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_MarketCache);
+	//	if(!lpSignalInst)
+	//	{
+	//		std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;
+	//		break;
+	//	}
+	////	lpSignalInst->SetIndexName(lDllIndexName);
+	//	SingleModuleVec.push_back(lpSignalInst);
+	//	m_LibHandleVec.push_back(lSinglehandle);
+	//}
+	m_pIndexContaner =  new IndexContainer("SignalConfig.xml");
 }
 
 void version1Container::InitAccountContainer()

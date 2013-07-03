@@ -1,38 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
-  <AccountID>00000288</AccountID>
-  <Level0>
-    <QuitPrice>-1</QuitPrice>
-  </Level0>
-  <Level1>
-    <EnterPrice>3</EnterPrice>
-    <QuitPrice>3</QuitPrice>
-  </Level1>
-  <Level2>
-    <EnterPrice>5</EnterPrice>
-    <QuitPrice>2</QuitPrice>
-  </Level2>
-  <Level3>
-    <EnterPrice>10</EnterPrice>
-    <QuitPrice>7</QuitPrice>
-  </Level3>
-  <StopTime>15:06</StopTime>
-  <StopClearTime>15:08</StopClearTime>
-
+  <AccountID>00000291</AccountID>
+  
   <Front>tcp://125.64.36.25:26205</Front>
   <WorkFlowDir>TD_TEST2</WorkFlowDir>
   <BrokeID>1001</BrokeID>
   <UserID>00000291</UserID>
   <Password>123456</Password>
   <OrderTablePath>OrderSavedPath2</OrderTablePath>
+  <ExchangeRule>ExchangeRule2</ExchangeRule>
+
+  <TargetVol>1</TargetVol>
+  
 </AccountFile>
 
-<!-- 
-  <Front>tcp://ctpmn1-front2.citicsf.com:51205</Front>
-  <WorkFlowDir>TD_TEST</WorkFlowDir>
-  <BrokeID>1017</BrokeID>
-  <UserID>00000019</UserID>
-  <Password>123456</Password>
-  <OrderTablePath>OrderSavedPath</OrderTablePath>
--->

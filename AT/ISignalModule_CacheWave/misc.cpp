@@ -2,5 +2,6 @@
 
 DLL_API  AT::ISignalModule* CreateSignal(const char* aConfigFile, const AT::IMarketCache * apMarketCache)
 {
-	return  new AT::SignalModule_CacheWave(aConfigFile);
+	return NULL;
+//	return  new AT::SignalModule_CacheWave(aConfigFile);
 }

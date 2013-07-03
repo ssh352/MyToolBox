@@ -8,14 +8,15 @@ namespace AT
 	class SignalModule_CacheWave :public AT::ISignalModule
 	{
 	public:
-		SignalModule_CacheWave(const char* aConfigFile);
+		SignalModule_CacheWave(int iWave);
 		virtual ~SignalModule_CacheWave(void);
 
 		virtual void UpdateParam(ESignalInputType errCode ,const Param& apParam) override {};
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override;
 		virtual void Stop() override ;
-		virtual std::string GetIndexName() override{return "HKY006";}
+		virtual std::string GetIndexName(){return m_IndexName;};
+				void SetIndexName(std::string indexName){m_IndexName = indexName;}
 
 	private: 
 		std::pair<int32_t,MarketData>	m_LowPoint;
@@ -35,6 +36,7 @@ namespace AT
 		bool m_isWaveStart;
 		int32_t m_WaveVal;
 		std::string m_StoreFile;
+		std::string m_IndexName;
 	
 	};
 }

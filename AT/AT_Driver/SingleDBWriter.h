@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "MarketData.h"
+#include "TradeVol.h"
 
 namespace leveldb
 {
@@ -20,6 +21,10 @@ namespace AT
 
 		void StoreMarketData(std::shared_ptr<AT::MarketData> aDatPtr);
 		void RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap  );
+		//存储交易量数据
+		void StoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol);
+		//读取交易量数据
+		void RestoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol);
 
 	private:
 

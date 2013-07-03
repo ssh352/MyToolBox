@@ -3,15 +3,16 @@
 #include <boost\property_tree\xml_parser.hpp>
 namespace AT
 {
-	SignalModule_CacheWave::SignalModule_CacheWave(const char* aConfigFileName)
+	SignalModule_CacheWave::SignalModule_CacheWave(int iWave/*const char* aConfigFileName*/)
+		:m_WaveVal(iWave)
 	{
 		
-		boost::property_tree::ptree lConfig;
+		/*boost::property_tree::ptree lConfig;
 		read_xml(aConfigFileName,lConfig);
 		double lrawWaveVal  = lConfig.get<double>("ISignalModule_CacheWave.Wave_value");
 		m_WaveVal = AT::TranPriceToInt(lrawWaveVal);
-		m_StoreFile = lConfig.get<std::string>("ISignalModule_CacheWave.stroe_file");
-
+		m_StoreFile = lConfig.get<std::string>("ISignalModule_CacheWave.stroe_file");*/
+		m_StoreFile = "Wave5.xml";
 	}
 
 

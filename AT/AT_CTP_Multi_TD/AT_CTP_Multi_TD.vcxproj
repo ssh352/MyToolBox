@@ -48,7 +48,10 @@
     <Import Project="..\MP_Comply.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>../../boost_1_53_0;../AT_Driver;../CTP_Driver/CTP_API/include/;../ExternLib\leveldb-1.7.0\include\;C:\boost_1_53_0;../AT_CTP_TD;../AT_CTP_Multi_TD;../AT_CTP_MD;../AT_CTP_MockTD;$(IncludePath)</IncludePath>
+    <LibraryPath>../../boost_1_53_0/stage/lib;..\CTP_Driver\CTP_API\lib;..\CTP_Driver\CTP_API\bin;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -83,12 +86,6 @@
     <Xml Include="Multi_TD.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
-      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
-      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>

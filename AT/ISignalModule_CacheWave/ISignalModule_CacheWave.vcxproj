@@ -18,9 +18,10 @@
     <ClCompile Include="SignalModule_CacheWave.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="ISignalModule_CacheWave.xml">
+    <Xml Include="ISignalModule_CacheWave1.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="ISignalModule_CacheWave2.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
@@ -39,7 +40,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

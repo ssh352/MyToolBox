@@ -48,7 +48,10 @@
     <Import Project="..\MP_Comply.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>..\CTP_Driver\CTP_API\lib;..\CTP_Driver\CTP_API\bin;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -71,6 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>thostmduserapi.lib;thosttraderapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -123,15 +127,29 @@
     <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
       <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ISignalModule_CacheWave\ISignalModule_CacheWave.vcxproj">
+      <Project>{3caf4f61-d42e-44e3-bc92-fb03df3b5ae9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="AccountFile.xml" />
     <Xml Include="AccountFile1.xml" />
     <Xml Include="AccountFile2.xml" />
+    <Xml Include="CloseExecutorConfig.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="ExchangeRuleConfig.xml" />
+    <Xml Include="HKY001.xml" />
+    <Xml Include="HKY002.xml" />
+    <Xml Include="HKY003.xml" />
+    <Xml Include="OpenExecutorConfig.xml" />
     <Xml Include="SignalConfig.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="SignalFliter.xml" />
-    <Xml Include="SignalLoaderConfig.xml" />
+    <Xml Include="SignalLoaderConfig.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>
     </Xml>

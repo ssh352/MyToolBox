@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--StartTime:信号开始时间；StopTime：信号结束时间-->
 <SignalFliter>
-  <Time1>3</Time1>
-  <Time2>5</Time2>
-  <Time3>8</Time3>
-  <TotalTimeProfit>
-    <Profit>-6</Profit>
-    <Time>10</Time>
-  </TotalTimeProfit>
-  <TotalProfitStop>-5000</TotalProfitStop>
-  <StopTime>22:00</StopTime>
+  <Item>
+    <ID>1</ID>
+    <Time1>3</Time1>
+    <Time2>5</Time2>
+    <Time3>8</Time3>
+    <TotalTimeProfit>
+      <Profit>-6</Profit>
+      <Time>10</Time>
+    </TotalTimeProfit>
+    <TotalProfitStop>-10</TotalProfitStop>
+    <StartTime>10:00</StartTime>
+    <StopTime>22:00</StopTime>
+  </Item>
+  
 </SignalFliter>

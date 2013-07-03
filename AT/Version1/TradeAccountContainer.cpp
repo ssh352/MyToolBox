@@ -5,6 +5,8 @@
 #include <boost\function.hpp>
 #include "../AT_Driver/ATLogger.h"
 #include "boost/format.hpp"
+#include "boost/property_tree/ptree.hpp"
+#include "boost/property_tree/xml_parser.hpp"
 namespace AT
 {
 
@@ -16,17 +18,22 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 	AccountProfitStatus lnewStatus ;
 	memset(&lnewStatus,0,sizeof(AccountProfitStatus));
 
-	boost::shared_ptr<ITradeAccount> lpAccount1;
-	lpAccount1.reset(new TradeAccountDemo1("AccountFile1.xml",apTD));
-	m_AccountList.push_back(lpAccount1);
-	m_AccountFinishedList[lpAccount1] = lnewStatus;
-
-
-	boost::shared_ptr<ITradeAccount> lpAccoun2;
-	lpAccoun2.reset(new TradeAccountDemo1("AccountFile2.xml",apTD));
-	m_AccountList.push_back(lpAccoun2);
-	m_AccountFinishedList[lpAccoun2] = lnewStatus;
-
+	boost::property_tree::ptree pt;
+	read_xml(configFile,pt);
+	for (auto lAccount:pt.get_child("MultiAccount_Config"))
+	{
+		int lIsUse = lAccount.second.get<int>("IsUse");
+		if(lIsUse == 1)
+		{
+			std::string lAccountID = lAccount.second.get<std::string>("AccountID");
+			std::string lAccountConfig = lAccount.second.get<std::string>("Config");
+			boost::shared_ptr<ITradeAccount> lpAccount;
+			lpAccount.reset(new TradeAccountDemo1(lAccountConfig,apTD));
+			m_AccountList.push_back(lpAccount);
+			m_AccountFinishedList[lpAccount] = lnewStatus;
+		}
+	}
+	
 
 	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
 		= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);

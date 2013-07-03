@@ -1,13 +1,17 @@
 #include "IndexContainer.h"
 #include "ISignalModule.h"
 #include <boost/format.hpp>
+#include "boost/property_tree/ptree.hpp"
+#include "boost/property_tree/xml_parser.hpp"
+#include "../ISignalModule_CacheWave/SignalModule_CacheWave.h"
+
 namespace AT
 {
 
 
-IndexContainer::IndexContainer(std::vector<ISignalModule*> apMoudleList)
-: m_SignalModuleVec(apMoudleList)
+IndexContainer::IndexContainer(const char* aConfigFile/*std::vector<ISignalModule*> apMoudleList*/)
 {
+	InitLoadIndex(aConfigFile);
 }
 
 
@@ -81,5 +85,66 @@ void IndexContainer::Stop()
 		lSignalPtr->Stop();
 	}
 }
+void IndexContainer::InitLoadIndex(const char* aConfigFile)
+{
+	boost::property_tree::ptree lIndexPt;
+	read_xml(aConfigFile,lIndexPt);
+	int iItemID ;
+	std::string strItemName;
+	int iItemParam;
+	std::map<std::string,ItemParam> mapItem;
+	for (auto lSignal:lIndexPt.get_child("SignalConfig.Signals"))
+	{
+		for (auto lIndex:lSignal.second.get_child("HKY"))
+		{
+			iItemID = lIndex.second.get<int>("ItemID");
+			strItemName = lIndex.second.get<std::string>("ItemName");
+			iItemParam = lIndex.second.get<int>("ParamID");
+			ItemParam itemPara = {iItemID,iItemParam};
+			if(mapItem.size() > 0)
+			{
+				if(mapItem.find(strItemName) != mapItem.end())
+				{
+					mapItem[strItemName] = itemPara;
+				}
+			}
+			else
+			{
+				mapItem[strItemName] = itemPara;
+			}
+			
+		}
+	}
+	//加载所有的Item
+	for(std::map<std::string,ItemParam>::const_iterator iter = mapItem.begin();iter != mapItem.end();++iter)
+	{
+		switch (iter->second.Item)
+		{
+		case 6:  //HK006
+			{
+				SignalModule_CacheWave* pModule = new SignalModule_CacheWave(iter->second.Param);
+				pModule->SetIndexName(iter->first);
+				m_SignalModuleVec.push_back(pModule);
+			}
+			break;
+		case 1://HK001
+			{
 
+			}
+			break;
+		case 2://HK002
+			{
+
+			}
+			break;;
+		case 3://HK003
+			{
+
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
 }

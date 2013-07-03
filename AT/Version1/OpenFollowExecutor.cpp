@@ -9,7 +9,6 @@ OpenFollowExecutor::OpenFollowExecutor( FollowExecutorParma aParma )
 	:m_Setting(aParma)
 {
 	m_ExecutorStatus = FollowExecutorStatus::IDLE;
-	m_MaxVol = 500;
 }
 
 
@@ -26,13 +25,6 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::AddTarget( int addTargetQuan
 {
 	if(addTargetQuantity == 0 )
 	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
-	}
-	if(addTargetQuantity >m_MaxVol)
-	{
-		ATLOG(LogLevel::L_ERROR,"限价指令每次最大下单数量为500手");
 		boost::shared_ptr<TradeCommand> lret;
 		lret.reset(new InvalidCommand);
 		return lret;

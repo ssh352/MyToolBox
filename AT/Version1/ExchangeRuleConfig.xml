@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--TargetVol:每次下单手数；LimitMaxVol:限价最大下单数量；MarketMaxVol：市价最大下单数量-->
+<!--SinglePositionMaxVol:单边持仓限额；MaxTotalOpenVol：最大累计开仓手数；MaxCancleTimeVol：最大撤单次数-->
+<!--AutoTradeMaxTime:自成交最大次数-->
+<ExchangeRuluConfig>
+  <LimitMaxVol>100</LimitMaxVol>
+  <MarketMaxVol>50</MarketMaxVol>
+  <SinglePositionMaxVol>600</SinglePositionMaxVol>
+  <MaxTotalOpenVol>1200</MaxTotalOpenVol>
+  <MaxCancleTimeVol>500</MaxCancleTimeVol>
+  <AutoTradeMaxTime>5</AutoTradeMaxTime>
+</ExchangeRuluConfig>

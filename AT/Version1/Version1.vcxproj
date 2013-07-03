@@ -88,6 +88,7 @@
     <ClCompile Include="TradeAccountContainer.cpp" />
     <ClCompile Include="TradeAccountDemo1.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
+    <ClCompile Include="TradeSignalProducerContainer.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
@@ -108,6 +109,7 @@
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="TradeSignal.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />
+    <ClInclude Include="TradeSignalProducerContainer.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />
   </ItemGroup>
@@ -143,16 +145,16 @@
     <Xml Include="HKY002.xml" />
     <Xml Include="HKY003.xml" />
     <Xml Include="OpenExecutorConfig.xml" />
-    <Xml Include="SignalConfig.xml">
+    <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="SignalFliter.xml" />
-    <Xml Include="SignalLoaderConfig.xml">
-      <SubType>Designer</SubType>
-    </Xml>
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="TradeSignal01.xml" />
+    <Xml Include="TradeSignal02.xml" />
+    <Xml Include="TradeSignalProduceRule.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TradeSignalProduceRule>
+
+  <Signal>
+    <SignalType>TradeSignalProducerDemo1</SignalType> <!-- useless now  because we did not have the second Producer class -->
+    <ConfigFile>TradingSignal01.xml</ConfigFile>
+  </Signal>
+  
+  <Signal>
+    <SignalType>TradeSignalProducerDemo1</SignalType>
+    <ConfigFile>TradingSignal02.xml</ConfigFile>
+  </Signal>
+
+</TradeSignalProduceRule>

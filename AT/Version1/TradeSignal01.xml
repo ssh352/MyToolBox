@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--对每一个Item IndexID 检查指标的名字必须属于IndexContainer.xml里面配置好的一种
+    CheckType 检查使用的方法 目前有GetIndexCount(Count)， GetLastNonZero， GetLastValue(LastVal) 3种 (这里是一个扩展点，现在做一个够用的最小集就好了）
+    对应每种检查方式，检查的参数
+    TimeFromNow
+    ExeceptVal
+    OccurTimes
+    BlockOrPass 满足条件后 若为1 则阻止信号生成，否则通过该条目检查
+
+  Count = 1
+  LastVal = 2
+  LastNonZero = 3
+
+-->
+<SignalConfig>
+
+  <!--
+  可能的其他配置 ，比如保存结果的文件等
+  -->
+  <SignalID>TradeSignal01</SignalID>
+  <IsBuy>1</IsBuy>
+  <Priority>80</Priority>
+  
+  <CheckItems>
+    <Item>
+      <IndexID>HKY_001</IndexID>
+      <CheckType>1</CheckType>
+      <TimeFromNow>5</TimeFromNow>
+      <ExceptVal>1</ExceptVal>
+      <OccurTimes>3</OccurTimes>
+      <IsBlock>0</IsBlock>
+    </Item>
+
+    <Item>
+      <IndexID>HKY_002</IndexID>
+      <CheckType>2</CheckType>
+      <ExceptVal>1</ExceptVal>
+      <IsBlock>1</IsBlock>
+    </Item>
+  </CheckItems>
+  
+</SignalConfig>

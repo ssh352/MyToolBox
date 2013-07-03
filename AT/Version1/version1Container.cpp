@@ -17,12 +17,10 @@ namespace AT
 
 version1Container::version1Container(const char* aConfigFile, AT::IDriver_TD* apTD, AT::IStrategySpi* aStrSpi, const  AT::IMarketCache* apMarketCache)
 	:m_pTD(apTD)
-	,m_MarketCache(apMarketCache)
+	,m_pMarketCache(apMarketCache)
 	,m_TradeAccountContaner(aConfigFile,apTD)
 {
 ////todo init
-//	IndexContainer* m_pIndexContaner;
-//	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
 //	ITradeSignalFliter*					m_pTradeSignalFliter;
 	 InitIndexContainer();
 	 InitFliter();
@@ -84,39 +82,7 @@ void version1Container::OnRtnTrade( const TradeUpdate& apTrade )
 
 void version1Container::InitIndexContainer()
 {
-	//boost::property_tree::ptree lConfig;
-	//read_xml("SignalLoaderConfig.xml",lConfig);
-
-	//std::vector<AT::ISignalModule*>  SingleModuleVec;
-
-	//for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
-	//{
-	//	std::string lDllName = lSingleMoudleList.second.get<std::string>("SignalDllName");
-	//	std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("SignalDllConfig");
-	//	std::string lDllIndexName = lSingleMoudleList.second.get<std::string>("IndexName");
-	//	HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
-	//	if( ! lSinglehandle)
-	//	{
-	//		std::cout<<boost::format("Can not load SingleMoudle DLL %s")%lDllName;
-	//		break;
-	//	}
-	//	CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
-	//	if (! lpSignalCallInst)
-	//	{
-	//		std::cout<<boost::format("Can not Get Single Create Inst Fun Address");
-	//		break;
-	//	}
-	//	AT::ISignalModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_MarketCache);
-	//	if(!lpSignalInst)
-	//	{
-	//		std::cout<<boost::format("failed Create SignalModule inst with ConfigFile %s  ")%lDllConfig;
-	//		break;
-	//	}
-	////	lpSignalInst->SetIndexName(lDllIndexName);
-	//	SingleModuleVec.push_back(lpSignalInst);
-	//	m_LibHandleVec.push_back(lSinglehandle);
-	//}
-	m_pIndexContaner =  new IndexContainer("SignalConfig.xml");
+	m_pIndexContaner =  new IndexContainer("IndexContainer.xml",m_pMarketCache);
 }
 
 void version1Container::InitAccountContainer()
@@ -130,7 +96,22 @@ void version1Container::InitFliter()
 }
 void version1Container::InitSignalProducer()
 {
-	m_TradeSignalProducerVec.push_back(new TradeSignalProducerDemo1("SignalConfig.xml",m_pIndexContaner));
+	boost::property_tree::ptree lConfig;
+	read_xml("TradeSignalProduceRule.xml",lConfig);
+
+	for( std::pair<std::string,boost::property_tree::ptree>  lSignalConfig : lConfig.get_child("TradeSignalProduceRule"))
+	{
+		std::string lTradeSignalProducerType  = lSignalConfig.second.get<std::string>("SignalType"); // useless because all info store in
+		std::string lSignalConfigFile =  lSignalConfig.second.get<std::string>("ConfigFile");
+		if(lTradeSignalProducerType == "TradeSignalProducerDemo1")
+		{
+			m_TradeSignalProducerVec.push_back(new TradeSignalProducerDemo1(lSignalConfigFile,m_pIndexContaner));
+		}
+
+	}
+
+
+	
 }
 void version1Container::Start()
 {

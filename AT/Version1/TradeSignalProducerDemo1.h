@@ -1,21 +1,13 @@
 #pragma once
 
 #include "ITradeSignalProducer.h"
+
+#include <boost\function.hpp>
 #include <string>
+#include <vector>
 namespace AT
 {
 class IndexContainer;
-
-//todo config files
-struct strSignal
-{
-	std::string  SignalName;
-	bool		 BuyOrSell;
-	int			 Priority;
-	int			 HKY006IsUse;
-	std::string	 HKY006ItemName;
-	int			 HKY006ReturnValue;
-};
 
 //load the logic from script as python
 class TradeSignalProducerDemo1 :public ITradeSignalProducer
@@ -27,19 +19,27 @@ public:
 
 	//初始化
 	void	InitConfig(const std::string& aConfigFile);
-	//记录信号
-	void    WriteTradeSignal(TradeSignal signal);
+	////记录信号
+	//void    WriteTradeSignal(TradeSignal signal);
 
-	bool    CheckSignal(AT_Time aTriggerTime);
+	//bool    CheckSignal(AT_Time aTriggerTime);
 
 private:
 	IndexContainer* m_pIndexContainer;
 
 	int m_Seqence;
 
-	std::vector<strSignal>   m_Signal;
+	std::string		m_SignalName;
+	bool			m_IsBuy;
+	int32_t			m_Priority;
 
-	
+
+	static const int CountCheckType  = 1;
+	static const int LastValCheckType = 2;
+	static const int LastNonZeroCheckType  = 3;
+
+	typedef boost::function<bool( AT_Time aTime)> CheckFunction;
+	std::vector<CheckFunction>		m_CheckList;
 };
 
 }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<HKY002>
-  <Item>
-    <ID>1</ID>
-    <Param1>1</Param1>
-    <Param1>2</Param1>
-  </Item>
-  <Item>
-    <ID>2</ID>
-    <Param1>1</Param1>
-    <Param1>2</Param1>
-  </Item>
-</HKY002>
+
+<IIndexMoudle_CacheWave>
+
+  <Instrument>IF1307</Instrument>
+
+  <Wave_value>2</Wave_value>
+
+  <stroe_file>WaveHKY002.xml</stroe_file>
+
+</IIndexMoudle_CacheWave>

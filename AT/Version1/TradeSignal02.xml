@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<SignalConfig>
+
+  <!--
+  Count = 1
+  LastVal = 2
+  LastNonZero = 3
+  -->
+  <SignalID>TradeSignal02</SignalID>
+  <IsBuy>1</IsBuy>
+  <Priority>100</Priority>
+
+  <CheckItems>
+    <Item>
+      <IndexID>HKY_002</IndexID>
+      <CheckType>1</CheckType>
+      <TimeFromNow>5</TimeFromNow>
+      <ExceptVal>1</ExceptVal>
+      <OccurTimes>3</OccurTimes>
+      <IsBlock>0</IsBlock>
+    </Item>
+    <Item>
+      <IndexID>HKY_001</IndexID>
+      <CheckType>2</CheckType>
+      <ExceptVal>1</ExceptVal>
+      <IsBlock>1</IsBlock>
+    </Item>
+    <Item>
+      <IndexID>HKY_003</IndexID>
+      <CheckType>2</CheckType>
+      <ExceptVal>1</ExceptVal>
+      <IsBlock>1</IsBlock>
+    </Item>
+  </CheckItems>
+
+</SignalConfig>
+

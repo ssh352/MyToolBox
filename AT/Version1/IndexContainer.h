@@ -13,7 +13,7 @@ struct ItemParam
 class IndexContainer
 {
 public:
-	IndexContainer(const char* aConfigFile, AT::IMarketCache* apMarketCache);
+	IndexContainer(const char* aConfigFile,const AT::IMarketCache* apMarketCache);
 	~IndexContainer(void);
 	void OnMarketDepth(const AT::MarketData& aMarketDepth) ;
 	//这个函数主要用来查询一段时间内指定名字的Index 以指定值出现的次数
@@ -32,7 +32,7 @@ private:
 	std::vector<IIndexModule*>		m_SignalModuleVec;
 	typedef std::map<AT_Time,int>	SignalResultMap;
 	std::map<std::string,SignalResultMap> m_SignalResultMapGroupBySignalName;
-	AT::IMarketCache*				m_pMarketCache;
+	const AT::IMarketCache*				m_pMarketCache;
 };
 
 

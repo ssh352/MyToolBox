@@ -2,12 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="IndexContainer.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="TradeSignalProducerDemo1.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="version1Container.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -33,6 +27,15 @@
     <ClCompile Include="OpenMarketexecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
+    <ClCompile Include="IndexContainer.cpp">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalProducerDemo1.cpp">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalProducerContainer.cpp">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -40,12 +43,6 @@
     </ClInclude>
     <ClInclude Include="ITradeSignalProducer.h">
       <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexContainer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeSignalProducerDemo1.h">
-      <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="TradeCommand.h">
       <Filter>Struct</Filter>
@@ -87,6 +84,15 @@
     <ClInclude Include="OpenMarketexecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
+    <ClInclude Include="IndexContainer.h">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalProducerDemo1.h">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalProducerContainer.h">
+      <Filter>Classes\Index_Signal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -104,20 +110,67 @@
     <Filter Include="Classes\TradeAccount">
       <UniqueIdentifier>{0044f8ad-4e85-48e1-80b0-4b9a69e8ad42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{07ade491-e2e8-4091-84d3-b6999422bbbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\IndexContainer">
+      <UniqueIdentifier>{26972ea9-b4b2-48de-9635-c3751d816321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\SignalProducer">
+      <UniqueIdentifier>{e9f9631f-c0a9-4b43-8050-d2e89917352c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\Account">
+      <UniqueIdentifier>{c5f10114-4898-4e87-a7c5-fd09e13c8cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Index_Signal">
+      <UniqueIdentifier>{aca7ead1-d3df-4816-b7ac-8b94e3a8581e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="SignalFliter.xml" />
-    <Xml Include="SignalLoaderConfig.xml" />
-    <Xml Include="AccountFile1.xml" />
-    <Xml Include="AccountFile2.xml" />
-    <Xml Include="StretegyConfig.xml" />
-    <Xml Include="SignalConfig.xml" />
-    <Xml Include="OpenExecutorConfig.xml" />
-    <Xml Include="CloseExecutorConfig.xml" />
-    <Xml Include="ExchangeRuleConfig.xml" />
-    <Xml Include="AccountFile.xml" />
-    <Xml Include="HKY001.xml" />
-    <Xml Include="HKY002.xml" />
-    <Xml Include="HKY003.xml" />
+    <Xml Include="CloseExecutorConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="ExchangeRuleConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="OpenExecutorConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="SignalFliter.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="StretegyConfig.xml">
+      <Filter>config</Filter>
+    </Xml>
+    <Xml Include="HKY001.xml">
+      <Filter>config\IndexContainer</Filter>
+    </Xml>
+    <Xml Include="HKY002.xml">
+      <Filter>config\IndexContainer</Filter>
+    </Xml>
+    <Xml Include="HKY003.xml">
+      <Filter>config\IndexContainer</Filter>
+    </Xml>
+    <Xml Include="IndexContainer.xml">
+      <Filter>config\IndexContainer</Filter>
+    </Xml>
+    <Xml Include="TradeSignalProduceRule.xml">
+      <Filter>config\SignalProducer</Filter>
+    </Xml>
+    <Xml Include="AccountFile.xml">
+      <Filter>config\Account</Filter>
+    </Xml>
+    <Xml Include="AccountFile1.xml">
+      <Filter>config\Account</Filter>
+    </Xml>
+    <Xml Include="AccountFile2.xml">
+      <Filter>config\Account</Filter>
+    </Xml>
+    <Xml Include="TradeSignal01.xml">
+      <Filter>config\SignalProducer</Filter>
+    </Xml>
+    <Xml Include="TradeSignal02.xml">
+      <Filter>config\SignalProducer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

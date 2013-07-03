@@ -45,7 +45,7 @@ private:
 	TradeAccountContainer				m_TradeAccountContaner;
 private:
 	AT::IDriver_TD* m_pTD;
-	const AT::IMarketCache* m_MarketCache;
+	const AT::IMarketCache*				m_pMarketCache;
 
 	std::vector<HMODULE>				m_LibHandleVec;
 };

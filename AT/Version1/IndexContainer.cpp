@@ -11,7 +11,7 @@ namespace AT
 {
 
 
-	IndexContainer::IndexContainer(const char* aConfigFile,AT::IMarketCache* apMarketCache)
+	IndexContainer::IndexContainer(const char* aConfigFile,const AT::IMarketCache* apMarketCache)
 		:m_pMarketCache(apMarketCache)
 	{
 		InitLoadIndex(aConfigFile);
@@ -99,7 +99,7 @@ void IndexContainer::InitLoadIndex(const char* aConfigFile)
 
 	boost::property_tree::ptree lConfig;
 	read_xml(aConfigFile,lConfig);
-	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("SignalLoaderStr.Signals"))
+	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("IndexContainerConfig.Indexs"))
 	{
 		std::string lDllName = lSingleMoudleList.second.get<std::string>("Dll");
 		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("ConfigFile");

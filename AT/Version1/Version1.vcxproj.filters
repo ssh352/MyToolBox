@@ -33,9 +33,6 @@
     <ClCompile Include="TradeSignalProducerDemo1.cpp">
       <Filter>Classes\Index_Signal</Filter>
     </ClCompile>
-    <ClCompile Include="TradeSignalProducerContainer.cpp">
-      <Filter>Classes\Index_Signal</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -88,9 +85,6 @@
       <Filter>Classes\Index_Signal</Filter>
     </ClInclude>
     <ClInclude Include="TradeSignalProducerDemo1.h">
-      <Filter>Classes\Index_Signal</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeSignalProducerContainer.h">
       <Filter>Classes\Index_Signal</Filter>
     </ClInclude>
   </ItemGroup>

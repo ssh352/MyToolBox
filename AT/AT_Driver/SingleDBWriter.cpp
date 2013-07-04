@@ -59,7 +59,7 @@ void SingleDBHandler::RestoreMarketMap( std::shared_ptr< MarketMap> lpMarketMap 
 
 void SingleDBHandler::StoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol)
 {
-	leveldb::Slice lKeySlice = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
+	leveldb::Slice lKeySlice = boost::posix_time::to_simple_string(AT_Local_Time());
 	leveldb::Slice lValSlice ((char*)aTradeVol.get(),sizeof(AT::TradeVolData));
 
 	if(! m_pDB->Put(leveldb::WriteOptions(),lKeySlice,lValSlice).ok())
@@ -69,24 +69,18 @@ void SingleDBHandler::StoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTrade
 		ATLOG(AT::LogLevel::L_ERROR,lErrorInfo);
 	}
 }
-void SingleDBHandler::RestoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol)
+void SingleDBHandler::RestoreTradeVolData(std::shared_ptr<TradeVolMap> lpTradeVolMap)
 {
-	leveldb::Slice lKeySlice = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
-	std::string KeyValue;
-	leveldb::Status s = m_pDB->Get(leveldb::ReadOptions(),lKeySlice,&KeyValue);
-	if( !s.ok() )
+	leveldb::Iterator* liter = m_pDB->NewIterator(leveldb::ReadOptions());
+	for (liter->SeekToFirst(); liter->Valid(); liter->Next())
 	{
-		std::string lErrorInfo = "ReStore TradeVol Failed";
-		ATLOG(AT::LogLevel::L_ERROR,lErrorInfo);
-		aTradeVol->m_AutoTradeTime = 0;
-		aTradeVol->m_BuyDirectionVol = 0;
-		aTradeVol->m_SellDirectionVol = 0;
-		aTradeVol->m_TotalCancleTime = 0;
-		aTradeVol->m_TotalOpenVol = 0;
-		return;
+		std::shared_ptr<TradeVolData> lpTradeVolData(new TradeVolData);
+		memcpy(lpTradeVolData.get(),liter->value().data(),liter->value().size());
+		uint64_t lKey =  0;
+		memcpy(&lKey,liter->key().data(),liter->key().size());
+		lpTradeVolMap->insert(std::make_pair(lKey,lpTradeVolData));
 	}
-
-	memcpy(aTradeVol.get(),KeyValue.data(),KeyValue.size());
+	delete liter;
 
 }
 

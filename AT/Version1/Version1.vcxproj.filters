@@ -166,5 +166,8 @@
     <Xml Include="TradeSignal02.xml">
       <Filter>config\SignalProducer</Filter>
     </Xml>
+    <Xml Include="TradeSignal03.xml">
+      <Filter>config\SignalProducer</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

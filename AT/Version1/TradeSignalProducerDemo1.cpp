@@ -84,6 +84,26 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 			}
 			break;
 		case LastNonZeroCheckType:
+			{
+				bool InvertCheck = lChecklist.second.get<bool>("IsBlock");
+				int ExpectVal = lChecklist.second.get<int>("ExceptVal");
+
+				boost::function<bool(AT_Time aTriggerTime)> lCkeckSignal = 
+					[InvertCheck,lpIndexContainer,aIndexName,ExpectVal](AT_Time aTriggerTime)
+				{
+					int lLastNonZero = lpIndexContainer->GetLastNonZero(aIndexName.c_str());
+					bool lCkeck = lLastNonZero == ExpectVal;
+					if(InvertCheck)
+					{
+						return !lCkeck;
+					}
+					else
+					{
+						return lCkeck;
+					}
+				};
+				m_CheckList.push_back(lCkeckSignal);
+			}
 			break;
 		default:
 			break;
@@ -112,13 +132,34 @@ AT::TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const MarketData& 
 			lret.m_Valid  = true;
 			lret.m_TradeSignalSequence = m_Seqence++;
 			lret.m_TriggerMarketData = aTriggerMarket;
-			ATLOG(AT::LogLevel::L_INFO,"xxxxxxxxxx Trigger TradeSignal");
+			m_TradeSignalVec.push_back(lret);
 		}
 		else
 		{
 			lret.m_Valid = false;
 		}
 		return lret;
+}
+void    TradeSignalProducerDemo1::WriteTradeSignal()
+{
+	boost::property_tree::ptree lSignalTree;
+	std::string SignalPath = "TradeSignal_"+m_SignalName+"_"+to_iso_string(boost::gregorian::day_clock::local_day())+".xml";
+	
+	for (auto lSignal:m_TradeSignalVec)
+	{
+		std::string BuyOrSell = lSignal.m_BuyOrSell ?"Buy":"Sell";
+		std::string Signal = boost::str(boost::format("[UpdateTime::%s]  TradeSignal [ID:: %s]  [BuyOrSell: %s] [Priority:: %d] [InstrumentID:%s]\n[Price: %d] \n") 
+			% ToString(lSignal.m_TriggerMarketData.m_UpdateTime)
+			% lSignal.m_ID
+			% BuyOrSell
+			% lSignal.m_priority
+			% lSignal.m_TriggerMarketData.InstrumentID
+			% lSignal.m_TriggerMarketData.m_LastPrice
+			);
+		lSignalTree.add("TradeSignal",Signal);
+	}
+	
+	write_xml(SignalPath,lSignalTree);
 }
 
 }

@@ -115,6 +115,9 @@
     <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
       <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_MD_DataReplayer\AT_CTP_MD_DataReplayer.vcxproj">
+      <Project>{e9bcd0ab-6168-4006-abcf-7ad721b94872}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
       <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>
     </ProjectReference>
@@ -152,6 +155,7 @@
     </Xml>
     <Xml Include="TradeSignal01.xml" />
     <Xml Include="TradeSignal02.xml" />
+    <Xml Include="TradeSignal03.xml" />
     <Xml Include="TradeSignalProduceRule.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

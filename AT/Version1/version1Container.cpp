@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <boost\format.hpp>
 #include "TradeSignalProducerDemo1.h"
+#include "../AT_Driver/ATLogger.h"
 namespace AT
 {
 
@@ -120,6 +121,11 @@ void version1Container::Start()
 }
 void version1Container::Stop()
 {
+	for (auto lSignal:m_TradeSignalProducerVec)
+	{
+		TradeSignalProducerDemo1* lpProducer = reinterpret_cast<TradeSignalProducerDemo1*>(lSignal);
+		lpProducer->WriteTradeSignal();
+	}
 	m_pIndexContaner->Stop();
 	for(auto lHandle :m_LibHandleVec)
 	{

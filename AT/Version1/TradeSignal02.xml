@@ -9,7 +9,7 @@
   -->
   <SignalID>TradeSignal02</SignalID>
   <IsBuy>1</IsBuy>
-  <Priority>100</Priority>
+  <Priority>80</Priority>
 
   <CheckItems>
     <Item>

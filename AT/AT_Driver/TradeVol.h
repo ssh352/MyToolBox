@@ -9,17 +9,17 @@ namespace AT
 {
 	struct TradeVolData
 	{
-		int						    m_SellDirectionVol;//卖持仓手数
-		int						    m_BuyDirectionVol;//买持仓手数
-		int						    m_TotalOpenVol;//最大累计开仓手数
-		int						    m_TotalCancleTime;//撤单最多次数
-		int						    m_AutoTradeTime;//自成交最大次数
+		int						    SellDirectionVol;//卖持仓手数
+		int						    BuyDirectionVol;//买持仓手数
+		int						    TotalOpenVol;//最大累计开仓手数
+		int						    TotalCancleTime;//撤单最多次数
+		int						    AutoTradeTime;//自成交最大次数
 		std::string ToString() const
 		{	
 			return str(boost::format("[SellDirectionVol:%d] [BuyDirectionVol:%d %u] [TotalOpenVol:%d] [TotalCancleTime:%d] [AutoTradeTime%d]") 
-				% m_SellDirectionVol %m_BuyDirectionVol % m_TotalOpenVol %m_TotalCancleTime %m_AutoTradeTime );
+				% SellDirectionVol %BuyDirectionVol % TotalOpenVol %TotalCancleTime %AutoTradeTime );
 		}
 	};
-
+	typedef std::map<uint64_t,std::shared_ptr<TradeVolData> >  TradeVolMap;
 }
 #pragma  pack(pop)

@@ -10,19 +10,19 @@
     
  <item>
    <IndexName>HKY_001</IndexName>
-   <Dll>ISignalModule_CacheWave.dll</Dll>
+   <Dll>IndexMoudle_CacheWave.dll</Dll>
    <ConfigFile>HKY001.xml</ConfigFile>
  </item>
 
   <item>
     <IndexName>HKY_002</IndexName>
-    <Dll>ISignalModule_CacheWave.dll</Dll>
+    <Dll>IndexMoudle_CacheWave.dll</Dll>
     <ConfigFile>HKY002.xml</ConfigFile>
   </item>
 
   <item>
     <IndexName>HKY_003</IndexName>
-    <Dll>ISignalModule_CacheWave.dll</Dll>
+    <Dll>IndexMoudle_CacheWave.dll</Dll>
     <ConfigFile>HKY003.xml</ConfigFile>
   </item>
     

@@ -19,10 +19,8 @@ public:
 
 	//初始化
 	void	InitConfig(const std::string& aConfigFile);
-	////记录信号
-	//void    WriteTradeSignal(TradeSignal signal);
-
-	//bool    CheckSignal(AT_Time aTriggerTime);
+	//记录信号
+	void    WriteTradeSignal();
 
 private:
 	IndexContainer* m_pIndexContainer;
@@ -40,6 +38,7 @@ private:
 
 	typedef boost::function<bool( AT_Time aTime)> CheckFunction;
 	std::vector<CheckFunction>		m_CheckList;
+	std::vector<TradeSignal>		m_TradeSignalVec;
 };
 
 }

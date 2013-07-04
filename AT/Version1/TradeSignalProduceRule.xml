@@ -5,12 +5,17 @@
 
   <Signal>
     <SignalType>TradeSignalProducerDemo1</SignalType> <!-- useless now  because we did not have the second Producer class -->
-    <ConfigFile>TradingSignal01.xml</ConfigFile>
-  </Signal>
-  
-  <Signal>
-    <SignalType>TradeSignalProducerDemo1</SignalType>
-    <ConfigFile>TradingSignal02.xml</ConfigFile>
+    <ConfigFile>TradeSignal01.xml</ConfigFile>
   </Signal>
 
+  <Signal>
+    <SignalType>TradeSignalProducerDemo1</SignalType>
+    <ConfigFile>TradeSignal02.xml</ConfigFile>
+  </Signal>
+
+  <Signal>
+    <SignalType>TradeSignalProducerDemo1</SignalType>
+    <ConfigFile>TradeSignal03.xml</ConfigFile>
+  </Signal>
+  
 </TradeSignalProduceRule>

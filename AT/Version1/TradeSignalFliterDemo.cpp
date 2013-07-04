@@ -17,14 +17,14 @@ TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 	m_StopTriggerVol2;
 	m_StopTriggerVol3;
 
-	m_Time1 = lpt.get<int>("SignalFliter.Time1");
-	m_Time2 = lpt.get<int>("SignalFliter.Time2");
-	m_Time3 = lpt.get<int>("SignalFliter.Time3");
-	m_StopLevelTimeMap[lpt.get<int>("SignalFliter.TotalTimeProfit.Profit")] = lpt.get<int>("SignalFliter.TotalTimeProfit.Time");
-	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.TotalProfitStop");
-	std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StopTime");
+	m_Time1 = lpt.get<int>("SignalFliter.Item.Time1");
+	m_Time2 = lpt.get<int>("SignalFliter.Item.Time2");
+	m_Time3 = lpt.get<int>("SignalFliter.Item.Time3");
+	m_StopLevelTimeMap[lpt.get<int>("SignalFliter.Item.TotalTimeProfit.Profit")] = lpt.get<int>("SignalFliter.Item.TotalTimeProfit.Time");
+	m_TotalProfitStopVal = lpt.get<int>("SignalFliter.Item.TotalProfitStop");
+	std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.Item.StopTime");
 	m_StopTime = boost::posix_time::time_from_string(strStopTime);
-	std::string strStartTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.StartTime");
+	std::string strStartTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.Item.StartTime");
 	m_StartTime = boost::posix_time::time_from_string(strStartTime);
 	m_IsOnLastSignal = false;
 }

@@ -54,7 +54,7 @@ int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,A
 int IndexContainer::GetIndex( const std::string& aIndexName )
 {
 	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
-	if(lResultMap.size() > 1)
+	if(lResultMap.size() > 0)
 	{
 		return lResultMap.rbegin()->second;
 	}

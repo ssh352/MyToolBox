@@ -20,7 +20,7 @@
   -->
   <SignalID>TradeSignal01</SignalID>
   <IsBuy>1</IsBuy>
-  <Priority>80</Priority>
+  <Priority>100</Priority>
   
   <CheckItems>
     <Item>
@@ -28,7 +28,7 @@
       <CheckType>1</CheckType>
       <TimeFromNow>5</TimeFromNow>
       <ExceptVal>1</ExceptVal>
-      <OccurTimes>3</OccurTimes>
+      <OccurTimes>1</OccurTimes>
       <IsBlock>0</IsBlock>
     </Item>
 
@@ -38,6 +38,14 @@
       <ExceptVal>1</ExceptVal>
       <IsBlock>1</IsBlock>
     </Item>
+
+    <Item>
+      <IndexID>HKY_001</IndexID>
+      <CheckType>3</CheckType>
+      <ExceptVal>-1</ExceptVal>
+      <IsBlock>0</IsBlock>
+    </Item>
+    
   </CheckItems>
   
 </SignalConfig>

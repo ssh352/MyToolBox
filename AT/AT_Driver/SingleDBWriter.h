@@ -24,7 +24,7 @@ namespace AT
 		//存储交易量数据
 		void StoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol);
 		//读取交易量数据
-		void RestoreTradeVolData(std::shared_ptr<AT::TradeVolData> aTradeVol);
+		void RestoreTradeVolData(std::shared_ptr<TradeVolMap> lpTradeVolMap);
 
 	private:
 

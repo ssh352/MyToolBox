@@ -19,7 +19,7 @@ namespace AT
 		,m_IsCompleteOpen(true)
 		,m_totalProfit(0)
 	{
-		//InitFromConfigFile(aConfigFile);
+		InitFromConfigFile(aConfigFile);
 		InitExchangeRule();
 	}
 
@@ -139,66 +139,59 @@ namespace AT
 		}
 		m_TradeVolDB.reset(new SingleDBHandler(lDir.string().c_str()));
 
-		//加载策略相关信息
-		boost::property_tree::ptree ptStretegy;
-		read_xml("StretegyConfig.xml",ptStretegy);
-		boost::property_tree::ptree ptOpen;
-		read_xml("OpenExecutorConfig.xml",ptOpen);
-		boost::property_tree::ptree ptClose;
-		read_xml("CloseExecutorConfig.xml",ptClose);
-		std::string strSignalName;
-		int iOrderExecutor;
-		int iOrdersValidity;
-		int iBufferPoint;
-		int iFollowupPriority;
-		for (std::pair<std::string,boost::property_tree::ptree> lSignal:ptStretegy.get_child("StretegyConfig.Signals"))
-		{
-			strSignalName = lSignal.second.get<std::string>("SignalID");
-			iOrderExecutor = lSignal.second.get<int>("Open.OrderExecutor");
-			iOrdersValidity = lSignal.second.get<int>("Open.OrdersValidity");
-			iBufferPoint = lSignal.second.get<int>("Open.BufferPoint");
-			iFollowupPriority = lSignal.second.get<int>("Open.FollowUpPriority");
-			if(iOrderExecutor == 1)//市价
-			{
-				m_OpenExecutorMap[strSignalName].reset(new OpenMarketExecutor());
-			}
-			else if(iOrderExecutor == 2)//挂单
-			{
-				m_OpenExecutorMap[strSignalName].reset(new OpenLimitExecutor(iOrdersValidity,iBufferPoint));
-			}
-			else   //追价单
-			{
-				FollowExecutorParma follow;
-				follow.m_FollowRange = 3;
-				follow.m_FollowTime = 5;
-				m_OpenExecutorMap[strSignalName].reset(new OpenFollowExecutor(follow));
-			}
-			m_OpenExecutorMap[strSignalName]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
-		}
+		////加载策略相关信息
+		//boost::property_tree::ptree ptStretegy;
+		//read_xml("StretegyConfig.xml",ptStretegy);
+		//boost::property_tree::ptree ptOpen;
+		//read_xml("OpenExecutorConfig.xml",ptOpen);
+		//boost::property_tree::ptree ptClose;
+		//read_xml("CloseExecutorConfig.xml",ptClose);
+		//std::string strSignalName;
+		//int iOrderExecutor;
+		//int iOrdersValidity;
+		//int iBufferPoint;
+		//int iFollowupPriority;
+		//for (std::pair<std::string,boost::property_tree::ptree> lSignal:ptStretegy.get_child("StretegyConfig.Signals"))
+		//{
+		//	strSignalName = lSignal.second.get<std::string>("SignalID");
+		//	iOrderExecutor = lSignal.second.get<int>("Open.OrderExecutor");
+		//	iOrdersValidity = lSignal.second.get<int>("Open.OrdersValidity");
+		//	iBufferPoint = lSignal.second.get<int>("Open.BufferPoint");
+		//	iFollowupPriority = lSignal.second.get<int>("Open.FollowUpPriority");
+		//	if(iOrderExecutor == 1)//市价
+		//	{
+		//		m_OpenExecutorMap[strSignalName].reset(new OpenMarketExecutor());
+		//	}
+		//	else if(iOrderExecutor == 2)//挂单
+		//	{
+		//		m_OpenExecutorMap[strSignalName].reset(new OpenLimitExecutor(iOrdersValidity,iBufferPoint));
+		//	}
+		//	else   //追价单
+		//	{
+		//		FollowExecutorParma follow;
+		//		follow.m_FollowRange = 3;
+		//		follow.m_FollowTime = 5;
+		//		m_OpenExecutorMap[strSignalName].reset(new OpenFollowExecutor(follow));
+		//	}
+		//	m_OpenExecutorMap[strSignalName]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
+		//}
 
-		//todo Load Signal OpenExecutor Map
-// 		m_OpenExecutorMap["TradingSignal01"].reset(new OpenLimitExecutor(30,-2));
-// 		m_OpenExecutorMap["TradingSignal01"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
-// 
-// 		m_OpenExecutorMap["TradingSignal02"].reset(new OpenMarketExecutor());
-// 		m_OpenExecutorMap["TradingSignal02"]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
+		////todo Load Close Executor
 
-		//todo Load Close Executor
-
-		CloseSetting_3Level lCloseConfig;
-		lCloseConfig.QuitLevel_0 = lpt.get<int>("AccountFile.Level0.QuitPrice");
-		lCloseConfig.QuitLevel_1 = lpt.get<int>("AccountFile.Level1.QuitPrice");
-		lCloseConfig.QuitLevel_2 = lpt.get<int>("AccountFile.Level2.QuitPrice");
-		lCloseConfig.QuitLevel_3 = lpt.get<int>("AccountFile.Level3.QuitPrice");
-		lCloseConfig.EnterLevel_1 = lpt.get<int>("AccountFile.Level1.EnterPrice");
-		lCloseConfig.EnterLevel_2 = lpt.get<int>("AccountFile.Level2.EnterPrice");
-		lCloseConfig.EnterLevel_3 = lpt.get<int>("AccountFile.Level3.EnterPrice");
-		std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopTime");
-		lCloseConfig.StopTime = boost::posix_time::time_from_string(strStopTime);
-		std::string strStopClearTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopClearTime");
-		lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
-		m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
-		m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
+		//CloseSetting_3Level lCloseConfig;
+		//lCloseConfig.QuitLevel_0 = lpt.get<int>("AccountFile.Level0.QuitPrice");
+		//lCloseConfig.QuitLevel_1 = lpt.get<int>("AccountFile.Level1.QuitPrice");
+		//lCloseConfig.QuitLevel_2 = lpt.get<int>("AccountFile.Level2.QuitPrice");
+		//lCloseConfig.QuitLevel_3 = lpt.get<int>("AccountFile.Level3.QuitPrice");
+		//lCloseConfig.EnterLevel_1 = lpt.get<int>("AccountFile.Level1.EnterPrice");
+		//lCloseConfig.EnterLevel_2 = lpt.get<int>("AccountFile.Level2.EnterPrice");
+		//lCloseConfig.EnterLevel_3 = lpt.get<int>("AccountFile.Level3.EnterPrice");
+		//std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopTime");
+		//lCloseConfig.StopTime = boost::posix_time::time_from_string(strStopTime);
+		//std::string strStopClearTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopClearTime");
+		//lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
+		//m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
+		//m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
 	}	
 
 	void TradeAccountDemo1::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
@@ -339,21 +332,31 @@ namespace AT
 	void TradeAccountDemo1::StoreTradeVol()
 	{
 		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
-		pTradeVolData->m_BuyDirectionVol = m_BuyDirectionVol;
-		pTradeVolData->m_SellDirectionVol = m_SellDirectionVol;
-		pTradeVolData->m_TotalCancleTime = m_TotalCancleTime;
-		pTradeVolData->m_TotalOpenVol = m_TotalOpenVol;
-		pTradeVolData->m_AutoTradeTime = m_AutoTradeTime;
+		pTradeVolData->BuyDirectionVol = m_BuyDirectionVol;
+		pTradeVolData->SellDirectionVol = m_SellDirectionVol;
+		pTradeVolData->TotalCancleTime = m_TotalCancleTime;
+		pTradeVolData->TotalOpenVol = m_TotalOpenVol;
+		pTradeVolData->AutoTradeTime = m_AutoTradeTime;
 		m_TradeVolDB->StoreTradeVolData(pTradeVolData);
 	}
 	void TradeAccountDemo1::RestoreTradeVol()
 	{
-		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
-		m_TradeVolDB->RestoreTradeVolData(pTradeVolData);
-		m_BuyDirectionVol = pTradeVolData->m_BuyDirectionVol;
-		m_SellDirectionVol = pTradeVolData->m_SellDirectionVol;
-		m_TotalCancleTime = pTradeVolData->m_TotalCancleTime;
-		m_TotalOpenVol = pTradeVolData->m_TotalOpenVol;
-		m_AutoTradeTime = pTradeVolData->m_AutoTradeTime;
+		std::shared_ptr<TradeVolMap> lpTradeVolMap(new TradeVolMap);
+		m_TradeVolDB->RestoreTradeVolData(lpTradeVolMap);
+		if(lpTradeVolMap->size() > 0)
+		{
+			m_BuyDirectionVol = lpTradeVolMap->rbegin()->second->BuyDirectionVol;
+			m_SellDirectionVol = lpTradeVolMap->rbegin()->second->SellDirectionVol;
+			m_TotalCancleTime = lpTradeVolMap->rbegin()->second->TotalCancleTime;
+			m_TotalOpenVol = lpTradeVolMap->rbegin()->second->TotalOpenVol;
+			m_AutoTradeTime = lpTradeVolMap->rbegin()->second->AutoTradeTime;
+			return;	
+		}
+		
+		m_BuyDirectionVol = 0;
+		m_SellDirectionVol = 0;
+		m_TotalCancleTime = 0;
+		m_TotalOpenVol = 0;
+		m_AutoTradeTime = 0;
 	}
 }

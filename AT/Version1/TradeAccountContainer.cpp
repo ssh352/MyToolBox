@@ -27,8 +27,7 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 		{
 			std::string lAccountID = lAccount.second.get<std::string>("AccountID");
 			std::string lAccountConfig = lAccount.second.get<std::string>("Config");
-			boost::shared_ptr<ITradeAccount> lpAccount;
-			lpAccount.reset(new TradeAccountDemo1(lAccountConfig,apTD));
+			boost::shared_ptr<ITradeAccount> lpAccount(new TradeAccountDemo1(lAccountConfig,apTD));
 			m_AccountList.push_back(lpAccount);
 			m_AccountFinishedList[lpAccount] = lnewStatus;
 		}

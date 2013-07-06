@@ -1,6 +1,6 @@
 #pragma once
 #include "AT_Struct.h"
-#include "TradeSignal.h"
+#include "Signal.h"
 namespace AT
 {
 	class ITradeSignalFliter

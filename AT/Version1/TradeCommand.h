@@ -2,7 +2,7 @@
 #pragma  pack(push)
 #pragma  pack(8)
 #include "AT_Struct.h"
-#include "TradeSignal.h"
+#include "Signal.h"
 namespace AT
 {
 

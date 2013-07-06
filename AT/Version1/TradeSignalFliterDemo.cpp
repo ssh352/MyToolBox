@@ -185,6 +185,11 @@ TradeSignalFliterDemo::LastNTradeStatus TradeSignalFliterDemo::IsLastNTradeLoss(
 	return lret;
 }
 
+void TradeSignalFliterDemo::OnAccountCompleteSignal()
+{
+
+}
+
 
 
 }

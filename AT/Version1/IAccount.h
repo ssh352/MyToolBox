@@ -1,5 +1,5 @@
 #pragma  once
-#include "TradeSignal.h"
+#include "Signal.h"
 #include "AT_Struct.h"
 #include <boost\function.hpp>
 namespace AT

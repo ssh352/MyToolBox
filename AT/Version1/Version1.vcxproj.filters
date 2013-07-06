@@ -44,9 +44,6 @@
     <ClInclude Include="TradeCommand.h">
       <Filter>Struct</Filter>
     </ClInclude>
-    <ClInclude Include="TradeSignal.h">
-      <Filter>Struct</Filter>
-    </ClInclude>
     <ClInclude Include="version1Container.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -83,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="IAccount.h">
       <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

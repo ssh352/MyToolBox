@@ -1,7 +1,7 @@
 #pragma once
 #include "AT_Struct.h"
 #include "IStrategy.h"
-#include "TradeSignal.h"
+#include "Signal.h"
 #include "TradeAccountContainer.h"
 #include <vector>
 #include <windows.h>
@@ -29,7 +29,7 @@ public:
 
 private:
 
-	std::vector<Signal> ProduceTradeSignal( const AT::MarketData& aTriggerMarket );
+	std::vector<Signal> ProduceSignal( const AT::MarketData& aTriggerMarket );
 
 	void UpdateSubPartMarket( const AT::MarketData& aMarketDepth );
 

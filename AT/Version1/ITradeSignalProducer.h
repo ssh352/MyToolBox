@@ -1,6 +1,6 @@
 #pragma once
 #include "MarketData.h"
-#include "TradeSignal.h"
+#include "Signal.h"
 namespace AT
 {
 

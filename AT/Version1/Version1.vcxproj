@@ -101,7 +101,7 @@
     <ClInclude Include="TradeAccountContainer.h" />
     <ClInclude Include="TradeAccountDemo1.h" />
     <ClInclude Include="TradeCommand.h" />
-    <ClInclude Include="TradeSignal.h" />
+    <ClInclude Include="Signal.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />

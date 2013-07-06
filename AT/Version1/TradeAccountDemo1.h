@@ -1,5 +1,5 @@
 #pragma once
-#include "ITradeAccount.h"
+#include "IAccount.h"
 #include <string>
 #include <boost\smart_ptr.hpp>
 #include "../AT_Driver/SingleDBWriter.h"

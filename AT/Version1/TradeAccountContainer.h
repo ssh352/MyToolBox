@@ -1,5 +1,5 @@
 #pragma once
-#include "ITradeAccount.h"
+#include "IAccount.h"
 #include "IDriver_TD.h"
 #include <boost\smart_ptr.hpp>
 namespace AT

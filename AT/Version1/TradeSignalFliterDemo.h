@@ -25,6 +25,7 @@ public:
 
 	virtual void OnMarketDepth(const AT::MarketData&  aMarket) override;
 	virtual void UpdateProfit(int32_t aProfit,AT_Time aTime) override ;
+	virtual void OnAccountCompleteSignal() override;
 
 private:
 	struct LastNTradeStatus

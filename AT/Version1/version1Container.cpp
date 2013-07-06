@@ -38,7 +38,7 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	UpdateSubPartMarket(aMarketDepth);
 
-	std::vector<Signal> lTradeSignalVec = ProduceTradeSignal(aMarketDepth);
+	std::vector<Signal> lTradeSignalVec = ProduceSignal(aMarketDepth);
 
 	Signal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
 	if(lFinalSignal.m_Valid)
@@ -49,16 +49,16 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 }
 
-std::vector<Signal> version1Container::ProduceTradeSignal( const AT::MarketData& lNow )
+std::vector<Signal> version1Container::ProduceSignal( const AT::MarketData& lNow )
 {
 	std::vector<Signal> lSignalResult;
 	Signal tradeSignal;
 	for(auto lpSignalProducer :m_TradeSignalProducerVec)
 	{
-		tradeSignal = lpSignalProducer->ProduceTradeSignal(lNow);
+		tradeSignal = lpSignalProducer->ProduceSignal(lNow);
 		if(tradeSignal.m_Valid)
 		{
-			lSignalResult.push_back(lpSignalProducer->ProduceTradeSignal(lNow));
+			lSignalResult.push_back(lpSignalProducer->ProduceSignal(lNow));
 		}
 	}
 	return lSignalResult;

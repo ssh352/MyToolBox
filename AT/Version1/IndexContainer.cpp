@@ -103,7 +103,6 @@ void IndexContainer::InitLoadIndex(const char* aConfigFile)
 	{
 		std::string lDllName = lSingleMoudleList.second.get<std::string>("Dll");
 		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("ConfigFile");
-		std::string lDllIndexName = lSingleMoudleList.second.get<std::string>("IndexName");
 		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
 		if( ! lSinglehandle)
 		{
@@ -122,7 +121,6 @@ void IndexContainer::InitLoadIndex(const char* aConfigFile)
 			ATLOG(AT::LogLevel::L_ERROR,str(boost::format("failed Create IndexMoudle inst with ConfigFile %s  ")%lDllConfig));
 			break;
 		}
-		lpSignalInst->SetIndexName(lDllIndexName);
 		m_SignalModuleVec.push_back(lpSignalInst);
 		//todo store for clean  ”≈œ»º∂µÕ
 		//m_LibHandleVec.push_back(lSinglehandle);

@@ -2,11 +2,13 @@
 
 
 <IIndexMoudle_CacheWave>
-
+  
+  <IndexName>HKY_003_1307</IndexName>
+  
   <Instrument>IF1307</Instrument>
 
-  <Wave_value>1</Wave_value>
+  <Wave_value>3</Wave_value>
 
-  <stroe_file>WaveHKY002.xml</stroe_file>
+  <stroe_file>WaveHKY003.xml</stroe_file>
 
 </IIndexMoudle_CacheWave>

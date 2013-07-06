@@ -138,9 +138,9 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="ExchangeRuleConfig.xml" />
-    <Xml Include="HKY001.xml" />
-    <Xml Include="HKY002.xml" />
-    <Xml Include="HKY003.xml" />
+    <Xml Include="HKY001_1307.xml" />
+    <Xml Include="HKY002_1307.xml" />
+    <Xml Include="HKY003_1307.xml" />
     <Xml Include="OpenExecutorConfig.xml" />
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>
@@ -151,7 +151,6 @@
     </Xml>
     <Xml Include="TradeSignal01.xml" />
     <Xml Include="TradeSignal02.xml" />
-    <Xml Include="TradeSignal03.xml" />
     <Xml Include="TradeSignalProduceRule.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

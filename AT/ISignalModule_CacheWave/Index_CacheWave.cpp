@@ -17,6 +17,9 @@ namespace AT
 
 		m_InstrumentID = lConfig.get<std::string>("IIndexMoudle_CacheWave.Instrument");
 
+		std::string lIndexName =  lConfig.get<std::string>("IIndexMoudle_CacheWave.IndexName");
+		SetIndexName(lIndexName);
+
 	}
 
 

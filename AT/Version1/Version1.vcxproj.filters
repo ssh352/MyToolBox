@@ -50,12 +50,6 @@
     <ClInclude Include="version1Container.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="ITradeAccount.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeAccountObserver.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="TradeSignalFliterDemo.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -86,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="TradeSignalProducerDemo1.h">
       <Filter>Classes\Index_Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="IAccount.h">
+      <Filter>interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

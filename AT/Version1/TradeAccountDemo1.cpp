@@ -27,7 +27,7 @@ namespace AT
 	{
 	}
 
-	void Account::HandleTradeSignal( const TradeSignal& aTradeSignal )
+	void Account::HandleTradeSignal( const Signal& aTradeSignal )
 	{
 		m_LastTradeSignal = aTradeSignal;
 		m_openExecutorID = aTradeSignal.m_ID;

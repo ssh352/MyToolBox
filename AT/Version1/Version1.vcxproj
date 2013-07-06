@@ -90,8 +90,7 @@
   <ItemGroup>
     <ClInclude Include="CloseExecutor_3Level.h" />
     <ClInclude Include="IndexContainer.h" />
-    <ClInclude Include="ITradeAccount.h" />
-    <ClInclude Include="ITradeAccountObserver.h" />
+    <ClInclude Include="IAccount.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
     <ClInclude Include="ITradeSignalFliter.h" />
     <ClInclude Include="ITradeSignalProducer.h" />

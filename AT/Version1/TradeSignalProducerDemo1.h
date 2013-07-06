@@ -10,12 +10,12 @@ namespace AT
 class IndexContainer;
 
 //load the logic from script as python
-class TradeSignalProducerDemo1 :public ITradeSignalProducer
+class TradeSignalProducerDemo1 :public ISignalProducer
 {
 public:
 	TradeSignalProducerDemo1(const std::string& aConfigFile,IndexContainer* apIndexContainer);
 	virtual ~TradeSignalProducerDemo1(void);
-	virtual TradeSignal ProduceTradeSignal(const MarketData& aTriggerMakret) override;
+	virtual Signal ProduceSignal(const MarketData& aTriggerMakret) override;
 
 	//≥ı ºªØ
 	void	InitConfig(const std::string& aConfigFile);
@@ -38,7 +38,7 @@ private:
 
 	typedef boost::function<bool( AT_Time aTime)> CheckFunction;
 	std::vector<CheckFunction>		m_CheckList;
-	std::vector<TradeSignal>		m_TradeSignalVec;
+	std::vector<Signal>		m_TradeSignalVec;
 };
 
 }

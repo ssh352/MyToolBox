@@ -8,7 +8,7 @@
 namespace AT
 {
 class IndexContainer;
-class ITradeSignalProducer;
+class ISignalProducer;
 class ITradeSignalFliter;
 class ITradeSignalExecutor;
 
@@ -29,7 +29,7 @@ public:
 
 private:
 
-	std::vector<TradeSignal> ProduceTradeSignal( const AT::MarketData& aTriggerMarket );
+	std::vector<Signal> ProduceTradeSignal( const AT::MarketData& aTriggerMarket );
 
 	void UpdateSubPartMarket( const AT::MarketData& aMarketDepth );
 
@@ -40,7 +40,7 @@ private:
 
 private:
 	IndexContainer* m_pIndexContaner;
-	std::vector<ITradeSignalProducer* > m_TradeSignalProducerVec;
+	std::vector<ISignalProducer* > m_TradeSignalProducerVec;
 	ITradeSignalFliter*					m_pTradeSignalFliter;
 	TradeAccountContainer				m_TradeAccountContaner;
 private:

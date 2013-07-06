@@ -1,11 +1,11 @@
 #include "ITradeSignalProducer.h"
 
 
-ITradeSignalProducer::ITradeSignalProducer(void)
+ISignalProducer::ITradeSignalProducer(void)
 {
 }
 
 
-ITradeSignalProducer::~ITradeSignalProducer(void)
+ISignalProducer::~ITradeSignalProducer(void)
 {
 }

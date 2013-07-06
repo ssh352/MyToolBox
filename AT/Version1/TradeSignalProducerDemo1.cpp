@@ -114,9 +114,9 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 
 
 }
-AT::TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const MarketData& aTriggerMarket )
+AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMarket )
 {
-		TradeSignal lret ;
+		Signal lret ;
 		lret.m_BuyOrSell = m_IsBuy;
 		lret.m_priority = m_Priority;
 		strcpy_s(lret.m_ID ,g_TradeSignalIDLength, m_SignalName.c_str());

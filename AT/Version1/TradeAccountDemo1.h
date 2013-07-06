@@ -16,7 +16,7 @@ class Account :public IAccount
 public:
 	Account(const std::string& aConfigFile, IDriver_TD* apTD);
 	virtual ~Account(void);
-	virtual void HandleTradeSignal(const TradeSignal& aTradeSignal) override;
+	virtual void HandleTradeSignal(const Signal& aTradeSignal) override;
 	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
 	virtual void OnRtnOrder(const  OrderUpdate& apOrder) override;
 	virtual void OnRtnTrade(const  TradeUpdate& apTrade) override;  
@@ -57,7 +57,7 @@ private:
 	std::string			m_openExecutorID;
 
 	MarketData			m_LastMarket;
-	TradeSignal			m_LastTradeSignal ;
+	Signal			m_LastTradeSignal ;
 	bool m_IsCompleteOpen;
 	bool m_IsCompleteClose;
 

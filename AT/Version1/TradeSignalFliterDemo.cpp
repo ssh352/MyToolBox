@@ -46,11 +46,11 @@ TradeSignalFliterDemo::~TradeSignalFliterDemo(void)
 {
 }
 
-TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> aList )
+Signal TradeSignalFliterDemo::FliterTradeSignal( std::vector<Signal> aList )
 {
 	if(aList.size() == 0)
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -59,21 +59,21 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 
 	if(m_IsOnLastSignal)
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
 	//开始开仓时间
 	if (m_LastTime < m_FliterStructMap[iFliterID].StartTime )
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
 	//停止开仓时间
 	if(m_LastTime > m_FliterStructMap[iFliterID].StopTime)
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -84,7 +84,7 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 
 	if(lret1.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time1) )
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -94,7 +94,7 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 //	if(lret2.m_isAllLoss && lret2.m_TotalLoss > m_StopTriggerVol2 )
 	if(lret2.m_isAllLoss && (m_LastTime-lret2.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time2))
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -104,7 +104,7 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 	//if(lret3.m_isAllLoss && lret3.m_TotalLoss > m_StopTriggerVol3 )
 	if(lret3.m_isAllLoss && (m_LastTime-lret3.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time3))
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -118,7 +118,7 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 	}
 	if(totalProfit < m_FliterStructMap[iFliterID].TotalProfitStop)
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
@@ -127,14 +127,14 @@ TradeSignal TradeSignalFliterDemo::FliterTradeSignal( std::vector<TradeSignal> a
 	if(totalProfit < m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->first &&
 		(m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->second))
 	{
-		TradeSignal lret;
+		Signal lret;
 		lret.m_Valid = false;
 		return lret;
 	}
 
 
 	//处理优先级
-	TradeSignal lret;
+	Signal lret;
 	lret.m_Valid = false;
 	lret.m_priority = -1000;
 	for(auto lSignal :aList)

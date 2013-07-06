@@ -13,7 +13,7 @@ public:
 	~TradeAccountContainer(void);
 
 	void HandleTradeSignalProfit(int32_t aProfit,AT_Time aTime ,IAccount* sender );
-	void HandleTradeSignal(const TradeSignal& aTradeSignal);
+	void HandleTradeSignal(const Signal& aTradeSignal);
 	 void OnMarketDepth(const MarketData& aMarketDepth);
 	 void OnRtnOrder(const  OrderUpdate& apOrder) ;
 	 void OnRtnTrade(const  TradeUpdate& apTrade) ;  

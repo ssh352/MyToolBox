@@ -5,10 +5,10 @@ namespace AT
 {
 
 
-class ITradeSignalProducer
+class ISignalProducer
 {
 public:
-	virtual TradeSignal  ProduceTradeSignal(const MarketData& aTriggerMakret) = 0;
+	virtual Signal  ProduceSignal(const MarketData& aTriggerMakret) = 0;
 	 
 };
 

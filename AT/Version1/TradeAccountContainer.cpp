@@ -72,7 +72,7 @@ void TradeAccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
 
 
 
-void TradeAccountContainer::HandleTradeSignal( const TradeSignal& aTradeSignal )
+void TradeAccountContainer::HandleTradeSignal( const Signal& aTradeSignal )
 {
 	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{

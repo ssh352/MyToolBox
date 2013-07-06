@@ -7,7 +7,7 @@ namespace AT
 {
 	using boost::int32_t ;
 	const int g_TradeSignalIDLength = 16;
-	struct  TradeSignal
+	struct  Signal
 	{
 		bool	m_Valid;
 		bool	m_BuyOrSell;

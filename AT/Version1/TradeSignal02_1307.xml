@@ -7,7 +7,7 @@
   LastVal = 2
   LastNonZero = 3
   -->
-  <SignalID>TradeSignal02</SignalID>
+  <SignalID>TradeSignal02_1307</SignalID>
   <IsBuy>0</IsBuy>
   <Priority>80</Priority>
 

@@ -7,7 +7,6 @@ using namespace std;
 namespace AT
 {
 
-
 CloseExecutor_3Level::~CloseExecutor_3Level(void)
 {
 }
@@ -207,6 +206,8 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceStopLossOrder(const A
 	//m_ActiveOrderVol += m_TargetVol;
 
 	return lret;
+
+
 }
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceCloseOrder(const AT::MarketData& aMarket)
 {

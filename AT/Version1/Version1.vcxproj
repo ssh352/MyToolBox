@@ -149,8 +149,8 @@
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="TradeSignal01.xml" />
-    <Xml Include="TradeSignal02.xml" />
+    <Xml Include="TradeSignal01_1307.xml" />
+    <Xml Include="TradeSignal02_1307.xml" />
     <Xml Include="TradeSignalProduceRule.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

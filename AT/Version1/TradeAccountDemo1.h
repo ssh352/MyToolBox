@@ -11,19 +11,15 @@ class ITradeSignalExecutor;
 struct TradeCommand;
 
 
-class TradeAccountDemo1 :public ITradeAccount
+class Account :public IAccount
 {
 public:
-	TradeAccountDemo1(const std::string& aConfigFile, IDriver_TD* apTD);
-	virtual ~TradeAccountDemo1(void);
+	Account(const std::string& aConfigFile, IDriver_TD* apTD);
+	virtual ~Account(void);
 	virtual void HandleTradeSignal(const TradeSignal& aTradeSignal) override;
 	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
 	virtual void OnRtnOrder(const  OrderUpdate& apOrder) override;
 	virtual void OnRtnTrade(const  TradeUpdate& apTrade) override;  
-	virtual void SetProfitCallback(TradeSignalProfitTimeNotifyer aTradeSignalProfitTimeNotifyerCallback) override
-	{
-		m_ProfitNotifyer = aTradeSignalProfitTimeNotifyerCallback;
-	}; 
 private:
 	void InitFromConfigFile(const std::string& aConfigFile);
 	void DoTradeCommand(boost::shared_ptr<TradeCommand> apTradeCommand);
@@ -62,7 +58,6 @@ private:
 
 	MarketData			m_LastMarket;
 	TradeSignal			m_LastTradeSignal ;
-	TradeSignalProfitTimeNotifyer m_ProfitNotifyer;
 	bool m_IsCompleteOpen;
 	bool m_IsCompleteClose;
 

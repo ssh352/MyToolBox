@@ -13,7 +13,7 @@
 namespace AT
 {
 
-	TradeAccountDemo1::TradeAccountDemo1( const std::string& aConfigFile, IDriver_TD* apTD )
+	Account::Account( const std::string& aConfigFile, IDriver_TD* apTD )
 		:m_pTD(apTD)
 		,m_IsCompleteClose(true)
 		,m_IsCompleteOpen(true)
@@ -23,11 +23,11 @@ namespace AT
 		InitExchangeRule();
 	}
 
-	TradeAccountDemo1::~TradeAccountDemo1(void)
+	Account::~Account(void)
 	{
 	}
 
-	void TradeAccountDemo1::HandleTradeSignal( const TradeSignal& aTradeSignal )
+	void Account::HandleTradeSignal( const TradeSignal& aTradeSignal )
 	{
 		m_LastTradeSignal = aTradeSignal;
 		m_openExecutorID = aTradeSignal.m_ID;
@@ -61,7 +61,7 @@ namespace AT
 		}
 	}
 
-	void TradeAccountDemo1::OnMarketDepth( const MarketData& aMarketDepth )
+	void Account::OnMarketDepth( const MarketData& aMarketDepth )
 	{
 		m_LastMarket = aMarketDepth;
 		boost::shared_ptr<TradeCommand> lTradeCommand;
@@ -75,7 +75,7 @@ namespace AT
 		  DoTradeCommand(lTradeCommand);
 	}
 
-	void TradeAccountDemo1::OnRtnOrder( const OrderUpdate& apOrder )
+	void Account::OnRtnOrder( const OrderUpdate& apOrder )
 	{
 		//撤单成功
 		if(apOrder.m_OrderStatus == OrderStatusType::StoppedOrder)
@@ -92,7 +92,7 @@ namespace AT
 		DoTradeCommand(lTradeCommand);
 	}
 
-	void TradeAccountDemo1::OnRtnTrade( const TradeUpdate& apTrade )
+	void Account::OnRtnTrade( const TradeUpdate& apTrade )
 	{
 		//单边持仓限额
 		SetSignalDirectionVol(apTrade.m_BuySellType,apTrade.m_TradeVol,apTrade.m_OpenCloseType == OpenCloseType::OpenOrder ? true:false);
@@ -111,7 +111,7 @@ namespace AT
 		DoTradeCommand(lTradeCommand);
 	}
 
-	void TradeAccountDemo1::InitFromConfigFile( const std::string& aConfigFile )
+	void Account::InitFromConfigFile( const std::string& aConfigFile )
 	{
 		//todo load AccountID
 		boost::property_tree::ptree lpt;
@@ -194,7 +194,7 @@ namespace AT
 		//m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
 	}	
 
-	void TradeAccountDemo1::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
+	void Account::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
 	{
 		switch (apTradeCommand->m_CommandType)
 		{
@@ -254,7 +254,7 @@ namespace AT
 		}
 	}
 
-	void TradeAccountDemo1::HandleOpenExecutorResult( int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe )
+	void Account::HandleOpenExecutorResult( int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe )
 	{
 		m_IsCompleteOpen = isFinishe;
 		
@@ -276,21 +276,21 @@ namespace AT
 		m_totalProfit += aVol * aPrice * (IsBuy? -1 : 1);
 		if(m_IsCompleteClose && m_IsCompleteOpen)
 		{
-			m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
+			//m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
 		}
 
 	}
 
-	void TradeAccountDemo1::HandleCloseExecutorResult( int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe )
+	void Account::HandleCloseExecutorResult( int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe )
 	{
 		m_IsCompleteClose = isFinishe;
 		m_totalProfit += aVol * aPrice * (IsBuy? -1 : 1);
 		if(m_IsCompleteClose && m_IsCompleteOpen)
 		{
-			m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
+			//m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
 		}
 	}
-	void TradeAccountDemo1::InitExchangeRule()
+	void Account::InitExchangeRule()
 	{
 		boost::property_tree::ptree ptExchange;
 		read_xml("ExchangeRuleConfig.xml",ptExchange);
@@ -303,7 +303,7 @@ namespace AT
 
 		RestoreTradeVol();
 	}
-	void TradeAccountDemo1::SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd)
+	void Account::SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd)
 	{
 		if(type == BuySellType::BuyOrder)
 		{
@@ -329,7 +329,7 @@ namespace AT
 		}
 		StoreTradeVol();
 	}
-	void TradeAccountDemo1::StoreTradeVol()
+	void Account::StoreTradeVol()
 	{
 		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
 		pTradeVolData->BuyDirectionVol = m_BuyDirectionVol;
@@ -339,7 +339,7 @@ namespace AT
 		pTradeVolData->AutoTradeTime = m_AutoTradeTime;
 		m_TradeVolDB->StoreTradeVolData(pTradeVolData);
 	}
-	void TradeAccountDemo1::RestoreTradeVol()
+	void Account::RestoreTradeVol()
 	{
 		std::shared_ptr<TradeVolMap> lpTradeVolMap(new TradeVolMap);
 		m_TradeVolDB->RestoreTradeVolData(lpTradeVolMap);

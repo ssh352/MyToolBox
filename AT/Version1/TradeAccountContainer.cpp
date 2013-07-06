@@ -14,7 +14,6 @@ namespace AT
 TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriver_TD* apTD )
 {
 
-	//todo load from file but now , just hard code
 	AccountProfitStatus lnewStatus ;
 	memset(&lnewStatus,0,sizeof(AccountProfitStatus));
 
@@ -27,19 +26,19 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 		{
 			std::string lAccountID = lAccount.second.get<std::string>("AccountID");
 			std::string lAccountConfig = lAccount.second.get<std::string>("Config");
-			boost::shared_ptr<ITradeAccount> lpAccount(new TradeAccountDemo1(lAccountConfig,apTD));
+			boost::shared_ptr<IAccount> lpAccount(new Account(lAccountConfig,apTD));
 			m_AccountList.push_back(lpAccount);
 			m_AccountFinishedList[lpAccount] = lnewStatus;
 		}
 	}
 	
 
-	boost::function< void(int32_t aProfit,AT_Time aTime ,ITradeAccount* sender)> lNotifyCallback
-		= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);
-	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
-	{
-		lAccoutPtr->SetProfitCallback(lNotifyCallback);
-	}
+	//boost::function< void(int32_t aProfit,AT_Time aTime ,IAccount* sender)> lNotifyCallback
+	//	= boost::bind(&TradeAccountContainer::HandleOneAccountProfit,this,_1,_2,_3);
+	//for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
+	//{
+	//	lAccoutPtr->SetProfitCallback(lNotifyCallback);
+	//}
 }
 
 
@@ -49,7 +48,7 @@ TradeAccountContainer::~TradeAccountContainer(void)
 
 void TradeAccountContainer::OnRtnOrder( const OrderUpdate& apOrder )
 {
-	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
+	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
 		lAccoutPtr->OnRtnOrder(apOrder);
 	}
@@ -57,7 +56,7 @@ void TradeAccountContainer::OnRtnOrder( const OrderUpdate& apOrder )
 
 void TradeAccountContainer::OnRtnTrade( const TradeUpdate& apTrade )
 {
-	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
+	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
 		lAccoutPtr->OnRtnTrade(apTrade);
 	}
@@ -65,7 +64,7 @@ void TradeAccountContainer::OnRtnTrade( const TradeUpdate& apTrade )
 
 void TradeAccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
 {
-	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
+	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
 		lAccoutPtr->OnMarketDepth(aMarketDepth);
 	}
@@ -75,7 +74,7 @@ void TradeAccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
 
 void TradeAccountContainer::HandleTradeSignal( const TradeSignal& aTradeSignal )
 {
-	for (boost::shared_ptr<ITradeAccount> lAccoutPtr : m_AccountList)
+	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
 		lAccoutPtr->HandleTradeSignal(aTradeSignal);
 	}
@@ -86,7 +85,7 @@ void TradeAccountContainer::HandleTradeSignal( const TradeSignal& aTradeSignal )
 	}
 }
 
-void TradeAccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,ITradeAccount* sender )
+void TradeAccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,IAccount* sender )
 {
 	AccountProfitStatus lnewStatus = {true,aProfit,aTime};
 	for (auto lFinishedPtrValType : m_AccountFinishedList)

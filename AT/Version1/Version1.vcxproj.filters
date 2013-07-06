@@ -151,12 +151,6 @@
     <Xml Include="AccountFile2.xml">
       <Filter>config\Account</Filter>
     </Xml>
-    <Xml Include="TradeSignal01.xml">
-      <Filter>config\SignalProducer</Filter>
-    </Xml>
-    <Xml Include="TradeSignal02.xml">
-      <Filter>config\SignalProducer</Filter>
-    </Xml>
     <Xml Include="HKY001_1307.xml">
       <Filter>config\IndexContainer</Filter>
     </Xml>
@@ -165,6 +159,12 @@
     </Xml>
     <Xml Include="HKY003_1307.xml">
       <Filter>config\IndexContainer</Filter>
+    </Xml>
+    <Xml Include="TradeSignal02_1307.xml">
+      <Filter>config\SignalProducer</Filter>
+    </Xml>
+    <Xml Include="TradeSignal01_1307.xml">
+      <Filter>config\SignalProducer</Filter>
     </Xml>
   </ItemGroup>
 </Project>

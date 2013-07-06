@@ -1,6 +1,6 @@
-#include "TradeAccountContainer.h"
+#include "AccountContainer.h"
 #include "IDriver_TD.h"
-#include "TradeAccountDemo1.h"
+#include "Account.h"
 #include <boost\bind.hpp>
 #include <boost\function.hpp>
 #include "../AT_Driver/ATLogger.h"
@@ -11,7 +11,7 @@ namespace AT
 {
 
 
-TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriver_TD* apTD )
+AccountContainer::AccountContainer( const char* configFile,  AT::IDriver_TD* apTD )
 {
 
 	AccountProfitStatus lnewStatus ;
@@ -42,11 +42,11 @@ TradeAccountContainer::TradeAccountContainer( const char* configFile,  AT::IDriv
 }
 
 
-TradeAccountContainer::~TradeAccountContainer(void)
+AccountContainer::~AccountContainer(void)
 {
 }
 
-void TradeAccountContainer::OnRtnOrder( const OrderUpdate& apOrder )
+void AccountContainer::OnRtnOrder( const OrderUpdate& apOrder )
 {
 	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
@@ -54,7 +54,7 @@ void TradeAccountContainer::OnRtnOrder( const OrderUpdate& apOrder )
 	}
 }
 
-void TradeAccountContainer::OnRtnTrade( const TradeUpdate& apTrade )
+void AccountContainer::OnRtnTrade( const TradeUpdate& apTrade )
 {
 	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
@@ -62,7 +62,7 @@ void TradeAccountContainer::OnRtnTrade( const TradeUpdate& apTrade )
 	}
 }
 
-void TradeAccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
+void AccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
 {
 	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
@@ -72,7 +72,7 @@ void TradeAccountContainer::OnMarketDepth( const MarketData& aMarketDepth )
 
 
 
-void TradeAccountContainer::HandleTradeSignal( const Signal& aTradeSignal )
+void AccountContainer::HandleTradeSignal( const Signal& aTradeSignal )
 {
 	for (boost::shared_ptr<IAccount> lAccoutPtr : m_AccountList)
 	{
@@ -85,7 +85,7 @@ void TradeAccountContainer::HandleTradeSignal( const Signal& aTradeSignal )
 	}
 }
 
-void TradeAccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,IAccount* sender )
+void AccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,IAccount* sender )
 {
 	AccountProfitStatus lnewStatus = {true,aProfit,aTime};
 	for (auto lFinishedPtrValType : m_AccountFinishedList)

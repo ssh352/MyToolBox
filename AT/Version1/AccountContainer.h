@@ -6,11 +6,11 @@ namespace AT
 {
 typedef  boost::function<void(int32_t profix,AT_Time aTime)> FliterProfitUpdater; 
 
-class TradeAccountContainer
+class AccountContainer
 {
 public:
-	TradeAccountContainer(const char* configFile, AT::IDriver_TD* apTD );
-	~TradeAccountContainer(void);
+	AccountContainer(const char* configFile, AT::IDriver_TD* apTD );
+	~AccountContainer(void);
 
 	void HandleTradeSignalProfit(int32_t aProfit,AT_Time aTime ,IAccount* sender );
 	void HandleTradeSignal(const Signal& aTradeSignal);

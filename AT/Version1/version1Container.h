@@ -2,7 +2,7 @@
 #include "AT_Struct.h"
 #include "IStrategy.h"
 #include "Signal.h"
-#include "TradeAccountContainer.h"
+#include "AccountContainer.h"
 #include <vector>
 #include <windows.h>
 namespace AT
@@ -42,7 +42,7 @@ private:
 	IndexContainer* m_pIndexContaner;
 	std::vector<ISignalProducer* > m_TradeSignalProducerVec;
 	ITradeSignalFliter*					m_pTradeSignalFliter;
-	TradeAccountContainer				m_TradeAccountContaner;
+	AccountContainer				m_TradeAccountContaner;
 private:
 	AT::IDriver_TD* m_pTD;
 	const AT::IMarketCache*				m_pMarketCache;

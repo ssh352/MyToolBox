@@ -1,4 +1,4 @@
-#include "TradeAccountDemo1.h"
+#include "Account.h"
 #include "ITradeSignalExecutor.h"
 #include "IDriver_TD.h"
 #include "CloseExecutor_3Level.h"

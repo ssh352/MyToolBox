@@ -14,12 +14,6 @@
     <ClCompile Include="OpenLimitExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
-    <ClCompile Include="TradeAccountContainer.cpp">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClCompile>
-    <ClCompile Include="TradeAccountDemo1.cpp">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClCompile>
     <ClCompile Include="main_versionLoaderPoster.cpp" />
     <ClCompile Include="OpenFollowExecutor.cpp">
       <Filter>Classes\Executor</Filter>
@@ -32,6 +26,12 @@
     </ClCompile>
     <ClCompile Include="TradeSignalProducerDemo1.cpp">
       <Filter>Classes\Index_Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountContainer.cpp">
+      <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,12 +59,6 @@
     <ClInclude Include="ITradeSignalExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="TradeAccountContainer.h">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeAccountDemo1.h">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClInclude>
     <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="OpenFollowExecutor.h">
       <Filter>Classes\Executor</Filter>
@@ -83,6 +77,12 @@
     </ClInclude>
     <ClInclude Include="Signal.h">
       <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountContainer.h">
+      <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

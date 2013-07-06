@@ -81,8 +81,8 @@
     <ClCompile Include="OpenFollowExecutor.cpp" />
     <ClCompile Include="OpenLimitExecutor.cpp" />
     <ClCompile Include="OpenMarketexecutor.cpp" />
-    <ClCompile Include="TradeAccountContainer.cpp" />
-    <ClCompile Include="TradeAccountDemo1.cpp" />
+    <ClCompile Include="AccountContainer.cpp" />
+    <ClCompile Include="Account.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
@@ -98,8 +98,8 @@
     <ClInclude Include="OpenFollowExecutor.h" />
     <ClInclude Include="OpenLimitExecutor.h" />
     <ClInclude Include="OpenMarketexecutor.h" />
-    <ClInclude Include="TradeAccountContainer.h" />
-    <ClInclude Include="TradeAccountDemo1.h" />
+    <ClInclude Include="AccountContainer.h" />
+    <ClInclude Include="Account.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="Signal.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />

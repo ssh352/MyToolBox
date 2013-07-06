@@ -12,10 +12,5 @@
     <SignalType>TradeSignalProducerDemo1</SignalType>
     <ConfigFile>TradeSignal02.xml</ConfigFile>
   </Signal>
-
-  <Signal>
-    <SignalType>TradeSignalProducerDemo1</SignalType>
-    <ConfigFile>TradeSignal03.xml</ConfigFile>
-  </Signal>
   
 </TradeSignalProduceRule>

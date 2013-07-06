@@ -31,20 +31,6 @@
       <OccurTimes>1</OccurTimes>
       <IsBlock>0</IsBlock>
     </Item>
-
-    <Item>
-      <IndexID>HKY_002</IndexID>
-      <CheckType>2</CheckType>
-      <ExceptVal>1</ExceptVal>
-      <IsBlock>1</IsBlock>
-    </Item>
-
-    <Item>
-      <IndexID>HKY_001</IndexID>
-      <CheckType>3</CheckType>
-      <ExceptVal>-1</ExceptVal>
-      <IsBlock>0</IsBlock>
-    </Item>
     
   </CheckItems>
   

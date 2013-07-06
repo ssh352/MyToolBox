@@ -5,18 +5,18 @@
 <StretegyConfig>
   <Signals>
     <Item>
-      <SignalID>TradingSignal01</SignalID>
+      <ID>1</ID>
       <InstrumentID>IF1307</InstrumentID>
-      <SignalPlansID>1</SignalPlansID>
+      <SignalID>TradingSignal01</SignalID>
       <SignalFliterID>1</SignalFliterID>
       <OpenExecutorID>1</OpenExecutorID>
       <CloseExecutorID>1</CloseExecutorID>
 
     </Item>
     <Item>
-      <SignalID>TradingSignal02</SignalID>
+      <ID>2</ID>
       <InstrumentID>IF1307</InstrumentID>
-      <SignalPlansID>1</SignalPlansID>
+      <SignalID>TradingSignal02</SignalID>
       <SignalFliterID>1</SignalFliterID>
       <OpenExecutorID>1</OpenExecutorID>
       <CloseExecutorID>1</CloseExecutorID>

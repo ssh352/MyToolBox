@@ -6,6 +6,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include "boost/function.hpp"
+#include <boost/filesystem/path.hpp>
 namespace AT
 {
 
@@ -143,7 +144,10 @@ AT::TradeSignal TradeSignalProducerDemo1::ProduceTradeSignal( const MarketData& 
 void    TradeSignalProducerDemo1::WriteTradeSignal()
 {
 	boost::property_tree::ptree lSignalTree;
-	std::string SignalPath = "TradeSignal_"+m_SignalName+"_"+to_iso_string(boost::gregorian::day_clock::local_day())+".xml";
+	std::string SignalPath = "TradeSignal";
+	boost::filesystem::path lDir(SignalPath);
+	lDir /=  to_iso_string(boost::gregorian::day_clock::local_day());
+	lDir /= m_SignalName+".xml";
 	
 	for (auto lSignal:m_TradeSignalVec)
 	{
@@ -159,7 +163,7 @@ void    TradeSignalProducerDemo1::WriteTradeSignal()
 		lSignalTree.add("TradeSignal",Signal);
 	}
 	
-	write_xml(SignalPath,lSignalTree);
+	write_xml(lDir.string(),lSignalTree);
 }
 
 }

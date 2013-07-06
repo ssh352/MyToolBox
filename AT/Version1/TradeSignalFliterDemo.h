@@ -3,6 +3,16 @@
 namespace AT
 {
 
+	struct FliterStruct
+	{
+		int		Time1;
+		int		Time2;
+		int		Time3;
+		std::map<int,int> TotalTimeProfit;
+		int		TotalProfitStop;
+		AT_Time StartTime;
+		AT_Time StopTime;
+	};
 
 class TradeSignalFliterDemo :public ITradeSignalFliter
 {
@@ -28,8 +38,6 @@ private:
 
 	bool m_IsOnLastSignal;
 	AT_Time m_LastTime;
-	AT_Time	m_StopTime;
-	AT_Time m_StartTime;
 	std::map<AT_Time,int32_t> m_ProfitStatusMap;
 
 private:
@@ -37,11 +45,7 @@ private:
 	int m_StopTriggerVol2;
 	int m_StopTriggerVol3;
 
-	int  m_Time1;
-	int	 m_Time2;
-	int  m_Time3;
-	int  m_TotalProfitStopVal;
-	std::map<int ,int> m_StopLevelTimeMap;
+	std::map<int,FliterStruct>	m_FliterStructMap;
 };
 
 }

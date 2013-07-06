@@ -8,7 +8,7 @@
   LastNonZero = 3
   -->
   <SignalID>TradeSignal02</SignalID>
-  <IsBuy>1</IsBuy>
+  <IsBuy>0</IsBuy>
   <Priority>80</Priority>
 
   <CheckItems>
@@ -16,21 +16,9 @@
       <IndexID>HKY_002</IndexID>
       <CheckType>1</CheckType>
       <TimeFromNow>5</TimeFromNow>
-      <ExceptVal>1</ExceptVal>
-      <OccurTimes>3</OccurTimes>
+      <ExceptVal>-1</ExceptVal>
+      <OccurTimes>1</OccurTimes>
       <IsBlock>0</IsBlock>
-    </Item>
-    <Item>
-      <IndexID>HKY_001</IndexID>
-      <CheckType>2</CheckType>
-      <ExceptVal>1</ExceptVal>
-      <IsBlock>1</IsBlock>
-    </Item>
-    <Item>
-      <IndexID>HKY_003</IndexID>
-      <CheckType>2</CheckType>
-      <ExceptVal>1</ExceptVal>
-      <IsBlock>1</IsBlock>
     </Item>
   </CheckItems>
 

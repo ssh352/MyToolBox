@@ -33,7 +33,16 @@
     <ClCompile Include="AccountContainer.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
-    <ClCompile Include="RecoverAccount.cpp">
+    <ClCompile Include="ExecutorContianer.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorFactory.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="RecovedAccount.cpp">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountFactory.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,9 +60,6 @@
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="OpenLimitExecutor.h">
-      <Filter>Classes\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="main_versionLoaderPoster.h" />
@@ -81,14 +87,26 @@
     <ClInclude Include="AccountContainer.h">
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
-    <ClInclude Include="RecoverAccount.h">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClInclude>
     <ClInclude Include="ISignalFliter.h">
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="ISignalProducer.h">
       <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ExecutorContianer.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="IExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="ExecutorFactory.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="RecovedAccount.h">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountFactory.h">
+      <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +188,9 @@
       <Filter>config\SignalProducer</Filter>
     </Xml>
     <Xml Include="AccountRecord.xml">
+      <Filter>config\Account</Filter>
+    </Xml>
+    <Xml Include="ExecutorConfigList.xml">
       <Filter>config\Account</Filter>
     </Xml>
   </ItemGroup>

@@ -1,13 +1,15 @@
 #pragma once
-#include "ITradeSignalExecutor.h"
+#include "IExecutor.h"
 #include <set>
+#include <string>
 namespace AT
 {
 
 
-class OpenLimitExecutor :public ITradeSignalExecutor
+class OpenLimitExecutor :public IExecutor
 {
 public:
+	OpenLimitExecutor(const std::string& aConfigFile);
 	OpenLimitExecutor(int ValidTimeInSecond,int iBufferPoint);
 	virtual ~OpenLimitExecutor(void);
 

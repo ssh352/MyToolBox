@@ -2,7 +2,7 @@
 #include "IndexContainer.h"
 #include "ISignalProducer.h"
 #include "ISignalFliter.h"
-#include "ITradeSignalExecutor.h"
+#include "IExecutor.h"
 #include <boost\bind.hpp>
 #include "TradeSignalFliterDemo.h"
 #include <boost/property_tree/ptree.hpp>

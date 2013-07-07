@@ -7,9 +7,26 @@ namespace AT
 {
 class IDriver_TD;
 class ITradeAccountObserver;
-class ITradeSignalExecutor;
+class IExecutor;
 struct TradeCommand;
+class ExecutorContianer;
 
+struct ExechangeRule
+{
+	//交易所规则
+	int						    m_LimitMaxVol;//限价单最多手数
+	int					        m_MarketMaxVol;//市价单最多手数
+	int							m_MaxCancleTime;//撤单最多次数
+	int							m_TotalMaxOpenVol;//最大累计开仓手数
+	int							m_SinglePositionVol;//单边持仓限额
+	int							m_AutoTradeMaxTime;//自成交最大次数
+
+	int						    m_SellDirectionVol;//卖持仓手数
+	int						    m_BuyDirectionVol;//买持仓手数
+	int						    m_TotalOpenVol;//最大累计开仓手数
+	int						    m_TotalCancleTime;//撤单最多次数
+	int						    m_AutoTradeTime;//自成交最大次数
+};
 
 class Account :public IAccount
 {
@@ -24,6 +41,8 @@ private:
 	void InitFromConfigFile(const std::string& aConfigFile);
 
 	void InitExchangeStroe();
+
+	void InitExecutorContainer(const std::string& aExecutoConfigFile);
 
 	void DoTradeCommand(boost::shared_ptr<TradeCommand> apTradeCommand);
 
@@ -44,41 +63,32 @@ private:
 	void SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd);
 	
 	//设置最大累计开仓手数
-	void SetTotalOpenVol(int vol){m_TotalOpenVol += vol;StoreTradeVol();}
+	void SetTotalOpenVol(int vol){m_ExechangeSetting.m_TotalOpenVol += vol;StoreTradeVol();}
 
 	//设置撤单交易次数
-	void SetTotalCancleTime(){m_TotalCancleTime++;StoreTradeVol();}
+	void SetTotalCancleTime(){m_ExechangeSetting.m_TotalCancleTime++;StoreTradeVol();}
 
 private:
 	int			m_TargetVol;
 	std::string m_AccountID;
 private:
 	IDriver_TD* m_pTD;
-	std::map<std::string,boost::shared_ptr<ITradeSignalExecutor> > m_OpenExecutorMap;
-	//boost::shared_ptr<ITradeSignalExecutor>							m_OpenExecutor;;
-	boost::shared_ptr<ITradeSignalExecutor>							m_CloseExecutor;
-	std::string			m_openExecutorID;
 
-	MarketData			m_LastMarket;
-	Signal			m_LastTradeSignal ;
-	bool m_IsCompleteOpen;
-	bool m_IsCompleteClose;
+	std::unique_ptr<ExecutorContianer>						m_pExecutorContianer;
 
-	int m_totalProfit;
+	//std::map<std::string,boost::shared_ptr<IExecutor> > m_OpenExecutorMap;
+	////boost::shared_ptr<ITradeSignalExecutor>							m_OpenExecutor;;
+	//boost::shared_ptr<IExecutor>							m_CloseExecutor;
+	//std::string			m_openExecutorID;
 
-	//交易所规则
-	int						    m_LimitMaxVol;//限价单最多手数
-	int					        m_MarketMaxVol;//市价单最多手数
-	int							m_MaxCancleTime;//撤单最多次数
-	int							m_TotalMaxOpenVol;//最大累计开仓手数
-	int							m_SinglePositionVol;//单边持仓限额
-	int							m_AutoTradeMaxTime;//自成交最大次数
+	//MarketData			m_LastMarket;
+	//Signal			m_LastTradeSignal ;
+	//bool m_IsCompleteOpen;
+	//bool m_IsCompleteClose;
 
-	int						    m_SellDirectionVol;//卖持仓手数
-	int						    m_BuyDirectionVol;//买持仓手数
-	int						    m_TotalOpenVol;//最大累计开仓手数
-	int						    m_TotalCancleTime;//撤单最多次数
-	int						    m_AutoTradeTime;//自成交最大次数
+	//int m_totalProfit;
+
+	ExechangeRule				m_ExechangeSetting;
 	std::string					m_ExchangePath;
 	std::shared_ptr<SingleDBHandler>  m_TradeVolDB;
 

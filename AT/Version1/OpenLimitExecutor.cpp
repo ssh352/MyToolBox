@@ -14,6 +14,11 @@ OpenLimitExecutor::OpenLimitExecutor(int ValidTimeInSecond,int iBufferPoint)
 	m_StartTime = AT_INVALID_TIME;
 }
 
+OpenLimitExecutor::OpenLimitExecutor( const std::string& aConfigFile )
+{
+
+}
+
 
 OpenLimitExecutor::~OpenLimitExecutor(void)
 {

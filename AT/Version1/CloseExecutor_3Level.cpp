@@ -21,6 +21,11 @@ CloseExecutor_3Level::CloseExecutor_3Level( CloseSetting_3Level aSetting)
 	m_TriggerLossTime = AT_INVALID_TIME;
 }
 
+CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
+{
+
+}
+
 boost::shared_ptr<TradeCommand> CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
 {
 	return AddTarget(targetQuantity,isBuy,aMarket);

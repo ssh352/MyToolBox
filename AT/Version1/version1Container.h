@@ -10,7 +10,7 @@ namespace AT
 class IndexContainer;
 class ISignalProducer;
 class ISignalFliter;
-class ITradeSignalExecutor;
+class IExecutor;
 
 class version1Container :public IStrategy
 {

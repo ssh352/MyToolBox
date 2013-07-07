@@ -6,9 +6,17 @@
 namespace AT
 {
 
+	struct ExecutorInput
+	{
+		bool IsBuy;
+		bool IsOpen;
+		int Quantity;
+		char InstrumentID[cInstrimentIDLength];
+		AT::MarketData LastMarketData;
+	};
 
 	typedef boost::function<void(int32_t Price,int32_t vol,bool IsBuy, bool isFinish)> FinishExecuteCallbackType;
-	class ITradeSignalExecutor 
+	class IExecutor 
 	{
 	
 	public:

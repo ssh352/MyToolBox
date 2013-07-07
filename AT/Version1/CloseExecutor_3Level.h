@@ -1,5 +1,5 @@
 #pragma once
-#include "ITradeSignalExecutor.h"
+#include "IExecutor.h"
 #include "IDriver_TD.h"
 #include <set>
 namespace AT
@@ -19,9 +19,10 @@ struct CloseSetting_3Level
 	AT_Time StopClearTime;//规定时间点还有持仓，则按市价清仓
 };
 
-class CloseExecutor_3Level :public ITradeSignalExecutor
+class CloseExecutor_3Level :public IExecutor
 {
 public:
+	CloseExecutor_3Level(const std::string& aConfigFile);
 	CloseExecutor_3Level(CloseSetting_3Level);
 	virtual ~CloseExecutor_3Level(void);
 

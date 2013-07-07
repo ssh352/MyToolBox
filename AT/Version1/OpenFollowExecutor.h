@@ -1,5 +1,5 @@
 #pragma once
-#include "ITradeSignalExecutor.h"
+#include "IExecutor.h"
 #include <set>
 namespace AT
 {
@@ -11,9 +11,10 @@ namespace AT
 		int	m_FollowRange;
 	};
 
-class OpenFollowExecutor :public ITradeSignalExecutor
+class OpenFollowExecutor :public IExecutor
 {
 public:
+	OpenFollowExecutor(const std::string& configFile);
 	OpenFollowExecutor(FollowExecutorParma);
 	virtual ~OpenFollowExecutor(void);
 

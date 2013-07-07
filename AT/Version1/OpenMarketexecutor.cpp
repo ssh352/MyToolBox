@@ -9,6 +9,11 @@ OpenMarketExecutor::OpenMarketExecutor()
 {
 }
 
+OpenMarketExecutor::OpenMarketExecutor( const std::string& aConfig )
+{
+
+}
+
 
 OpenMarketExecutor::~OpenMarketExecutor(void)
 {

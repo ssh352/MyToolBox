@@ -8,7 +8,7 @@
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/xml_parser.hpp"
 
-#include "RecoverAccount.h"
+#include "RecovedAccount.h"
 namespace AT
 {
 
@@ -121,7 +121,7 @@ boost::shared_ptr<AT::IAccount> AccountContainer::CreateAccount( const std::stri
 	}
 	else if(aAccountType == "Recored")
 	{
-		lret.reset(new RecoverAccount(aConfigFile));
+		lret.reset(new RecovedAccount(aConfigFile));
 	}
 	return lret;
 }

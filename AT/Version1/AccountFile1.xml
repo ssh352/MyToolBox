@@ -25,28 +25,8 @@
     </FilterCase>
   </Filters>
 
-  <Executors>
-    <ExecutorCase>
-      <ExecutorType></ExecutorType>
-      <ExectorConfigFile></ExectorConfigFile>
-    </ExecutorCase>
-
-    <ExecutorCase>
-      <ExecutorType></ExecutorType>
-      <ExectorConfigFile></ExectorConfigFile>
-    </ExecutorCase>
-
-    <ExecutorCase>
-      <ExecutorType></ExecutorType>
-      <ExectorConfigFile></ExectorConfigFile>
-    </ExecutorCase>
-
-    <ExecutorCase>
-      <ExecutorType></ExecutorType>
-      <ExectorConfigFile></ExectorConfigFile>
-    </ExecutorCase>
-  </Executors>
-
+  <ExecutorConfig>ExecutorConfigList.xml</ExecutorConfig>
+  
   <SignalHandleSet>
     <SignalHandleCase>
       <SignalID></SignalID>

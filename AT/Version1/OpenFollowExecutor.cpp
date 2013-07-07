@@ -11,6 +11,11 @@ OpenFollowExecutor::OpenFollowExecutor( FollowExecutorParma aParma )
 	m_ExecutorStatus = FollowExecutorStatus::IDLE;
 }
 
+OpenFollowExecutor::OpenFollowExecutor( const std::string&  configFile )
+{
+
+}
+
 
 OpenFollowExecutor::~OpenFollowExecutor(void)
 {

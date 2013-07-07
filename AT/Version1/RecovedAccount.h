@@ -5,11 +5,11 @@ namespace AT
 {
 
 
-class RecoverAccount :public IAccount
+class RecovedAccount :public IAccount
 {
 public:
-	RecoverAccount(const std::string& aConfigFile);
-	virtual ~RecoverAccount(void);
+	RecovedAccount(const std::string& aConfigFile);
+	virtual ~RecovedAccount(void);
 	virtual void HandleTradeSignal(const Signal& aTradeSignal) override;
 	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
 	virtual void OnRtnOrder(const  OrderUpdate& apOrder) override;

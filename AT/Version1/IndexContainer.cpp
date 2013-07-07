@@ -99,10 +99,10 @@ void IndexContainer::InitLoadIndex(const char* aConfigFile)
 
 	boost::property_tree::ptree lConfig;
 	read_xml(aConfigFile,lConfig);
-	for( std::pair<std::string,boost::property_tree::ptree>  lSingleMoudleList : lConfig.get_child("IndexContainerConfig.Indexs"))
+	for( std::pair<std::string,boost::property_tree::ptree>  lIndexItem : lConfig.get_child("IndexContainerConfig.Indexs"))
 	{
-		std::string lDllName = lSingleMoudleList.second.get<std::string>("Dll");
-		std::string lDllConfig =  lSingleMoudleList.second.get<std::string>("ConfigFile");
+		std::string lDllName = lIndexItem.second.get<std::string>("Dll");
+		std::string lDllConfig =  lIndexItem.second.get<std::string>("ConfigFile");
 		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
 		if( ! lSinglehandle)
 		{

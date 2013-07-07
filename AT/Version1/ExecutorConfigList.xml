@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Executors>
+  <ExecutorCase>
+    <ExecutorType>OpenFollow</ExecutorType>
+    <ExectorConfigFile></ExectorConfigFile>
+  </ExecutorCase>
+
+  <ExecutorCase>
+    <ExecutorType>OpenLimit</ExecutorType>
+    <ExectorConfigFile></ExectorConfigFile>
+  </ExecutorCase>
+
+  <ExecutorCase>
+    <ExecutorType>OpenMarket</ExecutorType>
+    <ExectorConfigFile></ExectorConfigFile>
+  </ExecutorCase>
+
+  <ExecutorCase>
+    <ExecutorType>Close3Level</ExecutorType>
+    <ExectorConfigFile></ExectorConfigFile>
+  </ExecutorCase>
+</Executors>

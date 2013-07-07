@@ -1,13 +1,15 @@
 #pragma once
-#include "ITradeSignalExecutor.h"
+#include "IExecutor.h"
 #include <set>
+#include <string>
 namespace AT
 {
 
 
-class OpenMarketExecutor :public ITradeSignalExecutor
+class OpenMarketExecutor :public IExecutor
 {
 public:
+	OpenMarketExecutor(const std::string& aConfig);
 	OpenMarketExecutor();
 	virtual ~OpenMarketExecutor(void);
 

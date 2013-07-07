@@ -22,6 +22,9 @@ public:
 	virtual void OnRtnTrade(const  TradeUpdate& apTrade) override;  
 private:
 	void InitFromConfigFile(const std::string& aConfigFile);
+
+	void InitExchangeStroe();
+
 	void DoTradeCommand(boost::shared_ptr<TradeCommand> apTradeCommand);
 
 	void HandleCloseExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe);
@@ -30,7 +33,7 @@ private:
 	//交易所规则设定
 private:
 	//获取交易所规则
-	void InitExchangeRule();
+	void InitExchangeRule(const std::string& aConfigFile);
 
 	//保存交易数
 	void StoreTradeVol();

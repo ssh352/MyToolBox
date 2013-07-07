@@ -4,7 +4,8 @@
 <AccountFile>
 
   <AccountID>00000290</AccountID>
-  <ExchangeRule>ExchangeRule1</ExchangeRule>
+  <ExchangeRule>ExchangeRuleConfig.xml</ExchangeRule>
+  <ExchangSavePath>ExchangStroe</ExchangSavePath>
 
   <!--Filter ID 将在配置文件内设置-->
   <Filters>

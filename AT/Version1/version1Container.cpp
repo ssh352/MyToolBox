@@ -21,8 +21,7 @@ version1Container::version1Container(const char* aConfigFile, AT::IDriver_TD* ap
 	,m_pMarketCache(apMarketCache)
 	,m_TradeAccountContaner(aConfigFile,apTD)
 {
-////todo init
-//	ITradeSignalFliter*					m_pTradeSignalFliter;
+
 	 InitIndexContainer();
 	 InitFliter();
 	 InitAccountContainer();
@@ -88,7 +87,7 @@ void version1Container::InitIndexContainer()
 
 void version1Container::InitAccountContainer()
 {
-	m_TradeAccountContaner.SetProfitCallback(boost::bind(&ITradeSignalFliter::UpdateProfit,m_pTradeSignalFliter,_1,_2));
+	//m_TradeAccountContaner.SetProfitCallback(boost::bind(&ITradeSignalFliter::UpdateProfit,m_pTradeSignalFliter,_1,_2));
 }
 
 void version1Container::InitFliter()

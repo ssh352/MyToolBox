@@ -33,7 +33,9 @@
     <ClCompile Include="AccountContainer.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
-    <ClCompile Include="RecoverAccount.cpp" />
+    <ClCompile Include="RecoverAccount.cpp">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -85,7 +87,9 @@
     <ClInclude Include="AccountContainer.h">
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
-    <ClInclude Include="RecoverAccount.h" />
+    <ClInclude Include="RecoverAccount.h">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">

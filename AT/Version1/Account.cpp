@@ -20,7 +20,6 @@ namespace AT
 		,m_totalProfit(0)
 	{
 		InitFromConfigFile(aConfigFile);
-		InitExchangeRule();
 	}
 
 	Account::~Account(void)
@@ -113,85 +112,17 @@ namespace AT
 
 	void Account::InitFromConfigFile( const std::string& aConfigFile )
 	{
-		//todo load AccountID
 		boost::property_tree::ptree lpt;
 		read_xml(aConfigFile,lpt);
 
 		m_AccountID = lpt.get<std::string>("AccountFile.AccountID");
+		std::string lExchangRuleFile =  lpt.get<std::string>("AccountFile.ExchangeRule");
+		InitExchangeRule(lExchangRuleFile);
+		m_ExchangePath = lpt.get<std::string>("AccountFile.ExchangSavePath");
 
 		m_TargetVol = lpt.get<int>("AccountFile.TargetVol");
 
-		m_ExchangePath = lpt.get<std::string>("AccountFile.ExchangeRule");
-
-		//创建存储交易所相关数量的文件夹
-		boost::filesystem::path lDir(m_ExchangePath);
-
-		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
-
-		if (!boost::filesystem::exists(lDir))
-		{
-			create_directory(lDir);
-		}
-		lDir /= lDataString;
-		if(!boost::filesystem::exists(lDir))
-		{
-			create_directory(lDir);
-		}
-		m_TradeVolDB.reset(new SingleDBHandler(lDir.string().c_str()));
-
-		////加载策略相关信息
-		//boost::property_tree::ptree ptStretegy;
-		//read_xml("StretegyConfig.xml",ptStretegy);
-		//boost::property_tree::ptree ptOpen;
-		//read_xml("OpenExecutorConfig.xml",ptOpen);
-		//boost::property_tree::ptree ptClose;
-		//read_xml("CloseExecutorConfig.xml",ptClose);
-		//std::string strSignalName;
-		//int iOrderExecutor;
-		//int iOrdersValidity;
-		//int iBufferPoint;
-		//int iFollowupPriority;
-		//for (std::pair<std::string,boost::property_tree::ptree> lSignal:ptStretegy.get_child("StretegyConfig.Signals"))
-		//{
-		//	strSignalName = lSignal.second.get<std::string>("SignalID");
-		//	iOrderExecutor = lSignal.second.get<int>("Open.OrderExecutor");
-		//	iOrdersValidity = lSignal.second.get<int>("Open.OrdersValidity");
-		//	iBufferPoint = lSignal.second.get<int>("Open.BufferPoint");
-		//	iFollowupPriority = lSignal.second.get<int>("Open.FollowUpPriority");
-		//	if(iOrderExecutor == 1)//市价
-		//	{
-		//		m_OpenExecutorMap[strSignalName].reset(new OpenMarketExecutor());
-		//	}
-		//	else if(iOrderExecutor == 2)//挂单
-		//	{
-		//		m_OpenExecutorMap[strSignalName].reset(new OpenLimitExecutor(iOrdersValidity,iBufferPoint));
-		//	}
-		//	else   //追价单
-		//	{
-		//		FollowExecutorParma follow;
-		//		follow.m_FollowRange = 3;
-		//		follow.m_FollowTime = 5;
-		//		m_OpenExecutorMap[strSignalName].reset(new OpenFollowExecutor(follow));
-		//	}
-		//	m_OpenExecutorMap[strSignalName]->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleOpenExecutorResult,this,_1,_2,_3,_4));
-		//}
-
-		////todo Load Close Executor
-
-		//CloseSetting_3Level lCloseConfig;
-		//lCloseConfig.QuitLevel_0 = lpt.get<int>("AccountFile.Level0.QuitPrice");
-		//lCloseConfig.QuitLevel_1 = lpt.get<int>("AccountFile.Level1.QuitPrice");
-		//lCloseConfig.QuitLevel_2 = lpt.get<int>("AccountFile.Level2.QuitPrice");
-		//lCloseConfig.QuitLevel_3 = lpt.get<int>("AccountFile.Level3.QuitPrice");
-		//lCloseConfig.EnterLevel_1 = lpt.get<int>("AccountFile.Level1.EnterPrice");
-		//lCloseConfig.EnterLevel_2 = lpt.get<int>("AccountFile.Level2.EnterPrice");
-		//lCloseConfig.EnterLevel_3 = lpt.get<int>("AccountFile.Level3.EnterPrice");
-		//std::string strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopTime");
-		//lCloseConfig.StopTime = boost::posix_time::time_from_string(strStopTime);
-		//std::string strStopClearTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("AccountFile.StopClearTime");
-		//lCloseConfig.StopClearTime = boost::posix_time::time_from_string(strStopClearTime);
-		//m_CloseExecutor.reset(new CloseExecutor_3Level(lCloseConfig));
-		//m_CloseExecutor->SetFinishedCallback(boost::bind(&TradeAccountDemo1::HandleCloseExecutorResult,this,_1,_2,_3,_4));
+		InitExchangeStroe();
 	}	
 
 	void Account::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
@@ -290,17 +221,16 @@ namespace AT
 			//m_ProfitNotifyer(m_totalProfit/m_TargetVol,m_LastMarket.m_UpdateTime,this);
 		}
 	}
-	void Account::InitExchangeRule()
+	void Account::InitExchangeRule( const std::string& aConfigFile )
 	{
 		boost::property_tree::ptree ptExchange;
-		read_xml("ExchangeRuleConfig.xml",ptExchange);
+		read_xml(aConfigFile,ptExchange);
 		m_LimitMaxVol = ptExchange.get<int>("ExchangeRuluConfig.LimitMaxVol");
 		m_MarketMaxVol = ptExchange.get<int>("ExchangeRuluConfig.MarketMaxVol");
 		m_MaxCancleTime = ptExchange.get<int>("ExchangeRuluConfig.MaxCancleTimeVol");
 		m_TotalMaxOpenVol = ptExchange.get<int>("ExchangeRuluConfig.MaxTotalOpenVol");
 		m_SinglePositionVol = ptExchange.get<int>("ExchangeRuluConfig.SinglePositionMaxVol");
 		m_AutoTradeMaxTime = ptExchange.get<int>("ExchangeRuluConfig.AutoTradeMaxTime");
-
 		RestoreTradeVol();
 	}
 	void Account::SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd)
@@ -359,4 +289,23 @@ namespace AT
 		m_TotalOpenVol = 0;
 		m_AutoTradeTime = 0;
 	}
+
+	void Account::InitExchangeStroe()
+	{
+		boost::filesystem::path lDir(m_ExchangePath);
+
+		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
+
+		if (!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		lDir /= lDataString;
+		if(!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		m_TradeVolDB.reset(new SingleDBHandler(lDir.string().c_str()));
+	}
+
 }

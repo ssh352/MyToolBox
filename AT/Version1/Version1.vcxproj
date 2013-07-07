@@ -83,6 +83,7 @@
     <ClCompile Include="OpenMarketexecutor.cpp" />
     <ClCompile Include="AccountContainer.cpp" />
     <ClCompile Include="Account.cpp" />
+    <ClCompile Include="RecoverAccount.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="OpenMarketexecutor.h" />
     <ClInclude Include="AccountContainer.h" />
     <ClInclude Include="Account.h" />
+    <ClInclude Include="RecoverAccount.h" />
     <ClInclude Include="TradeCommand.h" />
     <ClInclude Include="Signal.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />
@@ -131,8 +133,11 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="AccountFile.xml" />
-    <Xml Include="AccountFile1.xml" />
+    <Xml Include="AccountFile1.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="AccountFile2.xml" />
+    <Xml Include="AccountRecord.xml" />
     <Xml Include="CloseExecutorConfig.xml">
       <SubType>Designer</SubType>
     </Xml>

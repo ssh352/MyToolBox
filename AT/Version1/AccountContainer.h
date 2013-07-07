@@ -17,24 +17,26 @@ public:
 	 void OnMarketDepth(const MarketData& aMarketDepth);
 	 void OnRtnOrder(const  OrderUpdate& apOrder) ;
 	 void OnRtnTrade(const  TradeUpdate& apTrade) ;  
-	 void SetProfitCallback(FliterProfitUpdater aFliterProfitUpdater)
-	{
-		m_ProfitNotifyer = aFliterProfitUpdater;
-	};
+	// void SetProfitCallback(FliterProfitUpdater aFliterProfitUpdater)
+	//{
+	//	m_ProfitNotifyer = aFliterProfitUpdater;
+	//};
 
 	 void HandleOneAccountProfit(int32_t aProfit,AT_Time aTime ,IAccount* sender ) ;
 
 private:
 
-	std::vector<boost::shared_ptr<IAccount> > m_AccountList;
-	FliterProfitUpdater m_ProfitNotifyer;
-	struct  AccountProfitStatus
-	{
-		bool isFinished;
-		int32_t m_Profit;
-		AT_Time m_Time ;
-	};
-	std::map<boost::shared_ptr<IAccount>,AccountProfitStatus > m_AccountFinishedList;
+	boost::shared_ptr<AT::IAccount> CreateAccount(const std::string& aAccountType, const std::string& aConfigFile);
+	std::vector<boost::shared_ptr<AT::IAccount> > m_AccountList;
+	 AT::IDriver_TD* m_pTD;
+	//FliterProfitUpdater m_ProfitNotifyer;
+	//struct  AccountProfitStatus
+	//{
+	//	bool isFinished;
+	//	int32_t m_Profit;
+	//	AT_Time m_Time ;
+	//};
+	//std::map<boost::shared_ptr<IAccount>,AccountProfitStatus > m_AccountFinishedList;
 
 };
 

@@ -33,6 +33,7 @@
     <ClCompile Include="AccountContainer.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
+    <ClCompile Include="RecoverAccount.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ITradeSignalFliter.h">
@@ -84,6 +85,7 @@
     <ClInclude Include="AccountContainer.h">
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
+    <ClInclude Include="RecoverAccount.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -162,6 +164,9 @@
     </Xml>
     <Xml Include="TradeSignal01_1307.xml">
       <Filter>config\SignalProducer</Filter>
+    </Xml>
+    <Xml Include="AccountRecord.xml">
+      <Filter>config\Account</Filter>
     </Xml>
   </ItemGroup>
 </Project>

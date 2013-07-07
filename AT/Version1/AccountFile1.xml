@@ -2,16 +2,101 @@
 
 <!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
+
   <AccountID>00000290</AccountID>
-  
-  <Front>tcp://125.64.36.25:26205</Front>
-  <WorkFlowDir>TD_TEST1</WorkFlowDir>
-  <BrokeID>1001</BrokeID>
-  <UserID>00000290</UserID>
-  <Password>123456</Password>
-  <OrderTablePath>OrderSavedPath1</OrderTablePath>
   <ExchangeRule>ExchangeRule1</ExchangeRule>
 
-  <TargetVol>1</TargetVol>
-  
+  <!--Filter ID 将在配置文件内设置-->
+  <Filters>
+    <FilterCase>
+      <FilterType></FilterType>
+      <FilterConfigFile></FilterConfigFile>
+    </FilterCase>
+
+    <FilterCase>
+      <FilterType></FilterType>
+      <FilterConfigFile></FilterConfigFile>
+    </FilterCase>
+
+    <FilterCase>
+      <FilterType></FilterType>
+      <FilterConfigFile></FilterConfigFile>
+    </FilterCase>
+  </Filters>
+
+  <Executors>
+    <ExecutorCase>
+      <ExecutorType></ExecutorType>
+      <ExectorConfigFile></ExectorConfigFile>
+    </ExecutorCase>
+
+    <ExecutorCase>
+      <ExecutorType></ExecutorType>
+      <ExectorConfigFile></ExectorConfigFile>
+    </ExecutorCase>
+
+    <ExecutorCase>
+      <ExecutorType></ExecutorType>
+      <ExectorConfigFile></ExectorConfigFile>
+    </ExecutorCase>
+
+    <ExecutorCase>
+      <ExecutorType></ExecutorType>
+      <ExectorConfigFile></ExectorConfigFile>
+    </ExecutorCase>
+  </Executors>
+
+  <SignalHandleSet>
+    <SignalHandleCase>
+      <SignalID></SignalID>
+      <InstrumentID></InstrumentID>
+      <IsBuy></IsBuy>
+      <TargetVol>1</TargetVol>
+      <FilterID></FilterID>
+      <OpenExecutor></OpenExecutor><!--Executor ID 是在Executor的配置文件里面设置-->
+      <CloseExecutor></CloseExecutor>
+    </SignalHandleCase>
+
+    <SignalHandleCase>
+      <SignalID></SignalID>
+      <InstrumentID></InstrumentID>
+      <IsBuy></IsBuy>
+      <TargetVol>1</TargetVol>
+      <FilterID></FilterID>
+      <OpenExecutor></OpenExecutor>
+      <CloseExecutor></CloseExecutor>
+    </SignalHandleCase>
+
+    <SignalHandleCase>
+      <SignalID></SignalID>
+      <InstrumentID></InstrumentID>
+      <IsBuy></IsBuy>
+      <TargetVol>1</TargetVol>
+      <FilterID></FilterID>
+      <OpenExecutor></OpenExecutor>
+      <CloseExecutor></CloseExecutor>
+    </SignalHandleCase>
+
+    <SignalHandleCase>
+      <SignalID></SignalID>
+      <InstrumentID></InstrumentID>
+      <IsBuy></IsBuy>
+      <TargetVol>1</TargetVol>
+      <FilterID></FilterID>
+      <OpenExecutor></OpenExecutor>
+      <CloseExecutor></CloseExecutor>
+    </SignalHandleCase>
+  </SignalHandleSet>
+
+  <ExchangeAccountInfo>
+    <Front>tcp://125.64.36.25:26205</Front>
+    <WorkFlowDir>TD_TEST1</WorkFlowDir>
+    <BrokeID>1001</BrokeID>
+    <UserID>00000290</UserID>
+    <Password>123456</Password>
+    <OrderTablePath>OrderSavedPath1</OrderTablePath>
+  </ExchangeAccountInfo>
+
+
+
 </AccountFile>

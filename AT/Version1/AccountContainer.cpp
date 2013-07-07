@@ -3,33 +3,34 @@
 #include "Account.h"
 #include <boost\bind.hpp>
 #include <boost\function.hpp>
-#include "../AT_Driver/ATLogger.h"
+#include "ATLogger.h"
 #include "boost/format.hpp"
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/xml_parser.hpp"
+
+#include "RecoverAccount.h"
 namespace AT
 {
 
 
 AccountContainer::AccountContainer( const char* configFile,  AT::IDriver_TD* apTD )
+	:m_pTD(apTD)
 {
 
-	AccountProfitStatus lnewStatus ;
-	memset(&lnewStatus,0,sizeof(AccountProfitStatus));
+	//AccountProfitStatus lnewStatus ;
+	//memset(&lnewStatus,0,sizeof(AccountProfitStatus));
 
 	boost::property_tree::ptree pt;
 	read_xml(configFile,pt);
 	for (auto lAccount:pt.get_child("MultiAccount_Config"))
 	{
-		int lIsUse = lAccount.second.get<int>("IsUse");
-		if(lIsUse == 1)
-		{
-			std::string lAccountID = lAccount.second.get<std::string>("AccountID");
+
+			std::string lAccountType = lAccount.second.get<std::string>("AccountType");
 			std::string lAccountConfig = lAccount.second.get<std::string>("Config");
-			boost::shared_ptr<IAccount> lpAccount(new Account(lAccountConfig,apTD));
+
+			boost::shared_ptr<IAccount> lpAccount = CreateAccount(lAccountType,lAccountConfig);
 			m_AccountList.push_back(lpAccount);
-			m_AccountFinishedList[lpAccount] = lnewStatus;
-		}
+			//m_AccountFinishedList[lpAccount] = lnewStatus;
 	}
 	
 
@@ -79,36 +80,50 @@ void AccountContainer::HandleTradeSignal( const Signal& aTradeSignal )
 		lAccoutPtr->HandleTradeSignal(aTradeSignal);
 	}
 
-	for (auto lFinishedPtrValType : m_AccountFinishedList)
-	{
-		lFinishedPtrValType.second.isFinished = false;
-	}
+	//for (auto lFinishedPtrValType : m_AccountFinishedList)
+	//{
+	//	lFinishedPtrValType.second.isFinished = false;
+	//}
 }
 
-void AccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,IAccount* sender )
+//void AccountContainer::HandleOneAccountProfit( int32_t aProfit,AT_Time aTime ,IAccount* sender )
+//{
+//	AccountProfitStatus lnewStatus = {true,aProfit,aTime};
+//	for (auto lFinishedPtrValType : m_AccountFinishedList)
+//	{
+//		if(lFinishedPtrValType.first.get() == sender)
+//		{
+//			m_AccountFinishedList[lFinishedPtrValType.first] = lnewStatus;
+//			break;
+//		}
+//	}
+//	int totalProfix = 0;
+//	for (auto lFinishedPtrValType : m_AccountFinishedList)
+//	{
+//		if(lFinishedPtrValType.second.isFinished == false)
+//		{
+//			return;
+//		}
+//		totalProfix += lFinishedPtrValType.second.m_Profit;
+//	}
+//
+//
+//	m_ProfitNotifyer(totalProfix/m_AccountFinishedList.size(),aTime);
+//
+//}
+
+boost::shared_ptr<AT::IAccount> AccountContainer::CreateAccount( const std::string& aAccountType, const std::string& aConfigFile )
 {
-	AccountProfitStatus lnewStatus = {true,aProfit,aTime};
-	for (auto lFinishedPtrValType : m_AccountFinishedList)
+	boost::shared_ptr<AT::IAccount> lret;
+	if(aAccountType == "Normal")
 	{
-		if(lFinishedPtrValType.first.get() == sender)
-		{
-			m_AccountFinishedList[lFinishedPtrValType.first] = lnewStatus;
-			break;
-		}
+		lret.reset(new Account(aConfigFile,m_pTD));
 	}
-	int totalProfix = 0;
-	for (auto lFinishedPtrValType : m_AccountFinishedList)
+	else if(aAccountType == "Recored")
 	{
-		if(lFinishedPtrValType.second.isFinished == false)
-		{
-			return;
-		}
-		totalProfix += lFinishedPtrValType.second.m_Profit;
+		lret.reset(new RecoverAccount(aConfigFile));
 	}
-
-
-	m_ProfitNotifyer(totalProfix/m_AccountFinishedList.size(),aTime);
-
+	return lret;
 }
 
 }

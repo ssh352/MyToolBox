@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--IsUse:账户是否有效，1有效；0无效-->
+
+<!--AccounType Normal = 普通账户 Record = 记录信号账户-->
 
 <MultiAccount_Config>
   <Account>
-    <IsUse>1</IsUse>
-    <AccountID>00000290</AccountID>
+    <AccountType>Normal</AccountType>
     <Config>AccountFile1.xml</Config>
   </Account>
   <Account>
-    <IsUse>1</IsUse>
-    <AccountID>00000291</AccountID>
+    <AccountType>Normal</AccountType>
     <Config>AccountFile2.xml</Config>
+  </Account>
+
+  <Account>
+    <AccountType>Record</AccountType>
+    <Config>AccountRecord.xml</Config>
   </Account>
 </MultiAccount_Config>

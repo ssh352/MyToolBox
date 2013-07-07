@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--ExchangeRule:单边持仓限额等交易所限制-->
+<AccountFile>
+
+  <AccountID>Record</AccountID>
+  <RecordFile>SignalRecord.xml</RecordFile>
+</AccountFile>

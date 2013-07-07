@@ -9,7 +9,7 @@ namespace AT
 {
 class IndexContainer;
 class ISignalProducer;
-class ITradeSignalFliter;
+class ISignalFliter;
 class ITradeSignalExecutor;
 
 class version1Container :public IStrategy
@@ -41,7 +41,7 @@ private:
 private:
 	IndexContainer* m_pIndexContaner;
 	std::vector<ISignalProducer* > m_TradeSignalProducerVec;
-	ITradeSignalFliter*					m_pTradeSignalFliter;
+	ISignalFliter*					m_pTradeSignalFliter;
 	AccountContainer				m_TradeAccountContaner;
 private:
 	AT::IDriver_TD* m_pTD;

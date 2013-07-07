@@ -1,4 +1,4 @@
-#include "ITradeSignalProducer.h"
+#include "ISignalProducer.h"
 
 
 ISignalProducer::ITradeSignalProducer(void)

@@ -1,7 +1,7 @@
 #include "version1Container.h"
 #include "IndexContainer.h"
-#include "ITradeSignalProducer.h"
-#include "ITradeSignalFliter.h"
+#include "ISignalProducer.h"
+#include "ISignalFliter.h"
 #include "ITradeSignalExecutor.h"
 #include <boost\bind.hpp>
 #include "TradeSignalFliterDemo.h"
@@ -92,7 +92,7 @@ void version1Container::InitAccountContainer()
 
 void version1Container::InitFliter()
 {
-	m_pTradeSignalFliter = new TradeSignalFliterDemo();
+	m_pTradeSignalFliter = new FilterSystemLevel();
 }
 void version1Container::InitSignalProducer()
 {

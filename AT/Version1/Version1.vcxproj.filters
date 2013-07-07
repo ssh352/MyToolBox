@@ -38,12 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ITradeSignalFliter.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ITradeSignalProducer.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="TradeCommand.h">
       <Filter>Struct</Filter>
     </ClInclude>
@@ -89,6 +83,12 @@
     </ClInclude>
     <ClInclude Include="RecoverAccount.h">
       <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
+    <ClInclude Include="ISignalFliter.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ISignalProducer.h">
+      <Filter>interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

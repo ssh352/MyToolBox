@@ -3,7 +3,7 @@
 #include "Signal.h"
 namespace AT
 {
-	class ITradeSignalFliter
+	class ISignalFliter
 	{
 	public:
 		//包含两个步骤，第一步是合并，第二步是过滤

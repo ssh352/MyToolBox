@@ -93,8 +93,8 @@
     <ClInclude Include="IndexContainer.h" />
     <ClInclude Include="IAccount.h" />
     <ClInclude Include="ITradeSignalExecutor.h" />
-    <ClInclude Include="ITradeSignalFliter.h" />
-    <ClInclude Include="ITradeSignalProducer.h" />
+    <ClInclude Include="ISignalFliter.h" />
+    <ClInclude Include="ISignalProducer.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="OpenFollowExecutor.h" />
     <ClInclude Include="OpenLimitExecutor.h" />

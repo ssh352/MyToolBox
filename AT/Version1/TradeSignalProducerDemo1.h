@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ITradeSignalProducer.h"
+#include "ISignalProducer.h"
 
 #include <boost\function.hpp>
 #include <string>

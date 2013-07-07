@@ -9,7 +9,7 @@ namespace AT
 {
 
 
-TradeSignalFliterDemo::TradeSignalFliterDemo(void)
+FilterSystemLevel::FilterSystemLevel(void)
 {
 	//load from  files
 	boost::property_tree::ptree lpt;
@@ -42,11 +42,11 @@ TradeSignalFliterDemo::TradeSignalFliterDemo(void)
 }
 
 
-TradeSignalFliterDemo::~TradeSignalFliterDemo(void)
+FilterSystemLevel::~FilterSystemLevel(void)
 {
 }
 
-Signal TradeSignalFliterDemo::FliterTradeSignal( std::vector<Signal> aList )
+Signal FilterSystemLevel::FliterTradeSignal( std::vector<Signal> aList )
 {
 	if(aList.size() == 0)
 	{
@@ -152,18 +152,18 @@ Signal TradeSignalFliterDemo::FliterTradeSignal( std::vector<Signal> aList )
 }
 
 
-void TradeSignalFliterDemo::UpdateProfit( int32_t aProfit,AT_Time aTime )
+void FilterSystemLevel::UpdateProfit( int32_t aProfit,AT_Time aTime )
 {
 	m_ProfitStatusMap[aTime] = aProfit;
 	m_IsOnLastSignal = false;
 }
 
-void TradeSignalFliterDemo::OnMarketDepth( const AT::MarketData& aMarket )
+void FilterSystemLevel::OnMarketDepth( const AT::MarketData& aMarket )
 {
 	m_LastTime  = aMarket.m_UpdateTime;
 }
 
-TradeSignalFliterDemo::LastNTradeStatus TradeSignalFliterDemo::IsLastNTradeLoss( int lastI )
+FilterSystemLevel::LastNTradeStatus FilterSystemLevel::IsLastNTradeLoss( int lastI )
 {
 	LastNTradeStatus lret = {false,0};
 	std::map<AT_Time,int32_t>::reverse_iterator iter = m_ProfitStatusMap.rbegin();
@@ -185,7 +185,7 @@ TradeSignalFliterDemo::LastNTradeStatus TradeSignalFliterDemo::IsLastNTradeLoss(
 	return lret;
 }
 
-void TradeSignalFliterDemo::OnAccountCompleteSignal()
+void FilterSystemLevel::OnAccountCompleteSignal()
 {
 
 }

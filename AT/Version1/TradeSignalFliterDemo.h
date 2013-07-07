@@ -1,5 +1,5 @@
 #pragma once
-#include "ITradeSignalFliter.h"
+#include "ISignalFliter.h"
 namespace AT
 {
 
@@ -14,14 +14,14 @@ namespace AT
 		AT_Time StopTime;
 	};
 
-class TradeSignalFliterDemo :public ITradeSignalFliter
+class FilterSystemLevel :public ISignalFliter
 {
 public:
-	TradeSignalFliterDemo(void);
-	virtual ~TradeSignalFliterDemo(void);
+	FilterSystemLevel(void);
+	virtual ~FilterSystemLevel(void);
 
 public:
-	virtual Signal FliterTradeSignal(std::vector<Signal> aList) override;
+	 virtual Signal FliterTradeSignal(std::vector<Signal> aList) override;
 
 	virtual void OnMarketDepth(const AT::MarketData&  aMarket) override;
 	virtual void UpdateProfit(int32_t aProfit,AT_Time aTime) override ;

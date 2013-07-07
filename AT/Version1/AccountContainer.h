@@ -29,15 +29,6 @@ private:
 	boost::shared_ptr<AT::IAccount> CreateAccount(const std::string& aAccountType, const std::string& aConfigFile);
 	std::vector<boost::shared_ptr<AT::IAccount> > m_AccountList;
 	 AT::IDriver_TD* m_pTD;
-	//FliterProfitUpdater m_ProfitNotifyer;
-	//struct  AccountProfitStatus
-	//{
-	//	bool isFinished;
-	//	int32_t m_Profit;
-	//	AT_Time m_Time ;
-	//};
-	//std::map<boost::shared_ptr<IAccount>,AccountProfitStatus > m_AccountFinishedList;
-
 };
 
 }

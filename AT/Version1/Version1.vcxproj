@@ -72,7 +72,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountFactory.cpp" />
-    <ClCompile Include="CloseExecutor_3Level.cpp" />
+    <ClCompile Include="CloseExecutor_3Level.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ExecutorContianer.cpp" />
     <ClCompile Include="ExecutorFactory.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
@@ -90,7 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountFactory.h" />
-    <ClInclude Include="CloseExecutor_3Level.h" />
+    <ClInclude Include="CloseExecutor_3Level.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="ExecutorContianer.h" />
     <ClInclude Include="ExecutorFactory.h" />
     <ClInclude Include="IndexContainer.h" />
@@ -105,7 +109,7 @@
     <ClInclude Include="AccountContainer.h" />
     <ClInclude Include="Account.h" />
     <ClInclude Include="RecovedAccount.h" />
-    <ClInclude Include="TradeCommand.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Signal.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
@@ -149,6 +153,7 @@
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />
     <Xml Include="HKY003_1307.xml" />
+    <Xml Include="MarketExecutor.xml" />
     <Xml Include="OpenExecutorConfig.xml" />
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>

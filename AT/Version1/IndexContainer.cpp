@@ -17,117 +17,112 @@ namespace AT
 		InitLoadIndex(aConfigFile);
 	}
 
-
-IndexContainer::~IndexContainer(void)
-{
-}
-
-void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
-{
-	for (auto lpSignal:m_SignalModuleVec)
+	void IndexContainer::InitLoadIndex(const char* aConfigFile)
 	{
-		int lresult = lpSignal->OnMarketDepth(aMarketDepth);
-		m_SignalResultMapGroupBySignalName[lpSignal->GetIndexName()] [aMarketDepth.m_UpdateTime] = lresult;
-	}
-}
+		m_SignalModuleVec.clear();
 
-int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime )
-{
-
-	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
-	SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
-	SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
-	int lret = 0;
-	if(lStart != lResultMap.end() && lEnd != lResultMap.end())
-	{
-		for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
+		boost::property_tree::ptree lConfig;
+		read_xml(aConfigFile,lConfig);
+		for( std::pair<std::string,boost::property_tree::ptree>  lIndexItem : lConfig.get_child("IndexContainerConfig.Indexs"))
 		{
-			if(iter->second == ExpectVal)
+			std::string lDllName = lIndexItem.second.get<std::string>("Dll");
+			std::string lDllConfig =  lIndexItem.second.get<std::string>("ConfigFile");
+			HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
+			if( ! lSinglehandle)
 			{
-				lret++;
+				ATLOG(AT::LogLevel::L_ERROR,str(boost::format("Can not load SingleMoudle DLL %s")%lDllName));
+				break;
+			}
+			CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
+			if (! lpSignalCallInst)
+			{
+				ATLOG(AT::LogLevel::L_ERROR,"Can not Get Single Create Inst Fun Address");
+				break;
+			}
+			AT::IIndexModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
+			if(!lpSignalInst)
+			{
+				ATLOG(AT::LogLevel::L_ERROR,str(boost::format("failed Create IndexMoudle inst with ConfigFile %s  ")%lDllConfig));
+				break;
+			}
+			m_SignalModuleVec.push_back(lpSignalInst);
+			//todo store for clean  优先级低
+			//m_LibHandleVec.push_back(lSinglehandle);
+		}
+	}
+	IndexContainer::~IndexContainer(void)
+	{
+	}
+
+	void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
+	{
+		for (auto lpSignal:m_SignalModuleVec)
+		{
+			int lresult = lpSignal->OnMarketDepth(aMarketDepth);
+			m_SignalResultMapGroupBySignalName[lpSignal->GetIndexName()] [aMarketDepth.m_UpdateTime] = lresult;
+		}
+	}
+
+	int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime )
+	{
+
+		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+		SignalResultMap::iterator lStart = lResultMap.find(aStartTime);
+		SignalResultMap::iterator lEnd =lResultMap.find(aEndTime);
+		int lret = 0;
+		if(lStart != lResultMap.end() && lEnd != lResultMap.end())
+		{
+			for(SignalResultMap::iterator iter = lStart; iter != lEnd ; iter++)
+			{
+				if(iter->second == ExpectVal)
+				{
+					lret++;
+				}
 			}
 		}
+		return lret;
 	}
-	return lret;
-}
 
-int IndexContainer::GetIndex( const std::string& aIndexName )
-{
-	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
-	if(lResultMap.size() > 0)
+	int IndexContainer::GetIndex( const std::string& aIndexName )
 	{
-		return lResultMap.rbegin()->second;
+		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+		if(lResultMap.size() > 0)
+		{
+			return lResultMap.rbegin()->second;
+		}
+		else
+		{
+			ATLOG(L_INFO,"GetIndex when no MarketFeed");
+			return 0;
+		}
 	}
-	else
+
+	int IndexContainer::GetLastNonZero( const std::string& aIndexName )
 	{
-		ATLOG(L_INFO,"GetIndex when no MarketFeed");
+		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+		for (SignalResultMap::reverse_iterator iter = lResultMap.rbegin(); iter != lResultMap.rend(); ++iter)
+		{
+			if(iter->second != 0)
+				return iter->second;
+		}
+		ATLOG(L_INFO,"GetLastNonZero ,but NonZero, so Return 0");
 		return 0;
 	}
-}
 
-int IndexContainer::GetLastNonZero( const std::string& aIndexName )
-{
-	SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
-	for (SignalResultMap::reverse_iterator iter = lResultMap.rbegin(); iter != lResultMap.rend(); ++iter)
+
+	void IndexContainer::Start()
 	{
-		if(iter->second != 0)
-			return iter->second;
-	}
-	ATLOG(L_INFO,"GetLastNonZero ,but NonZero, so Return 0");
-	return 0;
-}
-
-
-void IndexContainer::Start()
-{
-	for(auto lSignalPtr:m_SignalModuleVec)
-	{
-		lSignalPtr->Start();
-	}
-}
-
-void IndexContainer::Stop()
-{
-	for(auto lSignalPtr:m_SignalModuleVec)
-	{
-		lSignalPtr->Stop();
-	}
-}
-void IndexContainer::InitLoadIndex(const char* aConfigFile)
-{
-	m_SignalModuleVec.clear();
-
-	boost::property_tree::ptree lConfig;
-	read_xml(aConfigFile,lConfig);
-	for( std::pair<std::string,boost::property_tree::ptree>  lIndexItem : lConfig.get_child("IndexContainerConfig.Indexs"))
-	{
-		std::string lDllName = lIndexItem.second.get<std::string>("Dll");
-		std::string lDllConfig =  lIndexItem.second.get<std::string>("ConfigFile");
-		HMODULE  lSinglehandle = LoadLibrary(lDllName.c_str());
-		if( ! lSinglehandle)
+		for(auto lSignalPtr:m_SignalModuleVec)
 		{
-			ATLOG(AT::LogLevel::L_ERROR,str(boost::format("Can not load SingleMoudle DLL %s")%lDllName));
-			break;
+			lSignalPtr->Start();
 		}
-		CreateSignalInstFun lpSignalCallInst =(CreateSignalInstFun) GetProcAddress(lSinglehandle,"CreateSignal");
-		if (! lpSignalCallInst)
-		{
-			ATLOG(AT::LogLevel::L_ERROR,"Can not Get Single Create Inst Fun Address");
-			break;
-		}
-		AT::IIndexModule* lpSignalInst = lpSignalCallInst(lDllConfig.c_str(),m_pMarketCache);
-		if(!lpSignalInst)
-		{
-			ATLOG(AT::LogLevel::L_ERROR,str(boost::format("failed Create IndexMoudle inst with ConfigFile %s  ")%lDllConfig));
-			break;
-		}
-		m_SignalModuleVec.push_back(lpSignalInst);
-		//todo store for clean  优先级低
-		//m_LibHandleVec.push_back(lSinglehandle);
 	}
-}
 
-
-
-
+	void IndexContainer::Stop()
+	{
+		for(auto lSignalPtr:m_SignalModuleVec)
+		{
+			lSignalPtr->Stop();
+		}
+	}
 }

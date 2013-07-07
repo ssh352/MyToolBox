@@ -26,11 +26,11 @@ std::string OpenFollowExecutor::GetExecutorID()
 	return "MarketOpen";
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::AddTarget( int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket )
+Command OpenFollowExecutor::AddTarget( int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket )
 {
 	if(addTargetQuantity == 0 )
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
@@ -44,14 +44,14 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::AddTarget( int addTargetQuan
 	return PlaceOrder(addTargetQuantity);
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+Command OpenFollowExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	m_LastPrice = aMarketDepth.m_LastPrice;
 	if(m_ExecutorStatus == FollowExecutorStatus::WaitingOrderPlace)
 	{
 		if(IsOrderPriceNeedModify(aMarketDepth))
 		{	
-			boost::shared_ptr<TradeCommand> lret;
+			Command lret;
 			CancelCommand* lpCancleOrder = new CancelCommand;
 			lpCancleOrder->m_operation.m_Key = m_LastSendOrderKey;
 			lret.reset(lpCancleOrder);
@@ -62,28 +62,28 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnMarketDepth( const AT::Mar
 	}
 
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
+Command OpenFollowExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
 	if (m_SendOrderSet.find(apTrade.m_Key ) != m_SendOrderSet.end())
 	{
 		m_TragetVol -= apTrade.m_TradeVol;
-		m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		
+		m_TradeReport(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		
 	}
 
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+Command OpenFollowExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
 
 	if (apOrder.m_Key == m_LastSendOrderKey)
@@ -101,13 +101,13 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::OnRtnOrder( const AT::OrderU
 
 	}
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::SetupTarget( int targetQuantity,bool isBuy, const AT::MarketData& aMarket )
+Command OpenFollowExecutor::SetupTarget( int targetQuantity,bool isBuy, const AT::MarketData& aMarket )
 {
 	return AddTarget(targetQuantity,isBuy,aMarket);
 }
@@ -122,9 +122,9 @@ bool OpenFollowExecutor::IsOrderPriceNeedModify(const AT::MarketData& aMarketDep
 	return false;
 }
 
-boost::shared_ptr<TradeCommand> OpenFollowExecutor::PlaceOrder( int addTargetQuantity)
+Command OpenFollowExecutor::PlaceOrder( int addTargetQuantity)
 {
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	InputCommand* lpInputOrder = new InputCommand;
 
 	lpInputOrder->m_operation.m_Price = m_LastPrice;
@@ -135,7 +135,7 @@ boost::shared_ptr<TradeCommand> OpenFollowExecutor::PlaceOrder( int addTargetQua
 
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
 
-	lpInputOrder->m_operation.m_OrderType = OrderType::LimitOrder;
+	lpInputOrder->m_operation.m_OrderType = OrderPriceType::LimitOrder;
 
 	lret.reset(lpInputOrder);
 

@@ -44,24 +44,25 @@ namespace AT
 		}
 	}
 
-	std::string ToString( OrderType aType )
+	std::string ToString( OrderPriceType aType )
 	{
-		switch (aType)
-		{
-		case AT::OrderType::LimitOrder:
-			return std::string("LimitOrder");
-			break;
-		case AT::OrderType::MarketOrder:
-			return std::string("MarketOrder");
-			break;
-		case AT::OrderType::StopLossOrder:
-			return std::string("StopLossOrder");
-			break;
-		default:
-			assert(false);
-			return std::string("Assert False");
-			break;
-		}
+		//switch (aType)
+		//{
+		//case AT::OrderPriceType::LimitOrder:
+		//	return std::string("LimitOrder");
+		//	break;
+		//case AT::OrderPriceType::MarketOrder:
+		//	return std::string("MarketOrder");
+		//	break;
+		//case AT::OrderPriceType::StopLossOrder:
+		//	return std::string("StopLossOrder");
+		//	break;
+		//default:
+		//	assert(false);
+		//	return std::string("Assert False");
+		//	break;
+		//}
+		return std::string("PriceType todo");
 	}
 
 	std::string ToString( TimeInForceType aType )
@@ -135,6 +136,16 @@ namespace AT
 	std::string ToString( AT_Order_Key aKey )
 	{
 		return boost::uuids::to_string(aKey);
+	}
+
+	std::string ToString( OrderSubmitStatusType aType )
+	{
+		return std::string();
+	}
+
+	std::string ToString( TriggerType aType )
+	{
+		return std::string();
 	}
 
 }

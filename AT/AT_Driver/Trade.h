@@ -14,7 +14,8 @@ namespace AT
 		AT_Order_Key m_Key;
 		BuySellType m_BuySellType; 
 		OpenCloseType m_OpenCloseType;
-		std::string ToString() const;
+		
 	};
+	std::string ToString(const TradeUpdate& aTrade) ;
 }
 #pragma  pack(pop)

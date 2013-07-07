@@ -19,7 +19,6 @@
   可能的其他配置 ，比如保存结果的文件等
   -->
   <SignalID>TradeSignal01_1307</SignalID>
-  <IsBuy>1</IsBuy>
   <Priority>100</Priority>
   
   <CheckItems>
@@ -31,7 +30,22 @@
       <OccurTimes>1</OccurTimes>
       <IsBlock>0</IsBlock>
     </Item>
-    
+    <Item>
+      <IndexID>HKY_001_1307</IndexID>
+      <CheckType>1</CheckType>
+      <TimeFromNow>5</TimeFromNow>
+      <ExceptVal>1</ExceptVal>
+      <OccurTimes>1</OccurTimes>
+      <IsBlock>0</IsBlock>
+    </Item>
+    <Item>
+      <IndexID>HKY_001_1307</IndexID>
+      <CheckType>1</CheckType>
+      <TimeFromNow>5</TimeFromNow>
+      <ExceptVal>1</ExceptVal>
+      <OccurTimes>1</OccurTimes>
+      <IsBlock>0</IsBlock>
+    </Item>
   </CheckItems>
   
 </SignalConfig>

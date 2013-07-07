@@ -42,35 +42,35 @@ boost::shared_ptr<IExecutor> ExecutorContianer::GetExecutorByID( const std::stri
 	return m_ExecutorGruop[aExecutorID];
 }
 
-std::vector<boost::shared_ptr<TradeCommand>> ExecutorContianer::OnMarketDepth( const AT::MarketData& aMarketDepth )
+std::vector<Command> ExecutorContianer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-	std::vector<boost::shared_ptr<TradeCommand>> lret;
+	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		boost::shared_ptr<TradeCommand> lTradeCommand = lExecutor.second->OnMarketDepth(aMarketDepth);
+		Command lTradeCommand = lExecutor.second->OnMarketDepth(aMarketDepth);
 		lret.push_back(lTradeCommand);
 	}
 	return lret;
 }
 
-std::vector<boost::shared_ptr<TradeCommand>> ExecutorContianer::OnRtnOrder( const AT::OrderUpdate& apOrder )
+std::vector<Command> ExecutorContianer::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	std::vector<boost::shared_ptr<TradeCommand>> lret;
+	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		boost::shared_ptr<TradeCommand> lTradeCommand = lExecutor.second->OnRtnOrder(apOrder);
+		Command lTradeCommand = lExecutor.second->OnRtnOrder(apOrder);
 		lret.push_back(lTradeCommand);
 	}
 
 	return lret;
 }
 
-std::vector<boost::shared_ptr<TradeCommand>> ExecutorContianer::OnRtnTrade( const AT::TradeUpdate& apTrade )
+std::vector<Command> ExecutorContianer::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
-	std::vector<boost::shared_ptr<TradeCommand>> lret;
+	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		boost::shared_ptr<TradeCommand> lTradeCommand = lExecutor.second->OnRtnTrade(apTrade);
+		Command lTradeCommand = lExecutor.second->OnRtnTrade(apTrade);
 		lret.push_back(lTradeCommand);
 
 	}

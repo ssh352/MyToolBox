@@ -10,7 +10,6 @@ namespace AT
 	struct  Signal
 	{
 		bool	m_Valid;
-		bool	m_BuyOrSell;
 		char	m_ID[g_TradeSignalIDLength];//信号名
 		int32_t m_TradeSignalSequence;
 		int32_t m_priority;//优先级

@@ -1,43 +1,59 @@
 #pragma  once
 #include "AT_Struct.h"
-#include "TradeCommand.h"
-#include <boost\smart_ptr.hpp>
+#include "Command.h"
 #include <boost\function.hpp>
 namespace AT
 {
 
 	struct ExecutorInput
 	{
-		bool IsBuy;
-		bool IsOpen;
-		int Quantity;
+		BuySellType IsBuy;
+		OpenCloseType IsOpen;
+		int vol;
 		char InstrumentID[cInstrimentIDLength];
 		AT::MarketData LastMarketData;
 	};
 
-	typedef boost::function<void(int32_t Price,int32_t vol,bool IsBuy, bool isFinish)> FinishExecuteCallbackType;
+	struct ExecutionResult
+	{
+		BuySellType IsBuy;
+		OpenCloseType IsOpen;
+		int32_t vol;
+		char InstrumentID[cInstrimentIDLength];
+		int32_t Price;
+	};
+
+	struct ExecutionStatus
+	{
+		int AddTastVol; //总的任务数量（平仓时，会累加多笔平仓请求的数量）
+		int TradeVol;	//已经成交的数量
+		int LivelVol; //还挂在交易所的数量
+		bool IsFinised; //是否已经完成（放弃也属于完成）
+	};
+
+	typedef boost::function<void(ExecutionResult)> TradeReportFun;
 	class IExecutor 
 	{
-	
+
 	public:
-
-		//输入1 来自于上层的交易信号
-		virtual boost::shared_ptr<TradeCommand> SetupTarget(int targetQuantity,bool IsBuy, const AT::MarketData& aMarket) =0;
-		virtual boost::shared_ptr<TradeCommand> AddTarget(int addTargetQuantity, bool isBuy, const AT::MarketData& aMarket) =0;
-
+		//输入1 来自于命令
+		virtual Command AddExecution(ExecutorInput aExecutorInput) = 0; //添加新任务
+		virtual Command Abrot() = 0;									//终止执行 并撤单
 		//输入2 来自于执行层面
-		virtual  boost::shared_ptr<TradeCommand> OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
-		virtual  boost::shared_ptr<TradeCommand> OnRtnOrder(const  AT::OrderUpdate& apOrder) =0;
-		virtual  boost::shared_ptr<TradeCommand> OnRtnTrade(const  AT::TradeUpdate& apTrade) =0;
+		virtual Command OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
+		virtual Command  OnRtnOrder(const  AT::OrderUpdate& apOrder) =0;
+		virtual Command OnRtnTrade(const  AT::TradeUpdate& apTrade) =0;
+		//查询执行状态是否结束
+		virtual ExecutionStatus	GetExecutionStatus() = 0;
 
 		//输入3 设置完成任务的callback
-		//
-		virtual void SetFinishedCallback(FinishExecuteCallbackType aFinishCallback) {m_FinishehNotfiy = aFinishCallback;};
+		virtual void SetTradeReportCallback (TradeReportFun aFinishCallback) final {m_TradeReport = aFinishCallback;} ;
 		virtual std::string GetExecutorID() = 0;
 
-		
+
 	protected:
-		FinishExecuteCallbackType  m_FinishehNotfiy;
+		TradeReportFun				m_TradeReport;
+		std::string					m_ExecutorID;
 	};
 
 

@@ -1,17 +1,17 @@
 #include "OpenMarketExecutor.h"
 #include "IDriver_TD.h"
-#include "../AT_Driver/ATLogger.h"
+#include "ATLogger.h"
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 namespace AT
 {
 
 
-OpenMarketExecutor::OpenMarketExecutor()
-{
-}
-
 OpenMarketExecutor::OpenMarketExecutor( const std::string& aConfig )
 {
-
+	boost::property_tree::ptree lConfigPtree;
+	read_xml(aConfig,lConfigPtree);
+	m_ExecutorID = lConfigPtree.get<int>("ExecutorConfig.ExecutorID");
 }
 
 
@@ -21,72 +21,89 @@ OpenMarketExecutor::~OpenMarketExecutor(void)
 
 std::string OpenMarketExecutor::GetExecutorID()
 {
-	return "MarketOpen";
+	return m_ExecutorID;
 }
-
-boost::shared_ptr<TradeCommand> OpenMarketExecutor::AddTarget( int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket )
+AT::Command OpenMarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
-	if(addTargetQuantity == 0 )
+	if(aExecutorInput.vol = 0)
 	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
+		return InvalidCommand;
 	}
-	boost::shared_ptr<TradeCommand> lret;
-	InputCommand* lpInputOrder = new InputCommand;
-
-	lpInputOrder->m_operation.m_Price = aMarket.m_LastPrice;
-	lpInputOrder->m_operation.m_OpenCloseType = OpenCloseType::OpenOrder;
-	lpInputOrder->m_operation.m_BuySellType = isBuy? BuySellType::BuyOrder : BuySellType::SellOrder;
-	lpInputOrder->m_operation.m_Vol = addTargetQuantity;
-	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
-	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
-
-	lpInputOrder->m_operation.m_OrderType = OrderType::MarketOrder;
-
-	lret.reset(lpInputOrder);
-	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
-	m_TragetVol = addTargetQuantity;
-	m_IsBuy = isBuy;
-	return lret;
-}
-
-boost::shared_ptr<TradeCommand> OpenMarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
-{
+	else
 	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
+		Command lRet =  BuildCommand( aExecutorInput);
+		m_ExecutionStatus.AddTastVol += aExecutorInput.vol;
+		m_SendOrderSet.insert(lRet.m_InputOrder.m_Key);
+		m_ExecutionStatus.IsFinised = false;
+		return lRet;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
+
+AT::Command OpenMarketExecutor::BuildCommand( ExecutorInput aNewOrder )
+{
+	Command lRet;
+	lRet.m_CommandType = CommandType::Input;
+	lRet.m_InputOrder.m_Price =  aNewOrder.LastMarketData.m_LastPrice;
+
+	lRet.m_InputOrder.m_OpenCloseType = aNewOrder.IsOpen ;
+	lRet.m_InputOrder.m_BuySellType = aNewOrder.IsBuy;
+	lRet.m_InputOrder.m_Vol = aNewOrder.vol;
+	strcpy_s(lRet.m_InputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
+	lRet.m_InputOrder.m_Key = GenerateOrderKey();
+	lRet.m_InputOrder.m_OrderPriceType = OrderPriceType::MarketOrder;
+	return lRet;
+}
+
+Command OpenMarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+{
+	return InvalidCommand;
+}
+
+Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
 	if (m_SendOrderSet.find(apTrade.m_Key ) != m_SendOrderSet.end())
 	{
-		m_TragetVol -= apTrade.m_TradeVol;
-		m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		
+		m_ExecutionStatus.LivelVol -= apTrade.m_TradeVol;
+		m_ExecutionStatus.TradeVol += apTrade.m_TradeVol;
+		m_ExecutionStatus.IsFinised = m_ExecutionStatus.LivelVol == 0;
+
+		ExecutionResult lResult ;
+		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,apTrade.InstrumentID);
+		lResult.IsBuy = apTrade.m_BuySellType;
+		lResult.IsOpen = apTrade.m_OpenCloseType;
+		lResult.Price = apTrade.m_TradePrice;
+		lResult.vol = apTrade.m_TradeVol;
+
+		m_TradeReport(lResult);	
+		ATLOG(L_INFO,apTrade.ToString());
+		
 	}
 
-	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
-	}
+	return InvalidCommand;
 }
 
-boost::shared_ptr<TradeCommand> OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+Command OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
+	if (m_SendOrderSet.find(apOrder.m_Key ) != m_SendOrderSet.end())
 	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
+
+		ATLOG(L_INFO,apOrder.ToString());
 	}
+	return InvalidCommand;
 }
 
-boost::shared_ptr<TradeCommand> OpenMarketExecutor::SetupTarget( int targetQuantity,bool isBuy, const AT::MarketData& aMarket )
+AT::ExecutionStatus OpenMarketExecutor::GetExecutionStatus()
 {
-	return AddTarget(targetQuantity,isBuy,aMarket);
+
 }
+
+AT::Command OpenMarketExecutor::Abrot()
+{
+
+}
+
+
+
 
 }

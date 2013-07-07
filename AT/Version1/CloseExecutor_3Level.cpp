@@ -26,32 +26,32 @@ CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
 
 }
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
-{
-	return AddTarget(targetQuantity,isBuy,aMarket);
-}
+//Command CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
+//{
+//	return AddTarget(targetQuantity,isBuy,aMarket);
+//}
+//
+//Command CloseExecutor_3Level::AddTarget( int addTargetQuantity,bool isBuy, const AT::MarketData& aMarket )
+//{
+//	if(addTargetQuantity == 0 )
+//	{
+//		Command lret;
+//		lret.reset(new InvalidCommand);
+//		return lret;
+//	}
+//
+//	m_TargetVol += addTargetQuantity;
+//	m_IsBuy = isBuy;
+//	m_StartPrice = aMarket.m_LastPrice;
+//
+//	//暂时注释掉，等待明确的解释
+//	//SetSignalDirectionVol(isBuy?BuySellType::BuyOrder:BuySellType::SellOrder,m_TargetVol);
+//
+//	return PlaceStopLossOrder(aMarket);
+//
+//}
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::AddTarget( int addTargetQuantity,bool isBuy, const AT::MarketData& aMarket )
-{
-	if(addTargetQuantity == 0 )
-	{
-		boost::shared_ptr<TradeCommand> lret;
-		lret.reset(new InvalidCommand);
-		return lret;
-	}
-
-	m_TargetVol += addTargetQuantity;
-	m_IsBuy = isBuy;
-	m_StartPrice = aMarket.m_LastPrice;
-
-	//暂时注释掉，等待明确的解释
-	//SetSignalDirectionVol(isBuy?BuySellType::BuyOrder:BuySellType::SellOrder,m_TargetVol);
-
-	return PlaceStopLossOrder(aMarket);
-
-}
-
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
+Command CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	m_LastMarket = aMarketDepth;
 	if(m_TargetVol > 0 ||
@@ -118,19 +118,18 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnMarketDepth( const AT::M
 		}
 	}
 
-	boost::shared_ptr<TradeCommand> lret;
-	lret.reset(new InvalidCommand);
+	Command lret;
+	lret.m_CommandType = CommandType::Invalid;
 	return lret;
 	
 }
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::DoQuit(const AT::MarketData& aMarket )
+Command CloseExecutor_3Level::DoQuit(const AT::MarketData& aMarket )
 {
-	boost::shared_ptr<TradeCommand> lret;
 
 	if(m_Setting.QuitLevel_0 < 0)//有止损止盈单.必须先撤单，
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		CancelCommand* lpCancleOrder = new CancelCommand;
 
 		lpCancleOrder->m_operation.m_Key = *m_SendOrderSet.rbegin();
@@ -143,9 +142,9 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::DoQuit(const AT::MarketDat
 
 }
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
+Command CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	lret.reset(new InvalidCommand);
 
 	if(m_SendOrderSet.find(apOrder.m_Key) == m_SendOrderSet.end())
@@ -161,10 +160,10 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnOrder( const AT::Orde
 	return lret;
 }
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
+Command CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
 
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	lret.reset(new InvalidCommand);
 
 	if(m_SendOrderSet.find(apTrade.m_Key) == m_SendOrderSet.end())
@@ -179,7 +178,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::OnRtnTrade( const AT::Trad
 	m_ActiveOrderVol -= apTrade.m_TradeVol;
 
 	bool isFinishe = m_ActiveOrderVol == 0 ;
-	m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,isFinishe);
+	m_TradeReport(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,isFinishe);
 
 	return lret;
 }
@@ -189,9 +188,9 @@ std::string CloseExecutor_3Level::GetExecutorID()
 	return "Level3Quit";
 }
 
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceStopLossOrder(const AT::MarketData& aMarket)
+Command CloseExecutor_3Level::PlaceStopLossOrder(const AT::MarketData& aMarket)
 {
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	InputCommand* lpInputOrder = new InputCommand;
 
 	int lPriceDiffer = m_Setting.StopLossOrderPrice * 100  * (m_IsBuy ? 1 : -1);
@@ -201,7 +200,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceStopLossOrder(const A
 	lpInputOrder->m_operation.m_Vol = m_TargetVol;
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
-	lpInputOrder->m_operation.m_OrderType = OrderType::StopLossOrder;
+	lpInputOrder->m_operation.m_OrderType = OrderPriceType::StopLossOrder;
 	lret.reset(lpInputOrder);
 
 
@@ -214,9 +213,9 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceStopLossOrder(const A
 
 
 }
-boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceCloseOrder(const AT::MarketData& aMarket)
+Command CloseExecutor_3Level::PlaceCloseOrder(const AT::MarketData& aMarket)
 {
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	InputCommand* lpInputOrder = new InputCommand;
 
 	lpInputOrder->m_operation.m_Price = aMarket.m_LastPrice;
@@ -231,7 +230,7 @@ boost::shared_ptr<TradeCommand> CloseExecutor_3Level::PlaceCloseOrder(const AT::
 	m_CurrentLevel = 0;
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
-	lpInputOrder->m_operation.m_OrderType = OrderType::MarketOrder;
+	lpInputOrder->m_operation.m_OrderType = OrderPriceType::MarketOrder;
 	lret.reset(lpInputOrder);
 	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
 	return lret;

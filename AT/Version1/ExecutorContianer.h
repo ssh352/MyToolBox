@@ -14,9 +14,9 @@ namespace AT
 
 		boost::shared_ptr<IExecutor>		GetExecutorByID(const std::string& aExecutorID);
 
-		std::vector<boost::shared_ptr<TradeCommand>>	OnMarketDepth(const AT::MarketData& aMarketDepth) ;
-		std::vector<boost::shared_ptr<TradeCommand>>	OnRtnOrder(const  AT::OrderUpdate& apOrder) ;
-		std::vector<boost::shared_ptr<TradeCommand>>	OnRtnTrade(const  AT::TradeUpdate& apTrade) ;
+		std::vector<Command>	OnMarketDepth(const AT::MarketData& aMarketDepth) ;
+		std::vector<Command>	OnRtnOrder(const  AT::OrderUpdate& apOrder) ;
+		std::vector<Command>	OnRtnTrade(const  AT::TradeUpdate& apTrade) ;
 
 	private:
 		std::map<std::string,boost::shared_ptr<IExecutor>>	m_ExecutorGruop;

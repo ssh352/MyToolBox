@@ -21,6 +21,9 @@
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp">
       <Filter>API</Filter>
     </ClCompile>
+    <ClCompile Include="EnumTranslator.cpp">
+      <Filter>API</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h">
@@ -36,6 +39,9 @@
       <Filter>API</Filter>
     </ClInclude>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumTranslator.h">
       <Filter>API</Filter>
     </ClInclude>
   </ItemGroup>

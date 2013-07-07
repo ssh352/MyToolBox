@@ -44,7 +44,7 @@ private:
 
 	void InitExecutorContainer(const std::string& aExecutoConfigFile);
 
-	void DoTradeCommand(boost::shared_ptr<TradeCommand> apTradeCommand);
+	void DoTradeCommand(Command apTradeCommand);
 
 	void HandleCloseExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe);
 	void HandleOpenExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy, bool isFinishe);

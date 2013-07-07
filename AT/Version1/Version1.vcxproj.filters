@@ -47,9 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TradeCommand.h">
-      <Filter>Struct</Filter>
-    </ClInclude>
     <ClInclude Include="version1Container.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -108,6 +105,9 @@
     <ClInclude Include="AccountFactory.h">
       <Filter>Classes\TradeAccount</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -139,6 +139,9 @@
     </Filter>
     <Filter Include="Classes\Index_Signal">
       <UniqueIdentifier>{aca7ead1-d3df-4816-b7ac-8b94e3a8581e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\Executor">
+      <UniqueIdentifier>{3bf81380-9c10-4089-b4ff-6e43861c697b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +194,10 @@
       <Filter>config\Account</Filter>
     </Xml>
     <Xml Include="ExecutorConfigList.xml">
-      <Filter>config\Account</Filter>
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="MarketExecutor.xml">
+      <Filter>config\Executor</Filter>
     </Xml>
   </ItemGroup>
 </Project>

@@ -37,6 +37,7 @@
     <Import Project="..\debug_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
     <Import Project="..\MP_Comply.props" />
+    <Import Project="..\Inclde_CTP.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -44,6 +45,7 @@
     <Import Project="..\Release_runtime.props" />
     <Import Project="..\ThirdPartLib.props" />
     <Import Project="..\MP_Comply.props" />
+    <Import Project="..\Inclde_CTP.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -73,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\CTP_Driver\CTP_API\include\CTP_API.cpp" />
+    <ClCompile Include="EnumTranslator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CTP_Driver\CTP_API\include\CTP_API.h" />
@@ -80,6 +83,7 @@
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcTraderApi.h" />
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiDataType.h" />
     <ClInclude Include="..\CTP_Driver\CTP_API\include\ThostFtdcUserApiStruct.h" />
+    <ClInclude Include="EnumTranslator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

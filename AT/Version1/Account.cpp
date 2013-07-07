@@ -70,7 +70,7 @@ namespace AT
 	//			ATLOG(LogLevel::L_ERROR,"超过最大累计开仓手数");
 	//			return;
 	//		}
-	//	   boost::shared_ptr<TradeCommand> lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->AddTarget(m_TargetVol,aTradeSignal.m_BuyOrSell,aTradeSignal.m_TriggerMarketData);
+	//	   Command lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->AddTarget(m_TargetVol,aTradeSignal.m_BuyOrSell,aTradeSignal.m_TriggerMarketData);
 	//	   m_IsCompleteOpen = false;
 	//	   m_IsCompleteClose = false;
 	//	   DoTradeCommand(lTradeCommand);
@@ -80,7 +80,7 @@ namespace AT
 	//void Account::OnMarketDepth( const MarketData& aMarketDepth )
 	//{
 	//	m_LastMarket = aMarketDepth;
-	//	boost::shared_ptr<TradeCommand> lTradeCommand;
+	//	Command lTradeCommand;
 	//	if(m_openExecutorID != "")
 	//	{
 	//		lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnMarketDepth(aMarketDepth);
@@ -98,7 +98,7 @@ namespace AT
 	//	{
 	//		SetTotalCancleTime();
 	//	}
-	//	boost::shared_ptr<TradeCommand> lTradeCommand;
+	//	Command lTradeCommand;
 	//	if(m_openExecutorID != "")
 	//	{
 	//		lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnOrder(apOrder);
@@ -117,7 +117,7 @@ namespace AT
 	//		SetTotalOpenVol(apTrade.m_TradeVol);
 	//	}
 	//	
-	//	boost::shared_ptr<TradeCommand> lTradeCommand;
+	//	Command lTradeCommand;
 	//	if(m_openExecutorID != "")
 	//	{
 	//		lTradeCommand = m_OpenExecutorMap[m_openExecutorID]->OnRtnTrade(apTrade);
@@ -129,7 +129,7 @@ namespace AT
 
 
 
-	//void Account::DoTradeCommand( boost::shared_ptr<TradeCommand> apTradeCommand )
+	//void Account::DoTradeCommand( Command apTradeCommand )
 	//{
 	//	switch (apTradeCommand->m_CommandType)
 	//	{
@@ -195,7 +195,7 @@ namespace AT
 	//	
 	//	if(!isFinishe)
 	//	{
-	//		//boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
+	//		//Command lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
 	//		m_IsCompleteClose = false;
 	//		//DoTradeCommand(lTradeCommand);
 
@@ -205,7 +205,7 @@ namespace AT
 	//		m_IsCompleteClose = true;
 	//	}
 	//	//平仓
-	//	boost::shared_ptr<TradeCommand> lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
+	//	Command lTradeCommand =m_CloseExecutor->AddTarget(aVol,!m_LastTradeSignal.m_BuyOrSell,m_LastMarket);
 	//	DoTradeCommand(lTradeCommand);
 
 	//	m_totalProfit += aVol * aPrice * (IsBuy? -1 : 1);

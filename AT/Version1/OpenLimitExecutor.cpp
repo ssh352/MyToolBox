@@ -16,7 +16,12 @@ OpenLimitExecutor::OpenLimitExecutor(int ValidTimeInSecond,int iBufferPoint)
 
 OpenLimitExecutor::OpenLimitExecutor( const std::string& aConfigFile )
 {
+	InitFromConfigFile(aConfigFile);
+}
 
+void OpenLimitExecutor::InitFromConfigFile( const std::string& aConfigFile )
+{
+	m_OrderValidTime
 }
 
 
@@ -29,11 +34,11 @@ std::string OpenLimitExecutor::GetExecutorID()
 	return "LimitOpen";
 }
 
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::AddTarget( int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket )
+Command OpenLimitExecutor::AddTarget( int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket )
 {
 	if(addTargetQuantity == 0 )
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
@@ -46,31 +51,31 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::AddTarget( int addTargetQuant
 	return PlaceOrder(addTargetQuantity,aMarket.m_LastPrice);
 }
 
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+Command OpenLimitExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	m_LastMarket = aMarketDepth;
 	if(m_LastMarket.m_UpdateTime - m_StartTime > boost::posix_time::seconds(m_OrderValidTime)
 		&& m_StartTime != AT_INVALID_TIME)
 	{
 		//cancel order
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		CancelCommand* lpCancleOrder = new CancelCommand;
 
 		lpCancleOrder->m_operation.m_Key = *m_SendOrderSet.rbegin();
 		m_DelOrderSet = lpCancleOrder->m_operation.m_Key;
 		lret.reset(lpCancleOrder);
 		m_StartTime = AT_INVALID_TIME;
-		m_FinishehNotfiy(0,0,m_IsBuy,true);
+		m_TradeReport(0,0,m_IsBuy,true);
 		return lret;
 	}
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
+Command OpenLimitExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
 	if (m_SendOrderSet.find(apTrade.m_Key ) != m_SendOrderSet.end())//单子成交
 	{
@@ -79,17 +84,17 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnRtnTrade( const AT::TradeUp
 		{
 			m_StartTime = AT_INVALID_TIME;
 		}
-		m_FinishehNotfiy(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		
+		m_TradeReport(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,m_TragetVol == 0);		
 	}
 
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+Command OpenLimitExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
 	if(apOrder.m_Key  == m_DelOrderSet && apOrder.m_OrderStatus == OrderStatusType::StoppedOrder)//撤单成功
 	{
@@ -98,24 +103,24 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::OnRtnOrder( const AT::OrderUp
 	}
 	
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
 
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::SetupTarget( int targetQuantity,bool isBuy, const AT::MarketData& aMarket )
+Command OpenLimitExecutor::SetupTarget( int targetQuantity,bool isBuy, const AT::MarketData& aMarket )
 {
 	//if(addTargetQuantity == 0 )
 	{
-		boost::shared_ptr<TradeCommand> lret;
+		Command lret;
 		lret.reset(new InvalidCommand);
 		return lret;
 	}
 }
-boost::shared_ptr<TradeCommand> OpenLimitExecutor::PlaceOrder(int addTargetQuantity,int Price)
+Command OpenLimitExecutor::PlaceOrder(int addTargetQuantity,int Price)
 {
-	boost::shared_ptr<TradeCommand> lret;
+	Command lret;
 	InputCommand* lpInputOrder = new InputCommand;
 
 	lpInputOrder->m_operation.m_Price = Price+m_iBufferPoint*100;
@@ -125,7 +130,7 @@ boost::shared_ptr<TradeCommand> OpenLimitExecutor::PlaceOrder(int addTargetQuant
 	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,m_InstrumentID.c_str(),cInstrimentIDLength);
 	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
 	//市价、限价
-	lpInputOrder->m_operation.m_OrderType = OrderType::LimitOrder;
+	lpInputOrder->m_operation.m_OrderType = OrderPriceType::LimitOrder;
 
 	lret.reset(lpInputOrder);
 	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);

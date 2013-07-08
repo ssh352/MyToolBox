@@ -61,7 +61,7 @@ namespace AT
 		///卖一价浮动上浮2个ticks
 		AskPrice1PlusTwoTicks ,
 		///卖一价浮动上浮3个ticks
-		_AskPrice1PlusThreeTicks ,
+		AskPrice1PlusThreeTicks ,
 		///买一价
 		BidPrice1 ,
 		///买一价浮动上浮1个ticks
@@ -95,9 +95,20 @@ namespace AT
 	enum class OpenCloseType
 	{
 		NotSet,
-		OpenOrder,
-		CloseOrder,
-		CloseTodayOrder
+		///开仓
+		Open,
+		///平仓
+		Close ,
+		///强平
+		ForceClose,
+		///平今
+		CloseToday ,
+		///平昨
+		CloseYesterday ,
+		///强减
+		ForceOff ,
+		///本地强平
+		LocalForceClose
 	};
 	std::string ToString(OpenCloseType aType);
 

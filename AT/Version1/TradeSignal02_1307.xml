@@ -13,9 +13,9 @@
 
   <CheckItems>
     <Item>
-      <IndexID>HKY_002</IndexID>
+      <IndexID>HKY_001_1307</IndexID>
       <CheckType>1</CheckType>
-      <TimeFromNow>5</TimeFromNow>
+      <TimeFromNow>10</TimeFromNow>
       <ExceptVal>-1</ExceptVal>
       <OccurTimes>1</OccurTimes>
       <IsBlock>0</IsBlock>

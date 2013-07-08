@@ -39,11 +39,11 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 	std::vector<Signal> lTradeSignalVec = ProduceSignal(aMarketDepth);
 
-	Signal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
+	/*Signal lFinalSignal = m_pTradeSignalFliter->FliterTradeSignal(lTradeSignalVec);
 	if(lFinalSignal.m_Valid)
 	{
 		m_TradeAccountContaner.HandleTradeSignal(lFinalSignal);
-	}
+	}*/
 
 
 }
@@ -57,7 +57,7 @@ std::vector<Signal> version1Container::ProduceSignal( const AT::MarketData& lNow
 		tradeSignal = lpSignalProducer->ProduceSignal(lNow);
 		if(tradeSignal.m_Valid)
 		{
-			lSignalResult.push_back(lpSignalProducer->ProduceSignal(lNow));
+			lSignalResult.push_back(tradeSignal);
 		}
 	}
 	return lSignalResult;
@@ -67,7 +67,7 @@ void version1Container::UpdateSubPartMarket( const AT::MarketData& aMarketDepth 
 {
 	m_pIndexContaner->OnMarketDepth(aMarketDepth);
 	m_pTradeSignalFliter->OnMarketDepth(aMarketDepth);
-	m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
+	//m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
 }
 
 void version1Container::OnRtnOrder( const OrderUpdate& apOrder )

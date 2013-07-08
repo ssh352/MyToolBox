@@ -13,15 +13,19 @@
    <ConfigFile>HKY001_1307.xml</ConfigFile>
  </item>
 
-    <item>
-      <Dll>IndexMoudle_CacheWave.dll</Dll>
-      <ConfigFile>HKY002_1307.xml</ConfigFile>
-    </item>
+  
+    
+ </Indexs>
+</IndexContainerConfig>
+
+<!--
+<item>
+    <Dll>IndexMoudle_CacheWave.dll</Dll>
+    <ConfigFile>HKY002_1307.xml</ConfigFile>
+  </item>
 
   <item>
     <Dll>IndexMoudle_CacheWave.dll</Dll>
     <ConfigFile>HKY003_1307.xml</ConfigFile>
   </item>
-    
- </Indexs>
-</IndexContainerConfig>
+-->

@@ -39,6 +39,7 @@ private:
 	typedef boost::function<bool( AT_Time aTime)> CheckFunction;
 	std::vector<CheckFunction>		m_CheckList;
 	std::vector<Signal>		m_TradeSignalVec;
+	AT_Time					m_LastSignalTime ;
 };
 
 }

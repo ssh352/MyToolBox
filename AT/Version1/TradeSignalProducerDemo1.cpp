@@ -18,6 +18,7 @@ TradeSignalProducerDemo1::~TradeSignalProducerDemo1(void)
 TradeSignalProducerDemo1::TradeSignalProducerDemo1(const std::string& aConfigFile, IndexContainer* apIndexContainer )
 	:m_pIndexContainer(apIndexContainer)
 	,m_Seqence(0)
+	, m_LastSignalTime(AT_INVALID_TIME)
 {
 	InitConfig(aConfigFile);
 }
@@ -74,7 +75,7 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 					bool lCheck =  lLastVal == ExpectVal;
 					if(InvertCheck)
 					{
-						return ! lCheck;
+						return !lCheck;
 					}
 					else
 					{
@@ -128,17 +129,26 @@ AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMa
 			lPassAllCheck &= lCheckFun(aTriggerMarket.m_UpdateTime);
 		}
 		
-		if(lPassAllCheck)
+		if(lPassAllCheck && m_LastSignalTime != aTriggerMarket.m_UpdateTime)
 		{
 			lret.m_Valid  = true;
 			lret.m_TradeSignalSequence = m_Seqence++;
 			lret.m_TriggerMarketData = aTriggerMarket;
 			m_TradeSignalVec.push_back(lret);
+			std::string LLinfo = ToString(aTriggerMarket.m_UpdateTime) + m_SignalName + std::to_string(m_Seqence)+ __FILE__;
+			 LLinfo += "   " ;
+			 LLinfo += __LINE__;
+			 ATLOG(L_ERROR,LLinfo);
+
+			 m_LastSignalTime = aTriggerMarket.m_UpdateTime;
 		}
 		else
 		{
 			lret.m_Valid = false;
 		}
+
+
+
 		return lret;
 }
 void    TradeSignalProducerDemo1::WriteTradeSignal()

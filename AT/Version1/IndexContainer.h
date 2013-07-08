@@ -5,11 +5,7 @@ namespace AT
 {
 class IIndexModule;
 class IMarketCache;
-struct ItemParam
-{
-	int Item;
-	int Param;
-};
+
 class IndexContainer
 {
 public:

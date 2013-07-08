@@ -3,6 +3,8 @@
 #include <boost\property_tree\xml_parser.hpp>
 #include "IMarketCache.h"
 #include "MarketMapWarpper.h"
+#include "../AT_Driver/ATLogger.h"
+#include "boost/format.hpp"
 namespace AT
 {
 	Index_CacheWave::Index_CacheWave(const char* aConfigFileName,const AT::IMarketCache * apMarketCache)
@@ -37,11 +39,11 @@ namespace AT
 		m_HighPoint.first = -1000000000;
 		m_CheckState = Direction::BothSide;
 
-		const_MapWarpper_ptr lpMarketCacheByID = m_pMarketCache->GetMarketMapByName(m_InstrumentID.c_str());
+		/*const_MapWarpper_ptr lpMarketCacheByID = m_pMarketCache->GetMarketMapByName(m_InstrumentID.c_str());
 		for(MarketMapWarpper::const_iterator iter =  lpMarketCacheByID->begin(); iter != lpMarketCacheByID->end();++iter)
 		{
 			OnMarketDepth(*iter);
-		}
+		}*/
 	}
 
 	void Index_CacheWave::Stop()
@@ -61,7 +63,10 @@ namespace AT
 
 	int Index_CacheWave::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
-
+		if(aMarketDepth.InstrumentID != m_InstrumentID)
+		{
+			return Ignore_Market_result;
+		}
 		int32_t lLastPrice  = aMarketDepth.m_LastPrice;
 		switch (m_CheckState)
 		{
@@ -82,7 +87,7 @@ namespace AT
 					m_HighPoint.first = lLastPrice;
 					m_HighPoint.second = aMarketDepth;
 				}
-
+					
 				if( (m_HighPoint.first - m_LowPoint.first) > (m_WaveVal - 0.001 ))
 				{
 					if(isNewHigh)
@@ -109,7 +114,6 @@ namespace AT
 					m_HighPoint.first = lLastPrice;
 					m_HighPoint.second = aMarketDepth;
 				}
-
 				if( m_HighPoint.first - lLastPrice  > m_WaveVal - 0.001)
 				{
 					m_CheckState = Direction::DownSide;
@@ -128,7 +132,6 @@ namespace AT
 					m_LowPoint.first = lLastPrice;
 					m_LowPoint.second = aMarketDepth;
 				}
-
 				if(lLastPrice - m_LowPoint.first > m_WaveVal - 0.001)
 				{
 					m_CheckState = Direction::UpSide;

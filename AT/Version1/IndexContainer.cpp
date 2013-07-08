@@ -54,14 +54,17 @@ namespace AT
 	{
 	}
 
-	void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
+{
+	for (auto lpSignal:m_SignalModuleVec)
 	{
-		for (auto lpSignal:m_SignalModuleVec)
+		int lresult = lpSignal->OnMarketDepth(aMarketDepth);
+		if(lresult != Ignore_Market_result)
 		{
-			int lresult = lpSignal->OnMarketDepth(aMarketDepth);
 			m_SignalResultMapGroupBySignalName[lpSignal->GetIndexName()] [aMarketDepth.m_UpdateTime] = lresult;
 		}
 	}
+}
 
 	int IndexContainer::GetIndexCount( const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime )
 	{

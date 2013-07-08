@@ -153,6 +153,7 @@
     </Xml>
     <Xml Include="ExchangeRuleConfig.xml" />
     <Xml Include="ExecutorConfigList.xml" />
+    <Xml Include="FollowExecutor01.xml" />
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />
     <Xml Include="HKY003_1307.xml" />

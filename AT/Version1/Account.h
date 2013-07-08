@@ -2,13 +2,13 @@
 #include "IAccount.h"
 #include <string>
 #include <boost\smart_ptr.hpp>
-#include "../AT_Driver/SingleDBWriter.h"
+#include "SingleDBWriter.h"
+#include "Command.h"
 namespace AT
 {
 class IDriver_TD;
 class ITradeAccountObserver;
 class IExecutor;
-struct TradeCommand;
 class ExecutorContianer;
 
 struct ExechangeRule

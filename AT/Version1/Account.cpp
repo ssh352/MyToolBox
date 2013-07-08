@@ -317,4 +317,24 @@ namespace AT
 			m_pExecutorContianer.reset(new ExecutorContianer(aExecutorConfigFile));
 	}
 
+	void Account::HandleTradeSignal( const Signal& aTradeSignal )
+	{
+
+	}
+
+	void Account::OnMarketDepth( const MarketData& aMarketDepth )
+	{
+
+	}
+
+	void Account::OnRtnOrder( const OrderUpdate& apOrder )
+	{
+
+	}
+
+	void Account::OnRtnTrade( const TradeUpdate& apTrade )
+	{
+
+	}
+
 }

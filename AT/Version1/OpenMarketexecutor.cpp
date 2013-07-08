@@ -44,14 +44,19 @@ AT::Command OpenMarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 {
 	Command lRet;
 	lRet.m_CommandType = CommandType::Input;
-	lRet.m_InputOrder.m_Price =  aNewOrder.LastMarketData.m_LastPrice;
+	InputOrder& lInputOrder = lRet.m_InputOrder;
 
-	lRet.m_InputOrder.m_OpenCloseType = aNewOrder.IsOpen ;
-	lRet.m_InputOrder.m_BuySellType = aNewOrder.IsBuy;
-	lRet.m_InputOrder.m_Vol = aNewOrder.vol;
-	strcpy_s(lRet.m_InputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
-	lRet.m_InputOrder.m_Key = GenerateOrderKey();
-	lRet.m_InputOrder.m_OrderPriceType = OrderPriceType::MarketOrder;
+	lInputOrder.m_Price =  aNewOrder.LastMarketData.m_LastPrice;
+	lInputOrder.m_Vol = aNewOrder.vol;
+
+	strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
+	lInputOrder.m_Key = GenerateOrderKey();
+
+	lInputOrder.m_OpenCloseType = aNewOrder.IsOpen ;
+	lInputOrder.m_BuySellType = aNewOrder.IsBuy;
+	lInputOrder.m_OrderPriceType = AT::OrderPriceType::MarketPrice;
+	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
+	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
 	return lRet;
 }
 
@@ -60,47 +65,48 @@ Command OpenMarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	return InvalidCommand;
 }
 
-Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& apTrade )
+Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
-	if (m_SendOrderSet.find(apTrade.m_Key ) != m_SendOrderSet.end())
+	if (m_SendOrderSet.find(aTrade.m_Key ) != m_SendOrderSet.end())
 	{
-		m_ExecutionStatus.LivelVol -= apTrade.m_TradeVol;
-		m_ExecutionStatus.TradeVol += apTrade.m_TradeVol;
+		m_ExecutionStatus.LivelVol -= aTrade.m_TradeVol;
+		m_ExecutionStatus.TradeVol += aTrade.m_TradeVol;
 		m_ExecutionStatus.IsFinised = m_ExecutionStatus.LivelVol == 0;
 
 		ExecutionResult lResult ;
-		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,apTrade.InstrumentID);
-		lResult.IsBuy = apTrade.m_BuySellType;
-		lResult.IsOpen = apTrade.m_OpenCloseType;
-		lResult.Price = apTrade.m_TradePrice;
-		lResult.vol = apTrade.m_TradeVol;
+		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
+		lResult.IsBuy = aTrade.m_BuySellType;
+		lResult.IsOpen = aTrade.m_OpenCloseType;
+		lResult.Price = aTrade.m_TradePrice;
+		lResult.vol = aTrade.m_TradeVol;
 
 		m_TradeReport(lResult);	
-		ATLOG(L_INFO,apTrade.ToString());
-		
+		ATLOG(L_INFO,ToString(aTrade));
 	}
 
 	return InvalidCommand;
 }
 
-Command OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+Command OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
-	if (m_SendOrderSet.find(apOrder.m_Key ) != m_SendOrderSet.end())
+	if (m_SendOrderSet.find(aOrder.m_Key ) != m_SendOrderSet.end())
 	{
 
-		ATLOG(L_INFO,apOrder.ToString());
+		ATLOG(L_INFO,ToString(aOrder));
 	}
 	return InvalidCommand;
 }
 
 AT::ExecutionStatus OpenMarketExecutor::GetExecutionStatus()
 {
-
+	ExecutionStatus lret;
+	return lret;
 }
 
 AT::Command OpenMarketExecutor::Abrot()
 {
-
+	Command lret;
+	return lret;
 }
 
 

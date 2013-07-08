@@ -27,8 +27,20 @@ namespace AT
 	{
 		int AddTastVol; //总的任务数量（平仓时，会累加多笔平仓请求的数量）
 		int TradeVol;	//已经成交的数量
-		int LivelVol; //还挂在交易所的数量
+		int LivelVol;	//还激活在交易所的数量
+		int SuspendVol_Exechange; //在交易所挂起的数量 如挂到交易所得部分单子
+		int	SuspendVol_Local;	 //本地挂起的数量
+		int CancelVol;
 		bool IsFinised; //是否已经完成（放弃也属于完成）
+		ExecutionStatus()
+		{
+			AddTastVol = 0;
+			TradeVol = 0;	
+			LivelVol = 0;
+			SuspendVol_Exechange = 0;
+			SuspendVol_Local = 0;	
+			IsFinised = false;
+		}
 	};
 
 	typedef boost::function<void(ExecutionResult)> TradeReportFun;

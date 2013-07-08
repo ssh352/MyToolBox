@@ -6,7 +6,7 @@ namespace AT
 {
 	struct InputOrder
 	{
-		//without null end
+		//todo check every NullEnd
 		char InstrumentID[cInstrimentIDLength];
 		char AccoutID[cAccoutIDLength];
 		int32_t m_Price;
@@ -28,6 +28,9 @@ namespace AT
 			memset(AccoutID,0,sizeof(AccoutID));
 			memset(m_MoreInfo,0,sizeof(m_MoreInfo));
 			memset(m_SenderInfo,0,sizeof(m_SenderInfo));
+			m_TriggerPrice = 0;
+			m_Price= 0;
+			m_Vol = 0;
 		}
 	};
 	std::string ToString(const InputOrder& aInputOrder);

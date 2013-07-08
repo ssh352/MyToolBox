@@ -25,6 +25,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -61,13 +62,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -80,8 +77,12 @@
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_versionLoaderPoster.cpp" />
-    <ClCompile Include="OpenFollowExecutor.cpp" />
-    <ClCompile Include="OpenLimitExecutor.cpp" />
+    <ClCompile Include="OpenFollowExecutor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="OpenLimitExecutor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="OpenMarketexecutor.cpp" />
     <ClCompile Include="AccountContainer.cpp" />
     <ClCompile Include="Account.cpp" />
@@ -103,8 +104,12 @@
     <ClInclude Include="ISignalFliter.h" />
     <ClInclude Include="ISignalProducer.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
-    <ClInclude Include="OpenFollowExecutor.h" />
-    <ClInclude Include="OpenLimitExecutor.h" />
+    <ClInclude Include="OpenFollowExecutor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="OpenLimitExecutor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="OpenMarketexecutor.h" />
     <ClInclude Include="AccountContainer.h" />
     <ClInclude Include="Account.h" />

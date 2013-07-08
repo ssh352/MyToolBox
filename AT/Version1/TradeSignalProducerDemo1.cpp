@@ -117,7 +117,7 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMarket )
 {
 		Signal lret ;
-		lret.m_BuyOrSell = m_IsBuy;
+		/*lret.m_BuyOrSell = m_IsBuy;*/
 		lret.m_priority = m_Priority;
 		strcpy_s(lret.m_ID ,g_TradeSignalIDLength, m_SignalName.c_str());
 
@@ -151,11 +151,11 @@ void    TradeSignalProducerDemo1::WriteTradeSignal()
 	
 	for (auto lSignal:m_TradeSignalVec)
 	{
-		std::string BuyOrSell = lSignal.m_BuyOrSell ?"Buy":"Sell";
+		/*std::string BuyOrSell = lSignal.m_BuyOrSell ?"Buy":"Sell";*/
 		std::string Signal = boost::str(boost::format("[UpdateTime::%s]  TradeSignal [ID:: %s]  [BuyOrSell: %s] [Priority:: %d] [InstrumentID:%s]\n[Price: %d] \n") 
 			% ToString(lSignal.m_TriggerMarketData.m_UpdateTime)
 			% lSignal.m_ID
-			% BuyOrSell
+			/*% BuyOrSell*/
 			% lSignal.m_priority
 			% lSignal.m_TriggerMarketData.InstrumentID
 			% lSignal.m_TriggerMarketData.m_LastPrice

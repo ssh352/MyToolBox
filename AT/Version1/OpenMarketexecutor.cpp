@@ -33,7 +33,7 @@ AT::Command OpenMarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 	{
 		Command lRet =  BuildCommand( aExecutorInput);
 		m_ExecutionStatus.AddTastVol += aExecutorInput.vol;
-		m_SendOrderSet.insert(lRet.m_InputOrder.m_Key);
+		m_OrderKey = lRet.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
 		return lRet;
 	}
@@ -67,12 +67,8 @@ Command OpenMarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
-	if (m_SendOrderSet.find(aTrade.m_Key ) != m_SendOrderSet.end())
+	if (m_OrderKey == aTrade.m_Key )
 	{
-		m_ExecutionStatus.LivelVol -= aTrade.m_TradeVol;
-		m_ExecutionStatus.TradeVol += aTrade.m_TradeVol;
-		m_ExecutionStatus.IsFinised = m_ExecutionStatus.LivelVol == 0;
-
 		ExecutionResult lResult ;
 		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
 		lResult.IsBuy = aTrade.m_BuySellType;
@@ -89,27 +85,55 @@ Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 
 Command OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
-	if (m_SendOrderSet.find(aOrder.m_Key ) != m_SendOrderSet.end())
+	if (m_OrderKey == aOrder.m_Key)
 	{
-
 		ATLOG(L_INFO,ToString(aOrder));
+		m_TheOnlyOneMarketOrder = aOrder;
+		switch (aOrder.m_OrderStatus)
+		{
+		case OrderStatusType::AllTraded:
+		case OrderStatusType::Canceled:
+			m_ExecutionStatus.IsFinised = true;
+			SetupExecutionStatus(aOrder);
+			break;
+		default:
+			m_ExecutionStatus.IsFinised = false;
+			SetupExecutionStatus(aOrder);
+			break;
+		}
 	}
 	return InvalidCommand;
 }
 
 AT::ExecutionStatus OpenMarketExecutor::GetExecutionStatus()
 {
-	ExecutionStatus lret;
-	return lret;
+	return m_ExecutionStatus;
 }
 
 AT::Command OpenMarketExecutor::Abrot()
 {
-	Command lret;
-	return lret;
+
+	Command lret;;
+	switch (m_TheOnlyOneMarketOrder.m_OrderStatus)
+	{
+	case OrderStatusType::AllTraded:
+	case OrderStatusType::Canceled:
+		return InvalidCommand;
+		break;
+	default:
+		lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
+		return lret;
+		break;
+	}
 }
 
-
-
+void OpenMarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
+{
+	m_ExecutionStatus.SuspendVol_Exechange = 0;
+	m_ExecutionStatus.SuspendVol_Local = 0;
+	m_ExecutionStatus.TradeVol = aOrder.m_TradedVol;
+	m_ExecutionStatus.LivelVol = aOrder.m_LiveVol;
+	m_ExecutionStatus.CancelVol = aOrder.m_Vol - aOrder.m_LiveVol - aOrder.m_TradedVol ;
+}
 
 }

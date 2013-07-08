@@ -7,12 +7,12 @@ namespace AT
 {
 
 
-class OpenMarketExecutor :public IExecutor
+class MarketExecutor :public IExecutor
 {
 public:
-	OpenMarketExecutor(const std::string& aConfig);
+	MarketExecutor(const std::string& aConfig);
 
-	virtual ~OpenMarketExecutor(void);
+	virtual ~MarketExecutor(void);
 
 	//输入1 来自于上层的交易信号
 	virtual Command AddExecution(ExecutorInput aExecutorInput) override;
@@ -30,8 +30,6 @@ public:
 
 private:
 	Command			BuildCommand(ExecutorInput aNewOrder);
-
-	bool						m_IsBuy;
 	AT_Order_Key				m_OrderKey;
 	AT::OrderUpdate				m_TheOnlyOneMarketOrder;
 	ExecutionStatus				m_ExecutionStatus;

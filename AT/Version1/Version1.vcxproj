@@ -75,15 +75,14 @@
     <ClCompile Include="ExecutorContianer.cpp" />
     <ClCompile Include="ExecutorFactory.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
+    <ClCompile Include="LimitExecutor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_versionLoaderPoster.cpp" />
     <ClCompile Include="OpenFollowExecutor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="OpenLimitExecutor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="OpenMarketexecutor.cpp" />
+    <ClCompile Include="LimitToCancelExecutor.cpp" />
+    <ClCompile Include="MarketExecutor.cpp" />
     <ClCompile Include="AccountContainer.cpp" />
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="RecovedAccount.cpp" />
@@ -103,14 +102,13 @@
     <ClInclude Include="IExecutor.h" />
     <ClInclude Include="ISignalFliter.h" />
     <ClInclude Include="ISignalProducer.h" />
+    <ClInclude Include="LimitExecutor.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="OpenFollowExecutor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="OpenLimitExecutor.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="OpenMarketexecutor.h" />
+    <ClInclude Include="LimitToCancelExecutor.h" />
+    <ClInclude Include="MarketExecutor.h" />
     <ClInclude Include="AccountContainer.h" />
     <ClInclude Include="Account.h" />
     <ClInclude Include="RecovedAccount.h" />
@@ -158,6 +156,8 @@
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />
     <Xml Include="HKY003_1307.xml" />
+    <Xml Include="LimitExecutor.xml" />
+    <Xml Include="LimitToCancelExecutor.xml" />
     <Xml Include="MarketExecutor.xml" />
     <Xml Include="OpenExecutorConfig.xml" />
     <Xml Include="IndexContainer.xml">

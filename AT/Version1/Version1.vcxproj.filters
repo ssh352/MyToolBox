@@ -11,14 +11,8 @@
     <ClCompile Include="CloseExecutor_3Level.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
-    <ClCompile Include="OpenLimitExecutor.cpp">
-      <Filter>Classes\Executor</Filter>
-    </ClCompile>
     <ClCompile Include="main_versionLoaderPoster.cpp" />
     <ClCompile Include="OpenFollowExecutor.cpp">
-      <Filter>Classes\Executor</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenMarketexecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
     <ClCompile Include="IndexContainer.cpp">
@@ -45,6 +39,15 @@
     <ClCompile Include="AccountFactory.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
+    <ClCompile Include="MarketExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="LimitToCancelExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="LimitExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
@@ -56,14 +59,8 @@
     <ClInclude Include="CloseExecutor_3Level.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="OpenLimitExecutor.h">
-      <Filter>Classes\Executor</Filter>
-    </ClInclude>
     <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="OpenFollowExecutor.h">
-      <Filter>Classes\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenMarketexecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="IndexContainer.h">
@@ -107,6 +104,15 @@
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="LimitToCancelExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="LimitExecutor.h">
+      <Filter>Classes\Executor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +203,12 @@
       <Filter>config\Executor</Filter>
     </Xml>
     <Xml Include="MarketExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="LimitToCancelExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="LimitExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>
   </ItemGroup>

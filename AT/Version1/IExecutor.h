@@ -43,6 +43,7 @@ namespace AT
 		}
 	};
 
+
 	typedef boost::function<void(ExecutionResult)> TradeReportFun;
 	class IExecutor 
 	{

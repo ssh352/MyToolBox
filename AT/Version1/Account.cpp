@@ -3,7 +3,7 @@
 #include "IDriver_TD.h"
 #include "CloseExecutor_3Level.h"
 #include "OpenLimitExecutor.h"
-#include "OpenMarketexecutor.h"
+#include "MarketExecutor.h"
 #include "OpenFollowExecutor.h"
 #include <boost\bind.hpp>
 #include <boost\property_tree\ptree.hpp>

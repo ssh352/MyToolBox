@@ -1,4 +1,4 @@
-#include "OpenMarketExecutor.h"
+#include "MarketExecutor.h"
 #include "IDriver_TD.h"
 #include "ATLogger.h"
 #include <boost\property_tree\ptree.hpp>
@@ -7,23 +7,23 @@ namespace AT
 {
 
 
-OpenMarketExecutor::OpenMarketExecutor( const std::string& aConfig )
+MarketExecutor::MarketExecutor( const std::string& aConfig )
 {
 	boost::property_tree::ptree lConfigPtree;
 	read_xml(aConfig,lConfigPtree);
-	m_ExecutorID = lConfigPtree.get<int>("ExecutorConfig.ExecutorID");
+	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
 }
 
 
-OpenMarketExecutor::~OpenMarketExecutor(void)
+MarketExecutor::~MarketExecutor(void)
 {
 }
 
-std::string OpenMarketExecutor::GetExecutorID()
+std::string MarketExecutor::GetExecutorID()
 {
 	return m_ExecutorID;
 }
-AT::Command OpenMarketExecutor::AddExecution( ExecutorInput aExecutorInput )
+AT::Command MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
 	if(aExecutorInput.vol = 0)
 	{
@@ -40,7 +40,7 @@ AT::Command OpenMarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 }
 
 
-AT::Command OpenMarketExecutor::BuildCommand( ExecutorInput aNewOrder )
+AT::Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 {
 	Command lRet;
 	lRet.m_CommandType = CommandType::Input;
@@ -60,12 +60,12 @@ AT::Command OpenMarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	return lRet;
 }
 
-Command OpenMarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+Command MarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	return InvalidCommand;
 }
 
-Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+Command MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
 	if (m_OrderKey == aTrade.m_Key )
 	{
@@ -83,34 +83,28 @@ Command OpenMarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 	return InvalidCommand;
 }
 
-Command OpenMarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+Command MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
 	if (m_OrderKey == aOrder.m_Key)
 	{
 		ATLOG(L_INFO,ToString(aOrder));
 		m_TheOnlyOneMarketOrder = aOrder;
-		switch (aOrder.m_OrderStatus)
+
+		if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
 		{
-		case OrderStatusType::AllTraded:
-		case OrderStatusType::Canceled:
 			m_ExecutionStatus.IsFinised = true;
-			SetupExecutionStatus(aOrder);
-			break;
-		default:
-			m_ExecutionStatus.IsFinised = false;
-			SetupExecutionStatus(aOrder);
-			break;
 		}
+		SetupExecutionStatus(aOrder);
 	}
 	return InvalidCommand;
 }
 
-AT::ExecutionStatus OpenMarketExecutor::GetExecutionStatus()
+AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
 {
 	return m_ExecutionStatus;
 }
 
-AT::Command OpenMarketExecutor::Abrot()
+AT::Command MarketExecutor::Abrot()
 {
 
 	Command lret;;
@@ -127,7 +121,7 @@ AT::Command OpenMarketExecutor::Abrot()
 	}
 }
 
-void OpenMarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
+void MarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
 {
 	m_ExecutionStatus.SuspendVol_Exechange = 0;
 	m_ExecutionStatus.SuspendVol_Local = 0;

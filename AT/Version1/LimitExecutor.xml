@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PriceType 指限价单的价格类型
+PriceOffSet 仅在限价单类型时使用，其它类型时无效
+
+///限价
+#define THOST_FTDC_OPT_LimitPrice '2'  将会使用最新价 + PriceOFfset设置
+///最优价
+#define THOST_FTDC_OPT_BestPrice '3'
+///最新价
+#define THOST_FTDC_OPT_LastPrice '4'
+///最新价浮动上浮1个ticks
+#define THOST_FTDC_OPT_LastPricePlusOneTicks '5'
+///最新价浮动上浮2个ticks
+#define THOST_FTDC_OPT_LastPricePlusTwoTicks '6'
+///最新价浮动上浮3个ticks
+#define THOST_FTDC_OPT_LastPricePlusThreeTicks '7'
+///卖一价
+#define THOST_FTDC_OPT_AskPrice1 '8'
+///卖一价浮动上浮1个ticks
+#define THOST_FTDC_OPT_AskPrice1PlusOneTicks '9'
+///卖一价浮动上浮2个ticks
+#define THOST_FTDC_OPT_AskPrice1PlusTwoTicks 'A'
+///卖一价浮动上浮3个ticks
+#define THOST_FTDC_OPT_AskPrice1PlusThreeTicks 'B'
+///买一价
+#define THOST_FTDC_OPT_BidPrice1 'C'
+///买一价浮动上浮1个ticks
+#define THOST_FTDC_OPT_BidPrice1PlusOneTicks 'D'
+///买一价浮动上浮2个ticks
+#define THOST_FTDC_OPT_BidPrice1PlusTwoTicks 'E'
+///买一价浮动上浮3个ticks
+#define THOST_FTDC_OPT_BidPrice1PlusThreeTicks 'F'
+-->
+
+<ExecutorConfig>
+  <ExecutorID>Limit</ExecutorID>
+  <PriceType>2</PriceType>
+  <PriceOffSet>0.2</PriceOffSet>
+</ExecutorConfig>

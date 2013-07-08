@@ -1,9 +1,11 @@
 #include "ConstVarDefine.h"
 #include <boost\uuid\uuid_io.hpp>
+#include <mutex>
 namespace AT
 {
 
 	extern const AT_Time AT_INVALID_TIME = boost::posix_time::ptime(boost::posix_time::not_a_date_time);
+
 
 
 
@@ -105,6 +107,17 @@ namespace AT
 	 std::map<TimeInForceType,std::string>  EnumTextHelper::m_TimeInForceType;
 	 std::map<OrderStatusType,std::string>  EnumTextHelper::m_OrderStatusType;
 	 std::map<OrderSubmitStatusType,std::string>  EnumTextHelper::m_OrderSubmitStatusType;
+
+
+	 static std::once_flag EnumTextInitor_flag;
+	 struct EnumTextInitor
+	 {
+		 EnumTextInitor()
+		 {
+			 std::call_once(EnumTextInitor_flag, [](){ EnumTextHelper::Init(); });
+		 }
+	 };
+	 static EnumTextInitor EnumTextInitorInst;
 
 	AT_Time AT_Local_Time()
 	{

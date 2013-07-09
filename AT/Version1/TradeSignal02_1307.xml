@@ -17,7 +17,13 @@
       <CheckType>1</CheckType>
       <TimeFromNow>10</TimeFromNow>
       <ExceptVal>-1</ExceptVal>
-      <OccurTimes>1</OccurTimes>
+      <OccurTimes>2</OccurTimes>
+      <IsBlock>0</IsBlock>
+    </Item>
+    <Item>
+      <IndexID>HKY_001_1307</IndexID>
+      <CheckType>2</CheckType>
+      <ExceptVal>-1</ExceptVal>
       <IsBlock>0</IsBlock>
     </Item>
   </CheckItems>

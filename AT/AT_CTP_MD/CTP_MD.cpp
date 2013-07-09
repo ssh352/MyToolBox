@@ -15,17 +15,9 @@ namespace CTP
 		:m_MarketSpi(apSpi)
 		,m_ConfigFilePath(aConfigFile)
 	{
-	}
-
-	CTP_MD::~CTP_MD(void)
-	{
-	}
-
-	void CTP_MD::Start()
-	{
 		boost::property_tree::ptree lPt;
 		read_xml(m_ConfigFilePath,lPt);
-		
+
 		std::stringstream lbuf;
 		write_xml(lbuf,lPt);
 
@@ -33,7 +25,7 @@ namespace CTP
 		boost::filesystem::path lDir(lCachePos);
 
 		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
-		
+
 		if (!boost::filesystem::exists(lDir))
 		{
 			create_directory(lDir);
@@ -45,6 +37,15 @@ namespace CTP
 			std::bind(&CTP_MD::OnMarketDepth,this,std::placeholders::_1), 
 			std::bind(&CTP_MD::OnMarketStatus,this,std::placeholders::_1,std::placeholders::_2)
 			));
+	}
+
+	CTP_MD::~CTP_MD(void)
+	{
+	}
+
+	void CTP_MD::Start()
+	{
+		
 
 		m_pDepth->Start();
 	}

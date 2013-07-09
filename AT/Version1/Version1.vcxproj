@@ -119,29 +119,6 @@
     <ClInclude Include="version1Container.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
-      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_MD_DataReplayer\AT_CTP_MD_DataReplayer.vcxproj">
-      <Project>{e9bcd0ab-6168-4006-abcf-7ad721b94872}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
-      <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
-      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
-      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\CTP_Common\CTP_Common.vcxproj">
-      <Project>{cd8f1d91-a38d-45d8-a078-63e306e701fa}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ISignalModule_CacheWave\ISignalModule_CacheWave.vcxproj">
-      <Project>{3caf4f61-d42e-44e3-bc92-fb03df3b5ae9}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Xml Include="AccountFile.xml" />
     <Xml Include="AccountFile1.xml">
       <SubType>Designer</SubType>
@@ -170,7 +147,20 @@
     </Xml>
     <Xml Include="TradeSignal01_1307.xml" />
     <Xml Include="TradeSignal02_1307.xml" />
-    <Xml Include="TradeSignalProduceRule.xml" />
+    <Xml Include="TradeSignalProduceRule.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
+      <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
+      <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_Driver\AT_Driver.vcxproj">
+      <Project>{595b35f4-d24b-4e9f-b718-6b08080c76e0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

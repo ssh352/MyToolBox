@@ -79,7 +79,10 @@ AT::ExecutionStatus LimitToCancelExecutor::GetExecutionStatus()
 	return m_pLimitExecutor->GetExecutionStatus();
 }
 
-
+AT::Command LimitToCancelExecutor::Abrot()
+{
+	return m_pLimitExecutor->Abrot();
+}
 
 
 

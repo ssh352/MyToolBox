@@ -123,7 +123,7 @@ void version1Container::Stop()
 	for (auto lSignal:m_TradeSignalProducerVec)
 	{
 		TradeSignalProducerDemo1* lpProducer = reinterpret_cast<TradeSignalProducerDemo1*>(lSignal);
-		lpProducer->WriteTradeSignal();
+		//lpProducer->WriteTradeSignal();
 	}
 	m_pIndexContaner->Stop();
 	for(auto lHandle :m_LibHandleVec)

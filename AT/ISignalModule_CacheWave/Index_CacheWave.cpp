@@ -39,11 +39,16 @@ namespace AT
 		m_HighPoint.first = -1000000000;
 		m_CheckState = Direction::BothSide;
 
-		/*const_MapWarpper_ptr lpMarketCacheByID = m_pMarketCache->GetMarketMapByName(m_InstrumentID.c_str());
-		for(MarketMapWarpper::const_iterator iter =  lpMarketCacheByID->begin(); iter != lpMarketCacheByID->end();++iter)
+		const_MapWarpper_ptr lpMarketCacheByID = m_pMarketCache->GetMarketMapByName(m_InstrumentID.c_str());
+		if(lpMarketCacheByID != nullptr)
 		{
-			OnMarketDepth(*iter);
-		}*/
+			for(MarketMapWarpper::const_iterator iter =  lpMarketCacheByID->begin(); iter != lpMarketCacheByID->end();++iter)
+			{
+				AT::MarketData aMarketDepth = *iter;
+				m_SignalResultMap[aMarketDepth.m_UpdateTime] = OnMarketDepth(aMarketDepth);
+			}
+		}
+		
 	}
 
 	void Index_CacheWave::Stop()
@@ -148,6 +153,11 @@ namespace AT
 		}
 
 		return 0;
+	}
+	
+	std::map<AT_Time,int> Index_CacheWave::GetHistoryResult()
+	{
+		return m_SignalResultMap;
 	}
 
 }

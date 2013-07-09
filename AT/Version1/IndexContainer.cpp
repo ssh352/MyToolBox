@@ -113,13 +113,20 @@ void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	}
 
 
-	void IndexContainer::Start()
-	{
-		for(auto lSignalPtr:m_SignalModuleVec)
+
+void IndexContainer::Start()
+{
+	std::map<AT_Time,int> ResultMap;
+	for(auto Index:m_SignalModuleVec)
+	{		
+		Index->Start();
+		ResultMap = Index->GetHistoryResult();
+		if(ResultMap.size() != 0)		
 		{
-			lSignalPtr->Start();
+			m_SignalResultMapGroupBySignalName[Index->GetIndexName()] = ResultMap;
 		}
 	}
+}
 
 	void IndexContainer::Stop()
 	{

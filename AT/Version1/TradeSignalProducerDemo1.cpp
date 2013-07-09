@@ -172,8 +172,8 @@ void    TradeSignalProducerDemo1::WriteTradeSignal()
 			);
 		lSignalTree.add("TradeSignal",Signal);
 	}
-	
-	write_xml(lDir.string(),lSignalTree);
+	if(m_TradeSignalVec.size() != 0)
+		write_xml(lDir.string(),lSignalTree);
 }
 
 }

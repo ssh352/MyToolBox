@@ -2,7 +2,6 @@
 #include "IExecutor.h"
 #include "IDriver_TD.h"
 #include "CloseExecutor_3Level.h"
-#include "OpenLimitExecutor.h"
 #include "MarketExecutor.h"
 #include "OpenFollowExecutor.h"
 #include <boost\bind.hpp>

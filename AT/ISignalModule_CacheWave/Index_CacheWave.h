@@ -15,6 +15,7 @@ namespace AT
 		virtual int OnMarketDepth(const MarketData& aMarketDepth) override;
 		virtual void Start() override;
 		virtual void Stop() override ;
+		virtual std::map<AT_Time,int> GetHistoryResult() override;
 
 	private: 
 		std::pair<int32_t,MarketData>	m_LowPoint;
@@ -37,6 +38,8 @@ namespace AT
 		std::string m_StoreFile;
 		std::string m_IndexName;
 		const AT::IMarketCache * m_pMarketCache;
+		std::map<AT_Time,int>	m_SignalResultMap;
+		
 	
 	};
 }

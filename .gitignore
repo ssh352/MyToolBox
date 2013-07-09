@@ -48,3 +48,12 @@ ipch
 /AT/HistoryTranslator/StroeDB.7z
 /AT/CTP_TD_Test/OrderSavedPath
 /AT/CTP_TD_Test/TD_TEST
+
+/AT/Version1/OpenLimitExecutor.cpp
+/AT/Version1/OpenLimitExecutor.h
+/AT/Version1/OpenMarketexecutor.cpp
+/AT/Version1/OpenMarketexecutor.h
+/AT/Version1/StrategyDemo514.cpp
+/AT/Version1/StrategyDemo514.h
+/AT/Version1/TradeCommand.h
+/AT/sln/CTP_妗嗘灦.doc

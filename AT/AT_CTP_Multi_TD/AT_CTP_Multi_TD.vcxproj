@@ -86,6 +86,9 @@
     <Xml Include="Multi_TD.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AT_CTP_TD\AT_CTP_TD.vcxproj">
+      <Project>{59015722-93d8-4186-bece-1a5ccd207a60}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ExternLib\leveldb-1.7.0\LevelDB\LevelDB.vcxproj">
       <Project>{27080080-864a-4cbb-b925-5bef11e6108a}</Project>
     </ProjectReference>

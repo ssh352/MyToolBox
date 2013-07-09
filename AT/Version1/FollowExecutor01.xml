@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Duration:时长；SlipRange：滑点；CancleDuration：撤单时长-->
+<FollowExecutor>
+  <Duration>30</Duration>
+  <SlipRange>3</SlipRange>
+  <CancleDuration>30</CancleDuration>
+</FollowExecutor>

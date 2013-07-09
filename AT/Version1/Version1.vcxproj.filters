@@ -60,9 +60,6 @@
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="main_versionLoaderPoster.h" />
-    <ClInclude Include="OpenFollowExecutor.h">
-      <Filter>Classes\Executor</Filter>
-    </ClInclude>
     <ClInclude Include="IndexContainer.h">
       <Filter>Classes\Index_Signal</Filter>
     </ClInclude>
@@ -114,6 +111,7 @@
     <ClInclude Include="LimitExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
+    <ClInclude Include="OpenFollowExecutor.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -205,6 +203,7 @@
     <Xml Include="MarketExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>
+    <Xml Include="FollowExecutor01.xml" />
     <Xml Include="LimitToCancelExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>

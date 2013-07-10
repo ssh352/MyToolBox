@@ -74,13 +74,11 @@
     </ClCompile>
     <ClCompile Include="ExecutorContianer.cpp" />
     <ClCompile Include="ExecutorFactory.cpp" />
+    <ClCompile Include="FollowExecutor.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="LimitExecutor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_versionLoaderPoster.cpp" />
-    <ClCompile Include="OpenFollowExecutor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="LimitToCancelExecutor.cpp" />
     <ClCompile Include="MarketExecutor.cpp" />
     <ClCompile Include="AccountContainer.cpp" />
@@ -97,6 +95,7 @@
     </ClInclude>
     <ClInclude Include="ExecutorContianer.h" />
     <ClInclude Include="ExecutorFactory.h" />
+    <ClInclude Include="FollowExecutor.h" />
     <ClInclude Include="IndexContainer.h" />
     <ClInclude Include="IAccount.h" />
     <ClInclude Include="IExecutor.h" />
@@ -130,6 +129,7 @@
     </Xml>
     <Xml Include="ExchangeRuleConfig.xml" />
     <Xml Include="ExecutorConfigList.xml" />
+    <Xml Include="FollowExecutor.xml" />
     <Xml Include="FollowExecutor01.xml" />
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />

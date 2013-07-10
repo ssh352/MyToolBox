@@ -12,9 +12,6 @@
       <Filter>Classes\Executor</Filter>
     </ClCompile>
     <ClCompile Include="main_versionLoaderPoster.cpp" />
-    <ClCompile Include="OpenFollowExecutor.cpp">
-      <Filter>Classes\Executor</Filter>
-    </ClCompile>
     <ClCompile Include="IndexContainer.cpp">
       <Filter>Classes\Index_Signal</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Classes\Executor</Filter>
     </ClCompile>
     <ClCompile Include="LimitExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,6 +112,9 @@
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="OpenFollowExecutor.h" />
+    <ClInclude Include="FollowExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -208,6 +211,9 @@
       <Filter>config\Executor</Filter>
     </Xml>
     <Xml Include="LimitExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="FollowExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>
   </ItemGroup>

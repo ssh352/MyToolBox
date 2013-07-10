@@ -33,8 +33,9 @@ PriceOffSet 仅在限价单类型时使用，其它类型时无效
 #define THOST_FTDC_OPT_BidPrice1PlusThreeTicks 'F'
 -->
 
+
 <ExecutorConfig>
-  <ExecutorID>Limit</ExecutorID>
+  <ExecutorID>LimitExector</ExecutorID>
   <PriceType>2</PriceType>
   <PriceOffSet>0.2</PriceOffSet>
 </ExecutorConfig>

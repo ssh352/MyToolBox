@@ -34,7 +34,7 @@ PriceOffSet 仅在限价单类型时使用，其它类型时无效
 -->
 
 <ExecutorConfig>
-  <ExecutorID>LimitToMarket</ExecutorID>
+  <ExecutorID>LimitToMarketExecutor</ExecutorID>
   <CancelTime>10</CancelTime>
   <PriceType>2</PriceType>
   <PriceOffSet>0.2</PriceOffSet>

@@ -2,15 +2,17 @@
 #include "IExecutor.h"
 #include <set>
 #include <string>
+#include <map>
 namespace AT
 {
 
-class LimitExecutor;
-class LimitToCancelExecutor :public IExecutor
+
+class FollowExecutor :public IExecutor
 {
 public:
-	LimitToCancelExecutor(const std::string& aConfigFile);
-	virtual ~LimitToCancelExecutor(void);
+	FollowExecutor(const std::string& aConfig);
+
+	virtual ~FollowExecutor(void);
 
 	//输入1 来自于上层的交易信号
 	virtual Command AddExecution(ExecutorInput aExecutorInput) override;
@@ -20,21 +22,24 @@ public:
 	virtual	Command OnMarketDepth(const AT::MarketData& aMarketDepth) override;
 	virtual	Command OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
 
+	void SetupExecutionStatus( const AT::OrderUpdate &aOrder );
+
 	virtual	Command OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-	virtual ExecutionStatus	GetExecutionStatus() override;
+	virtual ExecutionStatus	GetExecutionStatus()override;
 	virtual std::string GetExecutorID()  override;
 
-
-
-
 private:
-	void InitFromConfigFile(const std::string& aConfigFile);
-
+	Command			BuildCommand(int vol);
 	AT_Order_Key				m_OrderKey;
+	AT::OrderUpdate				m_TheOnlyOneMarketOrder;
+	ExecutionStatus				m_ExecutionStatus;
+	bool						m_IsAbrot;
 
-	std::unique_ptr<LimitExecutor>	m_pLimitExecutor;	
-	int								m_CancelTimeVol;
-	AT_Time							m_EndTime;
+	//
+	BuySellType		m_BuySell;
+	OpenCloseType	m_OpenClose;
+	std::string		m_InstrumentID;
+	
 };
 
 }

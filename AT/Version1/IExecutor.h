@@ -25,7 +25,7 @@ namespace AT
 
 	struct ExecutionStatus
 	{
-		int AddTastVol; //总的任务数量（平仓时，会累加多笔平仓请求的数量）
+		int AddTastVol; //总的任务数量
 		int TradeVol;	//已经成交的数量
 		int LivelVol;	//还激活在交易所的数量
 		int SuspendVol_Exechange; //在交易所挂起的数量 如挂到交易所得部分单子
@@ -39,7 +39,7 @@ namespace AT
 			LivelVol = 0;
 			SuspendVol_Exechange = 0;
 			SuspendVol_Local = 0;	
-			IsFinised = false;
+			IsFinised = true;
 		}
 	};
 

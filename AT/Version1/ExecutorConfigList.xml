@@ -2,22 +2,22 @@
 
 <Executors>
   <ExecutorCase>
-    <ExecutorType>OpenFollow</ExecutorType>
-    <ExectorConfigFile></ExectorConfigFile>
+    <ExecutorType>Limit</ExecutorType>
+    <ExectorConfigFile>LimitExecutor.xml</ExectorConfigFile>
   </ExecutorCase>
 
   <ExecutorCase>
-    <ExecutorType>OpenLimit</ExecutorType>
-    <ExectorConfigFile></ExectorConfigFile>
+    <ExecutorType>Market</ExecutorType>
+    <ExectorConfigFile>MarketExecutor.xml</ExectorConfigFile>
   </ExecutorCase>
 
   <ExecutorCase>
-    <ExecutorType>OpenMarket</ExecutorType>
-    <ExectorConfigFile></ExectorConfigFile>
+    <ExecutorType>LimitToCancel</ExecutorType>
+    <ExectorConfigFile>LimitToCancelExecutor.xml</ExectorConfigFile>
   </ExecutorCase>
 
   <ExecutorCase>
-    <ExecutorType>Close3Level</ExecutorType>
+    <ExecutorType>Follow</ExecutorType>
     <ExectorConfigFile></ExectorConfigFile>
   </ExecutorCase>
 </Executors>

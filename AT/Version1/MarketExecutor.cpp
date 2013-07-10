@@ -31,8 +31,13 @@ AT::Command MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 	}
 	else
 	{
+		if(m_ExecutionStatus.IsFinised != true)
+		{
+			ATLOG(L_ERROR,"Last Task not Complete");
+			return InvalidCommand;
+		}
 		Command lRet =  BuildCommand( aExecutorInput);
-		m_ExecutionStatus.AddTastVol += aExecutorInput.vol;
+		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
 		m_OrderKey = lRet.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
 		return lRet;
@@ -106,19 +111,16 @@ AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
 
 AT::Command MarketExecutor::Abrot()
 {
-
-	Command lret;;
-	switch (m_TheOnlyOneMarketOrder.m_OrderStatus)
+	if(m_ExecutionStatus.IsFinised == true)
 	{
-	case OrderStatusType::AllTraded:
-	case OrderStatusType::Canceled:
 		return InvalidCommand;
-		break;
-	default:
-		lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
-		return lret;
-		break;
 	}
+
+	Command lret;
+	lret.m_CommandType = CommandType::Cancel;
+	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
+	return lret;
+
 }
 
 void MarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )

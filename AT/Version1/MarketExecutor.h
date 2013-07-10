@@ -25,7 +25,7 @@ public:
 	void SetupExecutionStatus( const AT::OrderUpdate &aOrder );
 
 	virtual	Command OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-	virtual ExecutionStatus	GetExecutionStatus() = 0;
+	virtual ExecutionStatus	GetExecutionStatus() override;
 	virtual std::string GetExecutorID()  override;
 
 private:

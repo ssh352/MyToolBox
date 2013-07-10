@@ -47,8 +47,13 @@ namespace AT
 
 	AT::Command LimitExecutor::AddExecution( ExecutorInput aExecutorInput )
 	{
+		if(m_ExecutionStatus.IsFinised != true)
+		{
+			ATLOG(L_ERROR,"Last Task not Complete");
+			return InvalidCommand;
+		}
 		Command lOrder = BuildCommand(aExecutorInput);
-		m_ExecutionStatus.AddTastVol += aExecutorInput.vol;
+		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
 		m_OrderKey = lOrder.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
 		return lOrder;
@@ -127,18 +132,15 @@ namespace AT
 
 	AT::Command LimitExecutor::Abrot()
 	{
-		Command lret;;
-		switch (m_TheOnlyOneLimitOrder.m_OrderStatus)
+		if(m_ExecutionStatus.IsFinised == true)
 		{
-		case OrderStatusType::AllTraded:
-		case OrderStatusType::Canceled:
 			return InvalidCommand;
-			break;
-		default:
-			lret.m_CancelOrder.m_Key = m_TheOnlyOneLimitOrder.m_Key;
-			return lret;
-			break;
 		}
+
+		Command lret;
+		lret.m_CommandType = CommandType::Cancel;
+		lret.m_CancelOrder.m_Key = m_OrderKey;
+		return lret;
 	}
 
 	AT::ExecutionStatus LimitExecutor::GetExecutionStatus()

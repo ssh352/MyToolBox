@@ -1,238 +1,222 @@
 #include "CloseExecutor_3Level.h"
 #include "IDriver_TD.h"
-#include "boost/format.hpp"
-#include "../AT_Driver/ATLogger.h"
-#include <sstream>
+#include "ATLogger.h"
+#include "ExecutorFactory.h"
+
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 using namespace std;
 namespace AT
 {
 
+CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
+:m_IsTriggered(false)
+,m_CurrentLevel(CheckStatusLevel::Level0)
+,m_MaxPriceDiff(0)
+,m_StartPrice(0)
+{
+	InitFromConfigFile(aConfigFile);
+}
 CloseExecutor_3Level::~CloseExecutor_3Level(void)
 {
 }
 
-CloseExecutor_3Level::CloseExecutor_3Level( CloseSetting_3Level aSetting)
-	:m_Setting(aSetting)
-	,m_CurrentLevel(0)
-	,m_Status(Status::IDLE)
+void CloseExecutor_3Level::AddExecution( ExecutorInput aExecutorInput )
 {
-	m_TargetVol = 0;
-	m_ActiveOrderVol = 0;
-	m_TriggerLossTime = AT_INVALID_TIME;
-}
-
-CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
-{
-
-}
-
-//Command CloseExecutor_3Level::SetupTarget( int targetQuantity, bool isBuy, const AT::MarketData& aMarket )
-//{
-//	return AddTarget(targetQuantity,isBuy,aMarket);
-//}
-//
-//Command CloseExecutor_3Level::AddTarget( int addTargetQuantity,bool isBuy, const AT::MarketData& aMarket )
-//{
-//	if(addTargetQuantity == 0 )
-//	{
-//		Command lret;
-//		lret.reset(new InvalidCommand);
-//		return lret;
-//	}
-//
-//	m_TargetVol += addTargetQuantity;
-//	m_IsBuy = isBuy;
-//	m_StartPrice = aMarket.m_LastPrice;
-//
-//	//暂时注释掉，等待明确的解释
-//	//SetSignalDirectionVol(isBuy?BuySellType::BuyOrder:BuySellType::SellOrder,m_TargetVol);
-//
-//	return PlaceStopLossOrder(aMarket);
-//
-//}
-
-Command CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
-{
-	m_LastMarket = aMarketDepth;
-	if(m_TargetVol > 0 ||
-		(m_TargetVol == 0 && m_ActiveOrderVol > 0))
+	if (m_Status.IsFinised == false)
 	{
-		if(aMarketDepth.m_UpdateTime>= m_Setting.StopClearTime)//市价清仓
-		{
-			return DoQuit(aMarketDepth);
-		}
-		if(aMarketDepth.m_UpdateTime >= m_Setting.StopTime)//全部清仓
-		{
-			return DoQuit(aMarketDepth);
-		}
-		
-		int lPriceDiffStart = aMarketDepth.m_LastPrice - m_StartPrice;
-		if(m_LastLossPrice >= aMarketDepth.m_LastPrice && m_TriggerLossTime == AT_INVALID_TIME)
-		{
-			m_TriggerLossTime = aMarketDepth.m_UpdateTime;
-		}
-		if((aMarketDepth.m_UpdateTime - m_TriggerLossTime)>boost::posix_time::seconds(3))
-		{
-			return DoQuit(aMarketDepth);
-		}
-		switch (m_CurrentLevel)
-		{
-		case 0:	
-			if(m_LastLossPrice - aMarketDepth.m_LastPrice >2&&m_LastLossPrice != 0)//止损超过止损预案价格2点时，用市价清仓
-			{
-				return DoQuit(aMarketDepth);
-			}
-			else if (lPriceDiffStart >= m_Setting.EnterLevel_1)
-			{
-				 m_CurrentLevel = 1;
-			}
-			break;
-		case  1:
-			if(lPriceDiffStart < m_Setting.QuitLevel_1)
-			{
-				return DoQuit(aMarketDepth);
-			}
-			else if (lPriceDiffStart >= m_Setting.EnterLevel_2)
-			{
-				m_CurrentLevel = 2;
-			}
-			break;
-		case 2:
-			if(lPriceDiffStart < m_Setting.QuitLevel_2)
-			{
-				return DoQuit(aMarketDepth);
-			}
-			else if(lPriceDiffStart >= m_Setting.EnterLevel_3)
-			{
-				m_CurrentLevel = 3;
-			}
-			break;
-		case 3:
-			if(lPriceDiffStart <m_Setting.QuitLevel_3)
-			{
-				return DoQuit(aMarketDepth);
-			}
-			break;
-		default:
-			break;
-		}
+		ATLOG(L_ERROR,"The CloseExecutor can only handle 1 ExecutorInput, the More should create new instance handle");
+		return;
 	}
+	m_Status.IsFinised = false;
+	m_pFirstExecutor->AddExecution(aExecutorInput);
 
-	Command lret;
-	lret.m_CommandType = CommandType::Invalid;
-	return lret;
+	m_BuySellCode = aExecutorInput.BuySellCode;
+	m_StartPrice = aExecutorInput.TriggerMarketData.m_LastPrice;
+	m_MaxPriceDiff = 0;
+	m_InstrumentID  = aExecutorInput.InstrumentID;
 	
 }
 
-Command CloseExecutor_3Level::DoQuit(const AT::MarketData& aMarket )
+void CloseExecutor_3Level::Abrot()
 {
-
-	if(m_Setting.QuitLevel_0 < 0)//有止损止盈单.必须先撤单，
+	if (m_Status.IsFinised)
 	{
-		Command lret;
-		CancelCommand* lpCancleOrder = new CancelCommand;
-
-		lpCancleOrder->m_operation.m_Key = *m_SendOrderSet.rbegin();
-		m_DelOrderSet = lpCancleOrder->m_operation.m_Key;
-		lret.reset(lpCancleOrder);
-		return lret;
+		ATLOG(L_INFO,"CloseExecutor_3Level Is Already Finished or not start yet");
+		return;
 	}
-	
-	return PlaceCloseOrder(aMarket);
+
+	m_pFirstExecutor->Abrot();
+	m_pQuitExecutor->Abrot();
+}
+
+void CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
+{
+	if (m_Status.IsFinised)
+	{
+		return;
+	}
+
+	if (aMarketDepth.InstrumentID != m_InstrumentID)
+	{
+		return;
+	}
+
+	if(!m_IsTriggered)
+	{
+		m_IsTriggered = CheckTrigger(aMarketDepth);
+		if(m_IsTriggered)
+		{
+			m_pFirstExecutor->Abrot();
+		}
+	}
+
+	m_pFirstExecutor->OnMarketDepth(aMarketDepth);
+	m_pQuitExecutor->OnMarketDepth(aMarketDepth);
 
 }
 
-Command CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
+void CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
-	Command lret;
-	lret.reset(new InvalidCommand);
-
-	if(m_SendOrderSet.find(apOrder.m_Key) == m_SendOrderSet.end())
-	{
-		return lret;
-	}
-	//撤单
-	if(apOrder.m_Key  == m_DelOrderSet && apOrder.m_OrderStatus == OrderStatusType::StoppedOrder)
-	{
-		m_LastLossPrice = 0;
-		return PlaceCloseOrder(m_LastMarket);
-	}
-	return lret;
+	m_pFirstExecutor->OnRtnTrade(apTrade);
+	m_pQuitExecutor->OnRtnTrade(apTrade);
 }
 
-Command CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
+void CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
+	m_pFirstExecutor->OnRtnOrder(apOrder);
+	m_pQuitExecutor->OnRtnOrder(apOrder);
+	m_Status.IsFinised = CheckIsFinished();
 
-	Command lret;
-	lret.reset(new InvalidCommand);
+}
 
-	if(m_SendOrderSet.find(apTrade.m_Key) == m_SendOrderSet.end())
+bool CloseExecutor_3Level::CheckIsFinished()
+{
+	if(m_pFirstExecutor->GetExecutionStatus().IsFinised && m_pQuitExecutor->GetExecutionStatus().IsFinised )
 	{
-		return lret;
+		return true;
 	}
-	if(m_SendLossSet.find(apTrade.m_Key) != m_SendLossSet.end())
+	else
 	{
-		m_TargetVol -= apTrade.m_TradeVol;
+		return false;
 	}
+}
 
-	m_ActiveOrderVol -= apTrade.m_TradeVol;
-
-	bool isFinishe = m_ActiveOrderVol == 0 ;
-	m_TradeReport(apTrade.m_TradePrice,apTrade.m_TradeVol,m_IsBuy,isFinishe);
-
-	return lret;
+AT::ExecutionStatus CloseExecutor_3Level::GetExecutionStatus()
+{
+	return m_Status;
 }
 
 std::string CloseExecutor_3Level::GetExecutorID()
 {
-	return "Level3Quit";
+	return m_ExecutorID;
 }
 
-Command CloseExecutor_3Level::PlaceStopLossOrder(const AT::MarketData& aMarket)
+void CloseExecutor_3Level::HandleFirstExecutorResult( ExecutionResult aTrade )
 {
-	Command lret;
-	InputCommand* lpInputOrder = new InputCommand;
-
-	int lPriceDiffer = m_Setting.StopLossOrderPrice * 100  * (m_IsBuy ? 1 : -1);
-	lpInputOrder->m_operation.m_Price = aMarket.m_LastPrice + lPriceDiffer;
-	lpInputOrder->m_operation.m_OpenCloseType = OpenCloseType::CloseTodayOrder;
-	lpInputOrder->m_operation.m_BuySellType = m_IsBuy? BuySellType::BuyOrder : BuySellType::SellOrder;
-	lpInputOrder->m_operation.m_Vol = m_TargetVol;
-	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
-	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
-	lpInputOrder->m_operation.m_OrderType = OrderPriceType::StopLossOrder;
-	lret.reset(lpInputOrder);
-
-
-	//m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
-	//m_SendLossSet.insert(lpInputOrder->m_operation.m_Key);
-	//m_LastLossPrice = aMarket.m_LastPrice;
-	//m_ActiveOrderVol += m_TargetVol;
-
-	return lret;
-
-
+	m_TradeReport(aTrade);
 }
-Command CloseExecutor_3Level::PlaceCloseOrder(const AT::MarketData& aMarket)
-{
-	Command lret;
-	InputCommand* lpInputOrder = new InputCommand;
 
-	lpInputOrder->m_operation.m_Price = aMarket.m_LastPrice;
-	lpInputOrder->m_operation.m_OpenCloseType = OpenCloseType::CloseTodayOrder;
-	lpInputOrder->m_operation.m_BuySellType = m_IsBuy? BuySellType::BuyOrder : BuySellType::SellOrder;
-	lpInputOrder->m_operation.m_Vol = m_TargetVol==0?m_ActiveOrderVol:m_TargetVol;
-	if(m_TargetVol != 0)
+void CloseExecutor_3Level::HandleQuitExecutorResult( ExecutionResult aTrade )
+{
+	m_TradeReport(aTrade);
+}
+
+bool CloseExecutor_3Level::CheckTrigger( const AT::MarketData& aMarketDepth )
+{
+	int lPriceDiffStart = aMarketDepth.m_LastPrice - m_StartPrice;
+	
+
+	int AbsPriceDiff = lPriceDiffStart;
+	if (m_BuySellCode == BuySellType::BuyOrder)
 	{
-		m_ActiveOrderVol += m_TargetVol;
+		AbsPriceDiff = -lPriceDiffStart;
 	}
-	m_TargetVol = 0;
-	m_CurrentLevel = 0;
-	strncpy_s(lpInputOrder->m_operation.InstrumentID , cInstrimentIDLength,aMarket.InstrumentID,cInstrimentIDLength);
-	lpInputOrder->m_operation.m_Key = GenerateOrderKey();
-	lpInputOrder->m_operation.m_OrderType = OrderPriceType::MarketOrder;
-	lret.reset(lpInputOrder);
-	m_SendOrderSet.insert(lpInputOrder->m_operation.m_Key);
-	return lret;
+
+	 UpdatePriceLevel(AbsPriceDiff);
+
+	 m_MaxPriceDiff = max(m_MaxPriceDiff,AbsPriceDiff);
+	 int FallBackFromHigh = m_MaxPriceDiff - AbsPriceDiff;
+	 
+	 switch (m_CurrentLevel)
+	 {
+	 case CheckStatusLevel::Level1:
+		 if (FallBackFromHigh >= m_Setting.QuitLevel_1)
+		 {
+			return true;
+		 }
+		 break;
+	 case  CheckStatusLevel::Level2:
+		 if (FallBackFromHigh >= m_Setting.QuitLevel_2)
+		 {
+			return true;
+		 }
+		 break;
+	 case CheckStatusLevel::Level3:
+		 if(FallBackFromHigh >= m_Setting.QuitLevel_3)
+		 {
+			 return true;
+		 }
+		 break;
+	 default:
+		 break;
+	 }
+
+	 return false;
+
 }
+
+void CloseExecutor_3Level::UpdatePriceLevel( int AbsPriceDiff )
+{
+	switch (m_CurrentLevel)
+	{
+	case CheckStatusLevel::Level0:
+		if (AbsPriceDiff >= m_Setting.EnterLevel_1)
+		{
+			m_CurrentLevel  = CheckStatusLevel::Level1;
+		}
+		break;
+	case  CheckStatusLevel::Level1:
+		if (AbsPriceDiff >= m_Setting.EnterLevel_2)
+		{
+			m_CurrentLevel  = CheckStatusLevel::Level2;
+		}
+		break;
+	case CheckStatusLevel::Level2:
+		if(AbsPriceDiff >= m_Setting.EnterLevel_3)
+		{
+			m_CurrentLevel  = CheckStatusLevel::Level3;
+		}
+		break;
+	case CheckStatusLevel::Level3:
+		break;
+	default:
+		break;
+	}
+}
+
+void CloseExecutor_3Level::InitFromConfigFile( const std::string& aConfig )
+{
+	boost::property_tree::ptree lConfigPtree;
+	read_xml(aConfig,lConfigPtree);
+	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+
+	m_Setting.EnterLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_1");
+	m_Setting.QuitLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_1");
+	m_Setting.EnterLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_2");
+	m_Setting.QuitLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_2");
+	m_Setting.EnterLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_3");
+	m_Setting.QuitLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_3");
+
+	std::string StopLossExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorType");
+	std::string StopLossExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorConfig");
+
+	std::string QuitExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorType");
+	std::string QuitExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorConfig");
+
+	m_pFirstExecutor = ExecutorFactory::CreateExecutor(StopLossExecutorType,StopLossExecutorConfig);
+	m_pQuitExecutor = ExecutorFactory::CreateExecutor(QuitExecutorType,QuitExecutorConfig);
+}
+
+
 }

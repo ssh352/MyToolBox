@@ -5,6 +5,14 @@ namespace AT
 {
 class IExecutor;
 
+
+static const std::string LimitExecutorType = "Limit";
+static const std::string MarketExecutorType = "Market";
+static const std::string LimitToCancelType = "LimitToCancel";
+static const std::string FollowType = "Follow";
+static const std::string OpenClosePairType = "Pair";
+
+
 class ExecutorFactory
 {
 public:

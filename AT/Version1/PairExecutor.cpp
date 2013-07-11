@@ -39,9 +39,9 @@ namespace AT
 	{
 
 		ExecutorInput lret;
-		lret.IsBuy = aOpenResult.IsBuy == BuySellType::BuyOrder ? BuySellType::SellOrder: BuySellType::BuyOrder;
-		lret.IsOpen = OpenCloseType::CloseToday;
-		lret.LastMarketData = m_LastMarketData;
+		lret.BuySellCode = aOpenResult.IsBuy == BuySellType::BuyOrder ? BuySellType::SellOrder: BuySellType::BuyOrder;
+		lret.OpenCloseCode = OpenCloseType::CloseToday;
+		lret.TriggerMarketData = m_LastMarketData;
 		strcpy_s(lret.InstrumentID ,cInstrimentIDLength,aOpenResult.InstrumentID);
 		lret.vol = aOpenResult.vol;
 

@@ -68,13 +68,13 @@ namespace AT
 		lInputOrder.m_OrderPriceType = m_PriceType;
 		if( m_PriceType == AT::OrderPriceType::LimitPrice)
 		{
-			lInputOrder.m_Price =  aNewOrder.LastMarketData.m_LastPrice + m_Parma.PriceOffset * 100;
+			lInputOrder.m_Price =  aNewOrder.TriggerMarketData.m_LastPrice + m_Parma.PriceOffset * 100;
 		}
 		lInputOrder.m_Vol = aNewOrder.vol;
 		strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
 		lInputOrder.m_Key = GenerateOrderKey();
-		lInputOrder.m_OpenCloseType = aNewOrder.IsOpen ;
-		lInputOrder.m_BuySellType = aNewOrder.IsBuy;
+		lInputOrder.m_OpenCloseType = aNewOrder.OpenCloseCode ;
+		lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
 		lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
 		lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
 		return lRet;

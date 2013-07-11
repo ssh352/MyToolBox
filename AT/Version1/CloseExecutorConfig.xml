@@ -3,25 +3,23 @@
 <!--出场预案，ID:出场预案id；Level0：QuitPrice止损出场价；Level1到Level3:EnterPrice:进的点数；QuitPrice：退的点数-->
 <!--StopTime:收盘时间的全部平仓；StopClearTime：用市价清仓-->
 
-<CloseExecutorConfig>
-  <Item>
-    <ID>1</ID>
-    <Level0>
-      <QuitPrice>-2</QuitPrice>
-    </Level0>
-    <Level1>
-      <EnterPrice>3</EnterPrice>
-      <QuitPrice>2</QuitPrice>
-    </Level1>
-    <Level2>
-      <EnterPrice>5</EnterPrice>
-      <QuitPrice>3</QuitPrice>
-    </Level2>
-    <Level3>
-      <EnterPrice>10</EnterPrice>
-      <QuitPrice>7</QuitPrice>
-    </Level3>
-    <StopTime>22:00</StopTime>
-    <StopClearTime>22:10</StopClearTime>
-  </Item>
-</CloseExecutorConfig>
+<ExecutorConfig>
+
+  <ExecutorID>CloseExecutor_3Level</ExecutorID>
+
+
+  <LevelEnter_1>3</LevelEnter_1>
+  <LevelBack_1>2</LevelBack_1>
+  <LevelEnter_2>10</LevelEnter_2>
+  <LevelBack_2>4</LevelBack_2>
+    <LevelEnter_3>15</LevelEnter_3>
+  <LevelBack_3>6</LevelBack_3>
+
+  <StopLossExecutorType></StopLossExecutorType>
+  <StopLossExecutorConfig></StopLossExecutorConfig>
+
+  <QuitExecutorType></QuitExecutorType>
+  <QuitExecutorConfig></QuitExecutorConfig>
+
+
+</ExecutorConfig>

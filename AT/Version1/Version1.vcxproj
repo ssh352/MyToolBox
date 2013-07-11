@@ -70,7 +70,7 @@
     <ClCompile Include="AccountFactory.cpp" />
     <ClCompile Include="AccountSignalDispach.cpp" />
     <ClCompile Include="CloseExecutor_3Level.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ExecutorContianer.cpp" />
@@ -94,7 +94,7 @@
     <ClInclude Include="AccountFactory.h" />
     <ClInclude Include="AccountSignalDispach.h" />
     <ClInclude Include="CloseExecutor_3Level.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ExecutorContianer.h" />

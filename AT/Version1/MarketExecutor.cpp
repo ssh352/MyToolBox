@@ -51,14 +51,14 @@ Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	lRet.m_CommandType = CommandType::Input;
 	InputOrder& lInputOrder = lRet.m_InputOrder;
 
-	lInputOrder.m_Price =  aNewOrder.LastMarketData.m_LastPrice;
+	lInputOrder.m_Price =  aNewOrder.TriggerMarketData.m_LastPrice;
 	lInputOrder.m_Vol = aNewOrder.vol;
 
 	strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
 	lInputOrder.m_Key = GenerateOrderKey();
 
-	lInputOrder.m_OpenCloseType = aNewOrder.IsOpen ;
-	lInputOrder.m_BuySellType = aNewOrder.IsBuy;
+	lInputOrder.m_OpenCloseType = aNewOrder.OpenCloseCode ;
+	lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
 	lInputOrder.m_OrderPriceType = AT::OrderPriceType::MarketPrice;
 	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
 	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;

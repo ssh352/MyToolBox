@@ -2,6 +2,8 @@
 #include "IDriver_TD.h"
 #include "ATLogger.h"
 #include "LimitExecutor.h"
+#include "ExecutorFactory.h"
+
 
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
@@ -12,9 +14,6 @@ namespace AT
 LimitToCancelExecutor::LimitToCancelExecutor( const std::string& aConfigFile )
 {
 	InitFromConfigFile(aConfigFile);
-	m_pLimitExecutor.reset(new LimitExecutor(aConfigFile));
-	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
-	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
 }
 
 void LimitToCancelExecutor::InitFromConfigFile( const std::string& aConfigFile )
@@ -23,6 +22,11 @@ void LimitToCancelExecutor::InitFromConfigFile( const std::string& aConfigFile )
 	read_xml(aConfigFile,lConfigPtree);
 	m_CancelTimeVol = lConfigPtree.get<int>("ExecutorConfig.CancelTime");
 	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+
+
+	m_pLimitExecutor = ExecutorFactory::CreateExecutor(LimitExecutorType,aConfigFile);
+	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
+	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
 
 }
 
@@ -41,7 +45,7 @@ void LimitToCancelExecutor::AddExecution( ExecutorInput aExecutorInput )
 	if(m_pLimitExecutor->GetExecutionStatus().IsFinised != false)
 	{
 		m_pLimitExecutor->AddExecution(aExecutorInput);
-		m_EndTime = aExecutorInput.LastMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
+		m_EndTime = aExecutorInput.TriggerMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
 		ATLOG(L_INFO,"LimitToCancelExecutor Start New Task");
 	}
 	else

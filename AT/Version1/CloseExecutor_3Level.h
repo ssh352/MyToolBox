@@ -2,78 +2,78 @@
 #include "IExecutor.h"
 #include "IDriver_TD.h"
 #include <set>
-#if 0
+
 namespace AT
 {
 
 struct CloseSetting_3Level
 {
-	int StopLossOrderPrice; //优先单止损价格差
-	int QuitLevel_0;
 	int EnterLevel_1;
 	int QuitLevel_1;
 	int EnterLevel_2;
 	int QuitLevel_2;
 	int EnterLevel_3;
 	int QuitLevel_3;
-	AT_Time StopTime;//规定时间点还有持仓，则全部平仓
-	AT_Time StopClearTime;//规定时间点还有持仓，则按市价清仓
 };
 
 class CloseExecutor_3Level :public IExecutor
 {
 public:
 	CloseExecutor_3Level(const std::string& aConfigFile);
-	CloseExecutor_3Level(CloseSetting_3Level);
 	virtual ~CloseExecutor_3Level(void);
 
-	////输入1 来自于上层的交易信号
-	//virtual Command SetupTarget(int targetQuantity,bool isBuy, const AT::MarketData& aMarket) override;
-	//virtual Command AddTarget(int addTargetQuantity, bool isBuy,const AT::MarketData& aMarket) override;
+
+	//输入1 来自于上层的交易信号
+	virtual void AddExecution(ExecutorInput aExecutorInput) override;
+	virtual void Abrot() override;
 
 	//输入2 来自于执行层面
-	virtual  Command OnMarketDepth(const AT::MarketData& aMarketDepth) override;
-	virtual  Command OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
-	virtual  Command OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-	virtual std::string GetExecutorID() override;
+	virtual	void OnMarketDepth(const AT::MarketData& aMarketDepth) override;
+	virtual	void OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
+	virtual	void OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 
+	
+	virtual ExecutionStatus	GetExecutionStatus() override;
+	virtual std::string GetExecutorID()  override;
 
 
 private:
-	//止盈止损单(后续跟进优先单)
-	Command PlaceStopLossOrder(const AT::MarketData& aMarket);
-	//平仓单
-	Command PlaceCloseOrder(const AT::MarketData& aMarket);
 
-	Command DoQuit(const AT::MarketData& aMarket);
 
-	int			m_CurrentLevel;
-	int			m_StartPrice;
-	int			m_PriceCheck;
-	int			m_TargetVol;
-	int			m_ActiveOrderVol;
-	CloseSetting_3Level	m_Setting;
-	AT_Order_Key				m_DelOrderSet;
-	AT::MarketData m_LastMarket;
-	int				m_LastLossPrice;
-	AT_Time			m_TriggerLossTime;
+	//todo Init Executor;
 
-private:
-	bool		m_IsBuy;
-	std::set<AT_Order_Key>		m_SendOrderSet;
-	std::set<AT_Order_Key>		m_SendLossSet;
+	bool	CheckIsFinished();
+	boost::shared_ptr<IExecutor>		m_pFirstExecutor;		//收到请求后，在平常条件触发之前的Executor
+	boost::shared_ptr<IExecutor>		m_pQuitExecutor;		//决定平仓后，决定要具体使用的平仓Executor
+	bool	CheckTrigger(const AT::MarketData& aMarketDepth); //判断是否需要进入平仓逻辑
 
-	enum class Status
+	void UpdatePriceLevel( int AbsPriceDiff );
+
+	void	HandleFirstExecutorResult(ExecutionResult aTrade);
+	void	HandleQuitExecutorResult(ExecutionResult aTrade);
+	void	InitFromConfigFile(const std::string& aConfig);
+
+
+	ExecutionStatus		m_Status;
+	bool				m_IsTriggered;
+
+	//Check Trigger member
+	int					m_StartPrice;
+	int					m_MaxPriceDiff;
+	
+	enum class CheckStatusLevel
 	{
-		IDLE,
-		WaitForStopLossOrderPlace,
-		WaitQuitSignal,
-		WaitForStopLossOrderCancel,
-		WaitForNewQuitOrder,
+		Level0,
+		Level1,
+		Level2,
+		Level3,
 	};
-	Status					m_Status;
+	CheckStatusLevel m_CurrentLevel;
+	BuySellType			m_BuySellCode;
+	CloseSetting_3Level	m_Setting;
+	std::string			m_InstrumentID;
+
+
 };
 
 }
-
-#endif

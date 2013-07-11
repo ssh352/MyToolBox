@@ -7,11 +7,11 @@ namespace AT
 
 	struct ExecutorInput
 	{
-		BuySellType IsBuy;
-		OpenCloseType IsOpen;
+		BuySellType BuySellCode;
+		OpenCloseType OpenCloseCode;
 		int vol;
 		char InstrumentID[cInstrimentIDLength];
-		AT::MarketData LastMarketData;
+		AT::MarketData TriggerMarketData;
 	};
 
 	struct ExecutionResult

@@ -40,10 +40,10 @@ AT::ExecutorInput AccountSignalDispach::BuildExecutorInput(const SignalExecutInf
 {
 	ExecutorInput lret;
 	strcpy_s(lret.InstrumentID,cInstrimentIDLength,lInfo.InstrumentID.c_str());
-	lret.IsBuy = lInfo.BuySellCode;
-	lret.IsOpen = lInfo.OpenCloseCode;
+	lret.BuySellCode = lInfo.BuySellCode;
+	lret.OpenCloseCode = lInfo.OpenCloseCode;
 	lret.vol = m_Vol;
-	lret.LastMarketData = aTriggerMarket;
+	lret.TriggerMarketData = aTriggerMarket;
 	return lret;
 
 }

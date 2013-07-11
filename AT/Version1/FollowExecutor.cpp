@@ -38,8 +38,8 @@ void FollowExecutor::AddExecution( ExecutorInput aExecutorInput )
 			return ;
 		}
 
-		m_BuySell = aExecutorInput.IsBuy;
-		m_OpenClose = aExecutorInput.IsOpen;
+		m_BuySell = aExecutorInput.BuySellCode;
+		m_OpenClose = aExecutorInput.OpenCloseCode;
 		m_InstrumentID = aExecutorInput.InstrumentID;
 		Command lRet =  BuildCommand( aExecutorInput.vol);
 		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;

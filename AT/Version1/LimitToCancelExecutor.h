@@ -5,7 +5,6 @@
 namespace AT
 {
 
-class LimitExecutor;
 class LimitToCancelExecutor :public IExecutor
 {
 public:
@@ -32,7 +31,7 @@ private:
 
 	AT_Order_Key				m_OrderKey;
 
-	std::unique_ptr<LimitExecutor>	m_pLimitExecutor;	
+	boost::shared_ptr<IExecutor>	m_pLimitExecutor;	
 	int								m_CancelTimeVol;
 	AT_Time							m_EndTime;
 };

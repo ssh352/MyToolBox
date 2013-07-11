@@ -52,7 +52,6 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>false</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,6 +71,7 @@
     <ClCompile Include="AccountSignalDispach.cpp" />
     <ClCompile Include="CloseExecutor_3Level.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ExecutorContianer.cpp" />
     <ClCompile Include="ExecutorFactory.cpp" />
@@ -95,6 +95,7 @@
     <ClInclude Include="AccountSignalDispach.h" />
     <ClInclude Include="CloseExecutor_3Level.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ExecutorContianer.h" />
     <ClInclude Include="ExecutorFactory.h" />

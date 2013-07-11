@@ -5,9 +5,6 @@
     <ClCompile Include="version1Container.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="TradeSignalFliterDemo.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="CloseExecutor_3Level.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
@@ -51,12 +48,15 @@
     <ClCompile Include="PairExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
+    <ClCompile Include="AccountSignalDispach.cpp">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeSignalFliterDemo.cpp">
+      <Filter>Classes\Filter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeSignalFliterDemo.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="CloseExecutor_3Level.h">
@@ -120,6 +120,12 @@
     <ClInclude Include="PairExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
+    <ClInclude Include="AccountSignalDispach.h">
+      <Filter>Classes\TradeAccount</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeSignalFliterDemo.h">
+      <Filter>Classes\Filter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -155,12 +161,12 @@
     <Filter Include="config\Executor">
       <UniqueIdentifier>{3bf81380-9c10-4089-b4ff-6e43861c697b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Filter">
+      <UniqueIdentifier>{0cd493cb-e863-434c-9609-223ecaa95bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="ExchangeRuleConfig.xml">
-      <Filter>config</Filter>
-    </Xml>
-    <Xml Include="OpenExecutorConfig.xml">
       <Filter>config</Filter>
     </Xml>
     <Xml Include="SignalFliter.xml">
@@ -208,7 +214,6 @@
     <Xml Include="MarketExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>
-    <Xml Include="FollowExecutor01.xml" />
     <Xml Include="LimitToCancelExecutor.xml">
       <Filter>config\Executor</Filter>
     </Xml>
@@ -223,6 +228,9 @@
     </Xml>
     <Xml Include="CloseExecutorConfig.xml">
       <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="SignalDispatch.xml">
+      <Filter>config\Account</Filter>
     </Xml>
   </ItemGroup>
 </Project>

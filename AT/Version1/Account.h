@@ -11,6 +11,8 @@ class IDriver_TD;
 class ITradeAccountObserver;
 class IExecutor;
 class ExecutorContianer;
+class AccountSignalDispach;
+class ISignalFliter;
 
 struct ExechangeRule
 {
@@ -41,53 +43,20 @@ public:
 private:
 	void InitFromConfigFile(const std::string& aConfigFile);
 
-	void InitExchangeStroe();
-
 	void InitExecutorContainer(const std::string& aExecutoConfigFile);
 
-	void IntiSignalHandleSet();
-
-	void DoTradeCommand(Command apTradeCommand);
-
-
-	//交易所规则设定
+	void InitSignalDispatcher(const std::string& aDispatcherConfigFile);
 private:
-	//获取交易所规则
-	void InitExchangeRule(const std::string& aConfigFile);
-
-	//保存交易数
-	void StoreTradeVol();
-	//回复保存交易数
-	void RestoreTradeVol();
-
-	//设置单边持仓限额
-	void SetSignalDirectionVol(BuySellType type,int Vol,bool bAdd);
-	
-	//设置最大累计开仓手数
-	void SetTotalOpenVol(int vol){m_ExechangeSetting.m_TotalOpenVol += vol;StoreTradeVol();}
-
-	//设置撤单交易次数
-	void SetTotalCancleTime(){m_ExechangeSetting.m_TotalCancleTime++;StoreTradeVol();}
-
-
-
-private:
-	int			m_AccountVol;		//每个信号发送的倍数
-	std::string m_AccountID;
-private:
-
-
 	void HandleCommand(Command aCommand);
 	void HandleExecutorResult(ExecutionResult);
 
 	IDriver_TD* m_pTD;
+	int			m_AccountVol;		//每个信号发送的倍数
+	std::string m_AccountID;
 
+	std::unique_ptr<ISignalFliter>								m_pFilter;
 	std::unique_ptr<ExecutorContianer>						m_pExecutorContianer;
-
-	ExechangeRule				m_ExechangeSetting;
-	std::string					m_ExchangePath;
-	std::shared_ptr<SingleDBHandler>  m_TradeVolDB;
-
+	std::unique_ptr<AccountSignalDispach>					m_pAccountSignalDispach;
 };
 
 }

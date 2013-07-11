@@ -69,6 +69,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountFactory.cpp" />
+    <ClCompile Include="AccountSignalDispach.cpp" />
     <ClCompile Include="CloseExecutor_3Level.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -91,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountFactory.h" />
+    <ClInclude Include="AccountSignalDispach.h" />
     <ClInclude Include="CloseExecutor_3Level.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -129,18 +131,17 @@
     <Xml Include="ExchangeRuleConfig.xml" />
     <Xml Include="ExecutorConfigList.xml" />
     <Xml Include="FollowExecutor.xml" />
-    <Xml Include="FollowExecutor01.xml" />
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />
     <Xml Include="HKY003_1307.xml" />
     <Xml Include="LimitExecutor.xml" />
     <Xml Include="LimitToCancelExecutor.xml" />
     <Xml Include="MarketExecutor.xml" />
-    <Xml Include="OpenExecutorConfig.xml" />
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="PairExecutor.xml" />
+    <Xml Include="SignalDispatch.xml" />
     <Xml Include="SignalFliter.xml" />
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>

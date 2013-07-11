@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<SignalDispatch>
+  
+<SignalHandleCase>
+  <SignalID></SignalID>
+  <InstrumentID></InstrumentID>
+  <BuySellCode></BuySellCode>
+  <OpenCloseCode></OpenCloseCode>
+  <ExecutorID></ExecutorID>
+</SignalHandleCase>
+
+<SignalHandleCase>
+  <SignalID></SignalID>
+  <InstrumentID></InstrumentID>
+  <BuySellCode></BuySellCode>
+  <OpenCloseCode></OpenCloseCode>
+  <ExecutorID></ExecutorID>
+</SignalHandleCase>
+
+<SignalHandleCase>
+  <SignalID></SignalID>
+  <InstrumentID></InstrumentID>
+  <BuySellCode></BuySellCode>
+  <OpenCloseCode></OpenCloseCode>
+  <ExecutorID></ExecutorID>
+</SignalHandleCase>
+
+<SignalHandleCase>
+  <SignalID></SignalID>
+  <InstrumentID></InstrumentID>
+  <BuySellCode></BuySellCode>
+  <OpenCloseCode></OpenCloseCode>
+  <ExecutorID></ExecutorID>
+</SignalHandleCase>
+
+
+</SignalDispatch>

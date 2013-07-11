@@ -31,10 +31,8 @@ void ExecutorContianer::InitFromConfig( const std::string& aConfigFile )
 		std::string lExecutorType = lExecutorItem.second.get<std::string>("ExecutorType");
 		std::string lExecuorConfig =  lExecutorItem.second.get<std::string>("ExectorConfigFile");
 		boost::shared_ptr<IExecutor> lExecutor = ExecutorFactory::CreateExecutor(lExecutorType,lExecuorConfig);
-
 		lExecutor->SetCommandHandler(m_CommandHandler);
 		lExecutor->SetTradeReportCallback(m_ReportFun);
-
 		m_ExecutorGruop.insert(make_pair(lExecutor->GetExecutorID(),lExecutor));
 	}
 }

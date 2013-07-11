@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Executors>
+
+  <ExecutorCase>
+    <ExecutorType>Pair</ExecutorType>
+    <ExectorConfigFile>PairExecutor.xml</ExectorConfigFile>
+  </ExecutorCase>
+  
+  
+  
+  <!--
   <ExecutorCase>
     <ExecutorType>Limit</ExecutorType>
     <ExectorConfigFile>LimitExecutor.xml</ExectorConfigFile>
@@ -18,6 +27,7 @@
 
   <ExecutorCase>
     <ExecutorType>Follow</ExecutorType>
-    <ExectorConfigFile></ExectorConfigFile>
+    <ExectorConfigFile>FollowExecutor.xml</ExectorConfigFile>
   </ExecutorCase>
+    -->
 </Executors>

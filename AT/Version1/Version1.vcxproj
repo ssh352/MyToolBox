@@ -83,6 +83,7 @@
     <ClCompile Include="MarketExecutor.cpp" />
     <ClCompile Include="AccountContainer.cpp" />
     <ClCompile Include="Account.cpp" />
+    <ClCompile Include="PairExecutor.cpp" />
     <ClCompile Include="RecovedAccount.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
@@ -103,13 +104,11 @@
     <ClInclude Include="ISignalProducer.h" />
     <ClInclude Include="LimitExecutor.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
-    <ClInclude Include="OpenFollowExecutor.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="LimitToCancelExecutor.h" />
     <ClInclude Include="MarketExecutor.h" />
     <ClInclude Include="AccountContainer.h" />
     <ClInclude Include="Account.h" />
+    <ClInclude Include="PairExecutor.h" />
     <ClInclude Include="RecovedAccount.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Signal.h" />
@@ -141,6 +140,7 @@
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="PairExecutor.xml" />
     <Xml Include="SignalFliter.xml" />
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>

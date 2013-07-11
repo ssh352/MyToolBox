@@ -45,18 +45,18 @@ namespace AT
 		return m_Parma.ExecutorID;
 	}
 
-	AT::Command LimitExecutor::AddExecution( ExecutorInput aExecutorInput )
+	void LimitExecutor::AddExecution( ExecutorInput aExecutorInput )
 	{
 		if(m_ExecutionStatus.IsFinised != true)
 		{
 			ATLOG(L_ERROR,"Last Task not Complete");
-			return InvalidCommand;
+			return ;
 		}
 		Command lOrder = BuildCommand(aExecutorInput);
 		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
 		m_OrderKey = lOrder.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
-		return lOrder;
+		m_CommandHandle(lOrder);
 	}
 
 
@@ -81,12 +81,12 @@ namespace AT
 	}
 
 
-	Command LimitExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+	void LimitExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
-		return InvalidCommand;
+		return ;
 	}
 
-	Command LimitExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+	void LimitExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 	{
 		if (m_OrderKey == aTrade.m_Key )
 		{
@@ -100,10 +100,9 @@ namespace AT
 			m_TradeReport(lResult);	
 			ATLOG(L_INFO,ToString(aTrade));
 		}
-		return InvalidCommand;
 	}
 
-	Command LimitExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+	void LimitExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 	{
 		if (m_OrderKey == aOrder.m_Key)
 		{
@@ -116,7 +115,6 @@ namespace AT
 			}
 			SetupExecutionStatus(aOrder);
 		}
-		return InvalidCommand;
 	}
 
 
@@ -130,17 +128,17 @@ namespace AT
 		m_ExecutionStatus.CancelVol = aOrder.m_Vol - aOrder.m_LiveVol - aOrder.m_TradedVol ;
 	}
 
-	AT::Command LimitExecutor::Abrot()
+	void LimitExecutor::Abrot()
 	{
 		if(m_ExecutionStatus.IsFinised == true)
 		{
-			return InvalidCommand;
+			return ;
 		}
 
 		Command lret;
 		lret.m_CommandType = CommandType::Cancel;
 		lret.m_CancelOrder.m_Key = m_OrderKey;
-		return lret;
+		m_CommandHandle(lret);
 	}
 
 	AT::ExecutionStatus LimitExecutor::GetExecutionStatus()

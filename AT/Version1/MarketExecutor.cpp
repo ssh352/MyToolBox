@@ -23,29 +23,29 @@ std::string MarketExecutor::GetExecutorID()
 {
 	return m_ExecutorID;
 }
-AT::Command MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
+void MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
 	if(aExecutorInput.vol = 0)
 	{
-		return InvalidCommand;
+		return ;
 	}
 	else
 	{
 		if(m_ExecutionStatus.IsFinised != true)
 		{
 			ATLOG(L_ERROR,"Last Task not Complete");
-			return InvalidCommand;
+			return ;
 		}
 		Command lRet =  BuildCommand( aExecutorInput);
 		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
 		m_OrderKey = lRet.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
-		return lRet;
+		m_CommandHandle(lRet);
 	}
 }
 
 
-AT::Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
+Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 {
 	Command lRet;
 	lRet.m_CommandType = CommandType::Input;
@@ -65,12 +65,12 @@ AT::Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	return lRet;
 }
 
-Command MarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void MarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-	return InvalidCommand;
+	return ;
 }
 
-Command MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
 	if (m_OrderKey == aTrade.m_Key )
 	{
@@ -85,10 +85,10 @@ Command MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 		ATLOG(L_INFO,ToString(aTrade));
 	}
 
-	return InvalidCommand;
+	return ;
 }
 
-Command MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+void MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
 	if (m_OrderKey == aOrder.m_Key)
 	{
@@ -101,7 +101,7 @@ Command MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 		}
 		SetupExecutionStatus(aOrder);
 	}
-	return InvalidCommand;
+	return ;
 }
 
 AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
@@ -109,17 +109,17 @@ AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
 	return m_ExecutionStatus;
 }
 
-AT::Command MarketExecutor::Abrot()
+void MarketExecutor::Abrot()
 {
 	if(m_ExecutionStatus.IsFinised == true)
 	{
-		return InvalidCommand;
+		return ;
 	}
 
 	Command lret;
 	lret.m_CommandType = CommandType::Cancel;
 	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
-	return lret;
+	m_CommandHandle(lret);
 
 }
 

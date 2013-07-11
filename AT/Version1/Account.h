@@ -4,6 +4,7 @@
 #include <boost\smart_ptr.hpp>
 #include "SingleDBWriter.h"
 #include "Command.h"
+#include "IExecutor.h"
 namespace AT
 {
 class IDriver_TD;
@@ -44,10 +45,10 @@ private:
 
 	void InitExecutorContainer(const std::string& aExecutoConfigFile);
 
+	void IntiSignalHandleSet();
+
 	void DoTradeCommand(Command apTradeCommand);
 
-	void HandleCloseExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy,bool isFinishe);
-	void HandleOpenExecutorResult(int32_t aPrice, int32_t aVol,bool IsBuy, bool isFinishe);
 
 	//交易所规则设定
 private:
@@ -68,25 +69,20 @@ private:
 	//设置撤单交易次数
 	void SetTotalCancleTime(){m_ExechangeSetting.m_TotalCancleTime++;StoreTradeVol();}
 
+
+
 private:
-	int			m_TargetVol;
+	int			m_AccountVol;		//每个信号发送的倍数
 	std::string m_AccountID;
 private:
+
+
+	void HandleCommand(Command aCommand);
+	void HandleExecutorResult(ExecutionResult);
+
 	IDriver_TD* m_pTD;
 
 	std::unique_ptr<ExecutorContianer>						m_pExecutorContianer;
-
-	//std::map<std::string,boost::shared_ptr<IExecutor> > m_OpenExecutorMap;
-	////boost::shared_ptr<ITradeSignalExecutor>							m_OpenExecutor;;
-	//boost::shared_ptr<IExecutor>							m_CloseExecutor;
-	//std::string			m_openExecutorID;
-
-	//MarketData			m_LastMarket;
-	//Signal			m_LastTradeSignal ;
-	//bool m_IsCompleteOpen;
-	//bool m_IsCompleteClose;
-
-	//int m_totalProfit;
 
 	ExechangeRule				m_ExechangeSetting;
 	std::string					m_ExchangePath;

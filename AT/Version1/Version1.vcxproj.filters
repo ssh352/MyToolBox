@@ -48,6 +48,9 @@
     <ClCompile Include="FollowExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
+    <ClCompile Include="PairExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
@@ -111,8 +114,10 @@
     <ClInclude Include="LimitExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="OpenFollowExecutor.h" />
     <ClInclude Include="FollowExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="PairExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,9 +157,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="CloseExecutorConfig.xml">
-      <Filter>config</Filter>
-    </Xml>
     <Xml Include="ExchangeRuleConfig.xml">
       <Filter>config</Filter>
     </Xml>
@@ -214,6 +216,12 @@
       <Filter>config\Executor</Filter>
     </Xml>
     <Xml Include="FollowExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="PairExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="CloseExecutorConfig.xml">
       <Filter>config\Executor</Filter>
     </Xml>
   </ItemGroup>

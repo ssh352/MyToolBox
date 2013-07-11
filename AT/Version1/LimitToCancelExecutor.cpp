@@ -14,6 +14,7 @@ LimitToCancelExecutor::LimitToCancelExecutor( const std::string& aConfigFile )
 	InitFromConfigFile(aConfigFile);
 	m_pLimitExecutor.reset(new LimitExecutor(aConfigFile));
 	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
+	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
 }
 
 void LimitToCancelExecutor::InitFromConfigFile( const std::string& aConfigFile )
@@ -35,43 +36,41 @@ std::string LimitToCancelExecutor::GetExecutorID()
 	return m_ExecutorID;
 }
 
-AT::Command LimitToCancelExecutor::AddExecution( ExecutorInput aExecutorInput )
+void LimitToCancelExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
-	if(m_pLimitExecutor->GetExecutionStatus().IsFinised == false)
+	if(m_pLimitExecutor->GetExecutionStatus().IsFinised != false)
 	{
-		Command lRet = m_pLimitExecutor->AddExecution(aExecutorInput);
+		m_pLimitExecutor->AddExecution(aExecutorInput);
 		m_EndTime = aExecutorInput.LastMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
-		ATLOG(L_ERROR,"LimitToCancelExecutor Start New Task");
-		return lRet;
+		ATLOG(L_INFO,"LimitToCancelExecutor Start New Task");
 	}
 	else
 	{
 		ATLOG(L_ERROR,"LimitToCancelExecutor DId not Finnish Last Task");
-		return InvalidCommand;
+		return ;
 	}
 
 }
-
-Command LimitToCancelExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void LimitToCancelExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	if (m_pLimitExecutor->GetExecutionStatus().IsFinised == false && aMarketDepth.m_UpdateTime >m_EndTime)
 	{
-		return m_pLimitExecutor->Abrot();
+		 m_pLimitExecutor->Abrot();
 	}
 	else
 	{
-		return m_pLimitExecutor->OnMarketDepth(aMarketDepth);
+		 m_pLimitExecutor->OnMarketDepth(aMarketDepth);
 	}
 }
 
-Command LimitToCancelExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void LimitToCancelExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
-	return m_pLimitExecutor->OnRtnTrade(aTrade);
+	 m_pLimitExecutor->OnRtnTrade(aTrade);
 }
 
-Command LimitToCancelExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+void LimitToCancelExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	return m_pLimitExecutor->OnRtnOrder(apOrder);
+	 m_pLimitExecutor->OnRtnOrder(apOrder);
 }
 
 AT::ExecutionStatus LimitToCancelExecutor::GetExecutionStatus()
@@ -79,9 +78,9 @@ AT::ExecutionStatus LimitToCancelExecutor::GetExecutionStatus()
 	return m_pLimitExecutor->GetExecutionStatus();
 }
 
-AT::Command LimitToCancelExecutor::Abrot()
+void LimitToCancelExecutor::Abrot()
 {
-	return m_pLimitExecutor->Abrot();
+	 m_pLimitExecutor->Abrot();
 }
 
 

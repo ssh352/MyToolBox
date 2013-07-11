@@ -8,9 +8,13 @@
 namespace AT
 {
 
-ExecutorContianer::ExecutorContianer(const std::string& aConfigFile )
+
+
+ExecutorContianer::ExecutorContianer( const std::string& aConfig,CommandHandler apCommandHandle,TradeReportFun aTradeReportFun )
+	:m_CommandHandler(apCommandHandle)
+	,m_ReportFun(aTradeReportFun)
 {
-	InitFromConfig(aConfigFile);
+	InitFromConfig(aConfig);
 }
 
 
@@ -27,6 +31,10 @@ void ExecutorContianer::InitFromConfig( const std::string& aConfigFile )
 		std::string lExecutorType = lExecutorItem.second.get<std::string>("ExecutorType");
 		std::string lExecuorConfig =  lExecutorItem.second.get<std::string>("ExectorConfigFile");
 		boost::shared_ptr<IExecutor> lExecutor = ExecutorFactory::CreateExecutor(lExecutorType,lExecuorConfig);
+
+		lExecutor->SetCommandHandler(m_CommandHandler);
+		lExecutor->SetTradeReportCallback(m_ReportFun);
+
 		m_ExecutorGruop.insert(make_pair(lExecutor->GetExecutorID(),lExecutor));
 	}
 }
@@ -42,39 +50,28 @@ boost::shared_ptr<IExecutor> ExecutorContianer::GetExecutorByID( const std::stri
 	return m_ExecutorGruop[aExecutorID];
 }
 
-std::vector<Command> ExecutorContianer::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void ExecutorContianer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		Command lTradeCommand = lExecutor.second->OnMarketDepth(aMarketDepth);
-		lret.push_back(lTradeCommand);
+		lExecutor.second->OnMarketDepth(aMarketDepth);
 	}
-	return lret;
 }
 
-std::vector<Command> ExecutorContianer::OnRtnOrder( const AT::OrderUpdate& apOrder )
+void ExecutorContianer::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		Command lTradeCommand = lExecutor.second->OnRtnOrder(apOrder);
-		lret.push_back(lTradeCommand);
+		lExecutor.second->OnRtnOrder(apOrder);
 	}
-
-	return lret;
 }
 
-std::vector<Command> ExecutorContianer::OnRtnTrade( const AT::TradeUpdate& apTrade )
+void ExecutorContianer::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
-	std::vector<Command> lret;
 	for  (auto lExecutor : m_ExecutorGruop)
 	{
-		Command lTradeCommand = lExecutor.second->OnRtnTrade(apTrade);
-		lret.push_back(lTradeCommand);
-
+		 lExecutor.second->OnRtnTrade(apTrade);
 	}
-	return lret;
 }
 
 }

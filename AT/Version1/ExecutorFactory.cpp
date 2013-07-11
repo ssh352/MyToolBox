@@ -4,6 +4,7 @@
 #include "FollowExecutor.h"
 #include "MarketExecutor.h"
 #include "LimitExecutor.h"
+#include "PairExecutor.h"
 #include "CloseExecutor_3Level.h"
 #include "ATLogger.h"
 namespace AT
@@ -28,6 +29,10 @@ namespace AT
 	else if("Follow" == aExecutorType)
 	{
 		lret.reset(new AT::FollowExecutor(aConfigFile));
+	}
+	else if("Pair" == aExecutorType)
+	{
+		lret.reset(new AT::PairExecutor(aConfigFile));
 	}
 
 	if(!lret)

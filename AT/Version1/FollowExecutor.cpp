@@ -24,18 +24,18 @@ std::string FollowExecutor::GetExecutorID()
 {
 	return m_ExecutorID;
 }
-AT::Command FollowExecutor::AddExecution( ExecutorInput aExecutorInput )
+void FollowExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
 	if(aExecutorInput.vol = 0)
 	{
-		return InvalidCommand;
+		return ;
 	}
 	else
 	{
 		if(m_ExecutionStatus.IsFinised != true)
 		{
 			ATLOG(L_ERROR,"Last Task not Complete");
-			return InvalidCommand;
+			return ;
 		}
 
 		m_BuySell = aExecutorInput.IsBuy;
@@ -46,7 +46,7 @@ AT::Command FollowExecutor::AddExecution( ExecutorInput aExecutorInput )
 		m_OrderKey = lRet.m_InputOrder.m_Key;
 		m_ExecutionStatus.IsFinised = false;
 		m_IsAbrot  = false;
-		return lRet;
+		m_CommandHandle(lRet);
 	}
 }
 
@@ -70,12 +70,12 @@ AT::Command FollowExecutor::BuildCommand( int vol)
 	return lRet;
 }
 
-Command FollowExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void FollowExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-	return InvalidCommand;
+	
 }
 
-Command FollowExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void FollowExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
 	if (m_OrderKey == aTrade.m_Key )
 	{
@@ -89,11 +89,9 @@ Command FollowExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 		m_TradeReport(lResult);	
 		ATLOG(L_INFO,ToString(aTrade));
 	}
-
-	return InvalidCommand;
 }
 
-Command FollowExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+void FollowExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
 	if (m_OrderKey == aOrder.m_Key)
 	{
@@ -116,11 +114,10 @@ Command FollowExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 			//这里需要检查，假如一个IOC单子一下有多个对手单来与其成交 是否只来一个报单回报
 			Command lretCommand = BuildCommand(m_ExecutionStatus.CancelVol);
 			m_OrderKey = lretCommand.m_InputOrder.m_Key;
-			return lretCommand;
+			m_CommandHandle( lretCommand);
 		}
 		
 	}
-	return InvalidCommand;
 }
 
 AT::ExecutionStatus FollowExecutor::GetExecutionStatus()
@@ -128,19 +125,19 @@ AT::ExecutionStatus FollowExecutor::GetExecutionStatus()
 	return m_ExecutionStatus;
 }
 
-AT::Command FollowExecutor::Abrot()
+void FollowExecutor::Abrot()
 {
 
 	if(m_ExecutionStatus.IsFinised == true)
 	{
-		return InvalidCommand;
+		return ;
 	}
 
 	m_IsAbrot = true;
 	Command lret;
 	lret.m_CommandType = CommandType::Cancel;
 	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
-	return lret;
+	m_CommandHandle( lret);
 }
 
 void FollowExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )

@@ -31,7 +31,6 @@ namespace AT
 		std::string LExecutorContainerConfig =  lpt.get<std::string>("AccountFile.ExecutorConfig");
 		InitExecutorContainer(LExecutorContainerConfig);
 
-		m_TargetVol = lpt.get<int>("AccountFile.TargetVol");
 
 		InitExchangeStroe();
 	}	
@@ -311,7 +310,10 @@ namespace AT
 
 	void Account::InitExecutorContainer( const std::string& aExecutorConfigFile )
 	{
-			m_pExecutorContianer.reset(new ExecutorContianer(aExecutorConfigFile));
+			CommandHandler lpCommandHandle = boost::bind(&Account::HandleCommand,this,_1);
+			TradeReportFun lpTradeReportFun = boost::bind(&Account::HandleExecutorResult,this,_1);
+
+			m_pExecutorContianer.reset(new ExecutorContianer(aExecutorConfigFile,lpCommandHandle,lpTradeReportFun));
 	}
 
 	void Account::HandleTradeSignal( const Signal& aTradeSignal )
@@ -330,6 +332,16 @@ namespace AT
 	}
 
 	void Account::OnRtnTrade( const TradeUpdate& apTrade )
+	{
+
+	}
+
+	void Account::HandleCommand( Command aCommand )
+	{
+
+	}
+
+	void Account::HandleExecutorResult( ExecutionResult )
 	{
 
 	}

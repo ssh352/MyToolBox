@@ -45,26 +45,36 @@ namespace AT
 
 
 	typedef boost::function<void(ExecutionResult)> TradeReportFun;
+	typedef boost::function<void(Command)>			CommandHandler;
 	class IExecutor 
 	{
 
 	public:
 		//输入1 来自于命令
-		virtual Command AddExecution(ExecutorInput aExecutorInput) = 0; //添加新任务
-		virtual Command Abrot() = 0;									//终止执行 并撤单
+		virtual	void AddExecution(ExecutorInput aExecutorInput) = 0; //添加新任务
+		virtual void Abrot() = 0;									//终止执行 并撤单
 		//输入2 来自于执行层面
-		virtual Command OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
-		virtual Command  OnRtnOrder(const  AT::OrderUpdate& apOrder) =0;
-		virtual Command OnRtnTrade(const  AT::TradeUpdate& apTrade) =0;
+		virtual	void OnMarketDepth(const AT::MarketData& aMarketDepth) =0;
+		virtual void OnRtnOrder(const  AT::OrderUpdate& apOrder) =0;
+		virtual void OnRtnTrade(const  AT::TradeUpdate& apTrade) =0;
 		//查询执行状态是否结束
 		virtual ExecutionStatus	GetExecutionStatus() = 0;
 
 		//输入3 设置完成任务的callback
-		virtual void SetTradeReportCallback (TradeReportFun aFinishCallback) final {m_TradeReport = aFinishCallback;} ;
+		void SetTradeReportCallback (TradeReportFun aFinishCallback)  {m_TradeReport = aFinishCallback;} ;
 		virtual std::string GetExecutorID() = 0;
+
+		//输入4 设置一个接受Command的回掉，因为有可能一个更新要发出多个Command
+		//比如开仓成功的同时要下一个平仓单，同时开仓部分自己也可能会有单子。
+		void SetCommandHandler(CommandHandler aCommandHandler)
+		{
+			m_CommandHandle = aCommandHandler;
+		}
+		
 
 
 	protected:
+		CommandHandler				m_CommandHandle;
 		TradeReportFun				m_TradeReport;
 		std::string					m_ExecutorID;
 	};

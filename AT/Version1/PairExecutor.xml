@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExecutorConfig>
+  <ExecutorID>ExecutorHandleCase1</ExecutorID>
+  <OpenExecutorType>Limit</OpenExecutorType>
+  <OpenExecutorConfig>LimitExecutor.xml</OpenExecutorConfig>
+  <CloseExecutorType>Limit</CloseExecutorType>
+  <CloseExecutorConfig>LimitExecutor.xml</CloseExecutorConfig>
+</ExecutorConfig>

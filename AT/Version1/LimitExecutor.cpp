@@ -32,6 +32,9 @@ namespace AT
 		boost::property_tree::ptree lConfigPtree;
 		read_xml(aConfigFile,lConfigPtree);
 		m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+		lret.ExecutorID = m_ExecutorID;
+		lret.PriceType = lConfigPtree.get<char>("ExecutorConfig.PriceType");
+		lret.PriceOffset = lConfigPtree.get<int>("ExecutorConfig.PriceOffSet");
 		return lret;
 	}
 

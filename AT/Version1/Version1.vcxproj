@@ -135,7 +135,9 @@
     <Xml Include="HKY001_1307.xml" />
     <Xml Include="HKY002_1307.xml" />
     <Xml Include="HKY003_1307.xml" />
-    <Xml Include="LimitExecutor.xml" />
+    <Xml Include="LimitExecutor.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="LimitToCancelExecutor.xml" />
     <Xml Include="MarketExecutor.xml" />
     <Xml Include="IndexContainer.xml">
@@ -156,6 +158,9 @@
   <ItemGroup>
     <ProjectReference Include="..\AT_CTP_MD\AT_CTP_MD.vcxproj">
       <Project>{b08f1cb1-15dc-46cd-b344-c118bbbeb218}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AT_CTP_MD_DataReplayer\AT_CTP_MD_DataReplayer.vcxproj">
+      <Project>{e9bcd0ab-6168-4006-abcf-7ad721b94872}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AT_CTP_Multi_TD\AT_CTP_Multi_TD.vcxproj">
       <Project>{786eeaab-3760-4e53-bbdf-445c1a0ceb05}</Project>

@@ -26,14 +26,18 @@ namespace AT
 		read_xml(aConfigFile,lpt);
 
 		m_AccountID = lpt.get<std::string>("AccountFile.AccountID");
+		std::string lExchangRuleFile =  lpt.get<std::string>("AccountFile.ExchangeRule");
+		//m_ExchangePath = lpt.get<std::string>("AccountFile.ExchangSavePath");
+		//InitExchangeStroe();
+		//InitExchangeRule(lExchangRuleFile);
 
 		std::string LExecutorContainerConfig =  lpt.get<std::string>("AccountFile.ExecutorConfig");
 		InitExecutorContainer(LExecutorContainerConfig);
 
+		m_AccountVol = lpt.get<int>("AccountFile.TargetVol");
+
 		std::string lDispatcherConfig =  lpt.get<std::string>("AccountFile.SignalHandleSet");
-
 		InitSignalDispatcher(lDispatcherConfig);
-
 	}	
 
 	Account::~Account(void)

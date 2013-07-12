@@ -94,7 +94,7 @@ namespace CTP
 		{
 			typedef bimap<  OpenCloseType ,  char  >::value_type ValueType;
 			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::NotSet,0));
-			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::CloseToday,THOST_FTDC_OF_Open));
+			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::Open,THOST_FTDC_OF_Open));
 			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::Close,THOST_FTDC_OF_Close));
 			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::ForceClose,THOST_FTDC_OF_ForceClose));
 			m_OpenCloseTypeTrans.insert(ValueType(AT::OpenCloseType::CloseToday,THOST_FTDC_OF_CloseToday));
@@ -104,7 +104,7 @@ namespace CTP
 		}
 		{
 			typedef bimap<  TimeInForceType ,  char  >::value_type ValueType;
-			m_TimeInForceTypeTrans.insert(ValueType(AT::TimeInForceType::NotSet,THOST_FTDC_TC_GFD));
+			m_TimeInForceTypeTrans.insert(ValueType(AT::TimeInForceType::NotSet,0));
 			m_TimeInForceTypeTrans.insert(ValueType(AT::TimeInForceType::IOC,THOST_FTDC_TC_IOC));
 			m_TimeInForceTypeTrans.insert(ValueType(AT::TimeInForceType::GFS,THOST_FTDC_TC_GFS));
 			m_TimeInForceTypeTrans.insert(ValueType(AT::TimeInForceType::GFD,THOST_FTDC_TC_GFD));

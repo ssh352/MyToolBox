@@ -71,8 +71,9 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 				boost::function<bool(AT_Time aTriggerTime)> lCheckSignal =
 					[InvertCheck,lpIndexContainer,aIndexName ,ExpectVal](AT_Time aTriggerTime)
 				{
-					int lLastVal = lpIndexContainer->GetIndex(aIndexName.c_str());
+					int lLastVal = lpIndexContainer->GetIndex(aIndexName.c_str(),aTriggerTime);
 					bool lCheck =  lLastVal == ExpectVal;
+					
 					if(InvertCheck)
 					{
 						return !lCheck;
@@ -138,7 +139,7 @@ AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMa
 			std::string LLinfo = ToString(aTriggerMarket.m_UpdateTime) + m_SignalName + std::to_string(m_Seqence)+ __FILE__;
 			 LLinfo += "   " ;
 			 LLinfo += __LINE__;
-			 ATLOG(L_ERROR,LLinfo);
+		//	 ATLOG(L_ERROR,LLinfo);
 
 			 m_LastSignalTime = aTriggerMarket.m_UpdateTime;
 		}
@@ -154,26 +155,24 @@ AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMa
 void    TradeSignalProducerDemo1::WriteTradeSignal()
 {
 	boost::property_tree::ptree lSignalTree;
-	std::string SignalPath = "TradeSignal";
-	boost::filesystem::path lDir(SignalPath);
-	lDir /=  to_iso_string(boost::gregorian::day_clock::local_day());
-	lDir /= m_SignalName+".xml";
 	
+	std::string SignalPath = to_iso_string(boost::gregorian::day_clock::local_day())+"-"+m_SignalName+".xml";
+
 	for (auto lSignal:m_TradeSignalVec)
 	{
-		/*std::string BuyOrSell = lSignal.m_BuyOrSell ?"Buy":"Sell";*/
-		std::string Signal = boost::str(boost::format("[UpdateTime::%s]  TradeSignal [ID:: %s]  [BuyOrSell: %s] [Priority:: %d] [InstrumentID:%s]\n[Price: %d] \n") 
+		std::string Signal = boost::str(boost::format(" TradeSignal [UpdateTime::%s] [ID:: %s] [Priority:: %d] [InstrumentID:%s]\n[Price: %d] \n") 
 			% ToString(lSignal.m_TriggerMarketData.m_UpdateTime)
 			% lSignal.m_ID
-			/*% BuyOrSell*/
 			% lSignal.m_priority
 			% lSignal.m_TriggerMarketData.InstrumentID
 			% lSignal.m_TriggerMarketData.m_LastPrice
 			);
-		lSignalTree.add("TradeSignal",Signal);
+		lSignalTree.add("TradeSignal.Signal",Signal);
 	}
 	if(m_TradeSignalVec.size() != 0)
-		write_xml(lDir.string(),lSignalTree);
+	{
+		write_xml(SignalPath,lSignalTree);
+	}
 }
 
 }

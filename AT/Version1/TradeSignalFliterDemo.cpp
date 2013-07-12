@@ -4,7 +4,7 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/posix_time/posix_time_types.hpp"
 #include <boost/format.hpp>
-
+#include "ATLogger.h"
 namespace AT
 {
 
@@ -77,21 +77,23 @@ Signal FilterSystemLevel::FliterTradeSignal( std::vector<Signal> aList )
 		lret.m_Valid = false;
 		return lret;
 	}
-
+	
 	//连续亏损1次
 
 	LastNTradeStatus lret1 = IsLastNTradeLoss(1);
-
-	if(lret1.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time1) )
+	if(m_ProfitStatusMap.size() > 0)
 	{
-		Signal lret;
-		lret.m_Valid = false;
-		return lret;
+		if(lret1.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time1) )
+		{
+			Signal lret;
+			lret.m_Valid = false;
+			return lret;
+		}
 	}
+	
 	//2次
-
+	
 	LastNTradeStatus lret2 = IsLastNTradeLoss(2);
-//	if(lret2.m_isAllLoss && lret2.m_TotalLoss > m_StopTriggerVol2 )
 	if(lret2.m_isAllLoss && (m_LastTime-lret2.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time2))
 	{
 		Signal lret;
@@ -101,7 +103,6 @@ Signal FilterSystemLevel::FliterTradeSignal( std::vector<Signal> aList )
 
 
 	LastNTradeStatus lret3 = IsLastNTradeLoss(3);
-	//if(lret3.m_isAllLoss && lret3.m_TotalLoss > m_StopTriggerVol3 )
 	if(lret3.m_isAllLoss && (m_LastTime-lret3.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time3))
 	{
 		Signal lret;
@@ -124,13 +125,17 @@ Signal FilterSystemLevel::FliterTradeSignal( std::vector<Signal> aList )
 	}
 
 	//总亏损N点时N秒冻结时长
-	if(totalProfit < m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->first &&
-		(m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->second))
+	if(m_ProfitStatusMap.size() > 0 )
 	{
-		Signal lret;
-		lret.m_Valid = false;
-		return lret;
+		if(totalProfit < m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->first &&
+			(m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->second))
+		{
+			Signal lret;
+			lret.m_Valid = false;
+			return lret;
+		}
 	}
+	
 
 
 	//处理优先级

@@ -47,7 +47,7 @@ private:
 	AT::IDriver_TD* m_pTD;
 	const AT::IMarketCache*				m_pMarketCache;
 
-	std::vector<HMODULE>				m_LibHandleVec;
+	//std::vector<HMODULE>				m_LibHandleVec;
 };
 
 }

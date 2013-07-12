@@ -86,12 +86,15 @@ void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 		return lret;
 	}
 
-	int IndexContainer::GetIndex( const std::string& aIndexName )
+	int IndexContainer::GetIndex( const std::string& aIndexName ,AT_Time aTime)
 	{
 		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
 		if(lResultMap.size() > 0)
 		{
-			return lResultMap.rbegin()->second;
+			//ToDO there should right, because the time may did not have the Market so it did not have the result
+			//but in Production it should not a problem
+			//return lResultMap.rbegin()->second;
+			return lResultMap[aTime];
 		}
 		else
 		{

@@ -3,36 +3,19 @@
 <SignalDispatch>
   
 <SignalHandleCase>
-  <SignalID></SignalID>
-  <InstrumentID></InstrumentID>
-  <BuySellCode></BuySellCode>
-  <OpenCloseCode></OpenCloseCode>
-  <ExecutorID></ExecutorID>
+  <SignalID>TradeSignal01_1307</SignalID>
+  <InstrumentID>IF1307</InstrumentID>
+  <BuySellCode>Buy</BuySellCode>
+  <OpenCloseCode>Open</OpenCloseCode>
+  <ExecutorID>ExecutorHandleCase1</ExecutorID>
 </SignalHandleCase>
 
 <SignalHandleCase>
-  <SignalID></SignalID>
-  <InstrumentID></InstrumentID>
-  <BuySellCode></BuySellCode>
-  <OpenCloseCode></OpenCloseCode>
-  <ExecutorID></ExecutorID>
+  <SignalID>TradeSignal02_1307</SignalID>
+  <InstrumentID>IF1307</InstrumentID>
+  <BuySellCode>Sell</BuySellCode>
+  <OpenCloseCode>Open</OpenCloseCode>
+  <ExecutorID>ExecutorHandleCase1</ExecutorID>
 </SignalHandleCase>
-
-<SignalHandleCase>
-  <SignalID></SignalID>
-  <InstrumentID></InstrumentID>
-  <BuySellCode></BuySellCode>
-  <OpenCloseCode></OpenCloseCode>
-  <ExecutorID></ExecutorID>
-</SignalHandleCase>
-
-<SignalHandleCase>
-  <SignalID></SignalID>
-  <InstrumentID></InstrumentID>
-  <BuySellCode></BuySellCode>
-  <OpenCloseCode></OpenCloseCode>
-  <ExecutorID></ExecutorID>
-</SignalHandleCase>
-
 
 </SignalDispatch>

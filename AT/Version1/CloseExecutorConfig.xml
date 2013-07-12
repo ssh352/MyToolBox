@@ -12,7 +12,7 @@
   <LevelBack_1>2</LevelBack_1>
   <LevelEnter_2>10</LevelEnter_2>
   <LevelBack_2>4</LevelBack_2>
-    <LevelEnter_3>15</LevelEnter_3>
+  <LevelEnter_3>15</LevelEnter_3>
   <LevelBack_3>6</LevelBack_3>
 
   <StopLossExecutorType></StopLossExecutorType>

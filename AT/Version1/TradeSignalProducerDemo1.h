@@ -40,6 +40,7 @@ private:
 	std::vector<CheckFunction>		m_CheckList;
 	std::vector<Signal>		m_TradeSignalVec;
 	AT_Time					m_LastSignalTime ;
+	std::string				m_StoreSignalPath;
 };
 
 }

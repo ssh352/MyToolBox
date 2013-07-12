@@ -52,7 +52,7 @@ void AccountSignalDispach::LoadExecuteInfoFromFile( const std::string& aConfigfi
 {
 	boost::property_tree::ptree lConfig;
 	read_xml(aConfigfile,lConfig);
-	for( std::pair<std::string,boost::property_tree::ptree>  lSignalHandleItem : lConfig.get_child("Executors"))
+	for( std::pair<std::string,boost::property_tree::ptree>  lSignalHandleItem : lConfig.get_child("SignalDispatch"))
 	{
 
 		std::string lSignalID = lSignalHandleItem.second.get<std::string>("SignalID");

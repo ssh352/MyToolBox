@@ -5,7 +5,6 @@
 
   <RecordList>
     <item>IF1307</item>
-    <item>IF1305</item>
     <item>IF1306</item>
   </RecordList>
   <Front>tcp://ctpmn1-front2.citicsf.com:51213</Front>

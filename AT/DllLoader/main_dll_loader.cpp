@@ -78,6 +78,7 @@ int main(int argc ,char** argv)
 
 	std::string lMDDllName = lPtree.get<std::string>("Config.MDDLL.DLLFileName");
 	std::string lMDConfigFile = lPtree.get<std::string>("Config.MDDLL.DLLConfig");
+	lMDConfigFile += to_iso_string(boost::gregorian::day_clock::local_day());
 	HMODULE  lMDhandle = LoadLibrary(lMDDllName.c_str());
 	if( ! lMDhandle)
 	{
@@ -138,7 +139,7 @@ int main(int argc ,char** argv)
 	lpStrInst->Stop();
 	lpTDInst->Stop();
 	
-	
+	system("pause");
 
 	FreeLibrary(lTDhandle);
 	FreeLibrary(lMDhandle);

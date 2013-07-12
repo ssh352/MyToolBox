@@ -39,7 +39,7 @@ void ExecutorContianer::InitFromConfig( const std::string& aConfigFile )
 
 boost::shared_ptr<IExecutor> ExecutorContianer::GetExecutorByID( const std::string& aExecutorID )
 {
-	if(m_ExecutorGruop.find(aExecutorID) != m_ExecutorGruop.end())
+	if(m_ExecutorGruop.find(aExecutorID) == m_ExecutorGruop.end())
 	{
 		ATLOG(L_ERROR,"Cant Find Executor With ID");
 		ATLOG(L_ERROR,aExecutorID);

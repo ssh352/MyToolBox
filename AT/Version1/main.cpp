@@ -19,7 +19,7 @@ int main()
 
 	AT::IDriver_TD* pTD = new CTP::CTP_MULTI_TD("AccountFile.xml",&versionPoster);
 	AT::IDriver_MD* pMD = new CTP::CTP_MD("../AT_CTP_MD/MDConfig.xml",&versionPoster);
-//	AT::IDriver_MD* pMD = new CTP::CTP_MD_Replayer("MD_MarketCache/20130708",&versionPoster);
+//	AT::IDriver_MD* pMD = new CTP::CTP_MD_Replayer("MD_MarketCache/20130712",&versionPoster);
 
 	AT::version1Container* pVersionContainer = new AT::version1Container("AccountFile.xml",pTD,&versionPoster,pMD->GetMarketCache());
 

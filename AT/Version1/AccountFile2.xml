@@ -3,6 +3,8 @@
 <!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
   <AccountID>00000291</AccountID>
+  <TargetVol>1</TargetVol>
+  
   <ExchangeRule>ExchangeRuleConfig.xml</ExchangeRule>
   <ExchangSavePath>ExchangStroe2</ExchangSavePath>
 
@@ -26,48 +28,7 @@
 
   <ExecutorConfig>ExecutorConfigList.xml</ExecutorConfig>
 
-  <SignalHandleSet>
-    <SignalHandleCase>
-      <SignalID></SignalID>
-      <InstrumentID></InstrumentID>
-      <IsBuy></IsBuy>
-      <TargetVol>1</TargetVol>
-      <FilterID></FilterID>
-      <OpenExecutor></OpenExecutor>
-      <!--Executor ID 是在Executor的配置文件里面设置-->
-      <CloseExecutor></CloseExecutor>
-    </SignalHandleCase>
-
-    <SignalHandleCase>
-      <SignalID></SignalID>
-      <InstrumentID></InstrumentID>
-      <IsBuy></IsBuy>
-      <TargetVol>1</TargetVol>
-      <FilterID></FilterID>
-      <OpenExecutor></OpenExecutor>
-      <CloseExecutor></CloseExecutor>
-    </SignalHandleCase>
-
-    <SignalHandleCase>
-      <SignalID></SignalID>
-      <InstrumentID></InstrumentID>
-      <IsBuy></IsBuy>
-      <TargetVol>1</TargetVol>
-      <FilterID></FilterID>
-      <OpenExecutor></OpenExecutor>
-      <CloseExecutor></CloseExecutor>
-    </SignalHandleCase>
-
-    <SignalHandleCase>
-      <SignalID></SignalID>
-      <InstrumentID></InstrumentID>
-      <IsBuy></IsBuy>
-      <TargetVol>1</TargetVol>
-      <FilterID></FilterID>
-      <OpenExecutor></OpenExecutor>
-      <CloseExecutor></CloseExecutor>
-    </SignalHandleCase>
-  </SignalHandleSet>
+  <SignalHandleSet>SignalDispatch.xml</SignalHandleSet>
 
   <ExchangeAccountInfo>
     <Front>tcp://125.64.36.25:26205</Front>

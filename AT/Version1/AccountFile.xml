@@ -14,7 +14,7 @@
   </Account>
 
   <Account>
-    <AccountType>Record</AccountType>
+    <AccountType>Recored</AccountType>
     <Config>AccountRecord.xml</Config>
   </Account>
 </MultiAccount_Config>

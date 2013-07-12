@@ -15,7 +15,7 @@ public:
 	//这个函数主要用来查询一段时间内指定名字的Index 以指定值出现的次数
 	int GetIndexCount(const std::string& aIndexName,int ExpectVal,AT_Time aStartTime,AT_Time aEndTime);
 	//取得 指定名字的Index 最新一个值
-	int GetIndex( const std::string& aIndexName);
+	int GetIndex( const std::string& aIndexName,AT_Time aTime);
 
 	//取得 指定名字Index 最后一个非0值
 	int GetLastNonZero(const std::string& aIndexName);

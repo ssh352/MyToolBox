@@ -5,12 +5,12 @@
 using namespace  AT;
 void PrintTDSpi::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	ATLOG(LogLevel::L_INFO,apOrder.ToString());
+	ATLOG(LogLevel::L_INFO,ToString(apOrder));
 }
 
 void PrintTDSpi::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
-	ATLOG(LogLevel::L_INFO,apTrade.ToString());
+	ATLOG(LogLevel::L_INFO,ToString(apTrade));
 }
 
 void PrintTDSpi::NotifyStateTD( AT::ETradeState aErrorCode,const char* aErrorMsg )

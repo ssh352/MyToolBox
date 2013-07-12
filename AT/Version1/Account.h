@@ -1,10 +1,13 @@
 #pragma once
 #include "IAccount.h"
-#include <string>
-#include <boost\smart_ptr.hpp>
 #include "SingleDBWriter.h"
 #include "Command.h"
 #include "IExecutor.h"
+
+#include <boost\asio.hpp>
+#include <string>
+#include <boost\smart_ptr.hpp>
+
 namespace AT
 {
 class IDriver_TD;
@@ -57,6 +60,8 @@ private:
 	std::unique_ptr<ISignalFliter>								m_pFilter;
 	std::unique_ptr<ExecutorContianer>						m_pExecutorContianer;
 	std::unique_ptr<AccountSignalDispach>					m_pAccountSignalDispach;
+
+
 };
 
 }

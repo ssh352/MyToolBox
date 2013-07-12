@@ -1,4 +1,4 @@
-s#include "MarketExecutor.h"
+#include "MarketExecutor.h"
 #include "IDriver_TD.h"
 #include "ATLogger.h"
 #include <boost\property_tree\ptree.hpp>

@@ -108,6 +108,29 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 				m_CheckList.push_back(lCkeckSignal);
 			}
 			break;
+		case CheckTimePointValType:
+			{
+				//bool InvertCheck = lChecklist.second.get<bool>("IsBlock");
+				//int ExpectVal = lChecklist.second.get<int>("ExceptVal");
+
+
+				//boost::function<bool(AT_Time aTriggerTime)> lCkeckSignal = 
+				//	[InvertCheck,lpIndexContainer,aIndexName,ExpectVal](AT_Time aTriggerTime)
+				//{
+				//	int lLastNonZero = lpIndexContainer->GetLastNonZero(aIndexName.c_str());
+				//	bool lCkeck = lLastNonZero == ExpectVal;
+				//	if(InvertCheck)
+				//	{
+				//		return !lCkeck;
+				//	}
+				//	else
+				//	{
+				//		return lCkeck;
+				//	}
+				//};
+				//m_CheckList.push_back(lCkeckSignal);
+			}
+			break;
 		default:
 			break;
 		}

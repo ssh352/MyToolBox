@@ -35,6 +35,7 @@ private:
 	static const int CountCheckType  = 1;
 	static const int LastValCheckType = 2;
 	static const int LastNonZeroCheckType  = 3;
+	static const int CheckTimePointValType = 4;
 
 	typedef boost::function<bool( AT_Time aTime)> CheckFunction;
 	std::vector<CheckFunction>		m_CheckList;

@@ -1,4 +1,4 @@
-s#include "MarketExecutor.h"
+#include "StopLossExecutor.h"
 #include "IDriver_TD.h"
 #include "ATLogger.h"
 #include <boost\property_tree\ptree.hpp>
@@ -6,24 +6,20 @@ s#include "MarketExecutor.h"
 namespace AT
 {
 
-
-MarketExecutor::MarketExecutor( const std::string& aConfig )
+StopLossExecutor::StopLossExecutor( const std::string& aConfigName )
 {
 	boost::property_tree::ptree lConfigPtree;
-	read_xml(aConfig,lConfigPtree);
+	read_xml(aConfigName,lConfigPtree);
 	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+	m_StopLossOffset = lConfigPtree.get<int>("ExecutorConfig.StopOffset");
 }
 
 
-MarketExecutor::~MarketExecutor(void)
+StopLossExecutor::~StopLossExecutor(void)
 {
 }
 
-std::string MarketExecutor::GetExecutorID()
-{
-	return m_ExecutorID;
-}
-void MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
+void StopLossExecutor::AddExecution( ExecutorInput aExecutorInput )
 {
 	if(aExecutorInput.vol = 0)
 	{
@@ -44,8 +40,7 @@ void MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
 	}
 }
 
-
-Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
+Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
 {
 	Command lRet;
 	lRet.m_CommandType = CommandType::Input;
@@ -61,16 +56,28 @@ Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
 	lInputOrder.m_OrderPriceType = AT::OrderPriceType::MarketPrice;
 	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
-	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
+	lInputOrder.m_TriggerType = AT::TriggerType::Touch;
+
+	int StopLossPrice = aNewOrder.TriggerMarketData.m_LastPrice ;
+	if(aNewOrder.BuySellCode == BuySellType::BuyOrder)
+	{
+		StopLossPrice += m_StopLossOffset;
+	}
+	else
+	{
+		StopLossPrice -= m_StopLossOffset;
+	}
+
+	lInputOrder.m_TriggerPrice = AT::TransPriceToDouble(StopLossPrice);
 	return lRet;
 }
 
-void MarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void StopLossExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	return ;
 }
 
-void MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void StopLossExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 {
 	if (m_OrderKey == aTrade.m_Key )
 	{
@@ -88,7 +95,7 @@ void MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
 	return ;
 }
 
-void MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+void StopLossExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 {
 	if (m_OrderKey == aOrder.m_Key)
 	{
@@ -99,17 +106,10 @@ void MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
 		{
 			m_ExecutionStatus.IsFinised = true;
 		}
-		SetupExecutionStatus(aOrder);
 	}
 	return ;
 }
-
-AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
-{
-	return m_ExecutionStatus;
-}
-
-void MarketExecutor::Abrot()
+void StopLossExecutor::Abrot()
 {
 	if(m_ExecutionStatus.IsFinised == true)
 	{
@@ -121,15 +121,6 @@ void MarketExecutor::Abrot()
 	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
 	m_CommandHandle(lret);
 
-}
-
-void MarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
-{
-	m_ExecutionStatus.SuspendVol_Exechange = 0;
-	m_ExecutionStatus.SuspendVol_Local = 0;
-	m_ExecutionStatus.TradeVol = aOrder.m_TradedVol;
-	m_ExecutionStatus.LivelVol = aOrder.m_LiveVol;
-	m_ExecutionStatus.CancelVol = aOrder.m_Vol - aOrder.m_LiveVol - aOrder.m_TradedVol ;
 }
 
 }

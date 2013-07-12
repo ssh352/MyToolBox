@@ -85,6 +85,7 @@
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="PairExecutor.cpp" />
     <ClCompile Include="RecovedAccount.cpp" />
+    <ClCompile Include="StopLossExecutor.cpp" />
     <ClCompile Include="TradeSignalFliterDemo.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="RecovedAccount.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="StopLossExecutor.h" />
     <ClInclude Include="TradeSignalFliterDemo.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />

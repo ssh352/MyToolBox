@@ -54,6 +54,9 @@
     <ClCompile Include="TradeSignalFliterDemo.cpp">
       <Filter>Classes\Filter</Filter>
     </ClCompile>
+    <ClCompile Include="StopLossExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="TradeSignalFliterDemo.h">
       <Filter>Classes\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="StopLossExecutor.h">
+      <Filter>Classes\Executor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@ CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
 ,m_CurrentLevel(CheckStatusLevel::Level0)
 ,m_MaxPriceDiff(0)
 ,m_StartPrice(0)
+,m_TradeQuantity(0)
 {
 	InitFromConfigFile(aConfigFile);
 }
@@ -28,13 +29,16 @@ void CloseExecutor_3Level::AddExecution( ExecutorInput aExecutorInput )
 		ATLOG(L_ERROR,"The CloseExecutor can only handle 1 ExecutorInput, the More should create new instance handle");
 		return;
 	}
+	m_Status.AddTastVol = aExecutorInput.vol;
 	m_Status.IsFinised = false;
 	m_pFirstExecutor->AddExecution(aExecutorInput);
 
 	m_BuySellCode = aExecutorInput.BuySellCode;
-	m_StartPrice = aExecutorInput.TriggerMarketData.m_LastPrice;
-	m_MaxPriceDiff = 0;
 	m_InstrumentID  = aExecutorInput.InstrumentID;
+	m_ExecutorInput = aExecutorInput;
+
+	m_MaxPriceDiff = 0;
+	m_StartPrice = aExecutorInput.TriggerMarketData.m_LastPrice;
 	
 }
 
@@ -78,13 +82,31 @@ void CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
 
 void CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
 {
+	if (m_Status.IsFinised)
+	{
+		return;
+	}
+
 	m_pFirstExecutor->OnRtnTrade(apTrade);
 	m_pQuitExecutor->OnRtnTrade(apTrade);
 }
 
 void CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
 {
-	m_pFirstExecutor->OnRtnOrder(apOrder);
+	if (m_Status.IsFinised)
+	{
+		return;
+	}
+
+	if(m_pFirstExecutor->GetExecutionStatus().IsFinised == false)
+	{
+		m_pFirstExecutor->OnRtnOrder(apOrder);
+		if(m_pFirstExecutor->GetExecutionStatus().IsFinised == true && m_IsTriggered)
+		{
+			ExecutorInput lQuitExecutorInput =  BuildQuitExecution();
+			m_pQuitExecutor->AddExecution(lQuitExecutorInput);
+		}
+	}
 	m_pQuitExecutor->OnRtnOrder(apOrder);
 	m_Status.IsFinised = CheckIsFinished();
 
@@ -114,6 +136,7 @@ std::string CloseExecutor_3Level::GetExecutorID()
 
 void CloseExecutor_3Level::HandleFirstExecutorResult( ExecutionResult aTrade )
 {
+	m_TradeQuantity += aTrade.vol;
 	m_TradeReport(aTrade);
 }
 
@@ -216,6 +239,15 @@ void CloseExecutor_3Level::InitFromConfigFile( const std::string& aConfig )
 
 	m_pFirstExecutor = ExecutorFactory::CreateExecutor(StopLossExecutorType,StopLossExecutorConfig);
 	m_pQuitExecutor = ExecutorFactory::CreateExecutor(QuitExecutorType,QuitExecutorConfig);
+}
+
+AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
+{
+
+	int		leftVol = m_Status.AddTastVol - m_TradeQuantity;
+	ExecutorInput lret = m_ExecutorInput;
+	lret.vol = leftVol;
+	return lret;
 }
 
 

@@ -46,6 +46,7 @@ private:
 	boost::shared_ptr<IExecutor>		m_pFirstExecutor;		//收到请求后，在平常条件触发之前的Executor
 	boost::shared_ptr<IExecutor>		m_pQuitExecutor;		//决定平仓后，决定要具体使用的平仓Executor
 	bool	CheckTrigger(const AT::MarketData& aMarketDepth); //判断是否需要进入平仓逻辑
+	ExecutorInput BuildQuitExecution();						//根据变量生成需要补充往QuitVol指令
 
 	void UpdatePriceLevel( int AbsPriceDiff );
 
@@ -56,6 +57,8 @@ private:
 
 	ExecutionStatus		m_Status;
 	bool				m_IsTriggered;
+	int					m_TradeQuantity;
+	ExecutorInput		m_ExecutorInput;
 
 	//Check Trigger member
 	int					m_StartPrice;

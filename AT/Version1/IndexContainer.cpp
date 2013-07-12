@@ -86,15 +86,15 @@ void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 		return lret;
 	}
 
-	int IndexContainer::GetIndex( const std::string& aIndexName ,AT_Time aTime)
+	int IndexContainer::GetIndexLastVal( const std::string& aIndexName)
 	{
 		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
 		if(lResultMap.size() > 0)
 		{
 			//ToDO there should right, because the time may did not have the Market so it did not have the result
 			//but in Production it should not a problem
-			//return lResultMap.rbegin()->second;
-			return lResultMap[aTime];
+			return lResultMap.rbegin()->second;
+			//return lResultMap[aTime];
 		}
 		else
 		{
@@ -102,6 +102,23 @@ void IndexContainer::OnMarketDepth( const AT::MarketData& aMarketDepth )
 			return 0;
 		}
 	}
+	int IndexContainer::GetIndexValForTime( const std::string& aIndexName, AT_Time aTimePoint )
+	{
+		SignalResultMap& lResultMap = m_SignalResultMapGroupBySignalName[aIndexName];
+		if(lResultMap.size() > 0)
+		{
+			//ToDO there should right, because the time may did not have the Market so it did not have the result
+			//but in Production it should not a problem
+	
+			return lResultMap[aTimePoint];
+		}
+		else
+		{
+			ATLOG(L_INFO,"try GetIndexValForTime  when no MarketFeed");
+			return 0;
+		}
+	}
+
 
 	int IndexContainer::GetLastNonZero( const std::string& aIndexName )
 	{

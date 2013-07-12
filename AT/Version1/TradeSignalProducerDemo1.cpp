@@ -71,7 +71,7 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 				boost::function<bool(AT_Time aTriggerTime)> lCheckSignal =
 					[InvertCheck,lpIndexContainer,aIndexName ,ExpectVal](AT_Time aTriggerTime)
 				{
-					int lLastVal = lpIndexContainer->GetIndex(aIndexName.c_str(),aTriggerTime);
+					int lLastVal = lpIndexContainer->GetIndexLastVal(aIndexName.c_str());
 					bool lCheck =  lLastVal == ExpectVal;
 					
 					if(InvertCheck)

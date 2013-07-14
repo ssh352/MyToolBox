@@ -3,6 +3,8 @@
 #include "IDriver_TD.h"
 #include <set>
 
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\xml_parser.hpp>
 namespace AT
 {
 
@@ -53,6 +55,10 @@ private:
 	void	HandleFirstExecutorResult(ExecutionResult aTrade);
 	void	HandleQuitExecutorResult(ExecutionResult aTrade);
 	void	InitFromConfigFile(const std::string& aConfig);
+
+	void InitCheckLevelSetting( boost::property_tree::ptree &lConfigPtree );
+
+	void InitChildExecutor( boost::property_tree::ptree &lConfigPtree );
 
 
 	ExecutionStatus		m_Status;

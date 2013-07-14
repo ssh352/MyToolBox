@@ -3,8 +3,6 @@
 #include "ATLogger.h"
 #include "ExecutorFactory.h"
 
-#include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\xml_parser.hpp>
 using namespace std;
 namespace AT
 {
@@ -222,23 +220,10 @@ void CloseExecutor_3Level::InitFromConfigFile( const std::string& aConfig )
 {
 	boost::property_tree::ptree lConfigPtree;
 	read_xml(aConfig,lConfigPtree);
-	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+	InitCheckLevelSetting(lConfigPtree);
 
-	m_Setting.EnterLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_1");
-	m_Setting.QuitLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_1");
-	m_Setting.EnterLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_2");
-	m_Setting.QuitLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_2");
-	m_Setting.EnterLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_3");
-	m_Setting.QuitLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_3");
+	InitChildExecutor(lConfigPtree);
 
-	std::string StopLossExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorType");
-	std::string StopLossExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorConfig");
-
-	std::string QuitExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorType");
-	std::string QuitExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorConfig");
-
-	m_pFirstExecutor = ExecutorFactory::CreateExecutor(StopLossExecutorType,StopLossExecutorConfig);
-	m_pQuitExecutor = ExecutorFactory::CreateExecutor(QuitExecutorType,QuitExecutorConfig);
 }
 
 AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
@@ -248,6 +233,39 @@ AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
 	ExecutorInput lret = m_ExecutorInput;
 	lret.vol = leftVol;
 	return lret;
+}
+
+void CloseExecutor_3Level::InitChildExecutor( boost::property_tree::ptree &lConfigPtree )
+{
+	std::string StopLossExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorType");
+	std::string StopLossExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorConfig");
+
+	std::string QuitExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorType");
+	std::string QuitExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.QuitExecutorConfig");
+
+	m_pFirstExecutor = ExecutorFactory::CreateExecutor(StopLossExecutorType,StopLossExecutorConfig);
+	m_pQuitExecutor = ExecutorFactory::CreateExecutor(QuitExecutorType,QuitExecutorConfig);
+
+	m_pFirstExecutor->SetCommandHandler(m_CommandHandle);
+	m_pQuitExecutor->SetCommandHandler(m_CommandHandle);
+
+	boost::function<void(ExecutionResult aTrade)> FirstTradeReprotFun = boost::bind(&CloseExecutor_3Level::HandleFirstExecutorResult,this,_1);
+	boost::function<void(ExecutionResult aTrade)> QuitTradeReprotFun = boost::bind(&CloseExecutor_3Level::HandleQuitExecutorResult,this,_1);
+
+	m_pFirstExecutor->SetTradeReportCallback(FirstTradeReprotFun);
+	m_pQuitExecutor->SetTradeReportCallback(QuitTradeReprotFun);
+}
+
+void CloseExecutor_3Level::InitCheckLevelSetting( boost::property_tree::ptree &lConfigPtree )
+{
+	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+
+	m_Setting.EnterLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_1");
+	m_Setting.QuitLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_1");
+	m_Setting.EnterLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_2");
+	m_Setting.QuitLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_2");
+	m_Setting.EnterLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_3");
+	m_Setting.QuitLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_3");
 }
 
 

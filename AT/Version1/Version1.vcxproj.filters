@@ -57,6 +57,9 @@
     <ClCompile Include="StopLossExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
+    <ClCompile Include="ExecutorBase.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
@@ -130,6 +133,9 @@
       <Filter>Classes\Filter</Filter>
     </ClInclude>
     <ClInclude Include="StopLossExecutor.h">
+      <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="ExecutorBase.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
   </ItemGroup>

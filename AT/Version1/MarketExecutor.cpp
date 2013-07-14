@@ -1,49 +1,18 @@
 #include "MarketExecutor.h"
 #include "IDriver_TD.h"
 #include "ATLogger.h"
-#include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\xml_parser.hpp>
 namespace AT
 {
 
-
 MarketExecutor::MarketExecutor( const std::string& aConfig )
+	:ExecutorBase(aConfig)
 {
-	boost::property_tree::ptree lConfigPtree;
-	read_xml(aConfig,lConfigPtree);
-	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-}
 
+}
 
 MarketExecutor::~MarketExecutor(void)
 {
 }
-
-std::string MarketExecutor::GetExecutorID()
-{
-	return m_ExecutorID;
-}
-void MarketExecutor::AddExecution( ExecutorInput aExecutorInput )
-{
-	if(aExecutorInput.vol = 0)
-	{
-		return ;
-	}
-	else
-	{
-		if(m_ExecutionStatus.IsFinised != true)
-		{
-			ATLOG(L_ERROR,"Last Task not Complete");
-			return ;
-		}
-		Command lRet =  BuildCommand( aExecutorInput);
-		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
-		m_OrderKey = lRet.m_InputOrder.m_Key;
-		m_ExecutionStatus.IsFinised = false;
-		m_CommandHandle(lRet);
-	}
-}
-
 
 Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 {
@@ -64,72 +33,48 @@ Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
 	return lRet;
 }
-
-void MarketExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void MarketExecutor::DoAddExecution( ExecutorInput aExecutorInput )
 {
-	return ;
+	Command lRet =  BuildCommand( aExecutorInput);
+	m_CommandHandle(lRet);
 }
 
-void MarketExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void MarketExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDepth )
 {
-	if (m_OrderKey == aTrade.m_Key )
-	{
-		ExecutionResult lResult ;
-		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
-		lResult.IsBuy = aTrade.m_BuySellType;
-		lResult.IsOpen = aTrade.m_OpenCloseType;
-		lResult.Price = aTrade.m_TradePrice;
-		lResult.vol = aTrade.m_TradeVol;
-
-		m_TradeReport(lResult);	
-		ATLOG(L_INFO,ToString(aTrade));
-	}
-
-	return ;
+	return;
 }
 
-void MarketExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+void MarketExecutor::DoAbrot()
 {
-	if (m_OrderKey == aOrder.m_Key)
-	{
-		ATLOG(L_INFO,ToString(aOrder));
-		m_TheOnlyOneMarketOrder = aOrder;
-
-		if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
-		{
-			m_ExecutionStatus.IsFinised = true;
-		}
-		SetupExecutionStatus(aOrder);
-	}
-	return ;
-}
-
-AT::ExecutionStatus MarketExecutor::GetExecutionStatus()
-{
-	return m_ExecutionStatus;
-}
-
-void MarketExecutor::Abrot()
-{
-	if(m_ExecutionStatus.IsFinised == true)
-	{
-		return ;
-	}
-
 	Command lret;
 	lret.m_CommandType = CommandType::Cancel;
-	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
+	lret.m_CancelOrder.m_Key = m_OrderKey;
 	m_CommandHandle(lret);
-
 }
 
-void MarketExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
+void MarketExecutor::DoOnRtnOrder( const AT::OrderUpdate& aOrder )
 {
-	m_ExecutionStatus.SuspendVol_Exechange = 0;
-	m_ExecutionStatus.SuspendVol_Local = 0;
-	m_ExecutionStatus.TradeVol = aOrder.m_TradedVol;
-	m_ExecutionStatus.LivelVol = aOrder.m_LiveVol;
-	m_ExecutionStatus.CancelVol = aOrder.m_Vol - aOrder.m_LiveVol - aOrder.m_TradedVol ;
+	ATLOG(L_INFO,ToString(aOrder));
+	if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
+	{
+		m_ExecutionStatus.IsFinised = true;
+	}
+	SetupExecutionStatus(aOrder);
+	return ;
+}
+
+void MarketExecutor::DoOnRtnTrade( const AT::TradeUpdate& aTrade )
+{
+	ExecutionResult lResult ;
+	strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
+	lResult.IsBuy = aTrade.m_BuySellType;
+	lResult.IsOpen = aTrade.m_OpenCloseType;
+	lResult.Price = aTrade.m_TradePrice;
+	lResult.vol = aTrade.m_TradeVol;
+
+	m_TradeReport(lResult);	
+	ATLOG(L_INFO,ToString(aTrade));
+	return;
 }
 
 }

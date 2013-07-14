@@ -1,5 +1,5 @@
 #pragma once
-#include "IExecutor.h"
+#include "ExecutorBase.h"
 #include <set>
 #include <string>
 #include <map>
@@ -7,7 +7,7 @@ namespace AT
 {
 
 
-class MarketExecutor :public IExecutor
+class MarketExecutor :public ExecutorBase
 {
 public:
 	MarketExecutor(const std::string& aConfig);
@@ -15,23 +15,18 @@ public:
 	virtual ~MarketExecutor(void);
 
 	//输入1 来自于上层的交易信号
-	virtual void AddExecution(ExecutorInput aExecutorInput) override;
-	virtual void Abrot() override;
+	virtual void DoAddExecution(ExecutorInput aExecutorInput) override;
+	virtual void DoAbrot() override;
 
 	//输入2 来自于执行层面
-	virtual	void OnMarketDepth(const AT::MarketData& aMarketDepth) override;
-	virtual	void OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
-	virtual	void OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-
-	virtual ExecutionStatus	GetExecutionStatus() override;
-	virtual std::string GetExecutorID()  override;
+	virtual	void DoOnMarketDepth(const AT::MarketData& aMarketDepth) override;
+	virtual	void DoOnRtnOrder(const  AT::OrderUpdate& apOrder)override;
+	virtual	void DoOnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 
 private:
-	void SetupExecutionStatus( const AT::OrderUpdate &aOrder );
+	
 	Command			BuildCommand(ExecutorInput aNewOrder);
-	AT_Order_Key				m_OrderKey;
-	AT::OrderUpdate				m_TheOnlyOneMarketOrder;
-	ExecutionStatus				m_ExecutionStatus;
+	
 	
 };
 

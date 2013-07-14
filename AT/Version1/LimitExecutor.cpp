@@ -10,13 +10,9 @@ using namespace std;
 namespace AT
 {
 	LimitExecutor::LimitExecutor( const std::string& aConfigFile )
+		:ExecutorBase(aConfigFile)
 	{
 		LimitExecutorParma parma = ReadConfigFile(aConfigFile);
-		InitFromParma(parma);
-	}
-
-	LimitExecutor::LimitExecutor( LimitExecutorParma parma )
-	{
 		InitFromParma(parma);
 	}
 
@@ -31,8 +27,8 @@ namespace AT
 		LimitExecutorParma lret;
 		boost::property_tree::ptree lConfigPtree;
 		read_xml(aConfigFile,lConfigPtree);
-		m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-		lret.ExecutorID = m_ExecutorID;
+		m_ExecutorIDBase = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+		lret.ExecutorID = m_ExecutorIDBase;
 		lret.PriceType = lConfigPtree.get<char>("ExecutorConfig.PriceType");
 		lret.PriceOffset = lConfigPtree.get<int>("ExecutorConfig.PriceOffSet");
 		return lret;
@@ -42,26 +38,6 @@ namespace AT
 	LimitExecutor::~LimitExecutor(void)
 	{
 	}
-
-	std::string LimitExecutor::GetExecutorID()
-	{
-		return m_Parma.ExecutorID;
-	}
-
-	void LimitExecutor::AddExecution( ExecutorInput aExecutorInput )
-	{
-		if(m_ExecutionStatus.IsFinised != true)
-		{
-			ATLOG(L_ERROR,"Last Task not Complete");
-			return ;
-		}
-		Command lOrder = BuildCommand(aExecutorInput);
-		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
-		m_OrderKey = lOrder.m_InputOrder.m_Key;
-		m_ExecutionStatus.IsFinised = false;
-		m_CommandHandle(lOrder);
-	}
-
 
 	AT::Command LimitExecutor::BuildCommand( ExecutorInput aNewOrder )
 	{
@@ -83,70 +59,48 @@ namespace AT
 		return lRet;
 	}
 
+	void LimitExecutor::DoAbrot()
+	{
+		Command lret;
+		lret.m_CommandType = CommandType::Cancel;
+		lret.m_CancelOrder.m_Key = m_OrderKeyBase;
+		m_CommandHandle(lret);
+	}
 
-	void LimitExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+
+	void LimitExecutor::DoAddExecution( ExecutorInput aExecutorInput )
+	{
+		Command lOrder = BuildCommand(aExecutorInput);
+		m_ExecutionStatusBase.IsFinised = false;
+		m_CommandHandle(lOrder);
+	}
+
+	void LimitExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
 		return ;
 	}
 
-	void LimitExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+	void LimitExecutor::DoOnRtnOrder( const AT::OrderUpdate& aOrder )
 	{
-		if (m_OrderKey == aTrade.m_Key )
+		ATLOG(L_INFO,ToString(aOrder));
+
+		if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
 		{
-			ExecutionResult lResult ;
-			strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
-			lResult.IsBuy = aTrade.m_BuySellType;
-			lResult.IsOpen = aTrade.m_OpenCloseType;
-			lResult.Price = aTrade.m_TradePrice;
-			lResult.vol = aTrade.m_TradeVol;
-
-			m_TradeReport(lResult);	
-			ATLOG(L_INFO,ToString(aTrade));
+			m_ExecutionStatusBase.IsFinised = true;
 		}
+		SetupTradeInfoBase(aOrder);
 	}
 
-	void LimitExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+	void LimitExecutor::DoOnRtnTrade( const AT::TradeUpdate& aTrade )
 	{
-		if (m_OrderKey == aOrder.m_Key)
-		{
-			ATLOG(L_INFO,ToString(aOrder));
-			m_TheOnlyOneLimitOrder = aOrder;
-
-			if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
-			{
-				m_ExecutionStatus.IsFinised = true;
-			}
-			SetupExecutionStatus(aOrder);
-		}
-	}
-
-
-
-	void LimitExecutor::SetupExecutionStatus( const AT::OrderUpdate &aOrder )
-	{
-		m_ExecutionStatus.SuspendVol_Exechange = 0;
-		m_ExecutionStatus.SuspendVol_Local = 0;
-		m_ExecutionStatus.TradeVol = aOrder.m_TradedVol;
-		m_ExecutionStatus.LivelVol = aOrder.m_LiveVol;
-		m_ExecutionStatus.CancelVol = aOrder.m_Vol - aOrder.m_LiveVol - aOrder.m_TradedVol ;
-	}
-
-	void LimitExecutor::Abrot()
-	{
-		if(m_ExecutionStatus.IsFinised == true)
-		{
-			return ;
-		}
-
-		Command lret;
-		lret.m_CommandType = CommandType::Cancel;
-		lret.m_CancelOrder.m_Key = m_OrderKey;
-		m_CommandHandle(lret);
-	}
-
-	AT::ExecutionStatus LimitExecutor::GetExecutionStatus()
-	{
-		return m_ExecutionStatus;
+		ExecutionResult lResult ;
+		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
+		lResult.IsBuy = aTrade.m_BuySellType;
+		lResult.IsOpen = aTrade.m_OpenCloseType;
+		lResult.Price = aTrade.m_TradePrice;
+		lResult.vol = aTrade.m_TradeVol;
+		m_TradeReport(lResult);	
+		ATLOG(L_INFO,ToString(aTrade));
 	}
 
 

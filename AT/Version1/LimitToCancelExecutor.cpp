@@ -12,6 +12,8 @@ namespace AT
 {
 
 LimitToCancelExecutor::LimitToCancelExecutor( const std::string& aConfigFile )
+	:ExecutorBase(aConfigFile)
+	,m_Status(LimitToCancelStstus::BeforeBegin)
 {
 	InitFromConfigFile(aConfigFile);
 }
@@ -21,9 +23,6 @@ void LimitToCancelExecutor::InitFromConfigFile( const std::string& aConfigFile )
 	boost::property_tree::ptree lConfigPtree;
 	read_xml(aConfigFile,lConfigPtree);
 	m_CancelTimeVol = lConfigPtree.get<int>("ExecutorConfig.CancelTime");
-	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-
-
 	m_pLimitExecutor = ExecutorFactory::CreateExecutor(LimitExecutorType,aConfigFile);
 	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
 	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
@@ -35,46 +34,49 @@ LimitToCancelExecutor::~LimitToCancelExecutor(void)
 {
 }
 
-std::string LimitToCancelExecutor::GetExecutorID()
+void LimitToCancelExecutor::DoAddExecution( ExecutorInput aExecutorInput )
 {
-	return m_ExecutorID;
+	m_pLimitExecutor->AddExecution(aExecutorInput);
+	m_EndTime = aExecutorInput.TriggerMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
+	m_ExecutionStatusBase = m_pLimitExecutor->GetExecutionStatus();
+	ATLOG(L_INFO,"LimitToCancelExecutor Start New Task");
+}
+void LimitToCancelExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDepth )
+{
+
+	switch (m_Status)
+	{
+	case AT::LimitToCancelExecutor::LimitToCancelStstus::Limit_OrderTime:
+		if( aMarketDepth.m_UpdateTime >m_EndTime)
+		{
+			m_pLimitExecutor->Abrot();
+			m_Status = LimitToCancelStstus::PendingCancel;
+		}
+
+		break;
+	case AT::LimitToCancelExecutor::LimitToCancelStstus::BeforeBegin:
+	case AT::LimitToCancelExecutor::LimitToCancelStstus::PendingCancel:
+	case AT::LimitToCancelExecutor::LimitToCancelStstus::Finish:
+		break;
+	default:
+		break;
+	}
+	m_pLimitExecutor->OnMarketDepth(aMarketDepth);
+	
 }
 
-void LimitToCancelExecutor::AddExecution( ExecutorInput aExecutorInput )
-{
-	if(m_pLimitExecutor->GetExecutionStatus().IsFinised != false)
-	{
-		m_pLimitExecutor->AddExecution(aExecutorInput);
-		m_EndTime = aExecutorInput.TriggerMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
-		ATLOG(L_INFO,"LimitToCancelExecutor Start New Task");
-	}
-	else
-	{
-		ATLOG(L_ERROR,"LimitToCancelExecutor DId not Finnish Last Task");
-		return ;
-	}
-
-}
-void LimitToCancelExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
-{
-	if (m_pLimitExecutor->GetExecutionStatus().IsFinised == false && aMarketDepth.m_UpdateTime >m_EndTime)
-	{
-		 m_pLimitExecutor->Abrot();
-	}
-	else
-	{
-		 m_pLimitExecutor->OnMarketDepth(aMarketDepth);
-	}
-}
-
-void LimitToCancelExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void LimitToCancelExecutor::DoOnRtnTrade( const AT::TradeUpdate& aTrade )
 {
 	 m_pLimitExecutor->OnRtnTrade(aTrade);
 }
 
-void LimitToCancelExecutor::OnRtnOrder( const AT::OrderUpdate& apOrder )
+void LimitToCancelExecutor::DoOnRtnOrder( const AT::OrderUpdate& apOrder )
 {
 	 m_pLimitExecutor->OnRtnOrder(apOrder);
+	 if(m_pLimitExecutor->GetExecutionStatus().IsFinised)
+	 {
+		 m_Status = LimitToCancelStstus::Finish;
+	 }
 }
 
 AT::ExecutionStatus LimitToCancelExecutor::GetExecutionStatus()
@@ -82,9 +84,14 @@ AT::ExecutionStatus LimitToCancelExecutor::GetExecutionStatus()
 	return m_pLimitExecutor->GetExecutionStatus();
 }
 
-void LimitToCancelExecutor::Abrot()
+void LimitToCancelExecutor::DoAbrot()
 {
-	 m_pLimitExecutor->Abrot();
+	if (m_Status == LimitToCancelStstus::Limit_OrderTime)
+	{
+		 m_pLimitExecutor->Abrot();
+		 m_Status = LimitToCancelStstus::PendingCancel;
+	}
+	
 }
 
 

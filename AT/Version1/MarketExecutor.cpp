@@ -48,7 +48,7 @@ void MarketExecutor::DoAbrot()
 {
 	Command lret;
 	lret.m_CommandType = CommandType::Cancel;
-	lret.m_CancelOrder.m_Key = m_OrderKey;
+	lret.m_CancelOrder.m_Key = m_OrderKeyBase;
 	m_CommandHandle(lret);
 }
 
@@ -57,9 +57,9 @@ void MarketExecutor::DoOnRtnOrder( const AT::OrderUpdate& aOrder )
 	ATLOG(L_INFO,ToString(aOrder));
 	if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
 	{
-		m_ExecutionStatus.IsFinised = true;
+		m_ExecutionStatusBase.IsFinised = true;
 	}
-	SetupExecutionStatus(aOrder);
+	SetupTradeInfoBase(aOrder);
 	return ;
 }
 

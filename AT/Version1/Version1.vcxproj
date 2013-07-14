@@ -37,6 +37,7 @@
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\debug_runtime.props" />
     <Import Project="..\MP_Comply.props" />
+    <Import Project="..\AT_CTP_MD\remove_CRT_SEL_Waring_c4996_and_others.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -45,6 +46,7 @@
     <Import Project="..\CTP_lib.props" />
     <Import Project="..\Release_runtime.props" />
     <Import Project="..\MP_Comply.props" />
+    <Import Project="..\AT_CTP_MD\remove_CRT_SEL_Waring_c4996_and_others.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />

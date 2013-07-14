@@ -26,8 +26,9 @@ public:
 	virtual void OnRtnTrade(const  AT::TradeUpdate& apTrade)final;
 	virtual void SetTradeReportCallback (TradeReportFun aFinishCallback)  final;
 	virtual	void SetCommandHandler(CommandHandler aCommandHandler) final;
-	virtual std::string GetExecutorID() final;
-	virtual ExecutionStatus GetExecutionStatus() final ;
+
+	virtual std::string GetExecutorID() override;
+	virtual ExecutionStatus GetExecutionStatus() override ;
 
 protected:
 	virtual	void DoAddExecution(ExecutorInput aExecutorInput) =0; //添加新任务
@@ -42,13 +43,14 @@ private:
 	CommandHandler				m_RealCommandHandle;
 
 protected:
-	void						SetupExecutionStatus( const AT::OrderUpdate &aOrder );
+	void		SetupTradeInfoBase( const AT::OrderUpdate &aOrder );
 	CommandHandler				m_CommandHandle;
 	TradeReportFun				m_TradeReport;
-	std::string					m_ExecutorID;
-	std::string					m_InstrumentID;
-	AT_Order_Key				m_OrderKey;
-	ExecutionStatus				m_ExecutionStatus;
+
+	std::string					m_ExecutorIDBase;
+	std::string					m_InstrumentIDBase;
+	AT_Order_Key				m_OrderKeyBase;
+	ExecutionStatus				m_ExecutionStatusBase;
 
 
 

@@ -7,10 +7,10 @@ namespace AT
 {
 
 StopLossExecutor::StopLossExecutor( const std::string& aConfigName )
+	:ExecutorBase(aConfigName)
 {
 	boost::property_tree::ptree lConfigPtree;
 	read_xml(aConfigName,lConfigPtree);
-	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
 	m_StopLossOffset = lConfigPtree.get<int>("ExecutorConfig.StopOffset");
 }
 
@@ -19,25 +19,12 @@ StopLossExecutor::~StopLossExecutor(void)
 {
 }
 
-void StopLossExecutor::AddExecution( ExecutorInput aExecutorInput )
+void StopLossExecutor::DoAddExecution( ExecutorInput aExecutorInput )
 {
-	if(aExecutorInput.vol = 0)
-	{
-		return ;
-	}
-	else
-	{
-		if(m_ExecutionStatus.IsFinised != true)
-		{
-			ATLOG(L_ERROR,"Last Task not Complete");
-			return ;
-		}
-		Command lRet =  BuildCommand( aExecutorInput);
-		m_ExecutionStatus.AddTastVol = aExecutorInput.vol;
-		m_OrderKey = lRet.m_InputOrder.m_Key;
-		m_ExecutionStatus.IsFinised = false;
-		m_CommandHandle(lRet);
-	}
+	Command lRet =  BuildCommand( aExecutorInput);
+	m_ExecutionStatusBase.AddTastVol = aExecutorInput.vol;
+	m_ExecutionStatusBase.IsFinised = false;
+	m_CommandHandle(lRet);
 }
 
 Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
@@ -72,55 +59,44 @@ Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
 	return lRet;
 }
 
-void StopLossExecutor::OnMarketDepth( const AT::MarketData& aMarketDepth )
+void StopLossExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDepth )
 {
 	return ;
 }
 
-void StopLossExecutor::OnRtnTrade( const AT::TradeUpdate& aTrade )
+void StopLossExecutor::DoOnRtnTrade( const AT::TradeUpdate& aTrade )
 {
-	if (m_OrderKey == aTrade.m_Key )
-	{
-		ExecutionResult lResult ;
-		strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
-		lResult.IsBuy = aTrade.m_BuySellType;
-		lResult.IsOpen = aTrade.m_OpenCloseType;
-		lResult.Price = aTrade.m_TradePrice;
-		lResult.vol = aTrade.m_TradeVol;
 
-		m_TradeReport(lResult);	
-		ATLOG(L_INFO,ToString(aTrade));
-	}
+	ExecutionResult lResult ;
+	strcpy_s(lResult.InstrumentID,cInstrimentIDLength,aTrade.InstrumentID);
+	lResult.IsBuy = aTrade.m_BuySellType;
+	lResult.IsOpen = aTrade.m_OpenCloseType;
+	lResult.Price = aTrade.m_TradePrice;
+	lResult.vol = aTrade.m_TradeVol;
 
+	m_TradeReport(lResult);	
+	ATLOG(L_INFO,ToString(aTrade));
+	
 	return ;
 }
 
-void StopLossExecutor::OnRtnOrder( const AT::OrderUpdate& aOrder )
+void StopLossExecutor::DoOnRtnOrder( const AT::OrderUpdate& aOrder )
 {
-	if (m_OrderKey == aOrder.m_Key)
+	
+	ATLOG(L_INFO,ToString(aOrder));
+	if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
 	{
-		ATLOG(L_INFO,ToString(aOrder));
-		m_TheOnlyOneMarketOrder = aOrder;
-
-		if(aOrder.m_OrderStatus == OrderStatusType::AllTraded || aOrder.m_OrderStatus == OrderStatusType::Canceled)
-		{
-			m_ExecutionStatus.IsFinised = true;
-		}
+		SetupTradeInfoBase(aOrder);
+		m_ExecutionStatusBase.IsFinised = true;
 	}
 	return ;
 }
-void StopLossExecutor::Abrot()
+void StopLossExecutor::DoAbrot()
 {
-	if(m_ExecutionStatus.IsFinised == true)
-	{
-		return ;
-	}
-
 	Command lret;
 	lret.m_CommandType = CommandType::Cancel;
-	lret.m_CancelOrder.m_Key = m_TheOnlyOneMarketOrder.m_Key;
+	lret.m_CancelOrder.m_Key = m_OrderKeyBase;
 	m_CommandHandle(lret);
-
 }
 
 }

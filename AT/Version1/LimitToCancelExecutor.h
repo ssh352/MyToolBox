@@ -1,39 +1,43 @@
 #pragma once
-#include "IExecutor.h"
+#include "ExecutorBase.h"
 #include <set>
 #include <string>
 namespace AT
 {
 
-class LimitToCancelExecutor :public IExecutor
+class LimitToCancelExecutor :public ExecutorBase
 {
 public:
 	LimitToCancelExecutor(const std::string& aConfigFile);
 	virtual ~LimitToCancelExecutor(void);
 
 	//输入1 来自于上层的交易信号
-	virtual void AddExecution(ExecutorInput aExecutorInput) override;
-	virtual void Abrot() override;
+	virtual void DoAddExecution(ExecutorInput aExecutorInput) override;
+	virtual void DoAbrot() override;
 
 	//输入2 来自于执行层面
-	virtual	void OnMarketDepth(const AT::MarketData& aMarketDepth) override;
-	virtual	void OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
+	virtual	void DoOnMarketDepth(const AT::MarketData& aMarketDepth) override;
+	virtual	void DoOnRtnOrder(const  AT::OrderUpdate& apOrder)override;
 
-	virtual	void OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-	virtual ExecutionStatus	GetExecutionStatus() override;
-	virtual std::string GetExecutorID()  override;
+	virtual	void DoOnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 
-
-
-
+	virtual ExecutionStatus GetExecutionStatus() override ;
 private:
 	void InitFromConfigFile(const std::string& aConfigFile);
-
-	AT_Order_Key				m_OrderKey;
 
 	boost::shared_ptr<IExecutor>	m_pLimitExecutor;	
 	int								m_CancelTimeVol;
 	AT_Time							m_EndTime;
+
+	enum class LimitToCancelStstus
+	{
+		BeforeBegin,
+		Limit_OrderTime,
+		PendingCancel,
+		Finish
+	};
+
+	LimitToCancelStstus			m_Status;
 };
 
 }

@@ -8,128 +8,31 @@ namespace AT
 {
 
 CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
-:m_IsTriggered(false)
-,m_CurrentLevel(CheckStatusLevel::Level0)
-,m_MaxPriceDiff(0)
-,m_StartPrice(0)
-,m_TradeQuantity(0)
+:ExecutorBase(aConfigFile)
 {
 	InitFromConfigFile(aConfigFile);
+	m_CurrentLevel = (CheckStatusLevel::Level0);
+	m_StatusEnumCode = Close3LevelStatus::BeforeStart;
+	m_MaxPriceDiff=(0);
+	m_StartPrice=(0);
+	m_TradeQuantity=(0);
 }
 CloseExecutor_3Level::~CloseExecutor_3Level(void)
 {
 }
 
-void CloseExecutor_3Level::AddExecution( ExecutorInput aExecutorInput )
+void CloseExecutor_3Level::DoAddExecution( ExecutorInput aExecutorInput )
 {
-	if (m_Status.IsFinised == false)
-	{
-		ATLOG(L_ERROR,"The CloseExecutor can only handle 1 ExecutorInput, the More should create new instance handle");
-		return;
-	}
-	m_Status.AddTastVol = aExecutorInput.vol;
-	m_Status.IsFinised = false;
+
+	m_ExecutionStatusBase.AddTastVol = aExecutorInput.vol;
+	m_ExecutionStatusBase.IsFinised = false;
 	m_pFirstExecutor->AddExecution(aExecutorInput);
-
+	m_StatusEnumCode = Close3LevelStatus::StopLoss_CheckTrigger;
 	m_BuySellCode = aExecutorInput.BuySellCode;
-	m_InstrumentID  = aExecutorInput.InstrumentID;
 	m_ExecutorInput = aExecutorInput;
-
 	m_MaxPriceDiff = 0;
 	m_StartPrice = aExecutorInput.TriggerMarketData.m_LastPrice;
 	
-}
-
-void CloseExecutor_3Level::Abrot()
-{
-	if (m_Status.IsFinised)
-	{
-		ATLOG(L_INFO,"CloseExecutor_3Level Is Already Finished or not start yet");
-		return;
-	}
-
-	m_pFirstExecutor->Abrot();
-	m_pQuitExecutor->Abrot();
-}
-
-void CloseExecutor_3Level::OnMarketDepth( const AT::MarketData& aMarketDepth )
-{
-	if (m_Status.IsFinised)
-	{
-		return;
-	}
-
-	if (aMarketDepth.InstrumentID != m_InstrumentID)
-	{
-		return;
-	}
-
-	if(!m_IsTriggered)
-	{
-		m_IsTriggered = CheckTrigger(aMarketDepth);
-		if(m_IsTriggered)
-		{
-			m_pFirstExecutor->Abrot();
-		}
-	}
-
-	m_pFirstExecutor->OnMarketDepth(aMarketDepth);
-	m_pQuitExecutor->OnMarketDepth(aMarketDepth);
-
-}
-
-void CloseExecutor_3Level::OnRtnTrade( const AT::TradeUpdate& apTrade )
-{
-	if (m_Status.IsFinised)
-	{
-		return;
-	}
-
-	m_pFirstExecutor->OnRtnTrade(apTrade);
-	m_pQuitExecutor->OnRtnTrade(apTrade);
-}
-
-void CloseExecutor_3Level::OnRtnOrder( const AT::OrderUpdate& apOrder )
-{
-	if (m_Status.IsFinised)
-	{
-		return;
-	}
-
-	if(m_pFirstExecutor->GetExecutionStatus().IsFinised == false)
-	{
-		m_pFirstExecutor->OnRtnOrder(apOrder);
-		if(m_pFirstExecutor->GetExecutionStatus().IsFinised == true && m_IsTriggered)
-		{
-			ExecutorInput lQuitExecutorInput =  BuildQuitExecution();
-			m_pQuitExecutor->AddExecution(lQuitExecutorInput);
-		}
-	}
-	m_pQuitExecutor->OnRtnOrder(apOrder);
-	m_Status.IsFinised = CheckIsFinished();
-
-}
-
-bool CloseExecutor_3Level::CheckIsFinished()
-{
-	if(m_pFirstExecutor->GetExecutionStatus().IsFinised && m_pQuitExecutor->GetExecutionStatus().IsFinised )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-AT::ExecutionStatus CloseExecutor_3Level::GetExecutionStatus()
-{
-	return m_Status;
-}
-
-std::string CloseExecutor_3Level::GetExecutorID()
-{
-	return m_ExecutorID;
 }
 
 void CloseExecutor_3Level::HandleFirstExecutorResult( ExecutionResult aTrade )
@@ -229,7 +132,7 @@ void CloseExecutor_3Level::InitFromConfigFile( const std::string& aConfig )
 AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
 {
 
-	int		leftVol = m_Status.AddTastVol - m_TradeQuantity;
+	int		leftVol = m_ExecutionStatusBase.AddTastVol - m_TradeQuantity;
 	ExecutorInput lret = m_ExecutorInput;
 	lret.vol = leftVol;
 	return lret;
@@ -258,14 +161,128 @@ void CloseExecutor_3Level::InitChildExecutor( boost::property_tree::ptree &lConf
 
 void CloseExecutor_3Level::InitCheckLevelSetting( boost::property_tree::ptree &lConfigPtree )
 {
-	m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-
 	m_Setting.EnterLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_1");
 	m_Setting.QuitLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_1");
 	m_Setting.EnterLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_2");
 	m_Setting.QuitLevel_2 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_2");
 	m_Setting.EnterLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_3");
 	m_Setting.QuitLevel_3 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_3");
+}
+
+void CloseExecutor_3Level::DoAbrot()
+{
+	switch (m_StatusEnumCode)
+	{
+	case AT::CloseExecutor_3Level::Close3LevelStatus::BeforeStart:
+		m_StatusEnumCode = Close3LevelStatus::Finished;
+		m_ExecutionStatusBase.IsFinised = true;
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::StopLoss_CheckTrigger:
+		m_pFirstExecutor->Abrot();
+		m_StatusEnumCode = Close3LevelStatus::AbrottingTime;
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::PendingStopLossCancel_Time:
+		m_StatusEnumCode = Close3LevelStatus::AbrottingTime;
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::QuitExecutor_Time:
+		m_StatusEnumCode = Close3LevelStatus::AbrottingTime;
+		m_pQuitExecutor->Abrot();
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::AbrottingTime:
+		ATLOG(L_WARN,"Already in Aborting");
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::Finished:
+		ATLOG(L_WARN,"Already is Finished");
+		break;
+	default:
+		break;
+	}
+}
+
+void CloseExecutor_3Level::DoOnMarketDepth( const AT::MarketData& aMarketDepth )
+{
+
+	m_ExecutorInput.TriggerMarketData = aMarketDepth;
+
+	switch (m_StatusEnumCode)
+	{
+	case AT::CloseExecutor_3Level::Close3LevelStatus::StopLoss_CheckTrigger:
+		if(CheckTrigger(aMarketDepth))
+		{
+			m_pFirstExecutor->Abrot();
+			m_StatusEnumCode = Close3LevelStatus::PendingStopLossCancel_Time;
+		}
+		else
+		{
+			m_pFirstExecutor->OnMarketDepth(aMarketDepth);
+		}
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::QuitExecutor_Time:
+		m_pQuitExecutor->OnMarketDepth(aMarketDepth);
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::BeforeStart:
+	case AT::CloseExecutor_3Level::Close3LevelStatus::PendingStopLossCancel_Time:	
+	case AT::CloseExecutor_3Level::Close3LevelStatus::AbrottingTime:
+	case AT::CloseExecutor_3Level::Close3LevelStatus::Finished:
+		break;
+	default:
+		break;
+	}
+}
+
+void CloseExecutor_3Level::DoOnRtnOrder( const AT::OrderUpdate& apOrder )
+{
+	switch (m_StatusEnumCode)
+	{
+	case AT::CloseExecutor_3Level::Close3LevelStatus::BeforeStart:
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::StopLoss_CheckTrigger:
+		m_pFirstExecutor->OnRtnOrder(apOrder);
+		if(m_pFirstExecutor->GetExecutionStatus().IsFinised)
+		{
+			ATLOG(L_INFO,"StopLoss Occur");
+			m_StatusEnumCode = Close3LevelStatus::Finished;
+			m_ExecutionStatusBase.IsFinised = true;
+		}
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::PendingStopLossCancel_Time:
+		m_pFirstExecutor->OnRtnOrder(apOrder);
+		if(m_pFirstExecutor->GetExecutionStatus().IsFinised)
+		{
+			ATLOG(L_INFO,"StopLoss Cancel");
+			m_StatusEnumCode = Close3LevelStatus::QuitExecutor_Time;
+			ExecutorInput lQuitInput = BuildQuitExecution();
+			m_pQuitExecutor->AddExecution(lQuitInput);
+		}
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::QuitExecutor_Time:
+		m_pQuitExecutor->OnRtnOrder(apOrder);
+		if(m_pQuitExecutor->GetExecutionStatus().IsFinised)
+		{
+			m_StatusEnumCode = Close3LevelStatus::Finished;
+			m_ExecutionStatusBase.IsFinised = true;
+		}
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::AbrottingTime:
+		m_pFirstExecutor->OnRtnOrder(apOrder);
+		m_pQuitExecutor->OnRtnOrder(apOrder);
+		if (m_pFirstExecutor->GetExecutionStatus().IsFinised && m_pQuitExecutor->GetExecutionStatus().IsFinised)
+		{
+			m_StatusEnumCode = Close3LevelStatus::Finished;
+			m_ExecutionStatusBase.IsFinised = true;
+		}
+		break;
+	case AT::CloseExecutor_3Level::Close3LevelStatus::Finished:
+		break;
+	default:
+		break;
+	}
+}
+
+void CloseExecutor_3Level::DoOnRtnTrade( const AT::TradeUpdate& apTrade )
+{
+	m_pFirstExecutor->OnRtnTrade(apTrade);
+	m_pQuitExecutor->OnRtnTrade(apTrade);
 }
 
 

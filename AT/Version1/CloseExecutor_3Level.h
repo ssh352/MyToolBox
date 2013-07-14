@@ -1,5 +1,5 @@
 #pragma once
-#include "IExecutor.h"
+#include "ExecutorBase.h"
 #include "IDriver_TD.h"
 #include <set>
 
@@ -18,7 +18,7 @@ struct CloseSetting_3Level
 	int QuitLevel_3;
 };
 
-class CloseExecutor_3Level :public IExecutor
+class CloseExecutor_3Level :public ExecutorBase
 {
 public:
 	CloseExecutor_3Level(const std::string& aConfigFile);
@@ -26,18 +26,11 @@ public:
 
 
 	//输入1 来自于上层的交易信号
-	virtual void AddExecution(ExecutorInput aExecutorInput) override;
-	virtual void Abrot() override;
-
-	//输入2 来自于执行层面
-	virtual	void OnMarketDepth(const AT::MarketData& aMarketDepth) override;
-	virtual	void OnRtnOrder(const  AT::OrderUpdate& apOrder)override;
-	virtual	void OnRtnTrade(const  AT::TradeUpdate& apTrade)override;
-
-	
-	virtual ExecutionStatus	GetExecutionStatus() override;
-	virtual std::string GetExecutorID()  override;
-
+	virtual void DoAddExecution(ExecutorInput aExecutorInput) override;
+	virtual void  DoAbrot() override;
+	virtual	void  DoOnMarketDepth(const AT::MarketData& aMarketDepth) override;
+	virtual	void  DoOnRtnOrder(const  AT::OrderUpdate& apOrder)override;
+	virtual	void  DoOnRtnTrade(const  AT::TradeUpdate& apTrade)override;
 
 private:
 
@@ -45,7 +38,7 @@ private:
 	//todo Init Executor;
 
 	bool	CheckIsFinished();
-	boost::shared_ptr<IExecutor>		m_pFirstExecutor;		//收到请求后，在平常条件触发之前的Executor
+	boost::shared_ptr<IExecutor>		m_pFirstExecutor;		//收到请求后，在平仓条件触发之前的Executor
 	boost::shared_ptr<IExecutor>		m_pQuitExecutor;		//决定平仓后，决定要具体使用的平仓Executor
 	bool	CheckTrigger(const AT::MarketData& aMarketDepth); //判断是否需要进入平仓逻辑
 	ExecutorInput BuildQuitExecution();						//根据变量生成需要补充往QuitVol指令
@@ -61,7 +54,6 @@ private:
 	void InitChildExecutor( boost::property_tree::ptree &lConfigPtree );
 
 
-	ExecutionStatus		m_Status;
 	bool				m_IsTriggered;
 	int					m_TradeQuantity;
 	ExecutorInput		m_ExecutorInput;
@@ -80,9 +72,18 @@ private:
 	CheckStatusLevel m_CurrentLevel;
 	BuySellType			m_BuySellCode;
 	CloseSetting_3Level	m_Setting;
-	std::string			m_InstrumentID;
 
+	enum class Close3LevelStatus
+	{
+		BeforeStart,
+		StopLoss_CheckTrigger,
+		PendingStopLossCancel_Time,
+		QuitExecutor_Time,
+		AbrottingTime,
+		Finished,
+	};
 
+	Close3LevelStatus		m_StatusEnumCode;
 };
 
 }

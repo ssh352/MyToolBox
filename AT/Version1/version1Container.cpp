@@ -44,7 +44,7 @@ void version1Container::OnMarketDepth( const AT::MarketData& aMarketDepth )
 	{
 		m_TradeAccountContaner.HandleTradeSignal(lFinalSignal);
 	}
-
+	m_TradeAccountContaner.OnMarketDepth(aMarketDepth);
 
 }
 

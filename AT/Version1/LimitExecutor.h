@@ -31,7 +31,7 @@ namespace AT
 		void InitFromParma(LimitExecutorParma);
 
 		Command			BuildCommand(ExecutorInput aNewOrder);
-		ExecutionStatus				m_ExecutionStatusBase;
+	//	ExecutionStatus				m_ExecutionStatusBase;
 
 
 		LimitExecutorParma			m_Parma;

@@ -47,7 +47,8 @@ namespace  AT
 		else
 		{
 			ATLOG(AT::LogLevel::L_ERROR,"Can not Get Instrument From MarketDataCache");
-			throw std::exception("Can not Get Instrument From MarketDataCache");
+		//	throw std::exception("Can not Get Instrument From MarketDataCache");
+			return NULL;
 		}
 	}
 

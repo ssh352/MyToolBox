@@ -29,7 +29,7 @@ Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	lInputOrder.m_OpenCloseType = aNewOrder.OpenCloseCode ;
 	lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
 	lInputOrder.m_OrderPriceType = AT::OrderPriceType::MarketPrice;
-	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
+	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::IOC;
 	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
 	return lRet;
 }

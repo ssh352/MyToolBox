@@ -7,27 +7,4 @@
     <ExectorConfigFile>PairExecutor.xml</ExectorConfigFile>
   </ExecutorCase>
   
-  
-  
-  <!--
-  <ExecutorCase>
-    <ExecutorType>Limit</ExecutorType>
-    <ExectorConfigFile>LimitExecutor.xml</ExectorConfigFile>
-  </ExecutorCase>
-
-  <ExecutorCase>
-    <ExecutorType>Market</ExecutorType>
-    <ExectorConfigFile>MarketExecutor.xml</ExectorConfigFile>
-  </ExecutorCase>
-
-  <ExecutorCase>
-    <ExecutorType>LimitToCancel</ExecutorType>
-    <ExectorConfigFile>LimitToCancelExecutor.xml</ExectorConfigFile>
-  </ExecutorCase>
-
-  <ExecutorCase>
-    <ExecutorType>Follow</ExecutorType>
-    <ExectorConfigFile>FollowExecutor.xml</ExectorConfigFile>
-  </ExecutorCase>
-    -->
 </Executors>

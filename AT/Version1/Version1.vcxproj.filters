@@ -244,5 +244,8 @@
     <Xml Include="SignalDispatch.xml">
       <Filter>config\Account</Filter>
     </Xml>
+    <Xml Include="StopLossExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

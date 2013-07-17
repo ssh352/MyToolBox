@@ -7,7 +7,7 @@
   
   <Instrument>IF1307</Instrument>
   
-  <Wave_value>1</Wave_value>
+  <Wave_value>0.2</Wave_value>
 
   <stroe_file>WaveHKY001.xml</stroe_file>
 

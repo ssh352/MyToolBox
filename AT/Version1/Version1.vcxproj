@@ -142,7 +142,9 @@
     <Xml Include="LimitExecutor.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="LimitToCancelExecutor.xml" />
+    <Xml Include="LimitToCancelExecutor.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="MarketExecutor.xml" />
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>
@@ -150,6 +152,7 @@
     <Xml Include="PairExecutor.xml" />
     <Xml Include="SignalDispatch.xml" />
     <Xml Include="SignalFliter.xml" />
+    <Xml Include="StopLossExecutor.xml" />
     <Xml Include="StretegyConfig.xml">
       <SubType>Designer</SubType>
     </Xml>

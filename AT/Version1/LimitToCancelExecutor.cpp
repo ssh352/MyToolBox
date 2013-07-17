@@ -37,8 +37,11 @@ LimitToCancelExecutor::~LimitToCancelExecutor(void)
 void LimitToCancelExecutor::DoAddExecution( ExecutorInput aExecutorInput )
 {
 	m_pLimitExecutor->AddExecution(aExecutorInput);
+	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
+	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
 	m_EndTime = aExecutorInput.TriggerMarketData.m_UpdateTime + boost::posix_time::seconds(m_CancelTimeVol);
 	m_ExecutionStatusBase = m_pLimitExecutor->GetExecutionStatus();
+	m_Status = LimitToCancelStstus::Limit_OrderTime;
 	ATLOG(L_INFO,"LimitToCancelExecutor Start New Task");
 }
 void LimitToCancelExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDepth )

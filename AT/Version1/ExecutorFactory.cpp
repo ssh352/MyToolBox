@@ -6,6 +6,7 @@
 #include "LimitExecutor.h"
 #include "PairExecutor.h"
 #include "CloseExecutor_3Level.h"
+#include "StopLossExecutor.h"
 #include "ATLogger.h"
 namespace AT
 {
@@ -34,6 +35,14 @@ namespace AT
 	else if("Pair" == aExecutorType)
 	{
 		lret.reset(new AT::PairExecutor(aConfigFile));
+	}
+	else if("Close" == aExecutorType)
+	{
+		lret.reset(new AT::CloseExecutor_3Level(aConfigFile));	
+	}
+	else if("StopLoss" == aExecutorType)
+	{
+		lret.reset(new AT::StopLossExecutor(aConfigFile));
 	}
 
 	if(!lret)

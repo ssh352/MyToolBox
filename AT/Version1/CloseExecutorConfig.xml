@@ -15,11 +15,11 @@
   <LevelEnter_3>15</LevelEnter_3>
   <LevelBack_3>6</LevelBack_3>
 
-  <StopLossExecutorType></StopLossExecutorType>
-  <StopLossExecutorConfig></StopLossExecutorConfig>
+  <StopLossExecutorType>StopLoss</StopLossExecutorType>
+  <StopLossExecutorConfig>StopLossExecutor.xml</StopLossExecutorConfig>
 
-  <QuitExecutorType></QuitExecutorType>
-  <QuitExecutorConfig></QuitExecutorConfig>
+  <QuitExecutorType>Limit</QuitExecutorType>
+  <QuitExecutorConfig>LimitExecutor.xml</QuitExecutorConfig>
 
 
 </ExecutorConfig>

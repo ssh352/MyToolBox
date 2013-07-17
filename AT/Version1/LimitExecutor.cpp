@@ -47,7 +47,7 @@ namespace AT
 		lInputOrder.m_OrderPriceType = m_PriceType;
 		if( m_PriceType == AT::OrderPriceType::LimitPrice)
 		{
-			lInputOrder.m_Price =  aNewOrder.TriggerMarketData.m_LastPrice + m_Parma.PriceOffset * 100;
+			lInputOrder.m_Price =  aNewOrder.TriggerMarketData.m_LastPrice + m_Parma.PriceOffset * 1000;
 		}
 		lInputOrder.m_Vol = aNewOrder.vol;
 		strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);

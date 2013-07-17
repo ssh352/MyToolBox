@@ -12,4 +12,6 @@ namespace AT
 	};
 }
 void   ATLOG(AT::LogLevel aLevel,const std::string& aStringForLog);
+void   ATLOG(AT::LogLevel aLevel,char const* apFormatString,...);
+
 

@@ -26,6 +26,29 @@ namespace keywords = boost::log::keywords;
 
 
 
+static std::string ToStringFormatV(char const* apFormatString, char* args)
+{
+	if (!apFormatString)
+	{
+		return "";
+	}
+
+	for(boost::int32_t lBufferLength = 1024; /*NOP*/; lBufferLength *= 2) //1024???
+	{
+		char* lpBuffer = new char [lBufferLength];
+		memset(lpBuffer, 0, lBufferLength);
+		if(-1!=vsnprintf(lpBuffer, lBufferLength-1, apFormatString, args)) //lBufferLength-1 for '\0'.
+		{
+			std::string lString(lpBuffer);
+			delete [] lpBuffer;
+			return lString;
+		}
+		delete [] lpBuffer;
+	}
+}
+
+
+
 
 inline std::ostream & operator<< ( std::ostream & strm,  AT::LogLevel lvl)
 {
@@ -147,5 +170,14 @@ void ATLOG( AT::LogLevel aLevel,const std::string& aStringForLog )
 	InitOnce();
 	static src::severity_logger<  AT::LogLevel > slg;
 	BOOST_LOG_SEV(slg,aLevel) <<aStringForLog;
+}
+
+void ATLOG( AT::LogLevel aLevel,char const* apFormatString,... )
+{
+	va_list args;
+	va_start(args, apFormatString);
+	std::string lString(ToStringFormatV(apFormatString, args));
+	va_end(args);
+	ATLOG(aLevel,lString);
 }
 

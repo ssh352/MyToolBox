@@ -55,7 +55,7 @@ Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
 		StopLossPrice -= m_StopLossOffset;
 	}
 
-	lInputOrder.m_TriggerPrice = AT::TransPriceToDouble(StopLossPrice);
+	lInputOrder.m_TriggerPrice = StopLossPrice;
 	return lRet;
 }
 

@@ -10,6 +10,7 @@
 #include <boost\property_tree\ptree.hpp>
 #include <boost\property_tree\xml_parser.hpp>
 #include <boost\filesystem.hpp>
+#include <boost\date_time\gregorian\conversion.hpp>
 
 namespace AT
 {
@@ -24,7 +25,15 @@ namespace AT
 
 		//todo save and load ExechangRule
 		m_CancelTimes = 0;
-		// 
+		
+
+
+
+		m_FellowCloseTime = boost::posix_time::microsec_clock::local_time();
+
+		boost::gregorian::date lToday = boost::gregorian::day_clock::local_day();
+		m_FellowCloseTime = boost::posix_time::ptime(lToday,boost::posix_time::duration_from_string("15:06:00"));
+		//m_MarketCloseTime =  ("15:08:00");
 		
 
 	}
@@ -101,12 +110,6 @@ namespace AT
 	void Account::HandleTradeSignal( const Signal& aSignal )
 	{
 		
-		TryToFilter();
-		return;
-
-
-
-
 		switch (m_Status)
 		{
 		case AccountStatus::IDLE:
@@ -126,6 +129,15 @@ namespace AT
 
 	void Account::OnMarketDepth( const MarketData& aMarketDepth )
 	{
+
+		if (m_Status == AccountStatus::OnSignal)
+		{
+			aMarketDepth.m_UpdateTime > m_FellowCloseTime;
+			m_CurrentExecutor->Abrot();
+			m_Status = AccountStatus::WaittingForAbort;
+		}
+
+
 		m_LastTime = aMarketDepth.m_UpdateTime;
 		m_CurrentExecutor->OnMarketDepth(aMarketDepth);
 	}
@@ -139,14 +151,86 @@ namespace AT
 		m_CurrentExecutor->OnRtnOrder(apOrder);
 
 
-		if (m_CurrentExecutor->GetExecutionStatus().IsFinised)
+		switch (m_Status)
 		{
-			m_Status = AccountStatus::IDLE;
-			m_ProfitStatusMap[apOrder.m_UpdateTime] =  m_PorfitOfCurrentSignal/m_AccountVol ;
-			ATLOG(L_INFO,"Signal Finished Profit %d",m_PorfitOfCurrentSignal/m_AccountVol);
-			m_PorfitOfCurrentSignal  = 0;
+		case AT::Account::AccountStatus::IDLE:
+			break;
+		case AT::Account::AccountStatus::OnSignal:
+			if (m_CurrentExecutor->GetExecutionStatus().IsFinised)
+			{
+				m_Status = AccountStatus::IDLE;
+				m_ProfitStatusMap[apOrder.m_UpdateTime] =  m_PorfitOfCurrentSignal/m_AccountVol ;
+				ATLOG(L_INFO,"Signal Finished Profit %d",m_PorfitOfCurrentSignal/m_AccountVol);
+				m_PorfitOfCurrentSignal  = 0;
+
+			}
+			break;
+		case AT::Account::AccountStatus::WaittingForAbort:
+			if (m_CurrentExecutor->GetExecutionStatus().IsFinised)
+			{
+				m_Status = AccountStatus::OnCloseStatus_Fellow;
+
+				for (auto lPositon: m_PositionMap)
+				{
+
+					if (lPositon.second.BuyPosition > 0)
+					{
+						AT::ExecutorInput lCloseInput;
+						strcpy_s(lCloseInput.InstrumentID ,cInstrimentIDLength,lPositon.first.c_str());
+						lCloseInput.BuySellCode = BuySellType::SellOrder;
+						lCloseInput.OpenCloseCode = OpenCloseType::CloseToday;
+						boost::shared_ptr<IExecutor> lCloseExecutor  = ExecutorFactory::CreateExecutor( "Follow","FollowExecutor.xml");
+						lCloseExecutor->AddExecution(lCloseInput);
+						m_CloseExecutors.push_back(lCloseExecutor);
+					}
+
+					if (lPositon.second.SellPosition > 0)
+					{
+						AT::ExecutorInput lCloseInput;
+						strcpy_s(lCloseInput.InstrumentID ,cInstrimentIDLength,lPositon.first.c_str());
+						lCloseInput.BuySellCode = BuySellType::BuyOrder;
+						lCloseInput.OpenCloseCode = OpenCloseType::CloseToday;
+						boost::shared_ptr<IExecutor> lCloseExecutor = ExecutorFactory::CreateExecutor( "Follow","FollowExecutor.xml");
+						lCloseExecutor->AddExecution(lCloseInput);
+						m_CloseExecutors.push_back(lCloseExecutor);
+					}
 			
+				}
+		
+	
+			}
+			break;
+		case AT::Account::AccountStatus::OnCloseStatus_Fellow:
+			{
+
+				for (auto eachCloseExecutor:m_CloseExecutors)
+				{
+					eachCloseExecutor->OnRtnOrder(apOrder);
+				}
+
+				bool isAllDOne = true;
+				for (auto eachCloseExecutor:m_CloseExecutors)
+				{
+					if(eachCloseExecutor->GetExecutionStatus().IsFinised)
+					{
+						isAllDOne  = false;
+					}
+				}
+
+				if(isAllDOne)
+				{
+					m_Status = AccountStatus::Done;
+				}
+			}
+			break;
+		case AT::Account::AccountStatus::OnCloseStatus_Market:
+			break;
+		case AT::Account::AccountStatus::Done:
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	void Account::OnRtnTrade( const TradeUpdate& apTrade )
@@ -202,6 +286,10 @@ namespace AT
 		{
 			m_PorfitOfCurrentSignal += aTrade.Price* aTrade.vol;
 		}
+
+		UpdatePositionMap(aTrade);
+
+		
 		
 	}
 
@@ -341,6 +429,34 @@ namespace AT
 		}
 
 		return true;
+	}
+
+	void Account::UpdatePositionMap( ExecutionResult &aTrade )
+	{
+		if(aTrade.IsBuy == BuySellType::BuyOrder)
+		{
+			int& Position = m_PositionMap[aTrade.InstrumentID].BuyPosition;
+			if (aTrade.IsOpen == OpenCloseType::Open)
+			{
+				Position += aTrade.vol;
+			}
+			else
+			{
+				Position -= aTrade.vol;
+			}
+		}
+		else
+		{
+			int& Position = m_PositionMap[aTrade.InstrumentID].SellPosition;
+			if (aTrade.IsOpen == OpenCloseType::Open)
+			{
+				Position += aTrade.vol;
+			}
+			else
+			{
+				Position -= aTrade.vol;
+			}
+		}
 	}
 
 }

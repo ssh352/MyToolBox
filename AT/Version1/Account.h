@@ -32,7 +32,6 @@ public:
 
 
 
-	void DoNewSignal( const Signal &aSignal );
 
 	virtual void OnMarketDepth(const MarketData& aMarketDepth) override;
 	virtual void OnRtnOrder(const  OrderUpdate& apOrder) override;
@@ -42,6 +41,7 @@ public:
 	virtual void OnRtnTrade(const  TradeUpdate& apTrade) override;  
 private:
 
+	void DoNewSignal( const Signal &aSignal );
 	void CheckCancelTimes( const OrderUpdate &apOrder );
 	void InitExechangeRule(const std::string& aConfig);
 	void InitFromConfigFile(const std::string& aConfigFile);
@@ -52,6 +52,9 @@ private:
 private:
 	void HandleCommand(Command aCommand);
 	void HandleExecutorResult(ExecutionResult);
+
+	void UpdatePositionMap( ExecutionResult &aTrade );
+
 	bool TryToFilter();
 
 	IDriver_TD* m_pTD;
@@ -80,6 +83,7 @@ private:
 	{
 		IDLE,
 		OnSignal,
+		WaittingForAbort,
 		OnCloseStatus_Fellow,
 		OnCloseStatus_Market,
 		Done,
@@ -89,6 +93,7 @@ private:
 	std::map<std::string,ExecutorPara>			m_HandleInfoGroup;
 	std::map<std::string,SignalExecutInfo>		m_Signal_Executor_Map;
 	boost::shared_ptr<IExecutor>					m_CurrentExecutor;
+	std::vector<boost::shared_ptr<IExecutor> >		m_CloseExecutors;
 
 	AccountStatus								m_Status ;
 
@@ -124,6 +129,23 @@ private:
 	AT_Time m_LastTime;
 	FliterStruct		m_FilterSetting;
 
+	AT_Time				m_FellowCloseTime;
+	AT_Time				m_MarketCloseTime;
+
+
+
+	struct Position
+	{
+		int		BuyPosition;
+		int		SellPosition;
+		Position()
+		{
+			BuyPosition = 0;
+			SellPosition = 0;
+		}
+	};
+
+	std::map<std::string,Position>		m_PositionMap;
 };
 
 }

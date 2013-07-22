@@ -4,7 +4,7 @@
 #include "ISignalFliter.h"
 #include "IExecutor.h"
 #include <boost\bind.hpp>
-#include "TradeSignalFliterDemo.h"
+#include "FilterSystemLevel.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include "ISignalModule.h"

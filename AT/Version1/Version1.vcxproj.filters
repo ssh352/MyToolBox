@@ -21,9 +21,6 @@
     <ClCompile Include="AccountContainer.cpp">
       <Filter>Classes\TradeAccount</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorContianer.cpp">
-      <Filter>Classes\Executor</Filter>
-    </ClCompile>
     <ClCompile Include="ExecutorFactory.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
@@ -48,17 +45,17 @@
     <ClCompile Include="PairExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
-    <ClCompile Include="AccountSignalDispach.cpp">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClCompile>
-    <ClCompile Include="TradeSignalFliterDemo.cpp">
-      <Filter>Classes\Filter</Filter>
-    </ClCompile>
     <ClCompile Include="StopLossExecutor.cpp">
       <Filter>Classes\Executor</Filter>
     </ClCompile>
     <ClCompile Include="ExecutorBase.cpp">
       <Filter>Classes\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterSystemLevel.cpp">
+      <Filter>Classes\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="FiltrPerAccount.cpp">
+      <Filter>Classes\Filter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +90,6 @@
     <ClInclude Include="ISignalProducer.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="ExecutorContianer.h">
-      <Filter>Classes\Executor</Filter>
-    </ClInclude>
     <ClInclude Include="IExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
@@ -126,17 +120,17 @@
     <ClInclude Include="PairExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="AccountSignalDispach.h">
-      <Filter>Classes\TradeAccount</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeSignalFliterDemo.h">
-      <Filter>Classes\Filter</Filter>
-    </ClInclude>
     <ClInclude Include="StopLossExecutor.h">
       <Filter>Classes\Executor</Filter>
     </ClInclude>
     <ClInclude Include="ExecutorBase.h">
       <Filter>Classes\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterSystemLevel.h">
+      <Filter>Classes\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="FiltrPerAccount.h">
+      <Filter>Classes\Filter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

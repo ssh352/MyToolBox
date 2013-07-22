@@ -9,24 +9,9 @@
   <ExchangeRule>ExchangeRuleConfig.xml</ExchangeRule>
   <ExchangSavePath>ExchangStroe1</ExchangSavePath>
 
-  <!--Filter ID 将在配置文件内设置-->
-  <Filters>
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-  </Filters>
-
+  <FilterConfig></FilterConfig>
+  
+  
   <ExecutorConfig>ExecutorConfigList.xml</ExecutorConfig>
   
   <SignalHandleSet>SignalDispatch.xml</SignalHandleSet>

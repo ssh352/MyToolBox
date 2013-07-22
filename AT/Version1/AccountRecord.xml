@@ -2,7 +2,6 @@
 
 <!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
-
   <AccountID>Record</AccountID>
   <RecordFile>SignalRecord.xml</RecordFile>
 </AccountFile>

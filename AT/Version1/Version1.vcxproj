@@ -70,13 +70,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountFactory.cpp" />
-    <ClCompile Include="AccountSignalDispach.cpp" />
     <ClCompile Include="CloseExecutor_3Level.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ExecutorBase.cpp" />
-    <ClCompile Include="ExecutorContianer.cpp" />
     <ClCompile Include="ExecutorFactory.cpp" />
+    <ClCompile Include="FiltrPerAccount.cpp" />
     <ClCompile Include="FollowExecutor.cpp" />
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="LimitExecutor.cpp" />
@@ -89,19 +88,18 @@
     <ClCompile Include="PairExecutor.cpp" />
     <ClCompile Include="RecovedAccount.cpp" />
     <ClCompile Include="StopLossExecutor.cpp" />
-    <ClCompile Include="TradeSignalFliterDemo.cpp" />
+    <ClCompile Include="FilterSystemLevel.cpp" />
     <ClCompile Include="TradeSignalProducerDemo1.cpp" />
     <ClCompile Include="version1Container.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountFactory.h" />
-    <ClInclude Include="AccountSignalDispach.h" />
     <ClInclude Include="CloseExecutor_3Level.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ExecutorBase.h" />
-    <ClInclude Include="ExecutorContianer.h" />
     <ClInclude Include="ExecutorFactory.h" />
+    <ClInclude Include="FiltrPerAccount.h" />
     <ClInclude Include="FollowExecutor.h" />
     <ClInclude Include="IndexContainer.h" />
     <ClInclude Include="IAccount.h" />
@@ -119,7 +117,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Signal.h" />
     <ClInclude Include="StopLossExecutor.h" />
-    <ClInclude Include="TradeSignalFliterDemo.h" />
+    <ClInclude Include="FilterSystemLevel.h" />
     <ClInclude Include="TradeSignalProducerDemo1.h" />
     <ClInclude Include="version1Container.h" />
   </ItemGroup>

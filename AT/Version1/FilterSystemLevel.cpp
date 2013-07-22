@@ -1,4 +1,4 @@
-#include "TradeSignalFliterDemo.h"
+#include "FilterSystemLevel.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include "boost/date_time/posix_time/posix_time.hpp"
@@ -78,82 +78,6 @@ Signal FilterSystemLevel::FliterTradeSignal( std::vector<Signal> aList )
 		return lret;
 	}
 	
-	//连续亏损1次
-
-	LastNTradeStatus lret1 = IsLastNTradeLoss(1);
-	if(m_ProfitStatusMap.size() > 0)
-	{
-		if(lret1.m_isAllLoss && (m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time1) )
-		{
-			Signal lret;
-			lret.m_Valid = false;
-			return lret;
-		}
-	}
-	
-	//2次
-	
-	LastNTradeStatus lret2 = IsLastNTradeLoss(2);
-	if(lret2.m_isAllLoss && (m_LastTime-lret2.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time2))
-	{
-		Signal lret;
-		lret.m_Valid = false;
-		return lret;
-	}
-
-
-	LastNTradeStatus lret3 = IsLastNTradeLoss(3);
-	if(lret3.m_isAllLoss && (m_LastTime-lret3.m_TimeLoss)<boost::posix_time::seconds(m_FliterStructMap[iFliterID].Time3))
-	{
-		Signal lret;
-		lret.m_Valid = false;
-		return lret;
-	}
-	//3次
-
-	//总亏损
-	int totalProfit = 0;
-	for (auto lProfitPair:m_ProfitStatusMap)
-	{
-		totalProfit += lProfitPair.second;
-	}
-	if(totalProfit < m_FliterStructMap[iFliterID].TotalProfitStop)
-	{
-		Signal lret;
-		lret.m_Valid = false;
-		return lret;
-	}
-
-	//总亏损N点时N秒冻结时长
-	if(m_ProfitStatusMap.size() > 0 )
-	{
-		if(totalProfit < m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->first &&
-			(m_LastTime - m_ProfitStatusMap.rbegin()->first) < boost::posix_time::seconds(m_FliterStructMap[iFliterID].TotalTimeProfit.begin()->second))
-		{
-			Signal lret;
-			lret.m_Valid = false;
-			return lret;
-		}
-	}
-	
-
-
-	//处理优先级
-	Signal lret;
-	lret.m_Valid = false;
-	lret.m_priority = -1000;
-	for(auto lSignal :aList)
-	{
-		if(lSignal.m_priority > lret.m_priority && lSignal.m_Valid )
-		{
-			lret = lSignal;
-		}
-	}
-
-	m_IsOnLastSignal = true;
-	return lret;
-
-
 }
 
 

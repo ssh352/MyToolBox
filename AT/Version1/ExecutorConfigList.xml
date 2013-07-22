@@ -3,6 +3,8 @@
 <Executors>
 
   <ExecutorCase>
+    <ExecutorID>ExecutorHandleCase1</ExecutorID>
+    <!--应该与PairExecutor.xml中一致，这个更改是为了能够让Executor更好的一次性-->
     <ExecutorType>Pair</ExecutorType>
     <ExectorConfigFile>PairExecutor.xml</ExectorConfigFile>
   </ExecutorCase>

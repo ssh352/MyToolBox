@@ -163,7 +163,6 @@ AT::Signal TradeSignalProducerDemo1::ProduceSignal( const MarketData& aTriggerMa
 			 LLinfo += "   " ;
 			 LLinfo += __LINE__;
 		//	 ATLOG(L_ERROR,LLinfo);
-
 			 m_LastSignalTime = aTriggerMarket.m_UpdateTime;
 		}
 		else

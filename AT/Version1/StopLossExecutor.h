@@ -13,7 +13,7 @@ namespace AT
 	class StopLossExecutor :public ExecutorBase
 	{
 	public:
-		StopLossExecutor(const std::string& aConfigName);
+		StopLossExecutor(const boost::property_tree::ptree& aConfigPtee);
 		virtual ~StopLossExecutor(void);
 
 		//输入1 来自于上层的交易信号

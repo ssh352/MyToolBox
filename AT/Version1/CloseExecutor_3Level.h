@@ -21,7 +21,7 @@ struct CloseSetting_3Level
 class CloseExecutor_3Level :public ExecutorBase
 {
 public:
-	CloseExecutor_3Level(const std::string& aConfigFile);
+	CloseExecutor_3Level(const boost::property_tree::ptree& aConfigPtee);
 	virtual ~CloseExecutor_3Level(void);
 
 
@@ -47,11 +47,8 @@ private:
 
 	void	HandleFirstExecutorResult(ExecutionResult aTrade);
 	void	HandleQuitExecutorResult(ExecutionResult aTrade);
-	void	InitFromConfigFile(const std::string& aConfig);
-
-	void InitCheckLevelSetting( boost::property_tree::ptree &lConfigPtree );
-
-	void InitChildExecutor( boost::property_tree::ptree &lConfigPtree );
+	void InitCheckLevelSetting( const boost::property_tree::ptree &lConfigPtree );
+	void InitChildExecutor( const boost::property_tree::ptree &lConfigPtree );
 
 
 	bool				m_IsTriggered;

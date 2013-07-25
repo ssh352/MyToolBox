@@ -6,11 +6,11 @@
 namespace AT
 {
 
-
-FollowExecutor::FollowExecutor( const std::string& aConfig )
-	:ExecutorBase(aConfig)
+FollowExecutor::FollowExecutor( const boost::property_tree::ptree& aConfigPtee )
+	:ExecutorBase(aConfigPtee)
 	,m_Status(FollowStatus::BeforeStart)
 {
+
 }
 
 

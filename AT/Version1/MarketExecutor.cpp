@@ -4,8 +4,10 @@
 namespace AT
 {
 
-MarketExecutor::MarketExecutor( const std::string& aConfig )
-	:ExecutorBase(aConfig)
+
+
+MarketExecutor::MarketExecutor( const boost::property_tree::ptree& aConfigPtee )
+	:ExecutorBase(aConfigPtee)
 {
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "IExecutor.h"
+#include <boost\property_tree\ptree.hpp>
 namespace AT
 {
 
@@ -14,6 +15,7 @@ namespace AT
 class ExecutorBase :public IExecutor
 {
 public:
+	ExecutorBase(const boost::property_tree::ptree& aConfig);
 	ExecutorBase(const std::string& aConfigFile);
 	virtual ~ExecutorBase(void);
 

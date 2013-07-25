@@ -9,10 +9,12 @@
 using namespace std;
 namespace AT
 {
-	LimitExecutor::LimitExecutor( const std::string& aConfigFile )
-		:ExecutorBase(aConfigFile)
+
+
+	LimitExecutor::LimitExecutor( const boost::property_tree::ptree& aConfigPtree )
+		:ExecutorBase(aConfigPtree)
 	{
-		LimitExecutorParma parma = ReadConfigFile(aConfigFile);
+		LimitExecutorParma parma = ExarctParamer(aConfigPtree);
 		InitFromParma(parma);
 	}
 
@@ -21,20 +23,6 @@ namespace AT
 		m_Parma = parma;
 		m_PriceType = CTP::EnumTranslator::TransOrderPriceType(m_Parma.PriceType);
 	}
-
-	LimitExecutorParma LimitExecutor::ReadConfigFile( const std::string& aConfigFile )
-	{
-		LimitExecutorParma lret;
-		boost::property_tree::ptree lConfigPtree;
-		read_xml(aConfigFile,lConfigPtree);
-		m_ExecutorIDBase = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-		lret.ExecutorID = m_ExecutorIDBase;
-		lret.PriceType = lConfigPtree.get<char>("ExecutorConfig.PriceType");
-		lret.PriceOffset = lConfigPtree.get<int>("ExecutorConfig.PriceOffSet");
-		return lret;
-	}
-
-
 	LimitExecutor::~LimitExecutor(void)
 	{
 	}
@@ -101,6 +89,16 @@ namespace AT
 		lResult.vol = aTrade.m_TradeVol;
 		m_TradeReport(lResult);	
 		ATLOG(L_INFO,ToString(aTrade));
+	}
+
+	LimitExecutorParma LimitExecutor::ExarctParamer(const boost::property_tree::ptree &lConfigPtree )
+	{
+		LimitExecutorParma lret;
+		m_ExecutorIDBase = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
+		lret.ExecutorID = m_ExecutorIDBase;
+		lret.PriceType = lConfigPtree.get<char>("ExecutorConfig.PriceType");
+		lret.PriceOffset = lConfigPtree.get<int>("ExecutorConfig.PriceOffSet");
+		return lret;
 	}
 
 

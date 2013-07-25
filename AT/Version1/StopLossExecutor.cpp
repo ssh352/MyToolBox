@@ -6,12 +6,11 @@
 namespace AT
 {
 
-StopLossExecutor::StopLossExecutor( const std::string& aConfigName )
-	:ExecutorBase(aConfigName)
+
+StopLossExecutor::StopLossExecutor( const boost::property_tree::ptree& aConfigPtee )
+	:ExecutorBase(aConfigPtee)
 {
-	boost::property_tree::ptree lConfigPtree;
-	read_xml(aConfigName,lConfigPtree);
-	m_StopLossOffset = lConfigPtree.get<int>("ExecutorConfig.StopOffset");
+	m_StopLossOffset = aConfigPtee.get<int>("ExecutorConfig.StopOffset");
 }
 
 

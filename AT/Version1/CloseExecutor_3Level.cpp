@@ -7,16 +7,19 @@ using namespace std;
 namespace AT
 {
 
-CloseExecutor_3Level::CloseExecutor_3Level( const std::string& aConfigFile )
-:ExecutorBase(aConfigFile)
+
+CloseExecutor_3Level::CloseExecutor_3Level( const boost::property_tree::ptree& aConfigPtee )
+	:ExecutorBase(aConfigPtee)
 {
-	InitFromConfigFile(aConfigFile);
+	InitCheckLevelSetting(aConfigPtee);
+	InitChildExecutor(aConfigPtee);
 	m_CurrentLevel = (CheckStatusLevel::Level0);
 	m_StatusEnumCode = Close3LevelStatus::BeforeStart;
 	m_MaxPriceDiff=(0);
 	m_StartPrice=(0);
 	m_TradeQuantity=(0);
 }
+
 CloseExecutor_3Level::~CloseExecutor_3Level(void)
 {
 }
@@ -119,15 +122,7 @@ void CloseExecutor_3Level::UpdatePriceLevel( int AbsPriceDiff )
 	}
 }
 
-void CloseExecutor_3Level::InitFromConfigFile( const std::string& aConfig )
-{
-	boost::property_tree::ptree lConfigPtree;
-	read_xml(aConfig,lConfigPtree);
-	InitCheckLevelSetting(lConfigPtree);
 
-	InitChildExecutor(lConfigPtree);
-
-}
 
 AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
 {
@@ -138,7 +133,7 @@ AT::ExecutorInput CloseExecutor_3Level::BuildQuitExecution()
 	return lret;
 }
 
-void CloseExecutor_3Level::InitChildExecutor( boost::property_tree::ptree &lConfigPtree )
+void CloseExecutor_3Level::InitChildExecutor( const boost::property_tree::ptree &lConfigPtree )
 {
 	std::string StopLossExecutorType = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorType");
 	std::string StopLossExecutorConfig = lConfigPtree.get<std::string>("ExecutorConfig.StopLossExecutorConfig");
@@ -159,7 +154,7 @@ void CloseExecutor_3Level::InitChildExecutor( boost::property_tree::ptree &lConf
 	m_pQuitExecutor->SetTradeReportCallback(QuitTradeReprotFun);
 }
 
-void CloseExecutor_3Level::InitCheckLevelSetting( boost::property_tree::ptree &lConfigPtree )
+void CloseExecutor_3Level::InitCheckLevelSetting(const boost::property_tree::ptree &lConfigPtree )
 {
 	m_Setting.EnterLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelEnter_1");
 	m_Setting.QuitLevel_1 = lConfigPtree.get<int>("ExecutorConfig.LevelBack_1");

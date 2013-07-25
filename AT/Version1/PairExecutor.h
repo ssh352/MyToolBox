@@ -10,7 +10,7 @@ namespace AT
 	class PairExecutor :public IExecutor
 	{
 	public:
-		PairExecutor(const std::string& aConfig);
+		PairExecutor(const boost::property_tree::ptree& aConfigPtee);
 
 		virtual ~PairExecutor(void);
 

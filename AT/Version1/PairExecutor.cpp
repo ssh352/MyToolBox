@@ -8,16 +8,15 @@
 namespace AT
 {
 
-	PairExecutor::PairExecutor( const std::string& aConfig )
-	{
-		boost::property_tree::ptree lConfigPtree;
-		read_xml(aConfig,lConfigPtree);
-		m_ExecutorID = lConfigPtree.get<std::string>("ExecutorConfig.ExecutorID");
-		m_OpenExecutorType =  lConfigPtree.get<std::string>("ExecutorConfig.OpenExecutorType");
-		m_OpenExecutorConfig =  lConfigPtree.get<std::string>("ExecutorConfig.OpenExecutorConfig");
-		m_CloseExecutorType =  lConfigPtree.get<std::string>("ExecutorConfig.CloseExecutorType");
-		m_CloseExecutorConfig =  lConfigPtree.get<std::string>("ExecutorConfig.CloseExecutorConfig");
 
+
+	PairExecutor::PairExecutor( const boost::property_tree::ptree& aConfigPtee )
+	{
+		m_ExecutorID = aConfigPtee.get<std::string>("ExecutorConfig.ExecutorID");
+		m_OpenExecutorType =  aConfigPtee.get<std::string>("ExecutorConfig.OpenExecutorType");
+		m_OpenExecutorConfig =  aConfigPtee.get<std::string>("ExecutorConfig.OpenExecutorConfig");
+		m_CloseExecutorType =  aConfigPtee.get<std::string>("ExecutorConfig.CloseExecutorType");
+		m_CloseExecutorConfig =  aConfigPtee.get<std::string>("ExecutorConfig.CloseExecutorConfig");
 	}
 
 	PairExecutor::~PairExecutor(void)

@@ -10,7 +10,8 @@ namespace AT
 class FollowExecutor :public ExecutorBase
 {
 public:
-	FollowExecutor(const std::string& aConfig);
+	FollowExecutor(const boost::property_tree::ptree& aConfigPtee);
+
 
 	virtual ~FollowExecutor(void);
 

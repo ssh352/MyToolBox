@@ -8,7 +8,8 @@ namespace AT
 class LimitToCancelExecutor :public ExecutorBase
 {
 public:
-	LimitToCancelExecutor(const std::string& aConfigFile);
+	LimitToCancelExecutor(const boost::property_tree::ptree& aConfigPtee);
+
 	virtual ~LimitToCancelExecutor(void);
 
 	//输入1 来自于上层的交易信号

@@ -2,6 +2,7 @@
 #include "ExecutorBase.h"
 #include <set>
 #include <string>
+#include <boost\property_tree\ptree.hpp>
 namespace AT
 {
 
@@ -15,7 +16,7 @@ namespace AT
 	class LimitExecutor :public ExecutorBase
 	{
 	public:
-		LimitExecutor(const std::string& aConfigFile);
+		LimitExecutor(const boost::property_tree::ptree& aConfigFile);
 		virtual ~LimitExecutor(void);
 
 		//输入1 来自于上层的交易信号
@@ -28,6 +29,9 @@ namespace AT
 
 	private:
 		LimitExecutorParma ReadConfigFile(const std::string& aConfigFile);
+
+		LimitExecutorParma ExarctParamer(const boost::property_tree::ptree &lConfigPtree );
+
 		void InitFromParma(LimitExecutorParma);
 
 		Command			BuildCommand(ExecutorInput aNewOrder);

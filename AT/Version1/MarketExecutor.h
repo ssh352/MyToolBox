@@ -10,7 +10,7 @@ namespace AT
 class MarketExecutor :public ExecutorBase
 {
 public:
-	MarketExecutor(const std::string& aConfig);
+	MarketExecutor(const boost::property_tree::ptree& aConfigPtee);
 
 	virtual ~MarketExecutor(void);
 

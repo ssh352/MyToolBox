@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExecutorConfig>
+  <ExecutorID>FollowExecutor</ExecutorID>
+
+  <!--LimitOrder部分-->
+  <PriceType>2</PriceType>
+  <PriceOffSet>2</PriceOffSet>
+
+  <!--时间均为从下单到结束这个状态的时间 最终时间为10秒，下达任务前5秒Limit,5-10秒，Fellow，10秒后撤单-->
+  <Limit2FollowTime>5</Limit2FollowTime>
+  <Follow2CancelTime>10</Follow2CancelTime>  
+</ExecutorConfig>

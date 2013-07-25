@@ -17,6 +17,13 @@ ExecutorBase::ExecutorBase( const std::string& aConfigFile )
 	m_CommandHandle =  boost::bind(&ExecutorBase::CommandPoster,this,_1);;
 }
 
+ExecutorBase::ExecutorBase( const boost::property_tree::ptree& aConfig )
+{
+	m_ExecutorIDBase = aConfig.get<std::string>("ExecutorConfig.ExecutorID");
+
+	m_CommandHandle =  boost::bind(&ExecutorBase::CommandPoster,this,_1);;
+}
+
 
 ExecutorBase::~ExecutorBase(void)
 {

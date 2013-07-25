@@ -11,23 +11,17 @@ using namespace std;
 namespace AT
 {
 
-LimitToCancelExecutor::LimitToCancelExecutor( const std::string& aConfigFile )
-	:ExecutorBase(aConfigFile)
+LimitToCancelExecutor::LimitToCancelExecutor( const boost::property_tree::ptree& aConfigPtee )
+	:ExecutorBase(aConfigPtee)
 	,m_Status(LimitToCancelStstus::BeforeBegin)
 {
-	InitFromConfigFile(aConfigFile);
-}
-
-void LimitToCancelExecutor::InitFromConfigFile( const std::string& aConfigFile )
-{
-	boost::property_tree::ptree lConfigPtree;
-	read_xml(aConfigFile,lConfigPtree);
-	m_CancelTimeVol = lConfigPtree.get<int>("ExecutorConfig.CancelTime");
-	m_pLimitExecutor = ExecutorFactory::CreateExecutor(LimitExecutorType,aConfigFile);
+	m_CancelTimeVol = aConfigPtee.get<int>("ExecutorConfig.CancelTime");
+	m_pLimitExecutor = ExecutorFactory::CreateExecutor(LimitExecutorType,aConfigPtee);
 	m_pLimitExecutor->SetTradeReportCallback(m_TradeReport);
 	m_pLimitExecutor->SetCommandHandler(m_CommandHandle);
-
 }
+
+
 
 
 LimitToCancelExecutor::~LimitToCancelExecutor(void)

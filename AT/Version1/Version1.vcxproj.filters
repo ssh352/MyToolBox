@@ -57,6 +57,9 @@
     <ClCompile Include="FiltrPerAccount.cpp">
       <Filter>Classes\Filter</Filter>
     </ClCompile>
+    <ClCompile Include="LimitFollowCancelExecutor.cpp">
+      <Filter>Classes\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="version1Container.h">
@@ -131,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="FiltrPerAccount.h">
       <Filter>Classes\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="LimitFollowCancelExecutor.h">
+      <Filter>Classes\Executor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +245,9 @@
       <Filter>config\Account</Filter>
     </Xml>
     <Xml Include="StopLossExecutor.xml">
+      <Filter>config\Executor</Filter>
+    </Xml>
+    <Xml Include="LimitFollowCancelExecutorConfig.xml">
       <Filter>config\Executor</Filter>
     </Xml>
   </ItemGroup>

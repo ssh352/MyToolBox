@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--SignalID:信号id  与信号产生类中的信号id相关-->
+<!--InstrumentID：合约id-->
+<!--BuySellCode：买卖方向-->
+<!--OpenCloseCode：开平标志-->
+<!--ExecutorID：执行单方案id  与ExecutorConfigList.xml及其单个执行单方案如PairExecutor.xml相关-->
+
 <SignalDispatch>
   
 <SignalHandleCase>
   <SignalID>TradeSignal01_1307</SignalID>
-  <InstrumentID>IF1307</InstrumentID>
+  <InstrumentID>IF1308</InstrumentID>
   <BuySellCode>Buy</BuySellCode>
   <OpenCloseCode>Open</OpenCloseCode>
   <ExecutorID>ExecutorHandleCase1</ExecutorID>
@@ -12,7 +18,7 @@
 
 <SignalHandleCase>
   <SignalID>TradeSignal02_1307</SignalID>
-  <InstrumentID>IF1307</InstrumentID>
+  <InstrumentID>IF1308</InstrumentID>
   <BuySellCode>Sell</BuySellCode>
   <OpenCloseCode>Open</OpenCloseCode>
   <ExecutorID>ExecutorHandleCase1</ExecutorID>

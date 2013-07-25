@@ -3,13 +3,13 @@
 <!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
 
-  <AccountID>00000290</AccountID>
+  <AccountID>70108058</AccountID>
   <TargetVol>1</TargetVol>
   
   <ExchangeRule>ExchangeRuleConfig.xml</ExchangeRule>
   <ExchangSavePath>ExchangStroe1</ExchangSavePath>
 
-  <FilterConfig></FilterConfig>
+  <FilterConfig>SignalFliter.xml</FilterConfig>
   
   
   <ExecutorConfig>ExecutorConfigList.xml</ExecutorConfig>
@@ -17,14 +17,39 @@
   <SignalHandleSet>SignalDispatch.xml</SignalHandleSet>
 
   <ExchangeAccountInfo>
-    <Front>tcp://125.64.36.25:26205</Front>
+    <Front>tcp://182.131.17.110:62205</Front>
     <WorkFlowDir>TD_TEST1</WorkFlowDir>
-    <BrokeID>1001</BrokeID>
-    <UserID>00000290</UserID>
+    <BrokeID>16377</BrokeID>
+    <UserID>70108058</UserID>
     <Password>123456</Password>
     <OrderTablePath>OrderSavedPath1</OrderTablePath>
   </ExchangeAccountInfo>
 
 
-
 </AccountFile>
+
+<!--<ExchangeAccountInfo>
+    <Front>tcp://27.17.62.149:40205</Front>
+    <WorkFlowDir>TD_TEST1</WorkFlowDir>
+    <BrokeID>1035</BrokeID>
+    <UserID>00000036</UserID>
+    <Password>123456</Password>
+    <OrderTablePath>OrderSavedPath1</OrderTablePath>
+  </ExchangeAccountInfo>美尔雅-->
+
+<!--<ExchangeAccountInfo>
+    <Front>tcp://125.64.36.25:26205</Front>
+    <WorkFlowDir>TD_TEST1</WorkFlowDir>
+    <BrokeID>1001</BrokeID>
+    <UserID>00000280</UserID>
+    <Password>123456</Password>
+    <OrderTablePath>OrderSavedPath1</OrderTablePath></ExchangeAccountInfo>华西模拟-->
+
+<!--<ExchangeAccountInfo>
+    <Front>tcp://182.131.17.110:62205</Front>
+    <WorkFlowDir>TD_TEST1</WorkFlowDir>
+    <BrokeID>16377</BrokeID>
+    <UserID>70108058</UserID>
+    <Password>123456</Password>
+    <OrderTablePath>OrderSavedPath1</OrderTablePath></ExchangeAccountInfo>华西仿真-->
+

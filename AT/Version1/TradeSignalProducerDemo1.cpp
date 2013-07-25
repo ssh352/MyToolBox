@@ -50,7 +50,7 @@ void TradeSignalProducerDemo1::InitConfig(const std::string& aConfigFile)
 				{
 					AT_Time lStartTime = aTriggerTime - boost::posix_time::seconds(CheckTimeFromNow);
 					int IndexContainer = lpIndexContainer->GetIndexCount(aIndexName.c_str(),ExpectVal,lStartTime,aTriggerTime);
-					bool lCheck =  IndexContainer == ExecpetTimes;
+					bool lCheck =  IndexContainer >= ExecpetTimes;
 					if(InvertCheck)
 					{
 						return ! lCheck;

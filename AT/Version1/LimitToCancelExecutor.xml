@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 PriceType 指限价单的价格类型
-PriceOffSet 仅在限价单类型时使用，其它类型时无效
+PriceOffSet 缓冲点,有2（+2）,/-2，-2：挂单价格为当前价格减2 仅在限价单类型时使用，其它类型时无效
 
 ///限价
 #define THOST_FTDC_OPT_LimitPrice '2'  将会使用最新价 + PriceOFfset设置
@@ -34,8 +34,8 @@ PriceOffSet 仅在限价单类型时使用，其它类型时无效
 -->
 
 <ExecutorConfig>
-  <ExecutorID>LimitToMarketExecutor</ExecutorID>
-  <CancelTime>10</CancelTime>
+  <ExecutorID>LimitToCancelExecutor</ExecutorID>  
+  <CancelTime>40</CancelTime>
   <PriceType>2</PriceType>
-  <PriceOffSet>2</PriceOffSet>
+  <PriceOffSet>1</PriceOffSet><!--缓冲点：2/-2-->
 </ExecutorConfig>

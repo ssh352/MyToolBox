@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--ExecutorID:pair执行单id，唯一性-->
+<!--OpenExecutorType:进场执行单类型-->
+<!--OpenExecutorConfig:进场执行单配置文件-->
+<!--CloseExecutorType:出场执行单类型-->
+<!--CloseExecutorConfig:出场执行单配置文件-->
+
 <ExecutorConfig>
   <ExecutorID>ExecutorHandleCase1</ExecutorID>
   <OpenExecutorType>LimitToCancel</OpenExecutorType>

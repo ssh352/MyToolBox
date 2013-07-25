@@ -2,44 +2,55 @@
 
 <!--ExchangeRule:单边持仓限额等交易所限制-->
 <AccountFile>
-  <AccountID>00000291</AccountID>
+  <AccountID>70108093</AccountID>
   <TargetVol>1</TargetVol>
   
   <ExchangeRule>ExchangeRuleConfig.xml</ExchangeRule>
   <ExchangSavePath>ExchangStroe2</ExchangSavePath>
 
-  <!--Filter ID 将在配置文件内设置-->
-  <Filters>
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-
-    <FilterCase>
-      <FilterType></FilterType>
-      <FilterConfigFile></FilterConfigFile>
-    </FilterCase>
-  </Filters>
+  <FilterConfig>SignalFliter.xml</FilterConfig>
 
   <ExecutorConfig>ExecutorConfigList.xml</ExecutorConfig>
 
   <SignalHandleSet>SignalDispatch.xml</SignalHandleSet>
 
   <ExchangeAccountInfo>
-    <Front>tcp://125.64.36.25:26205</Front>
+    <Front>tcp://182.131.17.110:62205</Front>
     <WorkFlowDir>TD_TEST2</WorkFlowDir>
-    <BrokeID>1001</BrokeID>
-    <UserID>00000291</UserID>
+    <BrokeID>16377</BrokeID>
+    <UserID>70108093</UserID>
     <Password>123456</Password>
     <OrderTablePath>OrderSavedPath2</OrderTablePath>
-    <ExchangeRule>ExchangeRule2</ExchangeRule>
   </ExchangeAccountInfo>
 
   
 </AccountFile>
 
+
+<!--<ExchangeAccountInfo>
+    <Front>tcp://125.64.36.25:26205</Front>
+    <WorkFlowDir>TD_TEST2</WorkFlowDir>
+    <BrokeID>1001</BrokeID>
+    <UserID>00000281</UserID>
+    <Password>123456</Password>
+    <OrderTablePath>OrderSavedPath2</OrderTablePath>
+    <ExchangeRule>ExchangeRule2</ExchangeRule>
+  </ExchangeAccountInfo>华西模拟-->
+
+<!--<ExchangeAccountInfo>
+  <Front>tcp://27.17.62.149:40205</Front>
+  <WorkFlowDir>TD_TEST2</WorkFlowDir>
+  <BrokeID>1035</BrokeID>
+  <UserID>00000037</UserID>
+  <Password>123456</Password>
+  <OrderTablePath>OrderSavedPath2</OrderTablePath>
+</ExchangeAccountInfo>美尔雅-->
+
+<!--<ExchangeAccountInfo>
+  <Front>tcp://182.131.17.110:62205</Front>
+  <WorkFlowDir>TD_TEST2</WorkFlowDir>
+  <BrokeID>16377</BrokeID>
+  <UserID>70108093</UserID>
+  <Password>123456</Password>
+  <OrderTablePath>OrderSavedPath2</OrderTablePath>
+</ExchangeAccountInfo>华西仿真-->

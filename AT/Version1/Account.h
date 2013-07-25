@@ -49,6 +49,14 @@ private:
 	void InitExecutorContainer(const std::string& aExecutoConfigFile);
 
 	void InitSignalDispatcher(const std::string& aDispatcherConfigFile);
+
+	//加载过滤文件
+	void InitFliterConfig(const std::string& aFliterConfig);
+
+	void InitExchangeStroe();
+	void RestoreTradeVol();
+	void StoreTradeVol();
+
 private:
 	void HandleCommand(Command aCommand);
 	void HandleExecutorResult(ExecutionResult);
@@ -84,8 +92,8 @@ private:
 		IDLE,
 		OnSignal,
 		WaittingForAbort,
-		OnCloseStatus_Fellow,
-		OnCloseStatus_Market,
+		OnCloseStatus_Fellow,          //15:06
+		OnCloseStatus_Market,         // 15:08
 		Done,
 	};
 
@@ -109,9 +117,11 @@ private:
 		int							AutoTradeMaxTime;
 	};
 	ExechangeRule				m_ExchangeRule;
+	TradeVolData				m_StoreExchangeRule;//存储的交易规则
+	std::string					m_ExchangePath;
+	std::shared_ptr<SingleDBHandler>  m_TradeVolDB;
 
 	std::set<AT_Order_Key>		m_OrderKeyList;
-	int							m_CancelTimes;
 
 
 

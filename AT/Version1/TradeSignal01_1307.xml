@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--SignalID:信号id-->
+<!--IsBuy：1为买，0为卖-->
+<!--Priority：信号优先级-->
 <!--对每一个Item IndexID 检查指标的名字必须属于IndexContainer.xml里面配置好的一种
     CheckType 检查使用的方法 目前有GetIndexCount(Count)， GetLastNonZero， GetLastValue(LastVal) 3种 (这里是一个扩展点，现在做一个够用的最小集就好了）
     对应每种检查方式，检查的参数
-    TimeFromNow
-    ExeceptVal
-    OccurTimes
+    TimeFromNow：如10s的间隔
+    ExeceptVal：指标返回值
+    OccurTimes：指标返回值出现的次数
     BlockOrPass 满足条件后 若为1 则阻止信号生成，否则通过该条目检查
 
   Count = 1

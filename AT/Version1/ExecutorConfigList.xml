@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--ExecutorType:执行类型，目前都是按Pair-->
+<!--ExectorConfigFile：执行单需要xml文件-->
+
 <Executors>
 
   <ExecutorCase>

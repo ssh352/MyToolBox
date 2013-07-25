@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--出场预案，ID:出场预案id；Level0：QuitPrice止损出场价；Level1到Level3:EnterPrice:进的点数；QuitPrice：退的点数-->
-<!--StopTime:收盘时间的全部平仓；StopClearTime：用市价清仓-->
+<!--
+LevelEnter_1：1级进点数；LevelBack_1：1级退点数
+LevelEnter_2：2级进点数；LevelBack_2：2级退点数
+LevelEnter_3：3级进点数；LevelBack_3：3级退点数
+-->
+<!--StopLossExecutorType：止损类型；StopLossExecutorConfig：止损配置文件-->
+<!--QuitExecutorType：出场类型；QuitExecutorConfig：出场配置文件-->
 
 <ExecutorConfig>
 

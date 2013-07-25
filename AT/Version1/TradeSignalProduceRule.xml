@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--SignalType:信号产生要使用的类，目前只有TradeSignalProducerDemo1类，可以扩展其他类来处理不同的业务-->
+<!--ConfigFile：信号产生xml文件-->
 
 <TradeSignalProduceRule>
 

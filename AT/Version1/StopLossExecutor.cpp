@@ -41,9 +41,32 @@ Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
 
 	lInputOrder.m_OpenCloseType = aNewOrder.OpenCloseCode ;
 	lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
-	lInputOrder.m_OrderPriceType = AT::OrderPriceType::MarketPrice;
+	lInputOrder.m_OrderPriceType = AT::OrderPriceType::LimitPrice;
 	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
 	lInputOrder.m_TriggerType = AT::TriggerType::Touch;
+
+	int StopLossPrice = aNewOrder.TriggerMarketData.m_LastPrice ;
+	if(aNewOrder.BuySellCode == BuySellType::BuyOrder)
+	{
+	StopLossPrice += m_StopLossOffset;
+	}
+	else
+	{
+	StopLossPrice -= m_StopLossOffset;
+	}
+
+	lInputOrder.m_TriggerPrice = StopLossPrice;
+
+	/*lInputOrder.m_Vol = aNewOrder.vol;
+
+	strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);
+	lInputOrder.m_Key = GenerateOrderKey();
+
+	lInputOrder.m_OpenCloseType = aNewOrder.OpenCloseCode ;
+	lInputOrder.m_BuySellType = aNewOrder.BuySellCode;
+	lInputOrder.m_OrderPriceType = AT::OrderPriceType::LimitPrice;
+	lInputOrder.m_TimeInForceCode = AT::TimeInForceType::GFD;
+	lInputOrder.m_TriggerType = AT::TriggerType::Immediately;
 
 	int StopLossPrice = aNewOrder.TriggerMarketData.m_LastPrice ;
 	if(aNewOrder.BuySellCode == BuySellType::BuyOrder)
@@ -55,7 +78,9 @@ Command StopLossExecutor::BuildCommand( ExecutorInput aNewOrder )
 		StopLossPrice -= m_StopLossOffset;
 	}
 
-	lInputOrder.m_TriggerPrice = StopLossPrice;
+
+	lInputOrder.m_Price = StopLossPrice;*/
+
 	return lRet;
 }
 

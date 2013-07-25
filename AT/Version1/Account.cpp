@@ -23,11 +23,6 @@ namespace AT
 		m_PorfitOfCurrentSignal = 0;
 		InitFromConfigFile(aConfigFile);
 
-		//todo save and load ExechangRule
-		m_CancelTimes = 0;
-		
-
-
 
 		m_FellowCloseTime = boost::posix_time::microsec_clock::local_time();
 
@@ -51,9 +46,14 @@ namespace AT
 		InitExecutorContainer(LExecutorContainerConfig);
 
 		m_AccountVol = lpt.get<int>("AccountFile.TargetVol");
+		m_ExchangePath = lpt.get<std::string>("AccountFile.ExchangSavePath");
+		InitExchangeStroe();
 
 		std::string lDispatcherConfig =  lpt.get<std::string>("AccountFile.SignalHandleSet");
 		InitSignalDispatcher(lDispatcherConfig);
+
+		std::string lFliterFile = lpt.get<std::string>("AccountFile.FilterConfig");
+		InitFliterConfig(lFliterFile);
 	}	
 
 	Account::~Account(void)
@@ -132,14 +132,20 @@ namespace AT
 
 		if (m_Status == AccountStatus::OnSignal)
 		{
-			aMarketDepth.m_UpdateTime > m_FellowCloseTime;
-			m_CurrentExecutor->Abrot();
-			m_Status = AccountStatus::WaittingForAbort;
+			if(aMarketDepth.m_UpdateTime > m_FellowCloseTime)
+			{
+				m_CurrentExecutor->Abrot();
+				m_Status = AccountStatus::WaittingForAbort;
+			}
 		}
 
 
 		m_LastTime = aMarketDepth.m_UpdateTime;
-		m_CurrentExecutor->OnMarketDepth(aMarketDepth);
+		if(m_CurrentExecutor != nullptr )
+		{
+			m_CurrentExecutor->OnMarketDepth(aMarketDepth);
+		}
+		
 	}
 
 	void Account::OnRtnOrder( const OrderUpdate& apOrder )
@@ -346,8 +352,8 @@ namespace AT
 	{
 		if(apOrder.m_OrderStatus == OrderStatusType::Canceled)
 		{
-			m_CancelTimes ++;
-			if(m_CancelTimes>m_ExchangeRule.MaxCancleTimeVol)
+			m_StoreExchangeRule.TotalCancleTime++;
+			if(m_StoreExchangeRule.TotalCancleTime>m_ExchangeRule.MaxCancleTimeVol)
 			{
 				ATLOG(L_ERROR,"Max Cancel Time over");
 			}
@@ -458,5 +464,74 @@ namespace AT
 			}
 		}
 	}
+	void Account::InitFliterConfig(const std::string& aFliterConfig)
+	{
+		boost::property_tree::ptree lpt;
+		read_xml(aFliterConfig,lpt);
 
+		FliterStruct fliter;
+		int iID;
+		int iTime;
+		std::string strStopTime;
+		std::string strStartTime;
+
+		m_FilterSetting.Time1 = lpt.get<int>("Time1");
+		m_FilterSetting.Time2 = lpt.get<int>("Time2");
+		m_FilterSetting.Time3 = lpt.get<int>("Time3");
+		iTime = lpt.get<int>("TotalTimeProfit.Time");
+		m_FilterSetting.TotalTimeProfit[iTime] = lpt.get<int>("TotalTimeProfit.Profit");
+		m_FilterSetting.TotalProfitStop = lpt.get<int>("TotalProfitStop");
+		strStopTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.Item.StopTime");
+		m_FilterSetting.StopTime = boost::posix_time::time_from_string(strStopTime);
+		strStartTime = to_simple_string(boost::gregorian::day_clock::local_day())+" "+lpt.get<std::string>("SignalFliter.Item.StartTime");
+		m_FilterSetting.StartTime = boost::posix_time::time_from_string(strStartTime);
+	}
+	void Account::StoreTradeVol()
+	{
+		std::shared_ptr<AT::TradeVolData> pTradeVolData(new TradeVolData);
+		pTradeVolData->BuyDirectionVol = m_StoreExchangeRule.BuyDirectionVol;
+		pTradeVolData->SellDirectionVol = m_StoreExchangeRule.SellDirectionVol;
+		pTradeVolData->TotalCancleTime = m_StoreExchangeRule.TotalCancleTime;
+		pTradeVolData->TotalOpenVol = m_StoreExchangeRule.TotalOpenVol;
+		pTradeVolData->AutoTradeTime = m_StoreExchangeRule.AutoTradeTime;
+		m_TradeVolDB->StoreTradeVolData(pTradeVolData);
+	}
+	void Account::RestoreTradeVol()
+	{
+		std::shared_ptr<TradeVolMap> lpTradeVolMap(new TradeVolMap);
+		m_TradeVolDB->RestoreTradeVolData(lpTradeVolMap);
+		if(lpTradeVolMap->size() > 0)
+		{
+			m_StoreExchangeRule.BuyDirectionVol = lpTradeVolMap->rbegin()->second->BuyDirectionVol;
+			m_StoreExchangeRule.SellDirectionVol = lpTradeVolMap->rbegin()->second->SellDirectionVol;
+			m_StoreExchangeRule.TotalCancleTime = lpTradeVolMap->rbegin()->second->TotalCancleTime;
+			m_StoreExchangeRule.TotalOpenVol = lpTradeVolMap->rbegin()->second->TotalOpenVol;
+			m_StoreExchangeRule.AutoTradeTime = lpTradeVolMap->rbegin()->second->AutoTradeTime;
+			return;	
+		}
+
+		m_StoreExchangeRule.BuyDirectionVol = 0;
+		m_StoreExchangeRule.SellDirectionVol = 0;
+		m_StoreExchangeRule.TotalCancleTime = 0;
+		m_StoreExchangeRule.TotalOpenVol = 0;
+		m_StoreExchangeRule.AutoTradeTime = 0;
+	}
+
+	void Account::InitExchangeStroe()
+	{
+		boost::filesystem::path lDir(m_ExchangePath);
+
+		std::string lDataString = boost::gregorian::to_iso_string(AT::AT_Local_Time().date());
+
+		if (!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		lDir /= lDataString;
+		if(!boost::filesystem::exists(lDir))
+		{
+			create_directory(lDir);
+		}
+		m_TradeVolDB.reset(new SingleDBHandler(lDir.string().c_str()));
+	}
 }

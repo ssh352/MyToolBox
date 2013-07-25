@@ -20,7 +20,7 @@ Command MarketExecutor::BuildCommand( ExecutorInput aNewOrder )
 	lRet.m_CommandType = CommandType::Input;
 	InputOrder& lInputOrder = lRet.m_InputOrder;
 
-	lInputOrder.m_Price =  aNewOrder.TriggerMarketData.m_LastPrice;
+	lInputOrder.m_Price =  0/*aNewOrder.TriggerMarketData.m_LastPrice*/;
 	lInputOrder.m_Vol = aNewOrder.vol;
 
 	strcpy_s(lInputOrder.InstrumentID , cInstrimentIDLength,aNewOrder.InstrumentID);

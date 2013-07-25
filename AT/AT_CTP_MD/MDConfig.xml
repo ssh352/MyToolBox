@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <MDConfig>
-  <Front>tcp://125.64.36.25:26213</Front>
+  <Front>tcp://182.131.17.110:62213</Front>
   <InstrumentList>
-    <item>IF1307</item>
     <item>IF1308</item>
   </InstrumentList>
   <WorkFlowDir>MD_TEST</WorkFlowDir>
   <MarketCache>MD_MarketCache</MarketCache>
 </MDConfig>
+
+<!--<Front>tcp://182.131.17.110:62213</Front>华西仿真-->
+<!--<Front>tcp://27.17.62.149:40213</Front>华西模拟-->
+<!--<Front>tcp://125.64.36.25:26213</Front>美尔雅-->

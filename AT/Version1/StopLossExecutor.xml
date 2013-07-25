@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--StopOffset:止损点位-->
 
 <ExecutorConfig>
   <ExecutorID>StopLossExector</ExecutorID>
-  <StopOffset>2</StopOffset>
+  <StopOffset>20</StopOffset>
 </ExecutorConfig>

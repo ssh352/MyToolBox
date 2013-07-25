@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<!--AccounType Normal = 普通账户 Record = 记录信号账户-->
+<!--AccounType Normal = 普通账户,对应Account类  Record = 记录信号账户，对应RecovedAccount类-->
 
 <MultiAccount_Config>
   <Account>
     <AccountType>Normal</AccountType>
     <Config>AccountFile1.xml</Config>
   </Account>
+
   <Account>
     <AccountType>Normal</AccountType>
     <Config>AccountFile2.xml</Config>
   </Account>
-
+ 
   <Account>
     <AccountType>Recored</AccountType>
     <Config>AccountRecord.xml</Config>
   </Account>
 </MultiAccount_Config>
+
+
+<!-- <Account>
+    <AccountType>Normal</AccountType>
+    <Config>AccountFile2.xml</Config>
+  </Account>-->

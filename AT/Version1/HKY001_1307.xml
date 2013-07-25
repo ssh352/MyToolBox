@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<!--IndexName:指标名，标识此指标模块唯一性，在IndexContainer中通过指标名得到返回值-->
+<!--Instrument：此指标模块需要查询的合约id-->
+<!--Wave_value：波动值-->
+<!--stroe_file：存储文件，距离波峰、波谷为波动值时，存储此时的行情信息-->
+
 <IIndexMoudle_CacheWave>
 
   <IndexName>HKY_001_1307</IndexName>
   
-  <Instrument>IF1307</Instrument>
+  <Instrument>IF1308</Instrument>
   
   <Wave_value>0.2</Wave_value>
 

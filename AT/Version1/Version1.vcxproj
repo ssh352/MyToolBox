@@ -80,6 +80,7 @@
     <ClCompile Include="IndexContainer.cpp" />
     <ClCompile Include="LimitExecutor.cpp" />
     <ClCompile Include="LimitFollowCancelExecutor.cpp" />
+    <ClCompile Include="LocalTriggerExector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_versionLoaderPoster.cpp" />
     <ClCompile Include="LimitToCancelExecutor.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="ISignalProducer.h" />
     <ClInclude Include="LimitExecutor.h" />
     <ClInclude Include="LimitFollowCancelExecutor.h" />
+    <ClInclude Include="LocalTriggerExector.h" />
     <ClInclude Include="main_versionLoaderPoster.h" />
     <ClInclude Include="LimitToCancelExecutor.h" />
     <ClInclude Include="MarketExecutor.h" />
@@ -146,6 +148,7 @@
     <Xml Include="LimitToCancelExecutor.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="LocalTriggerConfig.xml" />
     <Xml Include="MarketExecutor.xml" />
     <Xml Include="IndexContainer.xml">
       <SubType>Designer</SubType>

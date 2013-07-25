@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--StopOffset:止损点位-->
+
+<ExecutorConfig>
+  <ExecutorID>LocalTriggerExector</ExecutorID>
+  <StopOffset>20</StopOffset>
+
+  <TriggerType>Market</TriggerType>
+</ExecutorConfig>

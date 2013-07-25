@@ -55,12 +55,20 @@ void LimitFollowCancelExecutor::DoOnMarketDepth( const AT::MarketData& aMarketDe
 			m_pLimitExecutor->Abrot();
 			m_Status = ExecutorStatus::LimitChangeToFollowStatus;
 		}
+		else
+		{
+			m_pLimitExecutor->OnMarketDepth(aMarketDepth);
+		}
 		break;
 
 	case AT::LimitFollowCancelExecutor::ExecutorStatus::FollowSatus:
 		if(time_passed> boost::posix_time::seconds(m_Follow2CancelTime))
 		{
 			m_pFellowExecutor->Abrot();
+		}
+		else
+		{
+			m_pFellowExecutor->OnMarketDepth(aMarketDepth);
 		}
 		break;
 
@@ -125,6 +133,33 @@ void LimitFollowCancelExecutor::HandleFirstExecutorResult( ExecutionResult aTrad
 {
 	m_TradeQuantity += aTrade.vol;
 	m_TradeReport(aTrade); 
+}
+
+void LimitFollowCancelExecutor::DoAbrot()
+{
+	switch (m_Status)
+	{
+
+	case AT::LimitFollowCancelExecutor::ExecutorStatus::LimitStatus:
+		m_Status = ExecutorStatus::LimitAbortStatus;
+		m_pLimitExecutor->Abrot();
+		break;
+
+	case AT::LimitFollowCancelExecutor::ExecutorStatus::LimitChangeToFollowStatus:
+		m_Status = ExecutorStatus::LimitAbortStatus;
+		break;
+	case AT::LimitFollowCancelExecutor::ExecutorStatus::FollowSatus:
+		m_pFellowExecutor->Abrot();
+		break;
+	default:
+		break;
+	}
+}
+
+void LimitFollowCancelExecutor::DoOnRtnTrade( const AT::TradeUpdate& apTrade )
+{
+	m_pLimitExecutor->OnRtnTrade(apTrade);
+	m_pFellowExecutor->OnRtnTrade(apTrade);
 }
 
 }

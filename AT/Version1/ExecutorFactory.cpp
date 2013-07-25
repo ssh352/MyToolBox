@@ -8,6 +8,7 @@
 #include "CloseExecutor_3Level.h"
 #include "StopLossExecutor.h"
 #include "LimitFollowCancelExecutor.h"
+#include "LocalTriggerExector.h"
 #include "ATLogger.h"
 namespace AT
 {
@@ -54,6 +55,10 @@ namespace AT
 	 else if("LimitFollowCancel" == aExecutorType)
 	 {
 		 lret.reset(new AT::LimitFollowCancelExecutor(aConfigPtree));
+	 }
+	 else if("LocalTriggerExector" == aExecutorType)
+	 {
+		  lret.reset(new AT::LocalTriggerExector(aConfigPtree));
 	 }
 
 	 if(!lret)

@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <boost\shared_ptr.hpp>
+#include <boost\property_tree\ptree.hpp>
 namespace AT
 {
 
